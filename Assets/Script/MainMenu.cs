@@ -20,7 +20,22 @@ public class MainMenu : MonoBehaviour
     public void OnClickNewGame()
     {
         //Debug.Log("새 게임");
+        SceneManager.LoadScene("Lobby");
+    }
+
+    public void OnClickMakeRoom()
+    {
         SceneManager.LoadScene("InGame");
+    }
+
+    public void OnClickMyInfo()
+    {
+        Debug.Log("내 정보");
+    }
+
+    public void OnClickNotice()
+    {
+        Debug.Log("공지사항");
     }
 
     public void OnClickQuit()
