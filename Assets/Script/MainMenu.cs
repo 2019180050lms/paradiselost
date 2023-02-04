@@ -25,9 +25,18 @@ public class MainMenu : MonoBehaviour
 
     public void OnClickMakeRoom()
     {
+        SceneManager.LoadScene("Room");
+    }
+
+    public void OnClickGameStart()
+    {
         SceneManager.LoadScene("InGame");
     }
 
+    public void OnClickExitRoom()
+    {
+        SceneManager.LoadScene("Lobby");
+    }
     public void OnClickMyInfo()
     {
         Debug.Log("³» Á¤º¸");
