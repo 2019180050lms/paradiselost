@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class MainMenu : MonoBehaviour
@@ -18,7 +19,8 @@ public class MainMenu : MonoBehaviour
 
     public void OnClickNewGame()
     {
-        Debug.Log("새 게임");
+        //Debug.Log("새 게임");
+        SceneManager.LoadScene("InGame");
     }
 
     public void OnClickQuit()
