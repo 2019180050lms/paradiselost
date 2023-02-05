@@ -1,9 +1,9 @@
 #include "pch.h"
 #include "SocketUtils.h"
 
-/*-----------------
+/*----------------
 	SocketUtils
--------------------*/
+-----------------*/
 
 LPFN_CONNECTEX		SocketUtils::ConnectEx = nullptr;
 LPFN_DISCONNECTEX	SocketUtils::DisconnectEx = nullptr;
@@ -40,41 +40,36 @@ SOCKET SocketUtils::CreateSocket()
 
 bool SocketUtils::SetLinger(SOCKET socket, uint16 onoff, uint16 linger)
 {
-	// 소켓을 닫을때 전송되지 않은 데이터의 처리 설정
 	LINGER option;
 	option.l_onoff = onoff;
 	option.l_linger = linger;
-	return SetSocketOpt(socket, SOL_SOCKET, SO_LINGER, option);
+	return SetSockOpt(socket, SOL_SOCKET, SO_LINGER, option);
 }
 
 bool SocketUtils::SetReuseAddress(SOCKET socket, bool flag)
 {
-	// 아이피 재사용 설정
-	return SetSocketOpt(socket, SOL_SOCKET, SO_REUSEADDR, flag);
+	return SetSockOpt(socket, SOL_SOCKET, SO_REUSEADDR, flag);
 }
 
 bool SocketUtils::SetRecvBufferSize(SOCKET socket, int32 size)
 {
-	// 수신 버퍼 크기 조정
-	return SetSocketOpt(socket, SOL_SOCKET, SO_RCVBUF, size);
+	return SetSockOpt(socket, SOL_SOCKET, SO_RCVBUF, size);
 }
 
 bool SocketUtils::SetSendBufferSize(SOCKET socket, int32 size)
 {
-	// 송신 버퍼 크기 조정
-	return SetSocketOpt(socket, SOL_SOCKET, SO_SNDBUF, size);
+	return SetSockOpt(socket, SOL_SOCKET, SO_SNDBUF, size);
 }
 
 bool SocketUtils::SetTcpNoDelay(SOCKET socket, bool flag)
 {
-	// 네이글 알고리즘을 키고 끌것인가 설정
-	return SetSocketOpt(socket, SOL_SOCKET, TCP_NODELAY, flag);
+	return SetSockOpt(socket, SOL_SOCKET, TCP_NODELAY, flag);
 }
 
+// ListenSocket의 특성을 ClientSocket에 그대로 적용
 bool SocketUtils::SetUpdateAcceptSocket(SOCKET socket, SOCKET listenSocket)
 {
-	// ListenSocket의 특성을 clientSocket에 그대로 적용
-	return SetSocketOpt(socket, SOL_SOCKET, SO_UPDATE_ACCEPT_CONTEXT, listenSocket);
+	return SetSockOpt(socket, SOL_SOCKET, SO_UPDATE_ACCEPT_CONTEXT, listenSocket);
 }
 
 bool SocketUtils::Bind(SOCKET socket, NetAddress netAddr)
@@ -97,7 +92,7 @@ bool SocketUtils::Listen(SOCKET socket, int32 backlog)
 	return SOCKET_ERROR != ::listen(socket, backlog);
 }
 
-void SocketUtils::Close(SOCKET socket)
+void SocketUtils::Close(SOCKET& socket)
 {
 	if (socket != INVALID_SOCKET)
 		::closesocket(socket);

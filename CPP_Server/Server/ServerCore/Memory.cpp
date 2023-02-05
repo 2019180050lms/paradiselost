@@ -2,24 +2,24 @@
 #include "Memory.h"
 #include "MemoryPool.h"
 
-/*------------
+/*-------------
 	Memory
---------------*/
+---------------*/
 
 Memory::Memory()
 {
 	int32 size = 0;
-	int32 tableindex = 0;
+	int32 tableIndex = 0;
 
 	for (size = 32; size <= 1024; size += 32)
 	{
 		MemoryPool* pool = new MemoryPool(size);
 		_pools.push_back(pool);
 
-		while (tableindex <= size)
+		while (tableIndex <= size)
 		{
-			_poolTable[tableindex] = pool;
-			tableindex++;
+			_poolTable[tableIndex] = pool;
+			tableIndex++;
 		}
 	}
 
@@ -28,10 +28,10 @@ Memory::Memory()
 		MemoryPool* pool = new MemoryPool(size);
 		_pools.push_back(pool);
 
-		while (tableindex <= size)
+		while (tableIndex <= size)
 		{
-			_poolTable[tableindex] = pool;
-			tableindex++;
+			_poolTable[tableIndex] = pool;
+			tableIndex++;
 		}
 	}
 
@@ -40,10 +40,10 @@ Memory::Memory()
 		MemoryPool* pool = new MemoryPool(size);
 		_pools.push_back(pool);
 
-		while (tableindex <= size)
+		while (tableIndex <= size)
 		{
-			_poolTable[tableindex] = pool;
-			tableindex++;
+			_poolTable[tableIndex] = pool;
+			tableIndex++;
 		}
 	}
 }
@@ -74,9 +74,8 @@ void* Memory::Allocate(int32 size)
 		// 메모리 풀에서 꺼내온다
 		header = _poolTable[allocSize]->Pop();
 	}
-#endif
+#endif	
 
-	// 디버그 용도
 	return MemoryHeader::AttachHeader(header, allocSize);
 }
 
@@ -100,5 +99,5 @@ void Memory::Release(void* ptr)
 		// 메모리 풀에 반납한다
 		_poolTable[allocSize]->Push(header);
 	}
-#endif
+#endif	
 }
