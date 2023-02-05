@@ -18,9 +18,8 @@ public class PlayerMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        this.gameObject.transform.Translate(Vector3.forward * Time.deltaTime * 3);
-
+       
+        
         if (Partner != null)
         {
             //

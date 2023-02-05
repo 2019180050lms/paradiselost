@@ -66,7 +66,6 @@
     <Compile Include="Assets\TransformingRobot\Scripts\TransformingRobotCharacter.cs" />
     <Compile Include="Assets\GetTestFile\UnityChanToonShaderVer2_Project-release-legacy-2.0\Assets\PostProcessing\Runtime\Utils\MaterialFactory.cs" />
     <Compile Include="Assets\GetTestFile\UnityChanToonShaderVer2_Project-release-legacy-2.0\Assets\PostProcessing\Runtime\Components\ScreenSpaceReflectionComponent.cs" />
-    <Compile Include="Assets\GetTestFile\Script\MapMaker\SimpleMapMaker.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_A.cs" />
     <Compile Include="Assets\GetTestFile\UnityChanToonShaderVer2_Project-release-legacy-2.0\Assets\PostProcessing\Runtime\PostProcessingProfile.cs" />
@@ -78,6 +77,7 @@
     <Compile Include="Assets\TransformingRobot\Scripts\TransformingRobotUserController.cs" />
     <Compile Include="Assets\GetTestFile\UnityChanToonShaderVer2_Project-release-legacy-2.0\Assets\PostProcessing\Runtime\Attributes\MinAttribute.cs" />
     <Compile Include="Assets\GetTestFile\UnityChanToonShaderVer2_Project-release-legacy-2.0\Assets\PostProcessing\Utilities\FocusPuller.cs" />
+    <Compile Include="Assets\GetTestFile\Script\Character\SimpleMapMaker.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeA.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark04.cs" />
     <Compile Include="Assets\GetTestFile\UnityChanToonShaderVer2_Project-release-legacy-2.0\Assets\UnityChan\Scripts\SetShadowResolution.cs" />
@@ -90,7 +90,6 @@
     <Compile Include="Assets\GetTestFile\UnityChanToonShaderVer2_Project-release-legacy-2.0\Assets\PostProcessing\Utilities\PostProcessingController.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeB.cs" />
     <Compile Include="Assets\GetTestFile\Script\ARcamera\Level_View.cs" />
-    <Compile Include="Assets\GetTestFile\Script\MapMaker\SceneManager.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\EnvMapAnimator.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_UiFrameRateCounter.cs" />
     <Compile Include="Assets\GetTestFile\UnityChanToonShaderVer2_Project-release-legacy-2.0\Assets\PostProcessing\Runtime\Components\DitheringComponent.cs" />
@@ -141,6 +140,7 @@
     <Compile Include="Assets\GetTestFile\UnityChanToonShaderVer2_Project-release-legacy-2.0\Assets\PostProcessing\Runtime\Models\GrainModel.cs" />
     <Compile Include="Assets\GetTestFile\Script\ARcamera\SpawnManager.cs" />
     <Compile Include="Assets\GetTestFile\UnityChanToonShaderVer2_Project-release-legacy-2.0\Assets\PostProcessing\Runtime\PostProcessingModel.cs" />
+    <Compile Include="Assets\GetTestFile\Script\MapMaker\RandomObjectSetting.cs" />
     <Compile Include="Assets\GetTestFile\UnityChanToonShaderVer2_Project-release-legacy-2.0\Assets\UnityChan\Scripts\RandomWind.cs" />
     <Compile Include="Assets\GetTestFile\UnityChanToonShaderVer2_Project-release-legacy-2.0\Assets\Animations\Rotator.cs" />
     <Compile Include="Assets\GetTestFile\UnityChanToonShaderVer2_Project-release-legacy-2.0\Assets\PostProcessing\Runtime\Components\GrainComponent.cs" />

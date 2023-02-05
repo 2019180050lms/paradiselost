@@ -53,6 +53,8 @@ namespace DungeonGeneratorByBinarySpacePartitioning
         [SerializeField] private Tile tile;
         [SerializeField] private Tilemap tilemap;
 
+
+
         private void Awake()
         {
            // OnDrawRectangle(0, 0, mapSize.x, mapSize.y); //던전 사이즈에 맞게 벽을 그림
@@ -73,13 +75,13 @@ namespace DungeonGeneratorByBinarySpacePartitioning
                 {
                     treeNode.leftTree = new TreeNode(size.x, size.y, split, size.height); //기준선을 반으로 나눈 값인 split을 가로 길이로, 이전 트리의 height값을 세로 길이로 사용
                     treeNode.rightTree = new TreeNode(size.x + split, size.y, size.width - split, size.height); //x값에 split값을 더해 좌표 설정, 이전 트리의 width값에 split값을 빼 가로 길이 설정
-                    //OnDrawLine(new Vector2(size.x + split, size.y), new Vector2(size.x + split, size.y + size.height)); //기준선 렌더링
+                    OnDrawLine(new Vector3(size.x + split,0, size.y), new Vector3(size.x + split, 0, size.y + size.height)); //기준선 렌더링
                 }
                 else //세로
                 {
                     treeNode.leftTree = new TreeNode(size.x, size.y, size.width, split);
                     treeNode.rightTree = new TreeNode(size.x, size.y + split, size.width, size.height - split);
-                    //OnDrawLine(new Vector2(size.x, size.y + split), new Vector2(size.x + size.width, size.y + split));
+                    OnDrawLine(new Vector3(size.x, 0, size.y + split), new Vector3(size.x + size.width, 0, size.y + split));
                 }
                 treeNode.leftTree.parentTree = treeNode; //분할한 트리의 부모 트리를 매개변수로 받은 트리로 할당
                 treeNode.rightTree.parentTree = treeNode;
@@ -115,13 +117,13 @@ namespace DungeonGeneratorByBinarySpacePartitioning
             for (int x = Mathf.Min(x1, x2); x <= Mathf.Max(x1, x2); x++) //x1과 x2중 값이 작은 곳부터 값이 큰 곳까지 타일 생성
             {
                 //tilemap.SetTile(new Vector3Int(x - mapSize.x / 2, y1 - mapSize.y / 2, 0), tile); //mapSize.x / 2를 빼는 이유는 화면 중앙에 맞추기 위함
-                Instantiate(roadchecker).transform.position = new Vector3(x - mapSize.x / 2, y2 - mapSize.y / 2, 0);
+                Instantiate(roadchecker).transform.position = new Vector3(x - mapSize.x / 2, 0, y2 - mapSize.y / 2);
             }
 
             for (int y = Mathf.Min(y1, y2); y <= Mathf.Max(y1, y2); y++)
             {
                 //tilemap.SetTile(new Vector3Int(x2 - mapSize.x / 2, y - mapSize.y / 2, 0), tile);
-                Instantiate(roadchecker).transform.position = new Vector3(x2 - mapSize.x / 2, y - mapSize.y / 2, 0);
+                Instantiate(roadchecker).transform.position = new Vector3(x2 - mapSize.x / 2, 0, y - mapSize.y / 2);
 
             }
 
@@ -144,7 +146,7 @@ namespace DungeonGeneratorByBinarySpacePartitioning
                 for (int j = y; j < y + height; j++)
                 {
                     //tilemap.SetTile(new Vector3Int(i - mapSize.x / 2, j - mapSize.y / 2, 0), tile);
-                    Instantiate(roomchecker).transform.position = new Vector3(i - mapSize.x / 2, j - mapSize.y / 2, 0);//던전을 이런 식으로 배치한다.
+                    Instantiate(roomchecker).transform.position = new Vector3(i - mapSize.x / 2, 0, j - mapSize.y / 2);//던전을 이런 식으로 배치한다.
                 }
 
         }
