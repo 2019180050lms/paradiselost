@@ -13,6 +13,7 @@ class Player
 public:
 
 	int32			playerId = 0;
+	int32			playerDir = 0;
 	PlayerType		type;
 	wstring			name;
 	float			xPos;

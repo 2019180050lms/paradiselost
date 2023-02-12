@@ -90,18 +90,41 @@ bool ServerPacketHandler::Handle_C_MOVE(PacketSessionRef& session, BYTE* buffer,
 	PacketHeader header;
 	br >> header;
 
-	int32 id;
+	int32 id, dir;
 	float x, y, z;
-	br >> id >> x >> y >> z;
-
-
-	PlayerRef player = gameSession->_players[0];
-
-	gameSession->_players[0]->xPos = x;
-	gameSession->_players[0]->yPos = y;
-	gameSession->_players[0]->zPos = z;
+	br >> id >> dir >> x >> y >> z;
 
 	cout << "ID: " << id << "POS: " << x << " " << y << " " << z << endl;
+	
+	PlayerRef player = gameSession->_players[0];
+
+	if (dir == 0)
+	{
+		gameSession->_players[0]->xPos = x;
+		gameSession->_players[0]->yPos = y;
+		gameSession->_players[0]->zPos = z;
+	}
+	else if (dir == 1)
+	{
+		gameSession->_players[0]->xPos = x + 10;
+		gameSession->_players[0]->yPos = y;
+		gameSession->_players[0]->zPos = z;
+	}
+	else if (dir == 2)
+	{
+		gameSession->_players[0]->xPos = x;
+		gameSession->_players[0]->yPos = y + 10;
+		gameSession->_players[0]->zPos = z;
+	}
+	else if (dir == 3)
+	{
+		gameSession->_players[0]->xPos = x;
+		gameSession->_players[0]->yPos = y;
+		gameSession->_players[0]->zPos = z + 10;
+	}
+		
+
+	cout << "ID: " << id << "Change POS: " << gameSession->_players[0]->xPos << " " << y << " " << gameSession->_players[0]->zPos << endl;
 	auto sendBuffer = Make_S_BroadcastMove(gameSession->_players[0]->playerId, gameSession->_players[0]->xPos, gameSession->_players[0]->yPos, gameSession->_players[0]->zPos);
 	GRoom.BroadCast(sendBuffer);
 	return true;
@@ -208,7 +231,7 @@ SendBufferRef ServerPacketHandler::Make_S_PlayerList(List<PlayerList> players)
 	
 	bw << (uint16)(players.size());
 
-	for (PlayerList p : players)
+	for (PlayerList& p : players)
 	{
 		bw << (bool)p.isSelf << (int32)p.playerId << (float)p.posX << (float)p.posY << (float)p.posZ;
 	}
