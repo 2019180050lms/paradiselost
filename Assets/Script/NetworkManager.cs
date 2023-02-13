@@ -9,11 +9,10 @@ using UnityEngine;
 public class NetworkManager : MonoBehaviour
 {
 	ServerSession _session = new ServerSession();
-
 	public void Send(ArraySegment<byte> sendBuff)
-	{
+    {
 		_session.Send(sendBuff);
-	}
+    }
 
     void Start()
     {

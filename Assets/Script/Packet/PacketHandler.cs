@@ -7,12 +7,28 @@ using UnityEngine;
 
 class PacketHandler
 {
-	public static void S_BroadcastEnterGameHandler(PacketSession session, IPacket packet)
+	public static void S_EnterGame(PacketSession session, IPacket packet)
 	{
-		S_BroadcastEnterGame pkt = packet as S_BroadcastEnterGame;
+		S_ENTER_GAME s_enterPacket = packet as S_ENTER_GAME;
 		ServerSession serverSession = session as ServerSession;
 
-		PlayerManager.Instance.EnterGame(pkt);
+		if (s_enterPacket.success == true)
+		{
+			Debug.Log("true 받음");
+			C_ENTER_GAME c_enterPacket = new C_ENTER_GAME();
+			c_enterPacket.playerIndex = 0;
+			ArraySegment<byte> segment = c_enterPacket.Write();
+			serverSession.Send(segment);
+		}
+	}
+
+	public static void S_BroadcastEnterGameHandler(PacketSession session, IPacket packet)
+	{
+		S_BroadcastEnterGame s_enterPacket = packet as S_BroadcastEnterGame;
+		ServerSession serverSession = session as ServerSession;
+
+
+		PlayerManager.Instance.EnterGame(s_enterPacket);
 	}
 
 	public static void S_BroadcastLeaveGameHandler(PacketSession session, IPacket packet)
@@ -23,10 +39,23 @@ class PacketHandler
 		PlayerManager.Instance.LeaveGame(pkt);
 	}
 
+	public static void S_Move(PacketSession session, IPacket packet)
+	{
+		S_Move movePacket = packet as S_Move;
+		ServerSession serverSession = session as ServerSession;
+
+		Debug.Log(movePacket.playerIndex);
+		Debug.Log(movePacket.posX);
+		Debug.Log(movePacket.posY);
+		Debug.Log(movePacket.posZ);
+	}
+
 	public static void S_PlayerListHandler(PacketSession session, IPacket packet)
 	{
 		S_PlayerList pkt = packet as S_PlayerList;
 		ServerSession serverSession = session as ServerSession;
+
+		Debug.Log("Log");
 
 		PlayerManager.Instance.Add(pkt);
 	}
@@ -37,5 +66,25 @@ class PacketHandler
 		ServerSession serverSession = session as ServerSession;
 
 		PlayerManager.Instance.Move(pkt);
+	}
+
+	public static void S_ChatHandler(PacketSession session, IPacket packet)
+	{
+		S_Chat chatPacket = packet as S_Chat;
+		ServerSession serverSession = session as ServerSession;
+
+		//if (chatPacket.playerId == 1)
+		{
+            //Debug.Log(chatPacket.chat);
+
+			//GameObject go = GameObject.Find("Player");
+			
+			//if(go == null)
+            //    Debug.Log("Player not found");
+			//else
+            //    Debug.Log("Player found");
+        }
+		//if (chatPacket.playerId == 1)
+			//Console.WriteLine(chatPacket.chat);
 	}
 }

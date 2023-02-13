@@ -11,7 +11,7 @@ public class PacketQueue
 
     public void Push(IPacket packet)
     {
-        lock (_lock)
+        lock(_lock)
         {
             _packetQueue.Enqueue(packet);
         }
@@ -19,7 +19,7 @@ public class PacketQueue
 
     public IPacket Pop()
     {
-        lock (_lock)
+        lock(_lock)
         {
             if (_packetQueue.Count == 0)
                 return null;
@@ -32,7 +32,7 @@ public class PacketQueue
     {
         List<IPacket> list = new List<IPacket>();
 
-        lock (_lock)
+        lock(_lock)
         {
             while (_packetQueue.Count > 0)
                 list.Add(_packetQueue.Dequeue());

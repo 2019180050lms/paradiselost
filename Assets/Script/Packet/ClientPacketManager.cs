@@ -2,7 +2,7 @@ using ServerCore;
 using System;
 using System.Collections.Generic;
 
-public class PacketManager
+class PacketManager
 {
 	#region Singleton
 	static PacketManager _instance = new PacketManager();
@@ -19,14 +19,27 @@ public class PacketManager
 		
 	public void Register()
 	{
-		_makeFunc.Add((ushort)PacketID.S_BroadcastEnterGame, MakePacket<S_BroadcastEnterGame>);
-		_handler.Add((ushort)PacketID.S_BroadcastEnterGame, PacketHandler.S_BroadcastEnterGameHandler);
-		_makeFunc.Add((ushort)PacketID.S_BroadcastLeaveGame, MakePacket<S_BroadcastLeaveGame>);
-		_handler.Add((ushort)PacketID.S_BroadcastLeaveGame, PacketHandler.S_BroadcastLeaveGameHandler);
-		_makeFunc.Add((ushort)PacketID.S_PlayerList, MakePacket<S_PlayerList>);
-		_handler.Add((ushort)PacketID.S_PlayerList, PacketHandler.S_PlayerListHandler);
-		_makeFunc.Add((ushort)PacketID.S_BroadcastMove, MakePacket<S_BroadcastMove>);
-		_handler.Add((ushort)PacketID.S_BroadcastMove, PacketHandler.S_BroadcastMoveHandler);
+		_makeFunc.Add((ushort)PacketID.S_MOVE, MakePacket<S_Move>);
+		_handler.Add((ushort)PacketID.S_MOVE, PacketHandler.S_Move);
+
+		_makeFunc.Add((ushort)PacketID.S_ENTER_GAME, MakePacket<S_ENTER_GAME>);
+		_handler.Add((ushort)PacketID.S_ENTER_GAME, PacketHandler.S_EnterGame);
+
+		_makeFunc.Add((ushort)PacketID.S_PLAYERLIST, MakePacket<S_PlayerList>);
+		_handler.Add((ushort)PacketID.S_PLAYERLIST, PacketHandler.S_PlayerListHandler);
+
+		_makeFunc.Add((ushort)PacketID.S_Chat, MakePacket<S_Chat>);
+		_handler.Add((ushort)PacketID.S_Chat, PacketHandler.S_ChatHandler);
+
+		_makeFunc.Add((ushort)PacketID.S_BROADCASTENTER_GAME, MakePacket<S_BroadcastEnterGame>);
+		_handler.Add((ushort)PacketID.S_BROADCASTENTER_GAME, PacketHandler.S_BroadcastEnterGameHandler);
+
+		_makeFunc.Add((ushort)PacketID.S_BROADCASTLEAVE_GAME, MakePacket<S_BroadcastLeaveGame>);
+		_handler.Add((ushort)PacketID.S_BROADCASTLEAVE_GAME, PacketHandler.S_BroadcastLeaveGameHandler);
+
+		_makeFunc.Add((ushort)PacketID.S_BROADCAST_MOVE, MakePacket<S_BroadcastMove>);
+		_handler.Add((ushort)PacketID.S_BROADCAST_MOVE, PacketHandler.S_BroadcastMoveHandler);
+
 
 	}
 
@@ -39,15 +52,15 @@ public class PacketManager
 		ushort id = BitConverter.ToUInt16(buffer.Array, buffer.Offset + count);
 		count += 2;
 
-		Func<PacketSession, ArraySegment<byte>, IPacket> func = null;
+        Func<PacketSession, ArraySegment<byte>, IPacket> func = null;
 		if (_makeFunc.TryGetValue(id, out func))
 		{
-			IPacket packet = func.Invoke(session, buffer);
+            IPacket packet = func.Invoke(session, buffer);
 			if (onRecvCallback != null)
 				onRecvCallback.Invoke(session, packet);
 			else
 				HandlePacket(session, packet);
-		}
+        }
 	}
 
 	T MakePacket<T>(PacketSession session, ArraySegment<byte> buffer) where T : IPacket, new()
@@ -59,8 +72,8 @@ public class PacketManager
 
 	public void HandlePacket(PacketSession session, IPacket packet)
 	{
-		Action<PacketSession, IPacket> action = null;
-		if (_handler.TryGetValue(packet.Protocol, out action))
-			action.Invoke(session, packet);
-	}
+        Action<PacketSession, IPacket> action = null;
+        if (_handler.TryGetValue(packet.Protocol, out action))
+            action.Invoke(session, packet);
+    }
 }

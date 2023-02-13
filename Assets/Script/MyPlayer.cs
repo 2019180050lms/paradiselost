@@ -4,30 +4,40 @@ using UnityEngine;
 
 public class MyPlayer : Player
 {
-	NetworkManager _network;
+    NetworkManager _network;
 
-	void Start()
+    void Start()
     {
-		StartCoroutine("CoSendPacket");
-		_network = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
-	}
-
-    void Update()
-    {
-        
+        StartCoroutine("CoSendPacket");
+        _network = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
     }
 
-	IEnumerator CoSendPacket()
-	{
-		while (true)
-		{
-			yield return new WaitForSeconds(0.25f);
+    // Update is called once per frame
+    void Update()
+    {
+        GetInput();
+    }
 
-			C_Move movePacket = new C_Move();
-			movePacket.posX = UnityEngine.Random.Range(-50, 50);
-			movePacket.posY = 0;
-			movePacket.posZ = UnityEngine.Random.Range(-50, 50);
-			_network.Send(movePacket.Write());
-		}
-	}
+    void LateUpdate()
+    {
+        Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y + 15, transform.position.z - 13);
+    }
+
+    IEnumerator CoSendPacket()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(0.1f);
+
+            C_Move movePacket = new C_Move();
+            movePacket.playerIndex = 0;
+            movePacket.playerDir = dir;
+            movePacket.posX = transform.position.x;
+            movePacket.posY = transform.position.y;
+            movePacket.posZ = transform.position.z;
+            movePacket.wDown = wDown;
+            movePacket.isJump = isJump;
+            _network.Send(movePacket.Write());
+        }
+    }
 }
