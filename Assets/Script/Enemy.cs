@@ -31,7 +31,13 @@ public class Enemy : MonoBehaviour
         }
         else if (other.tag == "Bullet")
         {
-            Debug.Log("รั");
+            Bullet bullet = other.GetComponent<Bullet>();
+            curHealth -= bullet.damage;
+            Vector3 reactVec = transform.position - other.transform.position;
+            Destroy(other.gameObject);
+
+            Debug.Log("Bullet : " + curHealth);
+            StartCoroutine(OnDamage(reactVec));
         }
     }
 
