@@ -11,6 +11,11 @@ public class Player2 : MonoBehaviour
     public int ammo;
     public Camera followCamera;
 
+    public int health;
+
+    public int maxAmmo;
+    public int maxHealth;
+
     float hAxis;
     float vAxis;
     bool wDown;
@@ -27,6 +32,8 @@ public class Player2 : MonoBehaviour
     bool isReload;
     bool isFireReady = true;
 
+    bool isDamage;
+
     bool isBorder;
 
     Vector3 moveVec;
@@ -34,6 +41,8 @@ public class Player2 : MonoBehaviour
 
     Rigidbody rigid;
     Animator anim;
+
+    MeshRenderer[] meshs;
 
     GameObject nearObject;
     Weapon equipWeapon;
@@ -45,6 +54,7 @@ public class Player2 : MonoBehaviour
     {
         rigid = GetComponent<Rigidbody>();
         anim = GetComponentInChildren<Animator>();
+        meshs = GetComponentsInChildren<MeshRenderer>();
     }
 
     // Update is called once per frame
@@ -276,5 +286,41 @@ public class Player2 : MonoBehaviour
     {
         if (other.tag == "Weapon")
             nearObject = null;
+    }
+
+     void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "Item")
+        {
+            Item item = other.GetComponent<Item>();
+            Destroy(other.gameObject);
+        }
+
+        else if (other.tag == "EnemyBullet")
+        {
+            if (!isDamage)
+            {
+                Bullet enemyBullet = other.GetComponent<Bullet>();
+                health -= enemyBullet.damage;
+                StartCoroutine(OnDamage());
+            }
+        }
+    }
+
+    IEnumerator OnDamage() 
+    {
+        // 피격시 무적시간
+        isDamage = true;
+        foreach(MeshRenderer mesh in meshs)
+        {
+            mesh.material.color = Color.yellow;
+        }
+        yield return new WaitForSeconds(1f); 
+
+        isDamage = false;
+        foreach (MeshRenderer mesh in meshs)
+        {
+            mesh.material.color = Color.white;
+        }
     }
 }
