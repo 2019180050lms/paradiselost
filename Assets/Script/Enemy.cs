@@ -1,21 +1,43 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
     public int maxHealth;
     public int curHealth;
+    public Transform target;
+    public bool isChase;
 
     Rigidbody rigid;
     BoxCollider boxCollider;
     Material mat;
 
+    NavMeshAgent nav;
+
+    Animator anim;
+
     void Awake()
     {
         rigid = GetComponent<Rigidbody>();
         boxCollider = GetComponent<BoxCollider>();
-        mat = GetComponent<MeshRenderer>().material;  // Material은 MesgRenderer를 통해 가져옴
+        mat = GetComponentInChildren<MeshRenderer>().material;  // Material은 MesgRenderer를 통해 가져옴
+        nav = GetComponent<NavMeshAgent>();
+        anim = GetComponentInChildren<Animator>();
+
+        Invoke("ChaseStart", 2);
+    }
+
+    void ChaseStart()
+    {
+        isChase = true;
+        anim.SetBool("isWalk", true);
+    }
+     void Update()
+    {
+        if(isChase)
+            nav.SetDestination(target.position);
     }
 
     void OnTriggerEnter(Collider other)
@@ -54,6 +76,9 @@ public class Enemy : MonoBehaviour
         {
             mat.color = Color.gray;
             gameObject.layer = 7;
+            isChase = false;
+            nav.enabled = false;  // 사망 모션 구현하기 위해 비활성화
+            anim.SetTrigger("doDie");
 
             // 사망시 넉백
             reactVec = reactVec.normalized;
@@ -62,6 +87,20 @@ public class Enemy : MonoBehaviour
 
             Destroy(gameObject, 4);
         }
+    }
+
+    void FreezVelocity() // 회전 버그 해결
+    {
+        if (isChase)
+        {
+            rigid.velocity = Vector3.zero;
+            rigid.angularVelocity = Vector3.zero;
+        }
+    }
+
+    void FixedUpdate()
+    {
+        FreezVelocity();
     }
 
 }
