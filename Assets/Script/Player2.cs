@@ -69,7 +69,10 @@ public class Player2 : MonoBehaviour
         Swap();
         Interaction();
         Reload();
-        //FixedUpdate();
+
+     
+        
+
     }
 
     void GetInput()
@@ -107,7 +110,9 @@ public class Player2 : MonoBehaviour
         }
 
         anim.SetBool("isRun", moveVec != Vector3.zero);
-        anim.SetBool("isWalk", wDown);
+        //anim.SetBool("isWalk", wDown);
+        if(wDown)
+            anim.SetTrigger("doSwing");
     }
 
     void Turn()
@@ -148,11 +153,14 @@ public class Player2 : MonoBehaviour
         fireDelay += Time.deltaTime;
         isFireReady = equipWeapon.rate < fireDelay;
 
-        if(fDown && isFireReady && !isDodge && !isSwap)
+        //if (fDown && isFireReady && !isDodge && !isSwap)
+
+        if (fDown && isFireReady && !isDodge && !isSwap)
         {
             equipWeapon.Use();
             anim.SetTrigger(equipWeapon.type == Weapon.Type.Melee ? "doSwing" : "doShot");  // 삼항연산자 : 장착하고 있는 무기가 근접이면 Swing 아니면 Shot
             fireDelay = 0;
+            Debug.Log("공격");
         }
     }
 
