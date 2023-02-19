@@ -17,24 +17,20 @@ void Room::Enter(PlayerRef player)
 
 	cout << "player ID: " << player->playerId << endl;
 
-	for (int i = 0; i < _players.size(); i++)
+	for (auto iter = _players.begin(); iter != _players.end(); iter++)
 	{
-		if (_players[i + 1] != nullptr)
-		{
-			if (_players[i + 1]->playerId == _players[player->playerId]->playerId)
-			{
-				l_player.isSelf = true;
-			}
-			else
-				l_player.isSelf = false;
-			l_player.playerId = _players[i + 1]->playerId;
-			l_player.posX = 0.f;
-			l_player.posY = 0.f;
-			l_player.posZ = 0.f;
+		if (iter->second->playerId == _players[player->playerId]->playerId)
+			l_player.isSelf = true;
+		else
+			l_player.isSelf = false;
+		
+		l_player.playerId = iter->first;
+		l_player.hp = iter->second->hp;
+		l_player.posX = 0.f;
+		l_player.posY = 0.f;
+		l_player.posZ = 0.f;
 
-			players.push_back(l_player);
-
-		}
+		players.push_back(l_player);
 	}
 
 	auto sendBuffer = ServerPacketHandler::Make_S_PlayerList(players);
@@ -53,6 +49,7 @@ void Room::Leave(PlayerRef player)
 
 	// 모두에게 알린다.
 	auto sendBuffer = ServerPacketHandler::Make_S_BroadcastLeave_Game(player->playerId);
+	cout << "Leave ID: " << player->playerId << endl;
 	BroadCast(sendBuffer);
 }
 
@@ -61,6 +58,8 @@ void Room::BroadCast(SendBufferRef sendBuffer)
 	WRITE_LOCK;
 	for (auto& p : _players)
 	{
+		if (_players.empty())
+			continue;
 		p.second->ownerSession->Send(sendBuffer);
 	}
 }

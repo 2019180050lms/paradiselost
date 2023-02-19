@@ -14,13 +14,11 @@ void GameSession::OnDisconnected()
 {
 	GSessionManager.Remove(static_pointer_cast<GameSession>(shared_from_this()));
 
-	/*
 	PacketSessionRef session = GetPacketSessionRef();
 	GameSessionRef gameSession = static_pointer_cast<GameSession>(session);
 	PlayerRef player = gameSession->_players[0];
-	//gameSession->_players.erase(_players.end() - 1);
 	GRoom.Leave(player);
-	*/
+	
 }
 
 void GameSession::OnRecvPacket(BYTE* buffer, int32 len)

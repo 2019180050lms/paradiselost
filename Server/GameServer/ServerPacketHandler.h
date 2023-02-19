@@ -1,5 +1,8 @@
 #pragma once
 
+const float speed = 1.0f;
+const float s_speed = 0.2f;
+
 enum
 {
 	C_Login = 0,
@@ -12,7 +15,8 @@ enum
 	S_PLAYERLIST = 7,
 	S_BROADCASTENTER_GAME = 8,
 	S_BROADCASTLEAVE_GAME = 9,
-	S_BROADCAST_MOVE = 10
+	S_BROADCAST_MOVE = 10,
+	C_MAKEROOM = 11,
 };
 
 #pragma pack(push, 1)
@@ -21,6 +25,7 @@ struct PlayerList
 {
 	bool isSelf;
 	int32 playerId;
+	uint16 hp;
 	float posX;
 	float posY;
 	float posZ;
@@ -39,11 +44,11 @@ public:
 	static bool Handle_C_Chat(PacketSessionRef& session, BYTE* buffer, int32 len);
 	
 	static SendBufferRef Make_S_Chat(int32 id, wstring chat);
-	static SendBufferRef Make_S_ENTER_GAME(bool success);
+	static SendBufferRef Make_S_ENTER_GAME(bool success, int32 type);
 	static SendBufferRef Make_S_MOVE(int32 playerIndex, float x, float y, float z);
 	static SendBufferRef Make_S_PlayerList(List<PlayerList> players);
 	static SendBufferRef Make_S_BroadcastEnter_Game(int32 playerId, float posX, float posY, float posZ);
 	static SendBufferRef Make_S_BroadcastLeave_Game(int32 playerId);
-	static SendBufferRef Make_S_BroadcastMove(int32 playerId, float posX, float posY, float posZ);
+	static SendBufferRef Make_S_BroadcastMove(int32 playerId, int32 playerDir, uint16 hp, float posX, float posY, float posZ, bool wDown, bool isJump);
 };
 

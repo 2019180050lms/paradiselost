@@ -41,8 +41,9 @@ bool ServerPacketHandler::Handle_C_Login(PacketSessionRef& session, BYTE* buffer
 	{
 		PlayerRef playerRef = MakeShared<Player>();
 		playerRef->playerId = idGenerator++;
+		playerRef->hp = 100;
 		playerRef->name = L"Test";
-		playerRef->type = PlayerType::SPEED;
+		playerRef->type = PlayerType::NONE;
 		playerRef->xPos = 1.0f;
 		playerRef->yPos = 2.0f;
 		playerRef->zPos = 3.0f;
@@ -52,15 +53,14 @@ bool ServerPacketHandler::Handle_C_Login(PacketSessionRef& session, BYTE* buffer
 
 		//int num = 1;
 		//auto it = find(gameSession->_players.begin(), gameSession->_players.end(), num);
-
+		auto sendBuffer = Make_S_ENTER_GAME(true, (int32)playerRef->type);
+		session->Send(sendBuffer);
 	}
-
-	auto sendBuffer = Make_S_ENTER_GAME(true);
-	session->Send(sendBuffer);
 
 	return true;
 }
 
+// 로비로 왔을때 받는 패킷
 bool ServerPacketHandler::Handle_C_ENTER_GAME(PacketSessionRef& session, BYTE* buffer, int32 len)
 {
 	GameSessionRef gameSession = static_pointer_cast<GameSession>(session);
@@ -91,41 +91,109 @@ bool ServerPacketHandler::Handle_C_MOVE(PacketSessionRef& session, BYTE* buffer,
 	br >> header;
 
 	int32 id, dir;
+	uint16 hp;
 	float x, y, z;
-	br >> id >> dir >> x >> y >> z;
+	bool wDown, isJump;
+	br >> id >> dir >> hp >> x >> y >> z >> wDown >> isJump;
 
-	cout << "ID: " << id << "POS: " << x << " " << y << " " << z << endl;
-	
+	cout << "ID: " << gameSession->_players[0]->playerId << " HP: " << gameSession->_players[0]->hp << endl;
+	//cout << "ID: " << gameSession->_players[0]->playerId << " POS: " << x << " " << y << " " << z << endl;
+	//cout << "Dir: " << dir << endl;
+
 	PlayerRef player = gameSession->_players[0];
+
+	gameSession->_players[0]->playerDir = dir;
 
 	if (dir == 0)
 	{
 		gameSession->_players[0]->xPos = x;
 		gameSession->_players[0]->yPos = y;
 		gameSession->_players[0]->zPos = z;
+		gameSession->_players[0]->wDown = wDown;
+		gameSession->_players[0]->isJump = isJump;
 	}
 	else if (dir == 1)
 	{
-		gameSession->_players[0]->xPos = x + 10;
+		gameSession->_players[0]->xPos = x + speed;
 		gameSession->_players[0]->yPos = y;
 		gameSession->_players[0]->zPos = z;
+		gameSession->_players[0]->wDown = wDown;
+		gameSession->_players[0]->isJump = isJump;
 	}
 	else if (dir == 2)
 	{
-		gameSession->_players[0]->xPos = x;
-		gameSession->_players[0]->yPos = y + 10;
+		gameSession->_players[0]->xPos = x - speed;
+		gameSession->_players[0]->yPos = y;
 		gameSession->_players[0]->zPos = z;
+		gameSession->_players[0]->wDown = wDown;
+		gameSession->_players[0]->isJump = isJump;
 	}
 	else if (dir == 3)
 	{
 		gameSession->_players[0]->xPos = x;
 		gameSession->_players[0]->yPos = y;
-		gameSession->_players[0]->zPos = z + 10;
+		gameSession->_players[0]->zPos = z + speed;
+		gameSession->_players[0]->wDown = wDown;
+		gameSession->_players[0]->isJump = isJump;
 	}
-		
+	else if (dir == 4)
+	{
+		gameSession->_players[0]->xPos = x;
+		gameSession->_players[0]->yPos = y;
+		gameSession->_players[0]->zPos = z - speed;
+		gameSession->_players[0]->wDown = wDown;
+		gameSession->_players[0]->isJump = isJump;
+	}
+	else if (dir == 5)
+	{
+		gameSession->_players[0]->xPos = x + (speed / 2);
+		gameSession->_players[0]->yPos = y;
+		gameSession->_players[0]->zPos = z + (speed / 2);
+		gameSession->_players[0]->wDown = wDown;
+		gameSession->_players[0]->isJump = isJump;
+	}
+	else if (dir == 6)
+	{
+		gameSession->_players[0]->xPos = x + (speed / 2);
+		gameSession->_players[0]->yPos = y;
+		gameSession->_players[0]->zPos = z - (speed / 2);
+		gameSession->_players[0]->wDown = wDown;
+		gameSession->_players[0]->isJump = isJump;
+	}
+	else if (dir == 7)
+	{
+		gameSession->_players[0]->xPos = x - (speed / 2);
+		gameSession->_players[0]->yPos = y;
+		gameSession->_players[0]->zPos = z + (speed / 2);
+		gameSession->_players[0]->wDown = wDown;
+		gameSession->_players[0]->isJump = isJump;
+	}
+	else if (dir == 8)
+	{
+		gameSession->_players[0]->xPos = x - (speed / 2);
+		gameSession->_players[0]->yPos = y;
+		gameSession->_players[0]->zPos = z - (speed / 2);
+		gameSession->_players[0]->wDown = wDown;
+		gameSession->_players[0]->isJump = isJump;
+	}
 
-	cout << "ID: " << id << "Change POS: " << gameSession->_players[0]->xPos << " " << y << " " << gameSession->_players[0]->zPos << endl;
-	auto sendBuffer = Make_S_BroadcastMove(gameSession->_players[0]->playerId, gameSession->_players[0]->xPos, gameSession->_players[0]->yPos, gameSession->_players[0]->zPos);
+	if (isJump)
+	{
+		gameSession->_players[0]->xPos = x;
+		gameSession->_players[0]->yPos = y;
+		gameSession->_players[0]->zPos = z;
+		gameSession->_players[0]->wDown = wDown;
+		gameSession->_players[0]->isJump = isJump;
+	}
+	
+
+	auto sendBuffer = Make_S_BroadcastMove(gameSession->_players[0]->playerId,
+		gameSession->_players[0]->playerDir,
+		gameSession->_players[0]->hp,
+		gameSession->_players[0]->xPos, gameSession->_players[0]->yPos,
+		gameSession->_players[0]->zPos, gameSession->_players[0]->wDown,
+		gameSession->_players[0]->isJump);
+
 	GRoom.BroadCast(sendBuffer);
 	return true;
 }
@@ -172,7 +240,7 @@ SendBufferRef ServerPacketHandler::Make_S_Chat(int32 id, wstring chat)
 	return sendBuffer;
 }
 
-SendBufferRef ServerPacketHandler::Make_S_ENTER_GAME(bool success)
+SendBufferRef ServerPacketHandler::Make_S_ENTER_GAME(bool success, int32 type)
 {
 	SendBufferRef sendBuffer = GSendBufferManager->Open(4096);
 
@@ -180,7 +248,7 @@ SendBufferRef ServerPacketHandler::Make_S_ENTER_GAME(bool success)
 
 	PacketHeader* header = bw.Reserve<PacketHeader>();
 
-	bw << success;
+	bw << success << type;
 
 	header->size = bw.WriteSize();
 	header->id = S_ENTER_GAME;
@@ -215,25 +283,12 @@ SendBufferRef ServerPacketHandler::Make_S_PlayerList(List<PlayerList> players)
 	BufferWriter bw(sendBuffer->Buffer(), sendBuffer->AllocSize());
 
 	PacketHeader* header = bw.Reserve<PacketHeader>();
-
-	//players = bw.Reserve<list<PlayerList>>();
-	
-	//uint16 size = players.size();
-	//bw << size;
-
-	 //PlayerList* player = bw.Reserve<PlayerList>();
-	/*
-	for (int32 i = 0; i < players.size(); i++)
-	{
-		bw << players. << players.playerId << players.posX << players.posY << players.posZ;
-	}
-	*/
 	
 	bw << (uint16)(players.size());
 
 	for (PlayerList& p : players)
 	{
-		bw << (bool)p.isSelf << (int32)p.playerId << (float)p.posX << (float)p.posY << (float)p.posZ;
+		bw << (bool)p.isSelf << (int32)p.playerId << (uint16)p.hp << (float)p.posX << (float)p.posY << (float)p.posZ;
 	}
 
 	cout << sizeof(PlayerList) << endl;
@@ -275,14 +330,14 @@ SendBufferRef ServerPacketHandler::Make_S_BroadcastLeave_Game(int32 playerId)
 	bw << playerId;
 
 	header->size = bw.WriteSize();
-	header->id = S_BROADCASTENTER_GAME;
+	header->id = S_BROADCASTLEAVE_GAME;
 
 	sendBuffer->Close(bw.WriteSize());
 
 	return sendBuffer;
 }
 
-SendBufferRef ServerPacketHandler::Make_S_BroadcastMove(int32 playerId, float posX, float posY, float posZ)
+SendBufferRef ServerPacketHandler::Make_S_BroadcastMove(int32 playerId, int32 playerDir, uint16 hp, float posX, float posY, float posZ, bool wDown, bool isJump)
 {
 	SendBufferRef sendBuffer = GSendBufferManager->Open(4096);
 
@@ -290,7 +345,7 @@ SendBufferRef ServerPacketHandler::Make_S_BroadcastMove(int32 playerId, float po
 
 	PacketHeader* header = bw.Reserve<PacketHeader>();
 
-	bw << playerId << posX << posY << posZ;
+	bw << playerId << playerDir << hp << posX << posY << posZ << wDown << isJump;
 
 	header->size = bw.WriteSize();
 	header->id = S_BROADCAST_MOVE;
