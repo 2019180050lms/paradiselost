@@ -37,6 +37,7 @@ public class Player : MonoBehaviour
     public Weapon equipWeapon;
     public int equipWeaponIndex = -1;
     public float fireDelay;
+    bool isBorder;
 
     void Start()
     {
@@ -65,6 +66,23 @@ public class Player : MonoBehaviour
 
         sDown1 = Input.GetButtonDown("Swap1");
         sDown2 = Input.GetButtonDown("Swap2");
+    }
+
+    void StopToWall() // 관통 버그 해결
+    {
+        Debug.DrawRay(transform.position, transform.forward * 5, Color.green);
+        isBorder = Physics.Raycast(transform.position, transform.forward, 5, LayerMask.GetMask("Wall"));       // ray가 벽을 감지하면 Border가 true
+    }
+
+    void FreezeRotation() // 회전 버그 해결
+    {
+        rigid.angularVelocity = Vector3.zero;
+    }
+
+    void FixedUpdate()
+    {
+        FreezeRotation();
+        StopToWall();
     }
 
     public void Move()

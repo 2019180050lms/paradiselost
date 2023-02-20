@@ -96,7 +96,7 @@ bool ServerPacketHandler::Handle_C_MOVE(PacketSessionRef& session, BYTE* buffer,
 	bool wDown, isJump;
 	br >> id >> dir >> hp >> x >> y >> z >> wDown >> isJump;
 
-	cout << "ID: " << gameSession->_players[0]->playerId << " HP: " << gameSession->_players[0]->hp << endl;
+	//cout << "ID: " << gameSession->_players[0]->playerId << " HP: " << gameSession->_players[0]->hp << endl;
 	//cout << "ID: " << gameSession->_players[0]->playerId << " POS: " << x << " " << y << " " << z << endl;
 	//cout << "Dir: " << dir << endl;
 
@@ -195,6 +195,40 @@ bool ServerPacketHandler::Handle_C_MOVE(PacketSessionRef& session, BYTE* buffer,
 		gameSession->_players[0]->isJump);
 
 	GRoom.BroadCast(sendBuffer);
+
+	for (auto& m : GRoom._monsters)
+	{
+		uint16 randDir = rand() % 5;
+		if (randDir == 0)
+		{
+			continue;
+		}
+		else if (randDir == 1)
+		{
+			m.posX = m.posX + speed;
+		}
+		else if (randDir == 2)
+		{
+			m.posX = m.posX - speed;
+		}
+		else if (randDir == 3)
+		{
+			m.posZ = m.posZ + speed;
+		}
+		else if (randDir == 4)
+		{
+			m.posZ = m.posZ - speed;
+		}
+
+		cout << "ID: " << m.playerId << " POS: " << m.posX << " " << m.posY << " " << m.posZ << endl;
+		auto sendBufferM = Make_S_BroadcastMove(m.playerId,
+			randDir,
+			m.hp, m.posX,
+			m.posY, m.posZ,
+			false, false);
+
+		GRoom.BroadCast(sendBufferM);
+	}
 	return true;
 }
 
@@ -288,10 +322,10 @@ SendBufferRef ServerPacketHandler::Make_S_PlayerList(List<PlayerList> players)
 
 	for (PlayerList& p : players)
 	{
-		bw << (bool)p.isSelf << (int32)p.playerId << (uint16)p.hp << (float)p.posX << (float)p.posY << (float)p.posZ;
+		bw << (bool)p.isSelf << (int32)p.playerId << (int32)p.type << (uint16)p.hp << (float)p.posX << (float)p.posY << (float)p.posZ;
 	}
 
-	cout << sizeof(PlayerList) << endl;
+	//cout << sizeof(PlayerList) << endl;
 
 	header->size = bw.WriteSize();
 	header->id = S_PLAYERLIST;

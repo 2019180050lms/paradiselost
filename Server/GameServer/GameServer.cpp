@@ -7,6 +7,7 @@
 #include "BufferWriter.h"
 #include "ServerPacketHandler.h"
 #include <tchar.h>
+#include "Player.h"
 
 int main()
 {
@@ -18,6 +19,22 @@ int main()
 
 	ASSERT_CRASH(service->Start());
 
+	// 몬스터 생성
+	PlayerList l_player;
+
+	for (int i = 0; i < 5; i++)
+	{
+		l_player.isSelf = false;
+		l_player.playerId = 500 + i;
+		l_player.type = (int32)PlayerType::MONSTER;
+		l_player.hp = 100;
+		l_player.posX = 1.f * (float)(i + 20);
+		l_player.posY = 0.f;
+		l_player.posZ = 1.f * (float)(i + 20);
+
+		GRoom._monsters.push_back(l_player);
+	}
+	//
 	for (int32 i = 0; i < 5; i++)
 	{
 		GThreadManager->Launch([=]()

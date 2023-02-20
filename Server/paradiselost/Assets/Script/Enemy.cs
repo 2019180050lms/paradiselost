@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    public int enemyId;
     public int maxHealth;
     public int curHealth;
 

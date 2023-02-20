@@ -18,7 +18,6 @@ void GameSession::OnDisconnected()
 	GameSessionRef gameSession = static_pointer_cast<GameSession>(session);
 	PlayerRef player = gameSession->_players[0];
 	GRoom.Leave(player);
-	
 }
 
 void GameSession::OnRecvPacket(BYTE* buffer, int32 len)

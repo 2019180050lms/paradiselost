@@ -20,11 +20,11 @@ enum
 };
 
 #pragma pack(push, 1)
-
 struct PlayerList
 {
 	bool isSelf;
 	int32 playerId;
+	int32 type;
 	uint16 hp;
 	float posX;
 	float posY;

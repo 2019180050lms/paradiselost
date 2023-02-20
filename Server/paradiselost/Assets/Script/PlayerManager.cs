@@ -6,40 +6,65 @@ public class PlayerManager
 {
     MyPlayer _myplayer;
     Player player = null;
+    Enemy enemy = null;
     Dictionary<int, Player> _players = new Dictionary<int, Player>();
+    Dictionary<int, Enemy> _enemys = new Dictionary<int, Enemy>();
 
     public static PlayerManager Instance { get; } = new PlayerManager();
 
     public void Add(S_PlayerList packet)
     {
-        Object obj = Resources.Load("Player");
-
         foreach (S_PlayerList.Player p in packet.players)
         {
-            GameObject go = Object.Instantiate(obj) as GameObject;
 
-            if(p.isSelf)
+            if(p.type != 4)
             {
-                MyPlayer myPlayer = go.AddComponent<MyPlayer>();
-                myPlayer.PlayerId = p.playerId;
-                myPlayer.hp = p.hp;
-                Debug.Log(p.hp);
-                myPlayer.transform.position = new Vector3(p.posX, p.posY, p.posZ);
-                _myplayer = myPlayer;
+                Object obj = Resources.Load("Player");
+                GameObject go = Object.Instantiate(obj) as GameObject;
+
+                if (p.isSelf)
+                {
+                    MyPlayer myPlayer = go.AddComponent<MyPlayer>();
+                    myPlayer.PlayerId = p.playerId;
+                    myPlayer.hp = p.hp;
+                    Debug.Log(p.hp);
+                    myPlayer.transform.position = new Vector3(p.posX, p.posY, p.posZ);
+                    _myplayer = myPlayer;
+                }
+                else
+                {
+                    Player player = go.AddComponent<Player>();
+                    player.PlayerId = p.playerId;
+                    //player.transform.position = new Vector3(p.posX, p.posY, p.posZ);
+                    _players.Add(p.playerId, player);
+                }
             }
             else
             {
-                Player player = go.AddComponent<Player>();
-                player.PlayerId = p.playerId;
-                //player.transform.position = new Vector3(p.posX, p.posY, p.posZ);
-                _players.Add(p.playerId, player);
+                if (p.type == 4)
+                {
+                    Object obj = Resources.Load("Enemy");
+                    GameObject go = Object.Instantiate(obj) as GameObject;
+
+                    Enemy enemy = go.AddComponent<Enemy>();
+                    enemy.enemyId = p.playerId;
+                    enemy.maxHealth = p.hp;
+                    enemy.curHealth = p.hp;
+                    enemy.transform.position = new Vector3(p.posX, p.posY, p.posZ);
+                    _enemys.Add(p.playerId, enemy);
+
+                    Debug.Log("Monster 생성");
+                    Debug.Log(enemy.enemyId);
+                    Debug.Log(enemy.maxHealth);
+                }
+
             }
         }
     }
 
     public void Move(S_BroadcastMove packet)
     {
-        if(_myplayer.PlayerId == packet.playerId)
+        if (_myplayer.PlayerId == packet.playerId)
         {
 
             if (packet.playerDir == 0)
@@ -63,7 +88,7 @@ public class PlayerManager
 
             Vector3 movePos = new Vector3(packet.posX, packet.posY, packet.posZ);
             _myplayer.moveVec = new Vector3(_myplayer.hAxis, 0, _myplayer.vAxis).normalized;
-            
+
             /*
             if(packet.isJump && _myplayer.moveVec2 == Vector3.zero && !_myplayer.isJump && !_myplayer.isDodge && !_myplayer.isSwap)
             {
@@ -84,9 +109,9 @@ public class PlayerManager
                 _myplayer.anim.SetTrigger("doSwing");
             _myplayer.transform.LookAt(_myplayer.transform.position + _myplayer.moveVec2);
         }
-        else
+        else if (packet.playerId < 500)
         {
-            if(_players.TryGetValue(packet.playerId, out player))
+            if (_players.TryGetValue(packet.playerId, out player))
             {
                 if (packet.playerDir == 0)
                     player.moveVec2 = new Vector3(0, 0, 0);
@@ -111,7 +136,7 @@ public class PlayerManager
                 player.moveVec = movePos;
 
                 //player.moveVec = new Vector3(_myplayer.hAxis, 0, _myplayer.vAxis).normalized;
-                
+
                 player.wDown = packet.wDown;
                 player.transform.position = movePos;
 
@@ -121,6 +146,14 @@ public class PlayerManager
                 if (packet.wDown)
                     player.anim.SetTrigger("doSwing");
                 player.transform.LookAt(player.transform.position + player.moveVec2);
+            }
+        }
+        else
+        {
+            // 몬스터 움직임
+            if (_enemys.TryGetValue(packet.playerId, out enemy))
+            {
+                enemy.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
             }
         }
     }

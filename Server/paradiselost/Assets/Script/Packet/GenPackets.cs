@@ -464,6 +464,7 @@ public class S_PlayerList : IPacket
 	{
 		public bool isSelf;
 		public int playerId;
+		public int type;
 		public ushort hp;
 		public float posX;
 		public float posY;
@@ -474,6 +475,8 @@ public class S_PlayerList : IPacket
 			this.isSelf = BitConverter.ToBoolean(segment.Array, segment.Offset + count);
 			count += sizeof(bool);
 			this.playerId = BitConverter.ToInt32(segment.Array, segment.Offset + count);
+			count += sizeof(int);
+			this.type = BitConverter.ToInt32(segment.Array, segment.Offset + count);
 			count += sizeof(int);
 			this.hp = BitConverter.ToUInt16(segment.Array, segment.Offset + count);
 			count += sizeof(ushort);
@@ -491,6 +494,8 @@ public class S_PlayerList : IPacket
 			Array.Copy(BitConverter.GetBytes(this.isSelf), 0, segment.Array, segment.Offset + count, sizeof(bool));
 			count += sizeof(bool);
 			Array.Copy(BitConverter.GetBytes(this.playerId), 0, segment.Array, segment.Offset + count, sizeof(int));
+			count += sizeof(int);
+			Array.Copy(BitConverter.GetBytes(this.type), 0, segment.Array, segment.Offset + count, sizeof(int));
 			count += sizeof(int);
 			Array.Copy(BitConverter.GetBytes(this.hp), 0, segment.Array, segment.Offset + count, sizeof(ushort));
 			count += sizeof(ushort);
