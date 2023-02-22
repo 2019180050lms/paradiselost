@@ -24,7 +24,7 @@ public class MyPlayer : Player
 
     void LateUpdate()
     {
-        Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y + 10, transform.position.z - 10);
+        Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y + 7, transform.position.z - 5);
     }
 
     public void Interaction()
