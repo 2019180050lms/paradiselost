@@ -1,0 +1,558 @@
+{ "pid": 0, "tid": -1, "ph": "M", "name": "process_name", "args": { "name": "BeeDriver" } },
+{ "pid": 0, "tid": -1, "ph": "M", "name": "process_sort_index", "args": { "sort_index": "-2" } },
+{ "pid": 0, "tid": 1, "ph": "M", "name": "thread_name", "args": { "name": "" } },
+{ "pid": 0, "tid": 1, "ts": 1676962277291907, "dur": 1836704, "ph": "X", "name": "Build Player", "args": {} },
+{ "pid": 0, "tid": 1, "ts": 1676962277292166, "dur": 10989, "ph": "X", "name": "WriteBuildProgramData", "args": {} },
+{ "pid": 0, "tid": 1, "ts": 1676962277303158, "dur": 31915, "ph": "X", "name": "Run Backend", "args": {} },
+{ "pid": 0, "tid": 1, "ts": 1676962277335075, "dur": 730217, "ph": "X", "name": "BuildProgram", "args": {} },
+{ "pid": 0, "tid": 1, "ts": 1676962278065293, "dur": 1051322, "ph": "X", "name": "Run Backend", "args": {} },
+{ "pid": 0, "tid": 1, "ts": 1676962279116617, "dur": 11992, "ph": "X", "name": "Finish", "args": {} },
+{ "pid": 0, "tid": 1, "ts": 1676962279129005, "dur": 11, "ph": "X", "name": "", "args": {} },
+{ "pid": 35942, "tid": -1, "ph": "M", "name": "process_name", "args": { "name": "netcorerun.dll" } },
+{ "pid": 35942, "tid": -1, "ph": "M", "name": "process_sort_index", "args": { "sort_index": "-1" } },
+{ "pid": 35942, "tid": 1, "ph": "M", "name": "thread_name", "args": { "name": "" } },
+{ "pid": 35942, "tid": 1, "ts": 1676962277725830, "dur": 315841, "ph": "X", "name": "BuildProgram", "args": {} },
+{ "pid": 35942, "tid": 1, "ts": 1676962277726609, "dur": 37331, "ph": "X", "name": "BuildProgramContextConstructor", "args": {} },
+{ "pid": 35942, "tid": 1, "ts": 1676962278029445, "dur": 3753, "ph": "X", "name": "OutputData.Write", "args": {} },
+{ "pid": 35942, "tid": 1, "ts": 1676962278033200, "dur": 8466, "ph": "X", "name": "Backend.Write", "args": {} },
+{ "pid": 35942, "tid": 1, "ts": 1676962278033722, "dur": 7284, "ph": "X", "name": "JsonToString", "args": {} },
+{ "pid": 35942, "tid": 1, "ts": 1676962278045104, "dur": 1018, "ph": "X", "name": "", "args": {} },
+{ "pid": 35942, "tid": 1, "ts": 1676962278044524, "dur": 1619, "ph": "X", "name": "Write chrome-trace events", "args": {} },
+{ "pid": 0, "tid": 1, "ts": 1676962279129079, "dur": 121, "ph": "X", "name": "buildprogram0.traceevents", "args": {} },
+{ "cat":"", "pid":12345, "tid":0, "ts":0, "ph":"M", "name":"process_name", "args": { "name":"bee_backend" } }
+,{ "pid":12345, "tid":0, "ts":1676962278090502, "dur":1246, "ph":"X", "name": "DriverInitData",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1676962278091754, "dur":36, "ph":"X", "name": "Tundra",  "args": { "detail":"RemoveStaleOutputs" }}
+,{ "pid":12345, "tid":0, "ts":1676962278091806, "dur":17, "ph":"X", "name": "Tundra",  "args": { "detail":"PrepareNodes" }}
+,{ "pid":12345, "tid":0, "ts":1676962278091823, "dur":206, "ph":"X", "name": "Tundra",  "args": { "detail":"BuildQueueInit" }}
+,{ "pid":12345, "tid":0, "ts":1676962278092066, "dur":504, "ph":"X", "name": "EnqueueRequestedNodes",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1676962278092570, "dur":1, "ph":"X", "name": "SortWorkingStack",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1676962279080993, "dur":136, "ph":"X", "name": "JoinBuildThread",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1676962279081129, "dur":14, "ph":"X", "name": "ThreadStateDestroy",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1676962279081143, "dur":2, "ph":"X", "name": "JoinBuildThread",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1676962279081145, "dur":7, "ph":"X", "name": "ThreadStateDestroy",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1676962279081152, "dur":2, "ph":"X", "name": "JoinBuildThread",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1676962279081154, "dur":5, "ph":"X", "name": "ThreadStateDestroy",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1676962279081159, "dur":2, "ph":"X", "name": "JoinBuildThread",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1676962279081161, "dur":9, "ph":"X", "name": "ThreadStateDestroy",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1676962279081170, "dur":2, "ph":"X", "name": "JoinBuildThread",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1676962279081172, "dur":5, "ph":"X", "name": "ThreadStateDestroy",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1676962279081177, "dur":1, "ph":"X", "name": "JoinBuildThread",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1676962279081178, "dur":6, "ph":"X", "name": "ThreadStateDestroy",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1676962279081184, "dur":1, "ph":"X", "name": "JoinBuildThread",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1676962279081185, "dur":6, "ph":"X", "name": "ThreadStateDestroy",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1676962279081191, "dur":2, "ph":"X", "name": "JoinBuildThread",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1676962279081193, "dur":4, "ph":"X", "name": "ThreadStateDestroy",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1676962279081197, "dur":0, "ph":"X", "name": "SharedResourceDestroy",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1676962279081206, "dur":3, "ph":"X", "name": "BuildQueueDestroyTail",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1676962279081226, "dur":1389, "ph":"X", "name": "Tundra",  "args": { "detail":"Write AllBuiltNodes" }}
+,{ "pid":12345, "tid":1, "ts":1676962278092374, "dur":276, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1676962278092650, "dur":2867, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1676962278095519, "dur":32734, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /MonoBleedingEdge/etc/mono/mconfig/config.xml" }}
+,{ "pid":12345, "tid":1, "ts":1676962278128259, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1676962278128549, "dur":661, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /MonoBleedingEdge/etc/mono/mconfig/config.xml" }}
+,{ "pid":12345, "tid":1, "ts":1676962278129238, "dur":53745, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.VRModule.dll" }}
+,{ "pid":12345, "tid":1, "ts":1676962278183013, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1676962278183023, "dur":813, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.VRModule.dll" }}
+,{ "pid":12345, "tid":1, "ts":1676962278183860, "dur":84443, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.UnityWebRequestModule.dll" }}
+,{ "pid":12345, "tid":1, "ts":1676962278268306, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1676962278268332, "dur":656, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.UnityWebRequestModule.dll" }}
+,{ "pid":12345, "tid":1, "ts":1676962278269012, "dur":36178, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.TextCoreFontEngineModule.dll" }}
+,{ "pid":12345, "tid":1, "ts":1676962278305196, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1676962278305206, "dur":10880, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.TextCoreFontEngineModule.dll" }}
+,{ "pid":12345, "tid":1, "ts":1676962278316116, "dur":14303, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.StreamingModule.dll" }}
+,{ "pid":12345, "tid":1, "ts":1676962278330423, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1676962278330430, "dur":1006, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.StreamingModule.dll" }}
+,{ "pid":12345, "tid":1, "ts":1676962278331463, "dur":16109, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.SpriteShapeModule.dll" }}
+,{ "pid":12345, "tid":1, "ts":1676962278347576, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1676962278347584, "dur":840, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.SpriteShapeModule.dll" }}
+,{ "pid":12345, "tid":1, "ts":1676962278348453, "dur":38116, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.Physics2DModule.dll" }}
+,{ "pid":12345, "tid":1, "ts":1676962278386573, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1676962278386620, "dur":1063, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.Physics2DModule.dll" }}
+,{ "pid":12345, "tid":1, "ts":1676962278387709, "dur":14384, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.GridModule.dll" }}
+,{ "pid":12345, "tid":1, "ts":1676962278402097, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1676962278402105, "dur":743, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.GridModule.dll" }}
+,{ "pid":12345, "tid":1, "ts":1676962278402873, "dur":16218, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.DirectorModule.dll" }}
+,{ "pid":12345, "tid":1, "ts":1676962278419094, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1676962278419102, "dur":924, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.DirectorModule.dll" }}
+,{ "pid":12345, "tid":1, "ts":1676962278420054, "dur":15167, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.ClothModule.dll" }}
+,{ "pid":12345, "tid":1, "ts":1676962278435225, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1676962278435233, "dur":1174, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.ClothModule.dll" }}
+,{ "pid":12345, "tid":1, "ts":1676962278436436, "dur":35640, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.AnimationModule.dll" }}
+,{ "pid":12345, "tid":1, "ts":1676962278472079, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1676962278472087, "dur":3835, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.AnimationModule.dll" }}
+,{ "pid":12345, "tid":1, "ts":1676962278475951, "dur":65449, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/Unity.Timeline.dll" }}
+,{ "pid":12345, "tid":1, "ts":1676962278541406, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1676962278541417, "dur":895, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/Unity.Timeline.dll" }}
+,{ "pid":12345, "tid":1, "ts":1676962278542346, "dur":61406, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/Unity.Services.Core.Internal.dll" }}
+,{ "pid":12345, "tid":1, "ts":1676962278603757, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1676962278603767, "dur":13072, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/Unity.Services.Core.Internal.dll" }}
+,{ "pid":12345, "tid":1, "ts":1676962278616935, "dur":110958, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/System.Numerics.dll" }}
+,{ "pid":12345, "tid":1, "ts":1676962278727897, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1676962278727907, "dur":4987, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/System.Numerics.dll" }}
+,{ "pid":12345, "tid":1, "ts":1676962278732925, "dur":41674, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/System.Data.DataSetExtensions.dll" }}
+,{ "pid":12345, "tid":1, "ts":1676962278774606, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1676962278774617, "dur":1007, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/System.Data.DataSetExtensions.dll" }}
+,{ "pid":12345, "tid":1, "ts":1676962278775654, "dur":105996, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/Newtonsoft.Json.dll" }}
+,{ "pid":12345, "tid":1, "ts":1676962278881658, "dur":3, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1676962278881669, "dur":1270, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/Newtonsoft.Json.dll" }}
+,{ "pid":12345, "tid":1, "ts":1676962278882977, "dur":106, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/StreamingAssets/UnityServicesProjectConfiguration.json" }}
+,{ "pid":12345, "tid":1, "ts":1676962278883087, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1676962278883471, "dur":610, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/StreamingAssets/UnityServicesProjectConfiguration.json" }}
+,{ "pid":12345, "tid":1, "ts":1676962278884106, "dur":27, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Resources/unity_builtin_extra" }}
+,{ "pid":12345, "tid":1, "ts":1676962278884135, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1676962278884162, "dur":901, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Resources/unity_builtin_extra" }}
+,{ "pid":12345, "tid":1, "ts":1676962278885085, "dur":25, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/sharedassets4.assets" }}
+,{ "pid":12345, "tid":1, "ts":1676962278885112, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1676962278885122, "dur":621, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/sharedassets4.assets" }}
+,{ "pid":12345, "tid":1, "ts":1676962278885765, "dur":25, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/sharedassets3.assets.resS" }}
+,{ "pid":12345, "tid":1, "ts":1676962278885793, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1676962278885798, "dur":711, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/sharedassets3.assets.resS" }}
+,{ "pid":12345, "tid":1, "ts":1676962278886536, "dur":23, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/sharedassets3.assets" }}
+,{ "pid":12345, "tid":1, "ts":1676962278886561, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1676962278886566, "dur":607, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/sharedassets3.assets" }}
+,{ "pid":12345, "tid":1, "ts":1676962278887193, "dur":23, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/sharedassets2.assets" }}
+,{ "pid":12345, "tid":1, "ts":1676962278887218, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1676962278887222, "dur":450, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/sharedassets2.assets" }}
+,{ "pid":12345, "tid":1, "ts":1676962278887692, "dur":21, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/sharedassets1.assets" }}
+,{ "pid":12345, "tid":1, "ts":1676962278887715, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1676962278887719, "dur":1765, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/sharedassets1.assets" }}
+,{ "pid":12345, "tid":1, "ts":1676962278889533, "dur":34, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/sharedassets0.assets.resS" }}
+,{ "pid":12345, "tid":1, "ts":1676962278889570, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1676962278889576, "dur":782, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/sharedassets0.assets.resS" }}
+,{ "pid":12345, "tid":1, "ts":1676962278890384, "dur":22, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/sharedassets0.assets" }}
+,{ "pid":12345, "tid":1, "ts":1676962278890408, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1676962278890413, "dur":2007, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/sharedassets0.assets" }}
+,{ "pid":12345, "tid":1, "ts":1676962278892444, "dur":78, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/ScriptingAssemblies.json" }}
+,{ "pid":12345, "tid":1, "ts":1676962278892525, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1676962278892533, "dur":823, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/ScriptingAssemblies.json" }}
+,{ "pid":12345, "tid":1, "ts":1676962278893385, "dur":6035, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/RuntimeInitializeOnLoads.json" }}
+,{ "pid":12345, "tid":1, "ts":1676962278899423, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1676962278899430, "dur":962, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/RuntimeInitializeOnLoads.json" }}
+,{ "pid":12345, "tid":1, "ts":1676962278900418, "dur":23, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/level1.resS" }}
+,{ "pid":12345, "tid":1, "ts":1676962278900443, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1676962278900447, "dur":673, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/level1.resS" }}
+,{ "pid":12345, "tid":1, "ts":1676962278901144, "dur":26, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/level0" }}
+,{ "pid":12345, "tid":1, "ts":1676962278901172, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1676962278901210, "dur":820, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/level0" }}
+,{ "pid":12345, "tid":1, "ts":1676962278902053, "dur":73, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/boot.config" }}
+,{ "pid":12345, "tid":1, "ts":1676962278902128, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":1, "ts":1676962278902133, "dur":1079, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/boot.config" }}
+,{ "pid":12345, "tid":1, "ts":1676962278903239, "dur":177752, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":2, "ts":1676962278092414, "dur":300, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":2, "ts":1676962278092714, "dur":2846, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":2, "ts":1676962278095560, "dur":10642, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /MonoBleedingEdge/etc/mono/4.5/web.config" }}
+,{ "pid":12345, "tid":2, "ts":1676962278106206, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":2, "ts":1676962278106219, "dur":4054, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /MonoBleedingEdge/etc/mono/4.5/web.config" }}
+,{ "pid":12345, "tid":2, "ts":1676962278110306, "dur":259768, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /UnityPlayer.dll" }}
+,{ "pid":12345, "tid":2, "ts":1676962278370078, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":2, "ts":1676962278370085, "dur":26064, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /UnityPlayer.dll" }}
+,{ "pid":12345, "tid":2, "ts":1676962278396178, "dur":54598, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.GameCenterModule.dll" }}
+,{ "pid":12345, "tid":2, "ts":1676962278450779, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":2, "ts":1676962278450787, "dur":669, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.GameCenterModule.dll" }}
+,{ "pid":12345, "tid":2, "ts":1676962278451479, "dur":19816, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.AccessibilityModule.dll" }}
+,{ "pid":12345, "tid":2, "ts":1676962278471301, "dur":3, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":2, "ts":1676962278471311, "dur":760, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.AccessibilityModule.dll" }}
+,{ "pid":12345, "tid":2, "ts":1676962278472095, "dur":53823, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/Unity.VisualScripting.Antlr3.Runtime.dll" }}
+,{ "pid":12345, "tid":2, "ts":1676962278525924, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":2, "ts":1676962278525934, "dur":2238, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/Unity.VisualScripting.Antlr3.Runtime.dll" }}
+,{ "pid":12345, "tid":2, "ts":1676962278528210, "dur":31853, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/Unity.Services.Core.Registration.dll" }}
+,{ "pid":12345, "tid":2, "ts":1676962278560067, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":2, "ts":1676962278560074, "dur":1150, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/Unity.Services.Core.Registration.dll" }}
+,{ "pid":12345, "tid":2, "ts":1676962278561253, "dur":697, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/Unity.Services.Core.Device.dll" }}
+,{ "pid":12345, "tid":2, "ts":1676962278561953, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":2, "ts":1676962278561959, "dur":750, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/Unity.Services.Core.Device.dll" }}
+,{ "pid":12345, "tid":2, "ts":1676962278562738, "dur":83575, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/System.Xml.Linq.dll" }}
+,{ "pid":12345, "tid":2, "ts":1676962278646317, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":2, "ts":1676962278646325, "dur":10691, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/System.Xml.Linq.dll" }}
+,{ "pid":12345, "tid":2, "ts":1676962278657075, "dur":48596, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/System.IO.Compression.FileSystem.dll" }}
+,{ "pid":12345, "tid":2, "ts":1676962278705677, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":2, "ts":1676962278705688, "dur":2305, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/System.IO.Compression.FileSystem.dll" }}
+,{ "pid":12345, "tid":2, "ts":1676962278708026, "dur":221540, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/System.Drawing.dll" }}
+,{ "pid":12345, "tid":2, "ts":1676962278929572, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":2, "ts":1676962278929583, "dur":1123, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/System.Drawing.dll" }}
+,{ "pid":12345, "tid":2, "ts":1676962278930734, "dur":150239, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1676962278092749, "dur":1, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1676962278092750, "dur":2806, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1676962278095559, "dur":151, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /MonoBleedingEdge/etc/mono/4.5/Browsers/Compat.browser" }}
+,{ "pid":12345, "tid":3, "ts":1676962278095712, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1676962278102717, "dur":2527, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /MonoBleedingEdge/etc/mono/4.5/Browsers/Compat.browser" }}
+,{ "pid":12345, "tid":3, "ts":1676962278105274, "dur":98, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /MonoBleedingEdge/etc/mono/2.0/settings.map" }}
+,{ "pid":12345, "tid":3, "ts":1676962278105374, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1676962278105456, "dur":869, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /MonoBleedingEdge/etc/mono/2.0/settings.map" }}
+,{ "pid":12345, "tid":3, "ts":1676962278106362, "dur":12879, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /MonoBleedingEdge/etc/mono/2.0/machine.config" }}
+,{ "pid":12345, "tid":3, "ts":1676962278119248, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1676962278119260, "dur":1260, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /MonoBleedingEdge/etc/mono/2.0/machine.config" }}
+,{ "pid":12345, "tid":3, "ts":1676962278120549, "dur":62751, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.XRModule.dll" }}
+,{ "pid":12345, "tid":3, "ts":1676962278183303, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1676962278183310, "dur":2742, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.XRModule.dll" }}
+,{ "pid":12345, "tid":3, "ts":1676962278186074, "dur":15154, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.UnityWebRequestAudioModule.dll" }}
+,{ "pid":12345, "tid":3, "ts":1676962278201233, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1676962278201243, "dur":1069, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.UnityWebRequestAudioModule.dll" }}
+,{ "pid":12345, "tid":3, "ts":1676962278202342, "dur":13388, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.UnityCurlModule.dll" }}
+,{ "pid":12345, "tid":3, "ts":1676962278215734, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1676962278215741, "dur":1073, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.UnityCurlModule.dll" }}
+,{ "pid":12345, "tid":3, "ts":1676962278216841, "dur":33655, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.UIModule.dll" }}
+,{ "pid":12345, "tid":3, "ts":1676962278250500, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1676962278250508, "dur":1193, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.UIModule.dll" }}
+,{ "pid":12345, "tid":3, "ts":1676962278251727, "dur":35036, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.TilemapModule.dll" }}
+,{ "pid":12345, "tid":3, "ts":1676962278286794, "dur":10, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1676962278286813, "dur":807, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.TilemapModule.dll" }}
+,{ "pid":12345, "tid":3, "ts":1676962278287647, "dur":13417, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.TerrainPhysicsModule.dll" }}
+,{ "pid":12345, "tid":3, "ts":1676962278301069, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1676962278301078, "dur":778, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.TerrainPhysicsModule.dll" }}
+,{ "pid":12345, "tid":3, "ts":1676962278301887, "dur":28320, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.SubstanceModule.dll" }}
+,{ "pid":12345, "tid":3, "ts":1676962278330214, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1676962278330225, "dur":1226, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.SubstanceModule.dll" }}
+,{ "pid":12345, "tid":3, "ts":1676962278331496, "dur":14659, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.SpriteMaskModule.dll" }}
+,{ "pid":12345, "tid":3, "ts":1676962278346160, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1676962278346169, "dur":831, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.SpriteMaskModule.dll" }}
+,{ "pid":12345, "tid":3, "ts":1676962278347027, "dur":28714, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.PhysicsModule.dll" }}
+,{ "pid":12345, "tid":3, "ts":1676962278375747, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1676962278375758, "dur":1033, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.PhysicsModule.dll" }}
+,{ "pid":12345, "tid":3, "ts":1676962278376819, "dur":41133, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.InputLegacyModule.dll" }}
+,{ "pid":12345, "tid":3, "ts":1676962278417958, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1676962278417968, "dur":1527, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.InputLegacyModule.dll" }}
+,{ "pid":12345, "tid":3, "ts":1676962278419528, "dur":28817, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.ClusterInputModule.dll" }}
+,{ "pid":12345, "tid":3, "ts":1676962278448351, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1676962278448361, "dur":1345, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.ClusterInputModule.dll" }}
+,{ "pid":12345, "tid":3, "ts":1676962278449737, "dur":110295, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.AndroidJNIModule.dll" }}
+,{ "pid":12345, "tid":3, "ts":1676962278560038, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1676962278560049, "dur":1385, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.AndroidJNIModule.dll" }}
+,{ "pid":12345, "tid":3, "ts":1676962278561463, "dur":22281, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/Unity.Services.Core.Configuration.dll" }}
+,{ "pid":12345, "tid":3, "ts":1676962278583750, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1676962278583760, "dur":1937, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/Unity.Services.Core.Configuration.dll" }}
+,{ "pid":12345, "tid":3, "ts":1676962278585726, "dur":135104, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/System.Runtime.Serialization.dll" }}
+,{ "pid":12345, "tid":3, "ts":1676962278720835, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1676962278720844, "dur":12988, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/System.Runtime.Serialization.dll" }}
+,{ "pid":12345, "tid":3, "ts":1676962278733864, "dur":157131, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/System.Core.dll" }}
+,{ "pid":12345, "tid":3, "ts":1676962278890999, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1676962278891006, "dur":4719, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/System.Core.dll" }}
+,{ "pid":12345, "tid":3, "ts":1676962278895752, "dur":36, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/resources.assets.resS" }}
+,{ "pid":12345, "tid":3, "ts":1676962278895790, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1676962278895797, "dur":721, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/resources.assets.resS" }}
+,{ "pid":12345, "tid":3, "ts":1676962278896545, "dur":28, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/resources.assets" }}
+,{ "pid":12345, "tid":3, "ts":1676962278896576, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1676962278896582, "dur":2395, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/resources.assets" }}
+,{ "pid":12345, "tid":3, "ts":1676962278899003, "dur":28, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/level3" }}
+,{ "pid":12345, "tid":3, "ts":1676962278899033, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1676962278899080, "dur":1006, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/level3" }}
+,{ "pid":12345, "tid":3, "ts":1676962278900122, "dur":30, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/level2" }}
+,{ "pid":12345, "tid":3, "ts":1676962278900155, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1676962278900161, "dur":709, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/level2" }}
+,{ "pid":12345, "tid":3, "ts":1676962278900894, "dur":25, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/level0.resS" }}
+,{ "pid":12345, "tid":3, "ts":1676962278900921, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1676962278900925, "dur":1049, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/level0.resS" }}
+,{ "pid":12345, "tid":3, "ts":1676962278901998, "dur":26, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/globalgamemanagers" }}
+,{ "pid":12345, "tid":3, "ts":1676962278902026, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":3, "ts":1676962278902032, "dur":1032, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/globalgamemanagers" }}
+,{ "pid":12345, "tid":3, "ts":1676962278903089, "dur":177887, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1676962278092572, "dur":0, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1676962278092572, "dur":2940, "ph":"X", "name": "CheckDagSignatures",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1676962278095519, "dur":1, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"WriteText Library/Bee/artifacts/WinPlayerBuildProgram/Data/app.info" }}
+,{ "pid":12345, "tid":4, "ts":1676962278095523, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1676962278096380, "dur":260, "ph":"X", "name": "WriteText",  "args": { "detail":"Library/Bee/artifacts/WinPlayerBuildProgram/Data/app.info" }}
+,{ "pid":12345, "tid":4, "ts":1676962278096644, "dur":33, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/app.info" }}
+,{ "pid":12345, "tid":4, "ts":1676962278096679, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1676962278096812, "dur":1942, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/app.info" }}
+,{ "pid":12345, "tid":4, "ts":1676962278098756, "dur":7561, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /MonoBleedingEdge/etc/mono/4.0/web.config" }}
+,{ "pid":12345, "tid":4, "ts":1676962278106319, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1676962278106327, "dur":1303, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /MonoBleedingEdge/etc/mono/4.0/web.config" }}
+,{ "pid":12345, "tid":4, "ts":1676962278107657, "dur":72, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /MonoBleedingEdge/etc/mono/browscap.ini" }}
+,{ "pid":12345, "tid":4, "ts":1676962278107732, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1676962278107739, "dur":3258, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /MonoBleedingEdge/etc/mono/browscap.ini" }}
+,{ "pid":12345, "tid":4, "ts":1676962278111027, "dur":68950, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /UnityCrashHandler64.exe" }}
+,{ "pid":12345, "tid":4, "ts":1676962278179980, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1676962278179987, "dur":1416, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /UnityCrashHandler64.exe" }}
+,{ "pid":12345, "tid":4, "ts":1676962278181431, "dur":20019, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.UnityWebRequestTextureModule.dll" }}
+,{ "pid":12345, "tid":4, "ts":1676962278201454, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1676962278201461, "dur":1184, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.UnityWebRequestTextureModule.dll" }}
+,{ "pid":12345, "tid":4, "ts":1676962278202675, "dur":13010, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.UnityConnectModule.dll" }}
+,{ "pid":12345, "tid":4, "ts":1676962278215687, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1676962278215693, "dur":1451, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.UnityConnectModule.dll" }}
+,{ "pid":12345, "tid":4, "ts":1676962278217172, "dur":34685, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.UIElementsNativeModule.dll" }}
+,{ "pid":12345, "tid":4, "ts":1676962278251861, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1676962278251867, "dur":568, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.UIElementsNativeModule.dll" }}
+,{ "pid":12345, "tid":4, "ts":1676962278252459, "dur":45808, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.TextRenderingModule.dll" }}
+,{ "pid":12345, "tid":4, "ts":1676962278298271, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1676962278298280, "dur":3568, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.TextRenderingModule.dll" }}
+,{ "pid":12345, "tid":4, "ts":1676962278301876, "dur":34507, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.SubsystemsModule.dll" }}
+,{ "pid":12345, "tid":4, "ts":1676962278336386, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1676962278336395, "dur":635, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.SubsystemsModule.dll" }}
+,{ "pid":12345, "tid":4, "ts":1676962278337106, "dur":29571, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.ScreenCaptureModule.dll" }}
+,{ "pid":12345, "tid":4, "ts":1676962278366682, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1676962278366691, "dur":771, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.ScreenCaptureModule.dll" }}
+,{ "pid":12345, "tid":4, "ts":1676962278367490, "dur":31885, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.JSONSerializeModule.dll" }}
+,{ "pid":12345, "tid":4, "ts":1676962278399380, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1676962278399390, "dur":951, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.JSONSerializeModule.dll" }}
+,{ "pid":12345, "tid":4, "ts":1676962278400370, "dur":17803, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.DSPGraphModule.dll" }}
+,{ "pid":12345, "tid":4, "ts":1676962278418176, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1676962278418184, "dur":1285, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.DSPGraphModule.dll" }}
+,{ "pid":12345, "tid":4, "ts":1676962278419502, "dur":15180, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.ClusterRendererModule.dll" }}
+,{ "pid":12345, "tid":4, "ts":1676962278434688, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1676962278434698, "dur":1061, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.ClusterRendererModule.dll" }}
+,{ "pid":12345, "tid":4, "ts":1676962278435785, "dur":13434, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.ARModule.dll" }}
+,{ "pid":12345, "tid":4, "ts":1676962278449223, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1676962278449232, "dur":751, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.ARModule.dll" }}
+,{ "pid":12345, "tid":4, "ts":1676962278450010, "dur":29406, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.AIModule.dll" }}
+,{ "pid":12345, "tid":4, "ts":1676962278479422, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1676962278479432, "dur":960, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.AIModule.dll" }}
+,{ "pid":12345, "tid":4, "ts":1676962278480420, "dur":213219, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/Unity.TextMeshPro.dll" }}
+,{ "pid":12345, "tid":4, "ts":1676962278693645, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1676962278693656, "dur":1217, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/Unity.TextMeshPro.dll" }}
+,{ "pid":12345, "tid":4, "ts":1676962278694903, "dur":44805, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/System.EnterpriseServices.dll" }}
+,{ "pid":12345, "tid":4, "ts":1676962278739715, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1676962278739725, "dur":961, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/System.EnterpriseServices.dll" }}
+,{ "pid":12345, "tid":4, "ts":1676962278740713, "dur":95737, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/System.Configuration.dll" }}
+,{ "pid":12345, "tid":4, "ts":1676962278836454, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1676962278836463, "dur":5938, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/System.Configuration.dll" }}
+,{ "pid":12345, "tid":4, "ts":1676962278842428, "dur":178701, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/Mono.Security.dll" }}
+,{ "pid":12345, "tid":4, "ts":1676962279021133, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":4, "ts":1676962279021141, "dur":930, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/Mono.Security.dll" }}
+,{ "pid":12345, "tid":4, "ts":1676962279022092, "dur":58883, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1676962278092930, "dur":1, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1676962278092932, "dur":2648, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1676962278095581, "dur":113, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /MonoBleedingEdge/etc/mono/4.5/DefaultWsdlHelpGenerator.aspx" }}
+,{ "pid":12345, "tid":5, "ts":1676962278095697, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1676962278101715, "dur":1533, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /MonoBleedingEdge/etc/mono/4.5/DefaultWsdlHelpGenerator.aspx" }}
+,{ "pid":12345, "tid":5, "ts":1676962278103275, "dur":82, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /MonoBleedingEdge/etc/mono/4.0/DefaultWsdlHelpGenerator.aspx" }}
+,{ "pid":12345, "tid":5, "ts":1676962278103360, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1676962278103366, "dur":3142, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /MonoBleedingEdge/etc/mono/4.0/DefaultWsdlHelpGenerator.aspx" }}
+,{ "pid":12345, "tid":5, "ts":1676962278106548, "dur":107, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /MonoBleedingEdge/etc/mono/2.0/DefaultWsdlHelpGenerator.aspx" }}
+,{ "pid":12345, "tid":5, "ts":1676962278106657, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1676962278106665, "dur":4675, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /MonoBleedingEdge/etc/mono/2.0/DefaultWsdlHelpGenerator.aspx" }}
+,{ "pid":12345, "tid":5, "ts":1676962278111372, "dur":29527, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project.exe" }}
+,{ "pid":12345, "tid":5, "ts":1676962278140904, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1676962278140912, "dur":3128, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project.exe" }}
+,{ "pid":12345, "tid":5, "ts":1676962278144071, "dur":33926, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.VirtualTexturingModule.dll" }}
+,{ "pid":12345, "tid":5, "ts":1676962278178000, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1676962278178008, "dur":900, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.VirtualTexturingModule.dll" }}
+,{ "pid":12345, "tid":5, "ts":1676962278178936, "dur":24012, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.UnityWebRequestWWWModule.dll" }}
+,{ "pid":12345, "tid":5, "ts":1676962278202951, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1676962278202960, "dur":630, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.UnityWebRequestWWWModule.dll" }}
+,{ "pid":12345, "tid":5, "ts":1676962278203617, "dur":46840, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.UnityAnalyticsModule.dll" }}
+,{ "pid":12345, "tid":5, "ts":1676962278250463, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1676962278250474, "dur":1210, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.UnityAnalyticsModule.dll" }}
+,{ "pid":12345, "tid":5, "ts":1676962278251710, "dur":15332, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.TLSModule.dll" }}
+,{ "pid":12345, "tid":5, "ts":1676962278267049, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1676962278267060, "dur":1012, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.TLSModule.dll" }}
+,{ "pid":12345, "tid":5, "ts":1676962278268098, "dur":74298, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.TextCoreTextEngineModule.dll" }}
+,{ "pid":12345, "tid":5, "ts":1676962278342400, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1676962278342411, "dur":1254, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.TextCoreTextEngineModule.dll" }}
+,{ "pid":12345, "tid":5, "ts":1676962278343695, "dur":15018, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.ProfilerModule.dll" }}
+,{ "pid":12345, "tid":5, "ts":1676962278358717, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1676962278358726, "dur":747, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.ProfilerModule.dll" }}
+,{ "pid":12345, "tid":5, "ts":1676962278359501, "dur":26232, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.NVIDIAModule.dll" }}
+,{ "pid":12345, "tid":5, "ts":1676962278385739, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1676962278385749, "dur":1044, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.NVIDIAModule.dll" }}
+,{ "pid":12345, "tid":5, "ts":1676962278386826, "dur":14273, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.ImageConversionModule.dll" }}
+,{ "pid":12345, "tid":5, "ts":1676962278401103, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1676962278401112, "dur":955, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.ImageConversionModule.dll" }}
+,{ "pid":12345, "tid":5, "ts":1676962278402097, "dur":20648, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.dll" }}
+,{ "pid":12345, "tid":5, "ts":1676962278422750, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1676962278422759, "dur":1086, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.dll" }}
+,{ "pid":12345, "tid":5, "ts":1676962278423885, "dur":37340, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.AudioModule.dll" }}
+,{ "pid":12345, "tid":5, "ts":1676962278461231, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1676962278461241, "dur":1251, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.AudioModule.dll" }}
+,{ "pid":12345, "tid":5, "ts":1676962278462521, "dur":79093, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/Unity.VisualScripting.Flow.dll" }}
+,{ "pid":12345, "tid":5, "ts":1676962278541617, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1676962278541624, "dur":945, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/Unity.VisualScripting.Flow.dll" }}
+,{ "pid":12345, "tid":5, "ts":1676962278542595, "dur":535, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/Unity.Services.Core.Environments.Internal.dll" }}
+,{ "pid":12345, "tid":5, "ts":1676962278543133, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1676962278543141, "dur":719, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/Unity.Services.Core.Environments.Internal.dll" }}
+,{ "pid":12345, "tid":5, "ts":1676962278543884, "dur":17422, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/Unity.Services.Core.Environments.dll" }}
+,{ "pid":12345, "tid":5, "ts":1676962278561309, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1676962278561317, "dur":725, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/Unity.Services.Core.Environments.dll" }}
+,{ "pid":12345, "tid":5, "ts":1676962278562067, "dur":470, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/Unity.Services.Core.Analytics.dll" }}
+,{ "pid":12345, "tid":5, "ts":1676962278562540, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1676962278562546, "dur":605, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/Unity.Services.Core.Analytics.dll" }}
+,{ "pid":12345, "tid":5, "ts":1676962278563175, "dur":213967, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/System.Xml.dll" }}
+,{ "pid":12345, "tid":5, "ts":1676962278777145, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1676962278777154, "dur":2593, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/System.Xml.dll" }}
+,{ "pid":12345, "tid":5, "ts":1676962278779776, "dur":55594, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/netstandard.dll" }}
+,{ "pid":12345, "tid":5, "ts":1676962278835376, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1676962278835386, "dur":1760, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/netstandard.dll" }}
+,{ "pid":12345, "tid":5, "ts":1676962278837173, "dur":240104, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/mscorlib.dll" }}
+,{ "pid":12345, "tid":5, "ts":1676962279077281, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":5, "ts":1676962279077289, "dur":3635, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/mscorlib.dll" }}
+,{ "pid":12345, "tid":5, "ts":1676962279080952, "dur":2, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"Player" }}
+,{ "pid":12345, "tid":5, "ts":1676962279080955, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1676962278093389, "dur":0, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1676962278093389, "dur":2172, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1676962278095561, "dur":9638, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /MonoBleedingEdge/etc/mono/4.5/machine.config" }}
+,{ "pid":12345, "tid":6, "ts":1676962278105238, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1676962278105253, "dur":1270, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /MonoBleedingEdge/etc/mono/4.5/machine.config" }}
+,{ "pid":12345, "tid":6, "ts":1676962278106549, "dur":77, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /MonoBleedingEdge/etc/mono/config" }}
+,{ "pid":12345, "tid":6, "ts":1676962278106628, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1676962278106634, "dur":1028, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /MonoBleedingEdge/etc/mono/config" }}
+,{ "pid":12345, "tid":6, "ts":1676962278107695, "dur":34910, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /MonoBleedingEdge/EmbedRuntime/MonoPosixHelper.dll" }}
+,{ "pid":12345, "tid":6, "ts":1676962278142610, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1676962278143321, "dur":2260, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /MonoBleedingEdge/EmbedRuntime/MonoPosixHelper.dll" }}
+,{ "pid":12345, "tid":6, "ts":1676962278145616, "dur":37787, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.VFXModule.dll" }}
+,{ "pid":12345, "tid":6, "ts":1676962278183406, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1676962278183412, "dur":6621, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.VFXModule.dll" }}
+,{ "pid":12345, "tid":6, "ts":1676962278190065, "dur":22614, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.UnityWebRequestAssetBundleModule.dll" }}
+,{ "pid":12345, "tid":6, "ts":1676962278212685, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1676962278212695, "dur":3286, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.UnityWebRequestAssetBundleModule.dll" }}
+,{ "pid":12345, "tid":6, "ts":1676962278216007, "dur":15452, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.UmbraModule.dll" }}
+,{ "pid":12345, "tid":6, "ts":1676962278231465, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1676962278231475, "dur":1109, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.UmbraModule.dll" }}
+,{ "pid":12345, "tid":6, "ts":1676962278232613, "dur":121078, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.UI.dll" }}
+,{ "pid":12345, "tid":6, "ts":1676962278353697, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1676962278353708, "dur":1931, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.UI.dll" }}
+,{ "pid":12345, "tid":6, "ts":1676962278355664, "dur":14516, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.PerformanceReportingModule.dll" }}
+,{ "pid":12345, "tid":6, "ts":1676962278370183, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1676962278370189, "dur":1017, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.PerformanceReportingModule.dll" }}
+,{ "pid":12345, "tid":6, "ts":1676962278371233, "dur":15179, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.InputModule.dll" }}
+,{ "pid":12345, "tid":6, "ts":1676962278386437, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1676962278386445, "dur":998, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.InputModule.dll" }}
+,{ "pid":12345, "tid":6, "ts":1676962278387470, "dur":18574, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.HotReloadModule.dll" }}
+,{ "pid":12345, "tid":6, "ts":1676962278406049, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1676962278406059, "dur":2626, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.HotReloadModule.dll" }}
+,{ "pid":12345, "tid":6, "ts":1676962278408713, "dur":15381, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.CrashReportingModule.dll" }}
+,{ "pid":12345, "tid":6, "ts":1676962278424098, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1676962278424108, "dur":1395, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.CrashReportingModule.dll" }}
+,{ "pid":12345, "tid":6, "ts":1676962278425528, "dur":25714, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.AssetBundleModule.dll" }}
+,{ "pid":12345, "tid":6, "ts":1676962278451245, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1676962278451252, "dur":602, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.AssetBundleModule.dll" }}
+,{ "pid":12345, "tid":6, "ts":1676962278451876, "dur":41612, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/Unity.VisualScripting.State.dll" }}
+,{ "pid":12345, "tid":6, "ts":1676962278493494, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1676962278493505, "dur":1095, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/Unity.VisualScripting.State.dll" }}
+,{ "pid":12345, "tid":6, "ts":1676962278494641, "dur":20831, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/Unity.Services.Core.Threading.dll" }}
+,{ "pid":12345, "tid":6, "ts":1676962278515478, "dur":5, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1676962278515492, "dur":997, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/Unity.Services.Core.Threading.dll" }}
+,{ "pid":12345, "tid":6, "ts":1676962278516515, "dur":21715, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/Unity.Services.Core.Scheduler.dll" }}
+,{ "pid":12345, "tid":6, "ts":1676962278538236, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1676962278538269, "dur":3529, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/Unity.Services.Core.Scheduler.dll" }}
+,{ "pid":12345, "tid":6, "ts":1676962278541830, "dur":1500, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/Unity.Services.Core.Networking.dll" }}
+,{ "pid":12345, "tid":6, "ts":1676962278543333, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1676962278543339, "dur":2504, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/Unity.Services.Core.Networking.dll" }}
+,{ "pid":12345, "tid":6, "ts":1676962278545868, "dur":21840, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/Unity.Services.Core.dll" }}
+,{ "pid":12345, "tid":6, "ts":1676962278567713, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1676962278567723, "dur":962, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/Unity.Services.Core.dll" }}
+,{ "pid":12345, "tid":6, "ts":1676962278568713, "dur":77018, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/System.Transactions.dll" }}
+,{ "pid":12345, "tid":6, "ts":1676962278645738, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1676962278645749, "dur":1158, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/System.Transactions.dll" }}
+,{ "pid":12345, "tid":6, "ts":1676962278646929, "dur":72750, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/System.Net.Http.dll" }}
+,{ "pid":12345, "tid":6, "ts":1676962278719686, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1676962278719697, "dur":6952, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/System.Net.Http.dll" }}
+,{ "pid":12345, "tid":6, "ts":1676962278726675, "dur":173282, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/System.dll" }}
+,{ "pid":12345, "tid":6, "ts":1676962278899961, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":6, "ts":1676962278899968, "dur":5881, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/System.dll" }}
+,{ "pid":12345, "tid":6, "ts":1676962278905875, "dur":175102, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1676962278093244, "dur":0, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1676962278093244, "dur":2317, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1676962278095561, "dur":126, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /MonoBleedingEdge/etc/mono/4.5/settings.map" }}
+,{ "pid":12345, "tid":7, "ts":1676962278095690, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1676962278097167, "dur":1752, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /MonoBleedingEdge/etc/mono/4.5/settings.map" }}
+,{ "pid":12345, "tid":7, "ts":1676962278098944, "dur":76, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /MonoBleedingEdge/etc/mono/4.0/settings.map" }}
+,{ "pid":12345, "tid":7, "ts":1676962278099022, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1676962278099236, "dur":1002, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /MonoBleedingEdge/etc/mono/4.0/settings.map" }}
+,{ "pid":12345, "tid":7, "ts":1676962278100269, "dur":7680, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /MonoBleedingEdge/etc/mono/4.0/machine.config" }}
+,{ "pid":12345, "tid":7, "ts":1676962278107999, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1676962278108007, "dur":757, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /MonoBleedingEdge/etc/mono/4.0/machine.config" }}
+,{ "pid":12345, "tid":7, "ts":1676962278108794, "dur":98576, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /MonoBleedingEdge/EmbedRuntime/mono-2.0-bdwgc.dll" }}
+,{ "pid":12345, "tid":7, "ts":1676962278207375, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1676962278207464, "dur":6879, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /MonoBleedingEdge/EmbedRuntime/mono-2.0-bdwgc.dll" }}
+,{ "pid":12345, "tid":7, "ts":1676962278214395, "dur":82836, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.UNETModule.dll" }}
+,{ "pid":12345, "tid":7, "ts":1676962278297237, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1676962278297247, "dur":892, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.UNETModule.dll" }}
+,{ "pid":12345, "tid":7, "ts":1676962278298167, "dur":39235, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.TerrainModule.dll" }}
+,{ "pid":12345, "tid":7, "ts":1676962278337406, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1676962278337414, "dur":3748, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.TerrainModule.dll" }}
+,{ "pid":12345, "tid":7, "ts":1676962278341191, "dur":14180, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule.dll" }}
+,{ "pid":12345, "tid":7, "ts":1676962278355377, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1676962278355387, "dur":1327, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule.dll" }}
+,{ "pid":12345, "tid":7, "ts":1676962278356744, "dur":37104, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.ParticleSystemModule.dll" }}
+,{ "pid":12345, "tid":7, "ts":1676962278393854, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1676962278393865, "dur":933, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.ParticleSystemModule.dll" }}
+,{ "pid":12345, "tid":7, "ts":1676962278394830, "dur":14274, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.GIModule.dll" }}
+,{ "pid":12345, "tid":7, "ts":1676962278409108, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1676962278409115, "dur":4639, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.GIModule.dll" }}
+,{ "pid":12345, "tid":7, "ts":1676962278413783, "dur":94391, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.CoreModule.dll" }}
+,{ "pid":12345, "tid":7, "ts":1676962278508180, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1676962278508190, "dur":2618, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.CoreModule.dll" }}
+,{ "pid":12345, "tid":7, "ts":1676962278510834, "dur":49452, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/Unity.Services.Core.Telemetry.dll" }}
+,{ "pid":12345, "tid":7, "ts":1676962278560311, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1676962278560318, "dur":16016, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/Unity.Services.Core.Telemetry.dll" }}
+,{ "pid":12345, "tid":7, "ts":1676962278576365, "dur":91506, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/System.ServiceModel.Internals.dll" }}
+,{ "pid":12345, "tid":7, "ts":1676962278667877, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1676962278667888, "dur":4125, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/System.ServiceModel.Internals.dll" }}
+,{ "pid":12345, "tid":7, "ts":1676962278672049, "dur":90051, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/System.IO.Compression.dll" }}
+,{ "pid":12345, "tid":7, "ts":1676962278762106, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1676962278762116, "dur":1109, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/System.IO.Compression.dll" }}
+,{ "pid":12345, "tid":7, "ts":1676962278763251, "dur":97561, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/System.ComponentModel.Composition.dll" }}
+,{ "pid":12345, "tid":7, "ts":1676962278860818, "dur":6, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1676962278860833, "dur":1200, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/System.ComponentModel.Composition.dll" }}
+,{ "pid":12345, "tid":7, "ts":1676962278862061, "dur":75814, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/Assembly-CSharp.dll" }}
+,{ "pid":12345, "tid":7, "ts":1676962278937881, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":7, "ts":1676962278937910, "dur":827, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/Assembly-CSharp.dll" }}
+,{ "pid":12345, "tid":7, "ts":1676962278938766, "dur":142208, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1676962278093082, "dur":0, "ph":"X", "name": "FirstLock",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1676962278093082, "dur":2499, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1676962278095581, "dur":112, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /MonoBleedingEdge/etc/mono/4.0/Browsers/Compat.browser" }}
+,{ "pid":12345, "tid":8, "ts":1676962278095697, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1676962278102234, "dur":1362, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /MonoBleedingEdge/etc/mono/4.0/Browsers/Compat.browser" }}
+,{ "pid":12345, "tid":8, "ts":1676962278103622, "dur":76, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /MonoBleedingEdge/etc/mono/2.0/Browsers/Compat.browser" }}
+,{ "pid":12345, "tid":8, "ts":1676962278103701, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1676962278104349, "dur":780, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /MonoBleedingEdge/etc/mono/2.0/Browsers/Compat.browser" }}
+,{ "pid":12345, "tid":8, "ts":1676962278105157, "dur":10349, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /MonoBleedingEdge/etc/mono/2.0/web.config" }}
+,{ "pid":12345, "tid":8, "ts":1676962278115512, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1676962278115523, "dur":1080, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /MonoBleedingEdge/etc/mono/2.0/web.config" }}
+,{ "pid":12345, "tid":8, "ts":1676962278116635, "dur":104, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Resources/unity default resources" }}
+,{ "pid":12345, "tid":8, "ts":1676962278116742, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1676962278116958, "dur":5644, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Resources/unity default resources" }}
+,{ "pid":12345, "tid":8, "ts":1676962278122637, "dur":20681, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.WindModule.dll" }}
+,{ "pid":12345, "tid":8, "ts":1676962278143322, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1676962278143479, "dur":988, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.WindModule.dll" }}
+,{ "pid":12345, "tid":8, "ts":1676962278144491, "dur":32332, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.VideoModule.dll" }}
+,{ "pid":12345, "tid":8, "ts":1676962278176829, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1676962278176920, "dur":869, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.VideoModule.dll" }}
+,{ "pid":12345, "tid":8, "ts":1676962278177814, "dur":17858, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.VehiclesModule.dll" }}
+,{ "pid":12345, "tid":8, "ts":1676962278195678, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1676962278195686, "dur":689, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.VehiclesModule.dll" }}
+,{ "pid":12345, "tid":8, "ts":1676962278196401, "dur":19278, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.UnityTestProtocolModule.dll" }}
+,{ "pid":12345, "tid":8, "ts":1676962278215682, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1676962278215691, "dur":1676, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.UnityTestProtocolModule.dll" }}
+,{ "pid":12345, "tid":8, "ts":1676962278217395, "dur":117242, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.UIElementsModule.dll" }}
+,{ "pid":12345, "tid":8, "ts":1676962278334643, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1676962278334653, "dur":1510, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.UIElementsModule.dll" }}
+,{ "pid":12345, "tid":8, "ts":1676962278336194, "dur":26987, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.SharedInternalsModule.dll" }}
+,{ "pid":12345, "tid":8, "ts":1676962278363186, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1676962278363219, "dur":863, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.SharedInternalsModule.dll" }}
+,{ "pid":12345, "tid":8, "ts":1676962278364107, "dur":18096, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.LocalizationModule.dll" }}
+,{ "pid":12345, "tid":8, "ts":1676962278382209, "dur":2, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1676962278382220, "dur":925, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.LocalizationModule.dll" }}
+,{ "pid":12345, "tid":8, "ts":1676962278383175, "dur":78610, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.IMGUIModule.dll" }}
+,{ "pid":12345, "tid":8, "ts":1676962278461790, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1676962278461800, "dur":2909, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/UnityEngine.IMGUIModule.dll" }}
+,{ "pid":12345, "tid":8, "ts":1676962278464731, "dur":109264, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/Unity.VisualScripting.Core.dll" }}
+,{ "pid":12345, "tid":8, "ts":1676962278574001, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1676962278574034, "dur":5867, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/Unity.VisualScripting.Core.dll" }}
+,{ "pid":12345, "tid":8, "ts":1676962278579933, "dur":145835, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/System.Security.dll" }}
+,{ "pid":12345, "tid":8, "ts":1676962278725774, "dur":6, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1676962278725788, "dur":1837, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/System.Security.dll" }}
+,{ "pid":12345, "tid":8, "ts":1676962278727651, "dur":167909, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/System.Data.dll" }}
+,{ "pid":12345, "tid":8, "ts":1676962278895564, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1676962278895573, "dur":2053, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/Managed/System.Data.dll" }}
+,{ "pid":12345, "tid":8, "ts":1676962278897653, "dur":26, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/level4.resS" }}
+,{ "pid":12345, "tid":8, "ts":1676962278897681, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1676962278897686, "dur":632, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/level4.resS" }}
+,{ "pid":12345, "tid":8, "ts":1676962278898340, "dur":22, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/level4" }}
+,{ "pid":12345, "tid":8, "ts":1676962278898364, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1676962278898369, "dur":551, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/level4" }}
+,{ "pid":12345, "tid":8, "ts":1676962278898944, "dur":24, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/level3.resS" }}
+,{ "pid":12345, "tid":8, "ts":1676962278898970, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1676962278898975, "dur":699, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/level3.resS" }}
+,{ "pid":12345, "tid":8, "ts":1676962278899702, "dur":24, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/level2.resS" }}
+,{ "pid":12345, "tid":8, "ts":1676962278899728, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1676962278899733, "dur":1022, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/level2.resS" }}
+,{ "pid":12345, "tid":8, "ts":1676962278900779, "dur":21, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/level1" }}
+,{ "pid":12345, "tid":8, "ts":1676962278900802, "dur":0, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1676962278900807, "dur":610, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/level1" }}
+,{ "pid":12345, "tid":8, "ts":1676962278901438, "dur":23, "ph":"X", "name": "CheckInputSignature",  "args": { "detail":"CopyFiles C:/Users/leemi/Desktop// /New Unity Project_Data/globalgamemanagers.assets" }}
+,{ "pid":12345, "tid":8, "ts":1676962278901462, "dur":1, "ph":"X", "name": "StoreTimestampsOfNonGeneratedInputFiles",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":8, "ts":1676962278901467, "dur":924, "ph":"X", "name": "CopyFiles",  "args": { "detail":"C:/Users/leemi/Desktop// /New Unity Project_Data/globalgamemanagers.assets" }}
+,{ "pid":12345, "tid":8, "ts":1676962278902423, "dur":178568, "ph":"X", "name": "WaitingForWork", "cname":"thread_state_sleeping",  "args": { "detail":"" }}
+,{ "pid":12345, "tid":0, "ts":1676962279083709, "dur":1987, "ph":"X", "name": "ProfilerWriteOutput" }
+,{ "pid": 0, "tid": 1, "ts": 1676962279129236, "dur": 441, "ph": "X", "name": "backend_profiler1.traceevents", "args": {} },
+{ "pid": 0, "tid": 1, "ts": 1676962279128993, "dur": 698, "ph": "X", "name": "Write chrome-trace events", "args": {} },
