@@ -27,6 +27,12 @@ void ServerPacketHandler::HandlePacket(PacketSessionRef& session, BYTE* buffer, 
 	case C_Chat:
 		Handle_C_Chat(session ,buffer, len);
 		break;
+	case C_MONSTERATTACK:
+		Handle_C_MonsterAttack(session, buffer, len);
+		break;
+	case C_MONSTERDEAD:
+		Handle_C_MonsterDead(session, buffer, len);
+		break;
 	default:
 		break;
 	}
@@ -70,10 +76,12 @@ bool ServerPacketHandler::Handle_C_ENTER_GAME(PacketSessionRef& session, BYTE* b
 	PacketHeader header;
 	br >> header;
 
-	int32 playerIndex;
-	br >> playerIndex;
+	int32 playerIndex, playerType;
+	br >> playerIndex >> playerType;
 
 	PlayerRef player = gameSession->_players[playerIndex];
+	player->type = (PlayerType)playerType;
+
 	GRoom.Enter(player);
 
 	cout << "ENTER GAME ID: " << gameSession->_players[playerIndex]->playerId << endl;
@@ -220,7 +228,7 @@ bool ServerPacketHandler::Handle_C_MOVE(PacketSessionRef& session, BYTE* buffer,
 			m.posZ = m.posZ - speed;
 		}
 
-		cout << "ID: " << m.playerId << " POS: " << m.posX << " " << m.posY << " " << m.posZ << endl;
+		//cout << "ID: " << m.playerId << " POS: " << m.posX << " " << m.posY << " " << m.posZ << endl;
 		auto sendBufferM = Make_S_BroadcastMove(m.playerId,
 			randDir,
 			m.hp, m.posX,
@@ -229,6 +237,38 @@ bool ServerPacketHandler::Handle_C_MOVE(PacketSessionRef& session, BYTE* buffer,
 
 		GRoom.BroadCast(sendBufferM);
 	}
+	return true;
+}
+
+bool ServerPacketHandler::Handle_C_MonsterAttack(PacketSessionRef& session, BYTE* buffer, int32 len)
+{
+	BufferReader br(buffer, len);
+
+	PacketHeader header;
+	br >> header;
+
+	int32 id;
+	uint16 hp;
+	br >> id >> hp;
+	if (hp > 1)
+		GRoom.AttackedMonster(id, hp);
+	else if (hp < 1)
+		GRoom.DeadMonster(id);
+
+	return true;
+}
+
+bool ServerPacketHandler::Handle_C_MonsterDead(PacketSessionRef& session, BYTE* buffer, int32 len)
+{
+	BufferReader br(buffer, len);
+
+	PacketHeader header;
+	br >> header;
+
+	int32 id;
+	br >> id;
+	GRoom.DeadMonster(id);
+
 	return true;
 }
 
@@ -383,6 +423,24 @@ SendBufferRef ServerPacketHandler::Make_S_BroadcastMove(int32 playerId, int32 pl
 
 	header->size = bw.WriteSize();
 	header->id = S_BROADCAST_MOVE;
+
+	sendBuffer->Close(bw.WriteSize());
+
+	return sendBuffer;
+}
+
+SendBufferRef ServerPacketHandler::Make_S_AttackedMonster(int32 playerId, uint16 hp)
+{
+	SendBufferRef sendBuffer = GSendBufferManager->Open(4096);
+
+	BufferWriter bw(sendBuffer->Buffer(), sendBuffer->AllocSize());
+
+	PacketHeader* header = bw.Reserve<PacketHeader>();
+
+	bw << playerId << hp;
+
+	header->size = bw.WriteSize();
+	header->id = S_ATTACKEDMONSTER;
 
 	sendBuffer->Close(bw.WriteSize());
 

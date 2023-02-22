@@ -9,6 +9,7 @@ public class MyPlayer : Player
     void Start()
     {
         StartCoroutine("CoSendPacket");
+        hitBox = GetComponent<HitBox>();
         _network = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
     }
 
@@ -19,9 +20,11 @@ public class MyPlayer : Player
         Interaction();
     }
 
+    
+
     void LateUpdate()
     {
-        Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y + 15, transform.position.z - 15);
+        Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y + 10, transform.position.z - 10);
     }
 
     public void Interaction()
@@ -40,6 +43,20 @@ public class MyPlayer : Player
                 //Destroy(nearObject);
             }
         }
+    }
+    IEnumerator Swing()
+    {
+        yield return new WaitForSeconds(0.1f); // 0.1초 대기
+        //meleeArea.enabled = true;
+        hitBox.meleeArea.enabled = true;
+        //trailEffect.enabled = true;
+
+        yield return new WaitForSeconds(0.7f);
+        //meleeArea.enabled = false;
+        hitBox.meleeArea.enabled = false;
+
+        yield return new WaitForSeconds(0.3f);
+        //trailEffect.enabled = false;
     }
 
     IEnumerator CoSendPacket()

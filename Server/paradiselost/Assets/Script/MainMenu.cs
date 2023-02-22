@@ -65,6 +65,7 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene("InGame");
         C_ENTER_GAME c_enterPacket = new C_ENTER_GAME();
         c_enterPacket.playerIndex = 0;
+        c_enterPacket.type = charType;
         ArraySegment<byte> segment = c_enterPacket.Write();
         _network.Send(segment);
     }
@@ -72,11 +73,12 @@ public class MainMenu : MonoBehaviour
     public void OnClickSelectSpeed()
     {
         charType = 2;
-        Debug.Log("스피드");
-        Debug.Log(charType);
+        //Debug.Log("스피드");
+        //Debug.Log(charType);
         SceneManager.LoadScene("InGame");
         C_ENTER_GAME c_enterPacket = new C_ENTER_GAME();
         c_enterPacket.playerIndex = 0;
+        c_enterPacket.type = charType;
         ArraySegment<byte> segment = c_enterPacket.Write();
         _network.Send(segment);
     }
@@ -89,6 +91,7 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene("InGame");
         C_ENTER_GAME c_enterPacket = new C_ENTER_GAME();
         c_enterPacket.playerIndex = 0;
+        c_enterPacket.type = charType;
         ArraySegment<byte> segment = c_enterPacket.Write();
         _network.Send(segment);
     }

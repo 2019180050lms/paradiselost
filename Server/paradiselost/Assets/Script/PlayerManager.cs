@@ -16,27 +16,76 @@ public class PlayerManager
     {
         foreach (S_PlayerList.Player p in packet.players)
         {
-
-            if(p.type != 4)
+            //Object obj = Resources.Load("Player");
+            //GameObject go = Object.Instantiate(obj) as GameObject;
+            if (p.type != 4)
             {
-                Object obj = Resources.Load("Player");
-                GameObject go = Object.Instantiate(obj) as GameObject;
-
-                if (p.isSelf)
+                if(p.type == 1)
                 {
-                    MyPlayer myPlayer = go.AddComponent<MyPlayer>();
-                    myPlayer.PlayerId = p.playerId;
-                    myPlayer.hp = p.hp;
-                    Debug.Log(p.hp);
-                    myPlayer.transform.position = new Vector3(p.posX, p.posY, p.posZ);
-                    _myplayer = myPlayer;
+                    Object obj = Resources.Load("Player");
+                    GameObject go = Object.Instantiate(obj) as GameObject;
+                    if (p.isSelf)
+                    {
+                        MyPlayer myPlayer = go.AddComponent<MyPlayer>();
+                        myPlayer.PlayerId = p.playerId;
+                        myPlayer.hp = p.hp;
+                        //Debug.Log(p.hp);
+                        myPlayer.transform.position = new Vector3(p.posX, p.posY, p.posZ);
+                        _myplayer = myPlayer;
+                    }
+                    else
+                    {
+                        Player player = go.AddComponent<Player>();
+                        player.PlayerId = p.playerId;
+                        //player.transform.position = new Vector3(p.posX, p.posY, p.posZ);
+                        _players.Add(p.playerId, player);
+                    }
+                }
+                else if(p.type == 2)
+                {
+                    Object obj = Resources.Load("Player2");
+                    GameObject go = Object.Instantiate(obj) as GameObject;
+                    if (p.isSelf)
+                    {
+                        MyPlayer myPlayer = go.AddComponent<MyPlayer>();
+                        myPlayer.PlayerId = p.playerId;
+                        myPlayer.hp = p.hp;
+                        //Debug.Log(p.hp);
+                        myPlayer.transform.position = new Vector3(p.posX, p.posY, p.posZ);
+                        _myplayer = myPlayer;
+                    }
+                    else
+                    {
+                        Player player = go.AddComponent<Player>();
+                        player.PlayerId = p.playerId;
+                        //player.transform.position = new Vector3(p.posX, p.posY, p.posZ);
+                        _players.Add(p.playerId, player);
+                    }
+                }
+                else if(p.type == 3)
+                {
+                    Object obj = Resources.Load("Player3");
+                    GameObject go = Object.Instantiate(obj) as GameObject;
+                    if (p.isSelf)
+                    {
+                        MyPlayer myPlayer = go.AddComponent<MyPlayer>();
+                        myPlayer.PlayerId = p.playerId;
+                        myPlayer.hp = p.hp;
+                        //Debug.Log(p.hp);
+                        myPlayer.transform.position = new Vector3(p.posX, p.posY, p.posZ);
+                        _myplayer = myPlayer;
+                    }
+                    else
+                    {
+                        Player player = go.AddComponent<Player>();
+                        player.PlayerId = p.playerId;
+                        //player.transform.position = new Vector3(p.posX, p.posY, p.posZ);
+                        _players.Add(p.playerId, player);
+                    }
                 }
                 else
                 {
-                    Player player = go.AddComponent<Player>();
-                    player.PlayerId = p.playerId;
-                    //player.transform.position = new Vector3(p.posX, p.posY, p.posZ);
-                    _players.Add(p.playerId, player);
+                    Debug.Log("캐릭터 생성창 이동");
                 }
             }
             else
@@ -53,9 +102,9 @@ public class PlayerManager
                     enemy.transform.position = new Vector3(p.posX, p.posY, p.posZ);
                     _enemys.Add(p.playerId, enemy);
 
-                    Debug.Log("Monster 생성");
-                    Debug.Log(enemy.enemyId);
-                    Debug.Log(enemy.maxHealth);
+                    //Debug.Log("Monster 생성");
+                    //Debug.Log(enemy.enemyId);
+                    //Debug.Log(enemy.maxHealth);
                 }
 
             }
@@ -102,11 +151,15 @@ public class PlayerManager
             _myplayer.wDown = packet.wDown;
             _myplayer.transform.position = movePos;
 
-            Debug.Log(packet.hp);
+            //Debug.Log(packet.hp);
 
             _myplayer.anim.SetBool("isRun", _myplayer.moveVec2 != Vector3.zero);
             if (packet.wDown)
+            {
+                _myplayer.StopCoroutine("Swing");
                 _myplayer.anim.SetTrigger("doSwing");
+                _myplayer.StartCoroutine("Swing");
+            }
             _myplayer.transform.LookAt(_myplayer.transform.position + _myplayer.moveVec2);
         }
         else if (packet.playerId < 500)
@@ -182,12 +235,35 @@ public class PlayerManager
         }
         else
         {
-            Player player = null;
-            if(_players.TryGetValue(packet.playerId, out player))
+            if(packet.playerId < 500)
             {
-                GameObject.Destroy(player.gameObject);
-                _players.Remove(packet.playerId);
+                Player player = null;
+                if (_players.TryGetValue(packet.playerId, out player))
+                {
+                    GameObject.Destroy(player.gameObject);
+                    _players.Remove(packet.playerId);
+                }
             }
+            else
+            {
+                Enemy enemy = null;
+                if(_enemys.TryGetValue(packet.playerId, out enemy))
+                {
+                    GameObject.Destroy(enemy.gameObject);
+                    _enemys.Remove(packet.playerId);
+                }
+            }
+        }
+    }
+
+    public void AttackedMonster(S_AttackedMonster packet)
+    {
+        Enemy enemy = null;
+        if (_enemys.TryGetValue(packet.id, out enemy))
+        {
+            Debug.Log("적 피격");
+            Debug.Log(enemy.curHealth);
+            enemy.curHealth = packet.hp;
         }
     }
 }

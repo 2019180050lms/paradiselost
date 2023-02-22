@@ -7,7 +7,6 @@
 void GameSession::OnConnected()
 {
 	GSessionManager.Add(static_pointer_cast<GameSession>(shared_from_this()));
-	//GameSessionRef gameSession = static_pointer_cast<GameSession>(_session);
 }
 
 void GameSession::OnDisconnected()
@@ -16,8 +15,12 @@ void GameSession::OnDisconnected()
 
 	PacketSessionRef session = GetPacketSessionRef();
 	GameSessionRef gameSession = static_pointer_cast<GameSession>(session);
-	PlayerRef player = gameSession->_players[0];
-	GRoom.Leave(player);
+	
+	if (!gameSession->_players.empty())
+	{
+		PlayerRef player = gameSession->_players[0];
+		GRoom.Leave(player);
+	}
 }
 
 void GameSession::OnRecvPacket(BYTE* buffer, int32 len)

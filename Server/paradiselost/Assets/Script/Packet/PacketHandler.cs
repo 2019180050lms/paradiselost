@@ -63,7 +63,7 @@ class PacketHandler
 		S_PlayerList pkt = packet as S_PlayerList;
 		ServerSession serverSession = session as ServerSession;
 
-		Debug.Log("");
+		//Debug.Log("");
 
 		PlayerManager.Instance.Add(pkt);
 	}
@@ -76,7 +76,15 @@ class PacketHandler
 		PlayerManager.Instance.Move(pkt);
 	}
 
-	public static void S_ChatHandler(PacketSession session, IPacket packet)
+    public static void S_AttackedMonsterHandler(PacketSession session, IPacket packet)
+    {
+        S_AttackedMonster pkt = packet as S_AttackedMonster;
+        ServerSession serverSession = session as ServerSession;
+
+        PlayerManager.Instance.AttackedMonster(pkt);
+    }
+
+    public static void S_ChatHandler(PacketSession session, IPacket packet)
 	{
 		S_Chat chatPacket = packet as S_Chat;
 		ServerSession serverSession = session as ServerSession;

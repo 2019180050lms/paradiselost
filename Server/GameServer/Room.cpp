@@ -49,7 +49,7 @@ void Room::Enter(PlayerRef player)
 		l_player.hp = iter->second->hp;
 		l_player.type = (int32)iter->second->type;
 		l_player.posX = 0.f;
-		l_player.posY = 0.f;
+		l_player.posY = 3.f;
 		l_player.posZ = 0.f;
 
 		players.push_back(l_player);
@@ -76,6 +76,33 @@ void Room::Leave(PlayerRef player)
 	BroadCast(sendBuffer);
 }
 
+void Room::DeadMonster(int32 monsterId)
+{
+	for (auto iter = _monsters.begin(); iter != _monsters.end(); iter++)
+	{
+		if (iter->playerId == monsterId)
+			_monsters.erase(iter);
+	}
+	// 모두에게 알린다.
+	auto sendBuffer = ServerPacketHandler::Make_S_BroadcastLeave_Game(monsterId);
+	cout << "Dead Monster ID: " << monsterId << endl;
+	BroadCast(sendBuffer);
+}
+
+void Room::AttackedMonster(int32 monsterId, uint16 hp)
+{
+	for (auto iter = _monsters.begin(); iter != _monsters.end(); iter++)
+	{
+		if (iter->playerId == monsterId)
+		{
+			iter->hp = hp;
+			auto sendBuffer = ServerPacketHandler::Make_S_AttackedMonster(iter->playerId, iter->hp);
+			cout << "Attacked Monster ID: " << iter->playerId << " hp: " << iter->hp << endl;
+			BroadCast(sendBuffer);
+		}
+	}
+}
+
 void Room::BroadCast(SendBufferRef sendBuffer)
 {
 	WRITE_LOCK;
@@ -84,5 +111,23 @@ void Room::BroadCast(SendBufferRef sendBuffer)
 		if (_players.empty())
 			continue;
 		p.second->ownerSession->Send(sendBuffer);
+	}
+}
+
+void Room::CreateMonster()
+{
+	PlayerList l_player;
+
+	for (int i = 0; i < MAX_MONSTER; i++)
+	{
+		l_player.isSelf = false;
+		l_player.playerId = 500 + i;
+		l_player.type = (int32)PlayerType::MONSTER;
+		l_player.hp = 100;
+		l_player.posX = 1.f;
+		l_player.posY = 5.f;
+		l_player.posZ = 1.f;
+
+		GRoom._monsters.push_back(l_player);
 	}
 }

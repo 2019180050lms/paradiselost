@@ -35,6 +35,7 @@ public class Player : MonoBehaviour
 
     public GameObject nearObject;
     public Weapon equipWeapon;
+    public HitBox hitBox;
     public int equipWeaponIndex = -1;
     public float fireDelay;
     bool isBorder;
