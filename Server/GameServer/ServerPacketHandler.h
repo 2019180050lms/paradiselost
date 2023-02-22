@@ -52,7 +52,7 @@ public:
 	static SendBufferRef Make_S_ENTER_GAME(bool success, int32 type);
 	static SendBufferRef Make_S_MOVE(int32 playerIndex, float x, float y, float z);
 	static SendBufferRef Make_S_PlayerList(List<PlayerList> players);
-	static SendBufferRef Make_S_BroadcastEnter_Game(int32 playerId, float posX, float posY, float posZ);
+	static SendBufferRef Make_S_BroadcastEnter_Game(int32 playerId, int32 type, float posX, float posY, float posZ);
 	static SendBufferRef Make_S_BroadcastLeave_Game(int32 playerId);
 	static SendBufferRef Make_S_BroadcastMove(int32 playerId, int32 playerDir, uint16 hp, float posX, float posY, float posZ, bool wDown, bool isJump);
 

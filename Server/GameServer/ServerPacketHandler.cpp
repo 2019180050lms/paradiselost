@@ -375,7 +375,7 @@ SendBufferRef ServerPacketHandler::Make_S_PlayerList(List<PlayerList> players)
 	return sendBuffer;
 }
 
-SendBufferRef ServerPacketHandler::Make_S_BroadcastEnter_Game(int32 playerId, float posX, float posY, float posZ)
+SendBufferRef ServerPacketHandler::Make_S_BroadcastEnter_Game(int32 playerId, int32 type ,float posX, float posY, float posZ)
 {
 	SendBufferRef sendBuffer = GSendBufferManager->Open(4096);
 
@@ -383,7 +383,7 @@ SendBufferRef ServerPacketHandler::Make_S_BroadcastEnter_Game(int32 playerId, fl
 
 	PacketHeader* header = bw.Reserve<PacketHeader>();
 
-	bw <<  playerId << posX << posY << posZ;
+	bw <<  playerId << type << posX << posY << posZ;
 
 	header->size = bw.WriteSize();
 	header->id = S_BROADCASTENTER_GAME;

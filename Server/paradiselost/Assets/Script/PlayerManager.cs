@@ -218,12 +218,35 @@ public class PlayerManager
         if (packet.playerId == _myplayer.PlayerId)
             return;
 
-        Object obj = Resources.Load("Player");
-        GameObject go = Object.Instantiate(obj) as GameObject;
+        if (packet.type == 0)
+            Debug.Log("캐릭터 생성");
+        else if(packet.type == 1)
+        {
+            Object obj = Resources.Load("Player");
+            GameObject go = Object.Instantiate(obj) as GameObject;
 
-        Player player = go.AddComponent<Player>();
-        player.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
-        _players.Add(packet.playerId, player);
+            Player player = go.AddComponent<Player>();
+            player.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
+            _players.Add(packet.playerId, player);
+        }
+        else if (packet.type == 2)
+        {
+            Object obj = Resources.Load("Player2");
+            GameObject go = Object.Instantiate(obj) as GameObject;
+
+            Player player = go.AddComponent<Player>();
+            player.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
+            _players.Add(packet.playerId, player);
+        }
+        else if (packet.type == 3)
+        {
+            Object obj = Resources.Load("Player3");
+            GameObject go = Object.Instantiate(obj) as GameObject;
+
+            Player player = go.AddComponent<Player>();
+            player.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
+            _players.Add(packet.playerId, player);
+        }
     }
 
     public void LeaveGame(S_BroadcastLeaveGame packet)
