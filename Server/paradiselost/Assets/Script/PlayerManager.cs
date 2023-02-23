@@ -16,10 +16,6 @@ public class PlayerManager
     {
         foreach (S_PlayerList.Player p in packet.players)
         {
-            //Object obj = Resources.Load("Player");
-            //GameObject go = Object.Instantiate(obj) as GameObject;
-            if (p.type != 4)
-            {
                 if(p.type == 1)
                 {
                     Object obj = Resources.Load("Player");
@@ -87,26 +83,21 @@ public class PlayerManager
                 {
                     Debug.Log("캐릭터 생성창 이동");
                 }
-            }
-            else
+            if (p.type == 4)
             {
-                if (p.type == 4)
-                {
-                    Object obj = Resources.Load("Enemy");
-                    GameObject go = Object.Instantiate(obj) as GameObject;
+                Object obj = Resources.Load("Enemy");
+                GameObject go = Object.Instantiate(obj) as GameObject;
 
-                    Enemy enemy = go.AddComponent<Enemy>();
-                    enemy.enemyId = p.playerId;
-                    enemy.maxHealth = p.hp;
-                    enemy.curHealth = p.hp;
-                    enemy.transform.position = new Vector3(p.posX, p.posY, p.posZ);
-                    _enemys.Add(p.playerId, enemy);
+                Enemy enemy = go.AddComponent<Enemy>();
+                enemy.enemyId = p.playerId;
+                enemy.maxHealth = p.hp;
+                enemy.curHealth = p.hp;
+                enemy.transform.position = new Vector3(p.posX, p.posY, p.posZ);
+                _enemys.Add(p.playerId, enemy);
 
-                    //Debug.Log("Monster 생성");
-                    //Debug.Log(enemy.enemyId);
-                    //Debug.Log(enemy.maxHealth);
-                }
-
+                //Debug.Log("Monster 생성");
+                //Debug.Log(enemy.enemyId);
+                //Debug.Log(enemy.maxHealth);
             }
         }
     }

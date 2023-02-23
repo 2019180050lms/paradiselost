@@ -59,7 +59,7 @@ void Room::Enter(PlayerRef player)
 	_players[player->playerId]->ownerSession->Send(sendBufferP);
 
 	// 신입생 입장을 모두에게 알린다.
-	auto sendBuffers = ServerPacketHandler::Make_S_BroadcastEnter_Game(player->playerId, (int32)player->type, 0.f, 0.f, 0.f);
+	auto sendBuffers = ServerPacketHandler::Make_S_BroadcastEnter_Game(player->playerId, (int32)player->type, player->xPos, player->yPos, player->zPos);
 	BroadCast(sendBuffers);
 	players.clear();
 }
