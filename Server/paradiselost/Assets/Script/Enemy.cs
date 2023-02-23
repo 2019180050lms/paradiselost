@@ -23,6 +23,9 @@ public class Enemy : MonoBehaviour
     Animator anim;
 
     NetworkManager _network;
+
+
+
     private void Start()
     {
         _network = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
@@ -35,6 +38,7 @@ public class Enemy : MonoBehaviour
         mat = GetComponentInChildren<MeshRenderer>().material;  // Material은 MesgRenderer를 통해 가져옴
         nav = GetComponent<NavMeshAgent>();
         anim = GetComponentInChildren<Animator>();
+        
 
         Invoke("ChaseStart", 2);
     }
@@ -53,6 +57,7 @@ public class Enemy : MonoBehaviour
             nav.isStopped = !isChase; 
         }
         */
+        
     }
 
     void OnTriggerEnter(Collider other)
@@ -81,6 +86,7 @@ public class Enemy : MonoBehaviour
             StartCoroutine(OnDamage(reactVec));
         }
     }
+
 
     IEnumerator OnDamage(Vector3 reactVec)
     {
