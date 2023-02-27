@@ -12,6 +12,7 @@ public class Enemy : MonoBehaviour
     public bool isChase;
     public bool isAttack;
 
+
     public BoxCollider meleeArea;
 
     Rigidbody rigid;
