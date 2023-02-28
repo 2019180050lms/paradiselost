@@ -1,0 +1,135 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!319 &31900000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: SpeedAllMask
+  m_Mask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: Armature
+    m_Weight: 0
+  - m_Path: Armature/masterborn
+    m_Weight: 1
+  - m_Path: Armature/masterborn/foot1.L.001
+    m_Weight: 1
+  - m_Path: Armature/masterborn/foot1.R.001
+    m_Weight: 1
+  - m_Path: Armature/masterborn/foot2.001.L
+    m_Weight: 1
+  - m_Path: Armature/masterborn/foot2.001.R
+    m_Weight: 1
+  - m_Path: Armature/masterborn/mainborn
+    m_Weight: 1
+  - m_Path: Armature/masterborn/mainborn/masterborn.001.L
+    m_Weight: 1
+  - m_Path: Armature/masterborn/mainborn/masterborn.001.L/u_leg.L
+    m_Weight: 1
+  - m_Path: Armature/masterborn/mainborn/masterborn.001.L/u_leg.L/d_leg.L
+    m_Weight: 1
+  - m_Path: Armature/masterborn/mainborn/masterborn.001.L/u_leg.L/d_leg.L/foot1.L
+    m_Weight: 1
+  - m_Path: Armature/masterborn/mainborn/masterborn.001.L/u_leg.L/d_leg.L/foot2.L
+    m_Weight: 1
+  - m_Path: Armature/masterborn/mainborn/masterborn.001.R
+    m_Weight: 1
+  - m_Path: Armature/masterborn/mainborn/masterborn.001.R/u_leg.R
+    m_Weight: 1
+  - m_Path: Armature/masterborn/mainborn/masterborn.001.R/u_leg.R/d_leg.R
+    m_Weight: 1
+  - m_Path: Armature/masterborn/mainborn/masterborn.001.R/u_leg.R/d_leg.R/foot1.R
+    m_Weight: 1
+  - m_Path: Armature/masterborn/mainborn/masterborn.001.R/u_leg.R/d_leg.R/foot2.R
+    m_Weight: 1
+  - m_Path: Armature.002
+    m_Weight: 1
+  - m_Path: Armature.002/spine
+    m_Weight: 1
+  - m_Path: Armature.002/spine/chest
+    m_Weight: 1
+  - m_Path: Armature.002/spine/chest/sholder.L
+    m_Weight: 1
+  - m_Path: Armature.002/spine/chest/sholder.L/u_arm.L
+    m_Weight: 1
+  - m_Path: Armature.002/spine/chest/sholder.L/u_arm.L/d_arm.L
+    m_Weight: 1
+  - m_Path: Armature.002/spine/chest/sholder.L/u_arm.L/d_arm.L/hand.L
+    m_Weight: 1
+  - m_Path: Armature.002/spine/chest/sholder.L/u_arm.L/d_arm.L/hand.L/finger1.L
+    m_Weight: 1
+  - m_Path: Armature.002/spine/chest/sholder.L/u_arm.L/d_arm.L/hand.L/finger1.L/finger1.001.L
+    m_Weight: 1
+  - m_Path: Armature.002/spine/chest/sholder.L/u_arm.L/d_arm.L/hand.L/finger2.001.L
+    m_Weight: 1
+  - m_Path: Armature.002/spine/chest/sholder.L/u_arm.L/d_arm.L/hand.L/finger2.001.L/finger2.003.L
+    m_Weight: 1
+  - m_Path: Armature.002/spine/chest/sholder.L/u_arm.L/d_arm.L/hand.L/finger2.001.L/finger2.003.L/finger2.002.L
+    m_Weight: 1
+  - m_Path: Armature.002/spine/chest/sholder.L/u_arm.L/d_arm.L/hand.L/finger3.L
+    m_Weight: 1
+  - m_Path: Armature.002/spine/chest/sholder.L/u_arm.L/d_arm.L/hand.L/finger3.L/finger3.002.L
+    m_Weight: 1
+  - m_Path: Armature.002/spine/chest/sholder.L/u_arm.L/d_arm.L/hand.L/finger3.L/finger3.002.L/finger3.001.L
+    m_Weight: 1
+  - m_Path: Armature.002/spine/chest/sholder.L/u_arm.L/d_arm.L/hand.L/finger4.L
+    m_Weight: 1
+  - m_Path: Armature.002/spine/chest/sholder.L/u_arm.L/d_arm.L/hand.L/finger4.L/finger4.001.L
+    m_Weight: 1
+  - m_Path: Armature.002/spine/chest/sholder.L/u_arm.L/d_arm.L/hand.L/finger4.L/finger4.001.L/finger4.002.L
+    m_Weight: 1
+  - m_Path: Armature.002/spine/chest/sholder.R
+    m_Weight: 1
+  - m_Path: Armature.002/spine/chest/sholder.R/u_arm.R
+    m_Weight: 1
+  - m_Path: Armature.002/spine/chest/sholder.R/u_arm.R/d_arm.R
+    m_Weight: 1
+  - m_Path: Armature.002/spine/chest/sholder.R/u_arm.R/d_arm.R/hand.R
+    m_Weight: 1
+  - m_Path: Armature.002/spine/chest/sholder.R/u_arm.R/d_arm.R/hand.R/finger1.R
+    m_Weight: 1
+  - m_Path: Armature.002/spine/chest/sholder.R/u_arm.R/d_arm.R/hand.R/finger1.R/finger1.001.R
+    m_Weight: 1
+  - m_Path: Armature.002/spine/chest/sholder.R/u_arm.R/d_arm.R/hand.R/finger2.001.R
+    m_Weight: 1
+  - m_Path: Armature.002/spine/chest/sholder.R/u_arm.R/d_arm.R/hand.R/finger2.001.R/finger2.003.R
+    m_Weight: 1
+  - m_Path: Armature.002/spine/chest/sholder.R/u_arm.R/d_arm.R/hand.R/finger2.001.R/finger2.003.R/finger2.002.R
+    m_Weight: 1
+  - m_Path: Armature.002/spine/chest/sholder.R/u_arm.R/d_arm.R/hand.R/finger3.R
+    m_Weight: 1
+  - m_Path: Armature.002/spine/chest/sholder.R/u_arm.R/d_arm.R/hand.R/finger3.R/finger3.002.R
+    m_Weight: 1
+  - m_Path: Armature.002/spine/chest/sholder.R/u_arm.R/d_arm.R/hand.R/finger3.R/finger3.002.R/finger3.001.R
+    m_Weight: 1
+  - m_Path: Armature.002/spine/chest/sholder.R/u_arm.R/d_arm.R/hand.R/finger4.R
+    m_Weight: 1
+  - m_Path: Armature.002/spine/chest/sholder.R/u_arm.R/d_arm.R/hand.R/finger4.R/finger4.001.R
+    m_Weight: 1
+  - m_Path: Armature.002/spine/chest/sholder.R/u_arm.R/d_arm.R/hand.R/finger4.R/finger4.001.R/finger4.002.R
+    m_Weight: 1
+  - m_Path: body
+    m_Weight: 1
+  - m_Path: Hand
+    m_Weight: 1
+  - m_Path: Hand.001
+    m_Weight: 1
+  - m_Path: Hand.002
+    m_Weight: 1
+  - m_Path: head.001
+    m_Weight: 0
+  - m_Path: head_ama
+    m_Weight: 0
+  - m_Path: head_ama/neck
+    m_Weight: 1
+  - m_Path: head_ama/neck/head
+    m_Weight: 1
+  - m_Path: hip
+    m_Weight: 0
+  - m_Path: Leg
+    m_Weight: 0
+  - m_Path: shoulder
+    m_Weight: 1
