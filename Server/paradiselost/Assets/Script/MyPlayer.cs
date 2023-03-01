@@ -40,8 +40,8 @@ public class MyPlayer : Player
     void LateUpdate()
     {
         //Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y + 7, transform.position.z - 5);
-
-        
+        Debug.Log(xmove);
+       
 
         if (Input.GetMouseButton(1))
         {
@@ -122,7 +122,7 @@ public class MyPlayer : Player
     void CameraMove()
     {
         // ----카메라 오른쪽 회전----
-        if (xmove > 337.5 && xmove < 260 || xmove > 0 && xmove < 22.5 || xmove < 0 && xmove > -22.5 || xmove < -337.5 && xmove > -360) // 정면
+        if (xmove > 337.5 && xmove < 260 || xmove > 0 && xmove < 22.5 || xmove < 0 && xmove > -22.5 || xmove < -337.5 && xmove > -360 || xmove == 0) // 정면
         {
             if (frontDown && !leftDown && !rightDown && !backDown)
                 dir = 3;
