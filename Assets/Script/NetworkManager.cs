@@ -19,7 +19,7 @@ public class NetworkManager : MonoBehaviour
 		// DNS (Domain Name System)
 		string host = Dns.GetHostName();
 		IPHostEntry ipHost = Dns.GetHostEntry(host);
-		IPAddress ipAddr = IPAddress.Parse("192.168.219.100");
+		IPAddress ipAddr = IPAddress.Parse("27.119.175.22");
 		IPEndPoint endPoint = new IPEndPoint(ipAddr, 7777);
 
 		Connector connector = new Connector();
@@ -27,6 +27,7 @@ public class NetworkManager : MonoBehaviour
 		connector.Connect(endPoint,
 			() => { return _session; },
 			1);
+		DontDestroyOnLoad(this);
 	}
 
     void Update()

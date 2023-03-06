@@ -45,9 +45,6 @@ namespace ServerCore
 				Session session = _sessionFactory.Invoke();
 				session.Start(args.ConnectSocket);
 				session.OnConnected(args.RemoteEndPoint);
-				C_Login loginPacket = new C_Login();
-				ArraySegment<byte> segment = loginPacket.Write();
-				session.Send(segment);
 			}
 			else
 			{

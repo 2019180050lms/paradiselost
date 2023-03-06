@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     public GameObject[] weapons;
     public bool[] hasWeapons;
 
+    public ushort hp;
     public int dir = 0;
     public float hAxis;
     public float vAxis;
@@ -25,8 +26,8 @@ public class Player : MonoBehaviour
     public bool isSwap;
     public bool isFireReady = true;
 
-
     public Vector3 moveVec;
+    public Vector3 moveVec2;
     public Vector3 dodgeVec;
 
     public Rigidbody rigid;
@@ -44,7 +45,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        //GetInput();
+        //Turn();
     }
 
     void Awake()
@@ -57,7 +58,7 @@ public class Player : MonoBehaviour
     {
         hAxis = Input.GetAxisRaw("Horizontal");
         vAxis = Input.GetAxisRaw("Vertical");
-        wDown = Input.GetButton("Walk"); // 좌 쉬프트
+        wDown = Input.GetButton("Walk");
         jDown = Input.GetButtonDown("Jump");
         fDown = Input.GetButtonDown("Fire1");
         iDown = Input.GetButtonDown("Interaction");
@@ -78,9 +79,15 @@ public class Player : MonoBehaviour
             moveVec = Vector3.zero;
 
         if (wDown)
+        {
             transform.position += moveVec * speed * 0.3f * Time.deltaTime;
+            moveVec = transform.position;
+        }
         else
-            transform.position += moveVec * speed * 10f * Time.deltaTime;
+        {
+            transform.position += moveVec * speed * 10 * Time.deltaTime;
+            moveVec = transform.position;
+        }
 
         anim.SetBool("isRun", moveVec != Vector3.zero);
         anim.SetBool("isWalk", wDown);
@@ -160,21 +167,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void Interaction()
-    {
-        if (iDown && nearObject != null && !isJump && !isDodge)
-        {
-            if (nearObject.tag == "Weapon")
-            {
-                Item item = nearObject.GetComponent<Item>();
-                int weaponIndex = item.value;
-                hasWeapons[weaponIndex] = true;
-
-                //Destroy(nearObject);
-            }
-        }
-    }
-
     public void DodgeOut()
     {
         speed *= 0.5f;
@@ -184,15 +176,6 @@ public class Player : MonoBehaviour
     public void SwapOut()
     {
         isSwap = false;
-    }
-
-    void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "Floor")
-        {
-            anim.SetBool("isJump", false);
-            isJump = false;
-        }
     }
 
     private void OnTriggerStay(Collider other)
@@ -206,5 +189,14 @@ public class Player : MonoBehaviour
     {
         if (other.tag == "Weapon")
             nearObject = null;
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Floor")
+        {
+            anim.SetBool("isJump", false);
+            isJump = false;
+        }
     }
 }

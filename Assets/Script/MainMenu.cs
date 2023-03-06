@@ -2,13 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using System;
 
 public class MainMenu : MonoBehaviour
 {
+    public static MainMenu Instance { get; } = new MainMenu();
+
+    NetworkManager _network;
+
+    public int charType = 0;
     // Start is called before the first frame update
     void Start()
     {
-        
+        _network = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
     }
 
     // Update is called once per frame
@@ -19,8 +25,12 @@ public class MainMenu : MonoBehaviour
 
     public void OnClickNewGame()
     {
+
         //Debug.Log("새 게임");
-        SceneManager.LoadScene("Lobby");
+        //SceneManager.LoadScene("Lobby");
+        C_Login loginPacket = new C_Login();
+        ArraySegment<byte> segment = loginPacket.Write();
+        _network.Send(segment);
     }
 
     public void OnClickMakeRoom()
@@ -46,6 +56,43 @@ public class MainMenu : MonoBehaviour
     {
         Debug.Log("공지사항");
     }
+
+    public void OnClickSelectPower()
+    {
+        charType = 1;
+        Debug.Log("파워");
+        Debug.Log(charType);
+        SceneManager.LoadScene("InGame");
+        C_ENTER_GAME c_enterPacket = new C_ENTER_GAME();
+        c_enterPacket.playerIndex = 0;
+        ArraySegment<byte> segment = c_enterPacket.Write();
+        _network.Send(segment);
+    }
+
+    public void OnClickSelectSpeed()
+    {
+        charType = 2;
+        Debug.Log("스피드");
+        Debug.Log(charType);
+        SceneManager.LoadScene("InGame");
+        C_ENTER_GAME c_enterPacket = new C_ENTER_GAME();
+        c_enterPacket.playerIndex = 0;
+        ArraySegment<byte> segment = c_enterPacket.Write();
+        _network.Send(segment);
+    }
+
+    public void OnClickSelectShield()
+    {
+        charType = 3;
+        Debug.Log("쉴드");
+        Debug.Log(charType);
+        SceneManager.LoadScene("InGame");
+        C_ENTER_GAME c_enterPacket = new C_ENTER_GAME();
+        c_enterPacket.playerIndex = 0;
+        ArraySegment<byte> segment = c_enterPacket.Write();
+        _network.Send(segment);
+    }
+
 
     public void OnClickQuit()
     {

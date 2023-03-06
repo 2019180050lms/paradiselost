@@ -50,10 +50,10 @@ public class Enemy : MonoBehaviour
     {
         if(other.tag == "Melee")
         {
-            Weapon weapon = other.GetComponent<Weapon>();
+            Debug.Log(" Ãæµ¹ " );
+           Weapon weapon = other.GetComponent<Weapon>();
             curHealth -= weapon.damage;
             Vector3 reactVec = transform.position - other.transform.position;
-
             Debug.Log("Melee : " + curHealth);
             StartCoroutine(OnDamage(reactVec));
         }
@@ -91,7 +91,7 @@ public class Enemy : MonoBehaviour
             reactVec += Vector3.up;
             rigid.AddForce(reactVec * 5, ForceMode.Impulse);
 
-            Destroy(gameObject, 4);
+            Destroy(gameObject, 2);
         }
     }
 

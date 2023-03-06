@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 class PacketHandler
 {
@@ -14,11 +15,18 @@ class PacketHandler
 
 		if (s_enterPacket.success == true)
 		{
-			Debug.Log("true 받음");
-			C_ENTER_GAME c_enterPacket = new C_ENTER_GAME();
-			c_enterPacket.playerIndex = 0;
-			ArraySegment<byte> segment = c_enterPacket.Write();
-			serverSession.Send(segment);
+			if (s_enterPacket.type == 0)
+            {
+				SceneManager.LoadScene("CharacterSelect");
+			}
+            else
+            {
+				SceneManager.LoadScene("Lobby");
+				C_ENTER_GAME c_enterPacket = new C_ENTER_GAME();
+				c_enterPacket.playerIndex = 0;
+				ArraySegment<byte> segment = c_enterPacket.Write();
+				serverSession.Send(segment);
+			}
 		}
 	}
 
@@ -55,7 +63,7 @@ class PacketHandler
 		S_PlayerList pkt = packet as S_PlayerList;
 		ServerSession serverSession = session as ServerSession;
 
-		Debug.Log("Log");
+		Debug.Log("");
 
 		PlayerManager.Instance.Add(pkt);
 	}
