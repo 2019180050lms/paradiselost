@@ -115,28 +115,8 @@ public class PlayerManager
     {
         if (_myplayer.PlayerId == packet.playerId)
         {
-
-            if (packet.playerDir == 0)
-                _myplayer.moveVec2 = new Vector3(0, 0, 0);
-            else if (packet.playerDir == 1)
-                _myplayer.moveVec2 = new Vector3(1, 0, 0);
-            else if (packet.playerDir == 2)
-                _myplayer.moveVec2 = new Vector3(-1, 0, 0);
-            else if (packet.playerDir == 3)
-                _myplayer.moveVec2 = new Vector3(0, 0, 1);
-            else if (packet.playerDir == 4)
-                _myplayer.moveVec2 = new Vector3(0, 0, -1);
-            else if (packet.playerDir == 5)
-                _myplayer.moveVec2 = new Vector3(Mathf.Sqrt(0.5f), 0, Mathf.Sqrt(0.5f));
-            else if (packet.playerDir == 6)
-                _myplayer.moveVec2 = new Vector3(Mathf.Sqrt(0.5f), 0, -(Mathf.Sqrt(0.5f)));
-            else if (packet.playerDir == 7)
-                _myplayer.moveVec2 = new Vector3(-(Mathf.Sqrt(0.5f)), 0, Mathf.Sqrt(0.5f));
-            else if (packet.playerDir == 8)
-                _myplayer.moveVec2 = new Vector3(-(Mathf.Sqrt(0.5f)), 0, -(Mathf.Sqrt(0.5f)));
-
             Vector3 movePos = new Vector3(packet.posX, packet.posY, packet.posZ);
-            _myplayer.moveVec = new Vector3(_myplayer.hAxis, 0, _myplayer.vAxis).normalized;
+            //_myplayer.moveVec = new Vector3(_myplayer.hAxis, 0, _myplayer.vAxis).normalized;
 
             /*
             if(packet.isJump && _myplayer.moveVec2 == Vector3.zero && !_myplayer.isJump && !_myplayer.isDodge && !_myplayer.isSwap)
@@ -153,14 +133,14 @@ public class PlayerManager
 
             //Debug.Log(packet.hp);
 
-            _myplayer.anim.SetBool("isRun", _myplayer.moveVec2 != Vector3.zero);
+            //_myplayer.anim.SetBool("isRun", _myplayer.moveVec != Vector3.zero);
             if (packet.wDown)
             {
                 _myplayer.StopCoroutine("Swing");
                 _myplayer.anim.SetTrigger("doSwing");
                 _myplayer.StartCoroutine("Swing");
             }
-            _myplayer.transform.LookAt(_myplayer.transform.position + _myplayer.moveVec2);
+            _myplayer.transform.LookAt(_myplayer.transform.position + _myplayer.moveVec);
         }
         else if (packet.playerId < 500)
         {
@@ -186,14 +166,14 @@ public class PlayerManager
                     player.moveVec2 = new Vector3(-(Mathf.Sqrt(0.5f)), 0, -(Mathf.Sqrt(0.5f)));
 
                 Vector3 movePos = new Vector3(packet.posX, packet.posY, packet.posZ);
-                player.moveVec = movePos;
 
                 //player.moveVec = new Vector3(_myplayer.hAxis, 0, _myplayer.vAxis).normalized;
 
                 player.wDown = packet.wDown;
                 player.transform.position = movePos;
 
-                Debug.Log(packet.hp);
+                Debug.Log("Pmovevec:");
+                Debug.Log(player.moveVec);
 
                 player.anim.SetBool("isRun", player.moveVec2 != Vector3.zero);
                 if (packet.wDown)

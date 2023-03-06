@@ -35,6 +35,8 @@ public class MyPlayer : Player
     {
         GetInput();
         Interaction();
+        moveVec = new Vector3(hAxis, 0, vAxis).normalized;
+        anim.SetBool("isRun", moveVec != Vector3.zero);
 
         frontDown = Input.GetKey(KeyCode.W);
         leftDown = Input.GetKey(KeyCode.A);
@@ -48,7 +50,7 @@ public class MyPlayer : Player
     void LateUpdate()
     {
         //Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y + 7, transform.position.z - 5);
-        Debug.Log(xmove);
+        //Debug.Log(xmove);
        
 
         if (Input.GetMouseButton(1))
@@ -66,6 +68,28 @@ public class MyPlayer : Player
         Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y + 5, transform.position.z) - Camera.main.transform.rotation * reverseDistance; // 플레이어의 위치에서 카메라가 바라보는 방향에 벡터값을 적용한 상대 좌표를 차감합니다.
 
         
+
+    }
+
+    void cs_move_packet()
+    {
+        if(moveVec != Vector3.zero)
+        {
+            C_Move movePacket = new C_Move();
+            movePacket.playerIndex = 0;
+            movePacket.playerDir = dir;
+            movePacket.hp = hp;
+            movePacket.posX = transform.position.x;
+            movePacket.posY = transform.position.y;
+            movePacket.posZ = transform.position.z;
+            movePacket.wDown = wDown;
+            movePacket.isJump = jDown;
+            _network.Send(movePacket.Write());
+        }
+        else
+        {
+            //Debug.Log("movevec = 0");
+        }
 
     }
 
@@ -113,17 +137,7 @@ public class MyPlayer : Player
                 Debug.Log("wDown True");
 
             CameraMove();
-
-            C_Move movePacket = new C_Move();
-            movePacket.playerIndex = 0;
-            movePacket.playerDir = dir;
-            movePacket.hp = hp;
-            movePacket.posX = transform.position.x;
-            movePacket.posY = transform.position.y;
-            movePacket.posZ = transform.position.z;
-            movePacket.wDown = wDown;
-            movePacket.isJump = jDown;
-            _network.Send(movePacket.Write());
+            cs_move_packet();
         }
     }
 
