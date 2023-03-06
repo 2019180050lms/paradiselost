@@ -117,6 +117,24 @@ public class PlayerManager
         {
             Vector3 movePos = new Vector3(packet.posX, packet.posY, packet.posZ);
             //_myplayer.moveVec = new Vector3(_myplayer.hAxis, 0, _myplayer.vAxis).normalized;
+            if (packet.playerDir == 0)
+                _myplayer.moveVec2 = new Vector3(0, 0, 0);
+            else if (packet.playerDir == 1)
+                _myplayer.moveVec2 = new Vector3(1, 0, 0);
+            else if (packet.playerDir == 2)
+                _myplayer.moveVec2 = new Vector3(-1, 0, 0);
+            else if (packet.playerDir == 3)
+                _myplayer.moveVec2 = new Vector3(0, 0, 1);
+            else if (packet.playerDir == 4)
+                _myplayer.moveVec2 = new Vector3(0, 0, -1);
+            else if (packet.playerDir == 5)
+                _myplayer.moveVec2 = new Vector3(Mathf.Sqrt(0.5f), 0, Mathf.Sqrt(0.5f));
+            else if (packet.playerDir == 6)
+                _myplayer.moveVec2 = new Vector3(Mathf.Sqrt(0.5f), 0, -(Mathf.Sqrt(0.5f)));
+            else if (packet.playerDir == 7)
+                _myplayer.moveVec2 = new Vector3(-(Mathf.Sqrt(0.5f)), 0, Mathf.Sqrt(0.5f));
+            else if (packet.playerDir == 8)
+                _myplayer.moveVec2 = new Vector3(-(Mathf.Sqrt(0.5f)), 0, -(Mathf.Sqrt(0.5f)));
 
             /*
             if(packet.isJump && _myplayer.moveVec2 == Vector3.zero && !_myplayer.isJump && !_myplayer.isDodge && !_myplayer.isSwap)
@@ -127,7 +145,7 @@ public class PlayerManager
                 _myplayer.isJump = true;
             }    
             */
-
+            _myplayer.dir = packet.playerDir;
             _myplayer.wDown = packet.wDown;
             _myplayer.transform.position = movePos;
 
@@ -140,12 +158,13 @@ public class PlayerManager
                 _myplayer.anim.SetTrigger("doSwing");
                 _myplayer.StartCoroutine("Swing");
             }
-            _myplayer.transform.LookAt(_myplayer.transform.position + _myplayer.moveVec);
+            _myplayer.transform.LookAt(_myplayer.transform.position + _myplayer.moveVec2);
         }
         else if (packet.playerId < 500)
         {
             if (_players.TryGetValue(packet.playerId, out player))
             {
+                Vector3 movePos = new Vector3(packet.posX, packet.posY, packet.posZ);
                 if (packet.playerDir == 0)
                     player.moveVec2 = new Vector3(0, 0, 0);
                 else if (packet.playerDir == 1)
@@ -165,8 +184,6 @@ public class PlayerManager
                 else if (packet.playerDir == 8)
                     player.moveVec2 = new Vector3(-(Mathf.Sqrt(0.5f)), 0, -(Mathf.Sqrt(0.5f)));
 
-                Vector3 movePos = new Vector3(packet.posX, packet.posY, packet.posZ);
-
                 //player.moveVec = new Vector3(_myplayer.hAxis, 0, _myplayer.vAxis).normalized;
 
                 player.wDown = packet.wDown;
@@ -183,6 +200,8 @@ public class PlayerManager
         }
         else
         {
+            if (player != null)
+                player.anim.SetBool("isRun", false);
             // 몬스터 움직임
             if (_enemys.TryGetValue(packet.playerId, out enemy))
             {
