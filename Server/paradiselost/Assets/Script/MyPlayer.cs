@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class MyPlayer : Player
 {
     NetworkManager _network;
@@ -10,16 +11,23 @@ public class MyPlayer : Player
     public float xmove = 0;  // X축 누적 이동량
     public float ymove = 0;  // Y축 누적 이동량
     public float distance = 8;
+    public static int health = 80;
+    public static int maxHealth = 100;
 
     bool frontDown;
     bool leftDown;
     bool rightDown;
     bool backDown;
+
+
     void Start()
     {
         StartCoroutine("CoSendPacket");
         hitBox = GetComponent<HitBox>();
         _network = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
+
+        health = 50;
+
     }
 
     // Update is called once per frame
