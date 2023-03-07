@@ -41,13 +41,15 @@ public class Enemy : MonoBehaviour
         anim = GetComponentInChildren<Animator>();
         
 
-        Invoke("ChaseStart", 2);
+        Invoke("Walk", 2);
+
+       // anim.SetBool("isWalk", true);
     }
 
-    void ChaseStart()
+    void Walk()
     {
-        isChase = true;
-        //anim.SetBool("isWalk", true);
+        //isChase = true;
+        anim.SetBool("isWalk", true);
     }
      void Update()
     {
@@ -58,7 +60,7 @@ public class Enemy : MonoBehaviour
             nav.isStopped = !isChase; 
         }
         */
-        
+        anim.SetBool("isWalk", true);
     }
 
     void OnTriggerEnter(Collider other)
