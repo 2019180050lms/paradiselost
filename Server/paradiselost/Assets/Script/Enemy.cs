@@ -13,6 +13,8 @@ public class Enemy : MonoBehaviour
     public bool isAttack;
 
 
+    public Vector3 moveVec2;
+
     public BoxCollider meleeArea;
 
     Rigidbody rigid;
@@ -21,35 +23,37 @@ public class Enemy : MonoBehaviour
 
     NavMeshAgent nav;
 
-    Animator anim;
+    public Animator anim;
 
     NetworkManager _network;
 
-
+    public bool walking;
 
     private void Start()
     {
         _network = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
+        walking = true;
     }
 
     void Awake()
     {
+        anim = GetComponentInChildren<Animator>();
         rigid = GetComponent<Rigidbody>();
         boxCollider = GetComponent<BoxCollider>();
         mat = GetComponentInChildren<MeshRenderer>().material;  // Material은 MesgRenderer를 통해 가져옴
-        nav = GetComponent<NavMeshAgent>();
-        anim = GetComponentInChildren<Animator>();
+        //nav = GetComponent<NavMeshAgent>();
+        
         
 
-        Invoke("Walk", 2);
-
+        //Invoke("Walk", 2);
+        
        // anim.SetBool("isWalk", true);
     }
 
     void Walk()
     {
         //isChase = true;
-        anim.SetBool("isWalk", true);
+        //anim.SetBool("isWalk", true);
     }
      void Update()
     {
@@ -60,7 +64,7 @@ public class Enemy : MonoBehaviour
             nav.isStopped = !isChase; 
         }
         */
-        anim.SetBool("isWalk", true);
+        Debug.Log(walking);
     }
 
     void OnTriggerEnter(Collider other)

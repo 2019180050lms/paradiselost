@@ -1254,6 +1254,7 @@ MonoBehaviour:
   stageTxt: {fileID: 1355519613}
   playerHealthTxt: {fileID: 161709452}
   playTimeTxt: {fileID: 1130434384}
+  hP: 0
 --- !u!1 &1971194483
 GameObject:
   m_ObjectHideFlags: 0
@@ -1388,3 +1389,5 @@ MonoBehaviour:
   isChase: 0
   isAttack: 0
   meleeArea: {fileID: 0}
+  anim: {fileID: 0}
+  walking: 0
