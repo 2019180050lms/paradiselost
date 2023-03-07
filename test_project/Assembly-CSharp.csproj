@@ -105,6 +105,7 @@
     <Compile Include="Assets\GetTestFile\Script\Character\PlayerMove.cs" />
     <Compile Include="Assets\Script\Bullet.cs" />
     <Compile Include="Assets\GetTestFile\UnityChanToonShaderVer2_Project-release-legacy-2.0\Assets\PostProcessing\Runtime\Components\ColorGradingComponent.cs" />
+    <Compile Include="Assets\Script\joint_game_script\Joint_robot.cs" />
     <Compile Include="Assets\GetTestFile\Script\MapMaker\CellGrid.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMPro_InstructionOverlay.cs" />
     <Compile Include="Assets\GetTestFile\UnityChanToonShaderVer2_Project-release-legacy-2.0\Assets\PostProcessing\Runtime\Models\BloomModel.cs" />
@@ -190,7 +191,6 @@
     <Compile Include="Assets\GetTestFile\UnityChanToonShaderVer2_Project-release-legacy-2.0\Assets\PostProcessing\Runtime\Models\AntialiasingModel.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01.cs" />
     <Compile Include="Assets\GetTestFile\UnityChanToonShaderVer2_Project-release-legacy-2.0\Assets\PostProcessing\Runtime\Models\DitheringModel.cs" />
-    <Compile Include="Assets\Script\joint_game_script\Joint_robot.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\GetTestFile\UnityChanToonShaderVer2_Project-release-legacy-2.0\Assets\Toon\Shader\Toon_DoubleShadeWithFeather_Mobile_TransClipping_StencilMask.shader" />
