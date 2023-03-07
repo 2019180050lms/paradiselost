@@ -40,7 +40,7 @@ public class Enemy : MonoBehaviour
         anim = GetComponentInChildren<Animator>();
         rigid = GetComponent<Rigidbody>();
         boxCollider = GetComponent<BoxCollider>();
-        mat = GetComponentInChildren<MeshRenderer>().material;  // MaterialÀº MesgRenderer¸¦ ÅëÇØ °¡Á®¿È
+        mat = GetComponentInChildren<MeshRenderer>().material;  // Materialï¿½ï¿½ MesgRendererï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         //nav = GetComponent<NavMeshAgent>();
         
         
@@ -64,14 +64,14 @@ public class Enemy : MonoBehaviour
             nav.isStopped = !isChase; 
         }
         */
-        Debug.Log(walking);
+        //Debug.Log(walking);
     }
 
     void OnTriggerEnter(Collider other)
     {
         if(other.tag == "Melee")
         {
-            //Debug.Log(" Ãæµ¹ " );
+            //Debug.Log(" ï¿½æµ¹ " );
            Weapon weapon = other.GetComponent<Weapon>();
             curHealth -= weapon.damage;
             Vector3 reactVec = transform.position - other.transform.position;
@@ -109,10 +109,10 @@ public class Enemy : MonoBehaviour
             mat.color = Color.gray;
             gameObject.layer = 7;
             isChase = false;
-            nav.enabled = false;  // »ç¸Á ¸ð¼Ç ±¸ÇöÇÏ±â À§ÇØ ºñÈ°¼ºÈ­
+            nav.enabled = false;  // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È°ï¿½ï¿½È­
             anim.SetTrigger("doDie");
 
-            // »ç¸Á½Ã ³Ë¹é
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë¹ï¿½
             reactVec = reactVec.normalized;
             reactVec += Vector3.up;
             rigid.AddForce(reactVec * 5, ForceMode.Impulse);
@@ -121,7 +121,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    void FreezVelocity() // È¸Àü ¹ö±× ÇØ°á
+    void FreezVelocity() // È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ø°ï¿½
     {
         if (isChase)
         {

@@ -205,13 +205,13 @@ public class PlayerManager
             if (player != null)
                 player.anim.SetBool("isRun", false);
             // 몬스터 움직임
-            
             if (_enemys.TryGetValue(packet.playerId, out enemy))
             {
                 //moveVec = new Vector3(packet.posX, packet.posY, packet.posZ).normalized;
                 //enemy.transform.position += moveVec * 1f * 0.3f * Time.deltaTime;
                 //moveVec = enemy.transform.position;
 
+                enemy.isAttack = packet.wDown;
                 if (packet.playerDir == 0)
                     enemy.moveVec2 = new Vector3(0, 0, 0);
                 else if (packet.playerDir == 1)
@@ -232,12 +232,12 @@ public class PlayerManager
                     enemy.moveVec2 = new Vector3(-(Mathf.Sqrt(0.5f)), 0, -(Mathf.Sqrt(0.5f)));
 
                 enemy.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
-                enemy.anim.SetBool("isWalk", true);
+                enemy.anim.SetBool("isWalk", enemy.isAttack != false);
                 if (packet.wDown)
                 {
+                    Debug.Log("attack !");
                     enemy.anim.SetTrigger("doAttack");
                 }
-
                 enemy.transform.LookAt(enemy.transform.position + enemy.moveVec2);
             }
         }
