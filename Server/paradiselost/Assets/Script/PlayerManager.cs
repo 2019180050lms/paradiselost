@@ -10,6 +10,8 @@ public class PlayerManager
     Dictionary<int, Player> _players = new Dictionary<int, Player>();
     Dictionary<int, Enemy> _enemys = new Dictionary<int, Enemy>();
 
+    public Vector3 moveVec;
+
     public static PlayerManager Instance { get; } = new PlayerManager();
 
     public void Add(S_PlayerList packet)
@@ -115,7 +117,8 @@ public class PlayerManager
     {
         if (_myplayer.PlayerId == packet.playerId)
         {
-
+            Vector3 movePos = new Vector3(packet.posX, packet.posY, packet.posZ);
+            //_myplayer.moveVec = new Vector3(_myplayer.hAxis, 0, _myplayer.vAxis).normalized;
             if (packet.playerDir == 0)
                 _myplayer.moveVec2 = new Vector3(0, 0, 0);
             else if (packet.playerDir == 1)
@@ -135,9 +138,6 @@ public class PlayerManager
             else if (packet.playerDir == 8)
                 _myplayer.moveVec2 = new Vector3(-(Mathf.Sqrt(0.5f)), 0, -(Mathf.Sqrt(0.5f)));
 
-            Vector3 movePos = new Vector3(packet.posX, packet.posY, packet.posZ);
-            _myplayer.moveVec = new Vector3(_myplayer.hAxis, 0, _myplayer.vAxis).normalized;
-
             /*
             if(packet.isJump && _myplayer.moveVec2 == Vector3.zero && !_myplayer.isJump && !_myplayer.isDodge && !_myplayer.isSwap)
             {
@@ -147,13 +147,13 @@ public class PlayerManager
                 _myplayer.isJump = true;
             }    
             */
-
+            _myplayer.dir = packet.playerDir;
             _myplayer.wDown = packet.wDown;
             _myplayer.transform.position = movePos;
 
             //Debug.Log(packet.hp);
 
-            _myplayer.anim.SetBool("isRun", _myplayer.moveVec2 != Vector3.zero);
+            //_myplayer.anim.SetBool("isRun", _myplayer.moveVec != Vector3.zero);
             if (packet.wDown)
             {
                 _myplayer.StopCoroutine("Swing");
@@ -166,6 +166,7 @@ public class PlayerManager
         {
             if (_players.TryGetValue(packet.playerId, out player))
             {
+                Vector3 movePos = new Vector3(packet.posX, packet.posY, packet.posZ);
                 if (packet.playerDir == 0)
                     player.moveVec2 = new Vector3(0, 0, 0);
                 else if (packet.playerDir == 1)
@@ -185,15 +186,13 @@ public class PlayerManager
                 else if (packet.playerDir == 8)
                     player.moveVec2 = new Vector3(-(Mathf.Sqrt(0.5f)), 0, -(Mathf.Sqrt(0.5f)));
 
-                Vector3 movePos = new Vector3(packet.posX, packet.posY, packet.posZ);
-                player.moveVec = movePos;
-
                 //player.moveVec = new Vector3(_myplayer.hAxis, 0, _myplayer.vAxis).normalized;
 
                 player.wDown = packet.wDown;
                 player.transform.position = movePos;
 
-                Debug.Log(packet.hp);
+                Debug.Log("Pmovevec:");
+                Debug.Log(player.moveVec);
 
                 player.anim.SetBool("isRun", player.moveVec2 != Vector3.zero);
                 if (packet.wDown)
@@ -203,10 +202,43 @@ public class PlayerManager
         }
         else
         {
+            if (player != null)
+                player.anim.SetBool("isRun", false);
             // 몬스터 움직임
             if (_enemys.TryGetValue(packet.playerId, out enemy))
             {
+                //moveVec = new Vector3(packet.posX, packet.posY, packet.posZ).normalized;
+                //enemy.transform.position += moveVec * 1f * 0.3f * Time.deltaTime;
+                //moveVec = enemy.transform.position;
+
+                enemy.isAttack = packet.wDown;
+                if (packet.playerDir == 0)
+                    enemy.moveVec2 = new Vector3(0, 0, 0);
+                else if (packet.playerDir == 1)
+                    enemy.moveVec2 = new Vector3(1, 0, 0);
+                else if (packet.playerDir == 2)
+                    enemy.moveVec2 = new Vector3(-1, 0, 0);
+                else if (packet.playerDir == 3)
+                    enemy.moveVec2 = new Vector3(0, 0, 1);
+                else if (packet.playerDir == 4)
+                    enemy.moveVec2 = new Vector3(0, 0, -1);
+                else if (packet.playerDir == 5)
+                    enemy.moveVec2 = new Vector3(Mathf.Sqrt(0.5f), 0, Mathf.Sqrt(0.5f));
+                else if (packet.playerDir == 6)
+                    enemy.moveVec2 = new Vector3(Mathf.Sqrt(0.5f), 0, -(Mathf.Sqrt(0.5f)));
+                else if (packet.playerDir == 7)
+                    enemy.moveVec2 = new Vector3(-(Mathf.Sqrt(0.5f)), 0, Mathf.Sqrt(0.5f));
+                else if (packet.playerDir == 8)
+                    enemy.moveVec2 = new Vector3(-(Mathf.Sqrt(0.5f)), 0, -(Mathf.Sqrt(0.5f)));
+
                 enemy.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
+                enemy.anim.SetBool("isWalk", enemy.isAttack != false);
+                if (packet.wDown)
+                {
+                    Debug.Log("attack !");
+                    enemy.anim.SetTrigger("doAttack");
+                }
+                enemy.transform.LookAt(enemy.transform.position + enemy.moveVec2);
             }
         }
     }
