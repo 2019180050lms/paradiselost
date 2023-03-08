@@ -73,7 +73,7 @@ public class MyPlayer : Player
 
     void cs_move_packet()
     {
-        if(moveVec != Vector3.zero)
+        if(moveVec != Vector3.zero || wDown)
         {
             C_Move movePacket = new C_Move();
             movePacket.playerIndex = 0;
