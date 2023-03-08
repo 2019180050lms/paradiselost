@@ -235,6 +235,7 @@
     <None Include="Assets\GetTestFile\UnityChanToonShaderVer2_Project-release-legacy-2.0\Assets\Toon\Shader\ToonColor_DoubleShadeWithFeather_TransClipping_StencilOut.shader" />
     <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\Anton OFL.txt" />
     <None Include="Assets\GetTestFile\UnityChanToonShaderVer2_Project-release-legacy-2.0\Assets\Toon\Shader\Tess\Toon_DoubleShadeWithFeather_Tess_Light.shader" />
+    <None Include="Assets\GetTestFile\fbx\robot_speed\Shader\TestShader.shader" />
     <None Include="Assets\GetTestFile\UnityChanToonShaderVer2_Project-release-legacy-2.0\Assets\Toon\Shader\ToonColor_ShadingGradeMap_StencilOut.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
     <None Include="Assets\GetTestFile\UnityChanToonShaderVer2_Project-release-legacy-2.0\Assets\Toon\Shader\Tess\ToonColor_ShadingGradeMap_AngelRing_Tess_TransClipping.shader" />

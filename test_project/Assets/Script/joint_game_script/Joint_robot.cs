@@ -20,4 +20,11 @@ public class Joint_robot : MonoBehaviour
         Vector3 head_pivot = Body_object.transform.Find("pivot_head").position;
         Head_object.transform.position = head_pivot - Head_object.transform.Find("pivot_body").localPosition;
     }
+
+
+    //무슨 키를 받았을 때 오브젝트를 선택한다는 함수
+    void Selected_Object()
+    {
+       
+    }
 }
