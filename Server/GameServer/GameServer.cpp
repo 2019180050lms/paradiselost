@@ -9,10 +9,12 @@
 #include <tchar.h>
 #include "Player.h"
 
+void Monster_AI();
+
 int main()
 {
 	ServerServiceRef service = MakeShared<ServerService>(
-		NetAddress(L"192.168.219.100", 7777),
+		NetAddress(L"192.168.0.29", 7777),
 		MakeShared<IocpCore>(),
 		MakeShared<GameSession>, // TODO : SessionManager 등
 		100);
@@ -25,14 +27,34 @@ int main()
 	//
 	for (int32 i = 0; i < 5; i++)
 	{
-		GThreadManager->Launch([=]()
-			{
-				while (true)
+		
+		if (i == 4)
+		{
+			GThreadManager->Launch([=]()
 				{
-					service->GetIocpCore()->Dispatch();
-				}				
-			});
+					Monster_AI();
+				});
+		}
+		else
+		{
+			GThreadManager->Launch([=]()
+				{
+					while (true)
+					{
+						service->GetIocpCore()->Dispatch();
+					}
+				});
+		}
 	}
 
 	GThreadManager->Join();
+}
+
+void Monster_AI()
+{
+	while (true)
+	{
+		this_thread::sleep_for(200ms);
+		GRoom.MoveMonster();
+	}
 }

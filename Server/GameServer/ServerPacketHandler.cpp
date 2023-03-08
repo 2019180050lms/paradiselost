@@ -193,7 +193,6 @@ bool ServerPacketHandler::Handle_C_MOVE(PacketSessionRef& session, BYTE* buffer,
 		gameSession->_players[0]->wDown = wDown;
 		gameSession->_players[0]->isJump = isJump;
 	}
-	
 
 	auto sendBuffer = Make_S_BroadcastMove(gameSession->_players[0]->playerId,
 		gameSession->_players[0]->playerDir,
@@ -204,39 +203,6 @@ bool ServerPacketHandler::Handle_C_MOVE(PacketSessionRef& session, BYTE* buffer,
 
 	GRoom.BroadCast(sendBuffer);
 
-	for (auto& m : GRoom._monsters)
-	{
-		uint16 randDir = rand() % 5;
-		if (randDir == 0)
-		{
-			continue;
-		}
-		else if (randDir == 1)
-		{
-			m.posX = m.posX + speed;
-		}
-		else if (randDir == 2)
-		{
-			m.posX = m.posX - speed;
-		}
-		else if (randDir == 3)
-		{
-			m.posZ = m.posZ + speed;
-		}
-		else if (randDir == 4)
-		{
-			m.posZ = m.posZ - speed;
-		}
-
-		//cout << "ID: " << m.playerId << " POS: " << m.posX << " " << m.posY << " " << m.posZ << endl;
-		auto sendBufferM = Make_S_BroadcastMove(m.playerId,
-			randDir,
-			m.hp, m.posX,
-			m.posY, m.posZ,
-			false, false);
-
-		GRoom.BroadCast(sendBufferM);
-	}
 	return true;
 }
 

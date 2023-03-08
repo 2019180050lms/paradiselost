@@ -1,6 +1,6 @@
 #pragma once
 
-const float speed = 1.0f;
+const float speed = 1.f;
 const float s_speed = 0.2f;
 
 enum
@@ -27,11 +27,13 @@ struct PlayerList
 {
 	bool isSelf;
 	int32 playerId;
+	int32 Dir;
 	int32 type;
 	uint16 hp;
 	float posX;
 	float posY;
 	float posZ;
+	bool wDown;
 };
 #pragma pack(pop)
 

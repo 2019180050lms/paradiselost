@@ -125,9 +125,114 @@ void Room::CreateMonster()
 		l_player.type = (int32)PlayerType::MONSTER;
 		l_player.hp = 100;
 		l_player.posX = 1.f;
-		l_player.posY = 5.f;
+		l_player.posY = 4.f;
 		l_player.posZ = 1.f;
 
 		GRoom._monsters.push_back(l_player);
+	}
+}
+
+void Room::MoveMonster()
+{
+	for (auto& m : _monsters)
+	{
+		for (auto& p : _players)
+		{
+			if (p.second->playerId < 500)
+			{
+				if (p.second->xPos <= m.posX + 5 && p.second->zPos <= m.posZ + 5
+					&& p.second->xPos >= m.posX - 5 && p.second->zPos >= m.posZ - 5)
+				{
+					cout << "p id: " << p.second->playerId << " m id: " << m.playerId << " attack: " << m.wDown << endl;
+					m.wDown = true;
+					break;
+				}
+				else
+					m.wDown = false;
+			}
+		}
+		uint16 randDir = rand() % 9;
+		if (!m.wDown)
+		{
+			if (randDir == 0)
+			{
+				continue;
+			}
+			else if (randDir == 1)
+			{
+				if (m.posX > 20)
+					continue;
+				m.Dir = randDir;
+				m.posX = m.posX + speed;
+			}
+			else if (randDir == 2)
+			{
+				if (m.posX < -20)
+					continue;
+				m.Dir = randDir;
+				m.posX = m.posX - speed;
+			}
+			else if (randDir == 3)
+			{
+				if (m.posZ > 20)
+					continue;
+				m.Dir = randDir;
+				m.posZ = m.posZ + speed;
+			}
+			else if (randDir == 4)
+			{
+				if (m.posZ < -20)
+					continue;
+				m.Dir = randDir;
+				m.posZ = m.posZ - speed;
+			}
+			else if (randDir == 5)
+			{
+				if (m.posZ > 20)
+					continue;
+				else if (m.posZ > 20)
+					continue;
+				m.Dir = randDir;
+				m.posX = m.posX + (speed / 2);
+				m.posZ = m.posZ + (speed / 2);
+			}
+			else if (randDir == 6)
+			{
+				if (m.posZ > 20)
+					continue;
+				else if (m.posZ < -20)
+					continue;
+				m.Dir = randDir;
+				m.posX = m.posX + (speed / 2);
+				m.posZ = m.posZ - (speed / 2);
+			}
+			else if (randDir == 7)
+			{
+				if (m.posZ < -20)
+					continue;
+				else if (m.posZ > 20)
+					continue;
+				m.posX = m.posX - (speed / 2);
+				m.posZ = m.posZ + (speed / 2);
+			}
+			else if (randDir == 8)
+			{
+				if (m.posZ < -20)
+					continue;
+				else if (m.posZ < -20)
+					continue;
+				m.Dir = randDir;
+				m.posX = m.posX - (speed / 2);
+				m.posZ = m.posZ - (speed / 2);
+			}
+		}
+		
+		auto sendBufferM = ServerPacketHandler::Make_S_BroadcastMove(m.playerId,
+			m.Dir,
+			m.hp, m.posX,
+			m.posY, m.posZ,
+			m.wDown, false);
+
+		BroadCast(sendBufferM);
 	}
 }
