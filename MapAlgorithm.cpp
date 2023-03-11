@@ -1,6 +1,7 @@
 #include<iostream>
 #include<cmath>
 #include<array>
+#include<cstdlib>
 #include<algorithm>
 #include <random>
 using std::endl;
@@ -85,7 +86,7 @@ public:
 
 void Divide_Dungeon(int depth, TreeNode* reaf)
 {
-	if (depth == divide_num)
+	/*if (depth == divide_num)
 	{
 		for (int i = reaf->GetX() + 1; i < reaf->GetX() + reaf->GetWidth() - 1; i++)
 		{
@@ -94,7 +95,7 @@ void Divide_Dungeon(int depth, TreeNode* reaf)
 				intmap[i][j] = 4;
 			}
 		}
-	}
+	}*/
 
 
 	if (depth < divide_num)
@@ -127,23 +128,72 @@ void Divide_Dungeon(int depth, TreeNode* reaf)
 
 void CreateDunGeon(TreeNode* reaf)
 {
-	if (reaf->left_node == NULL || reaf->right_node == NULL)
-	{
-		cout << "makeD" << endl;
-		intmap[reaf->GetX()][reaf->GetY()] = 4;
-	}
 
 
 
-	if (reaf->left_node != NULL)
+
+	/*if (reaf->left_node != NULL)
 	{
 		CreateDunGeon(reaf->left_node);
-	}
-	else if (reaf->right_node != NULL)
+	}*/
+
+	
+	if (reaf->left_node == NULL || reaf->right_node == NULL)
 	{
-		CreateDunGeon(reaf->right_node);
+		std::bernoulli_distribution Create_Room_Per(0.5);
+		if (Create_Room_Per(engine))
+		{
+			cout << "makeD" << endl;
+			for (int i = reaf->GetX() + 1; i < reaf->GetX() + reaf->GetWidth() - 1; i++)
+			{
+				for (int j = reaf->GetY() + 1; j < reaf->GetY() + reaf->GetHeight() - 1; j++)
+				{
+					intmap[i][j] = 4;
+				}
+			}
+		}
+		return;
 	}
 
+	
+
+	/*if (reaf->right_node != NULL)
+	{
+		CreateDunGeon(reaf->right_node);
+	}*/
+	CreateDunGeon(reaf->left_node);
+	CreateDunGeon(reaf->right_node);
+
+
+
+
+}
+
+void CreateRoad(TreeNode* reaf)
+{
+	if (reaf->left_node == NULL && reaf->right_node == NULL)
+	{
+		return;
+	}
+
+	//일단은 기존 알고리즘대로
+	int x1 = reaf->left_node->GetX() + reaf->left_node->GetWidth() / 2;
+	int x2 = reaf->right_node->GetX() + reaf->right_node->GetWidth() / 2;
+	int y1 = reaf->left_node->GetY() + reaf->left_node->GetHeight() / 2;
+	int y2 = reaf->right_node->GetY() + reaf->right_node->GetHeight() / 2;
+
+	for (int i = std::min(x1, x2); i <= std::max(x1, x2); i++)
+	{
+		intmap[i][(y1 + y2) / 2] = 5;
+	}
+
+	for (int i = std::min(y1, y2); i <= std::max(y1, y2); i++)
+	{
+		intmap[(x1 + x2)/2][i] = 5;
+	}
+
+	CreateRoad(reaf->left_node);
+	CreateRoad(reaf->right_node);
 }
 
 void PrintMap()
@@ -152,11 +202,22 @@ void PrintMap()
 	{
 		for (int j = 0; j < 50; j++)
 		{
-			cout << intmap[j][i];
+			if (intmap[i][j] == 4 || intmap[i][j] == 5)
+			{
+				cout << intmap[i][j];
+			}
+			else
+			{
+				cout << " ";
+			}
 		}
 		cout << endl;
 	}
 }
+
+
+
+
 int main()
 {
 	//1. 2차 배열을 만든다.
@@ -165,6 +226,7 @@ int main()
 	memset(intmap, 0, sizeof(intmap));
 	Divide_Dungeon(0, root);
 	CreateDunGeon(root);
+	CreateRoad(root);
 	PrintMap();
 	
 
