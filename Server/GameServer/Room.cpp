@@ -125,7 +125,7 @@ void Room::CreateMonster()
 		l_player.type = (int32)PlayerType::MONSTER;
 		l_player.hp = 100;
 		l_player.posX = 1.f;
-		l_player.posY = 4.f;
+		l_player.posY = 3.9f;
 		l_player.posZ = 1.f;
 
 		GRoom._monsters.push_back(l_player);
@@ -163,28 +163,28 @@ void Room::MoveMonster()
 				if (m.posX > 20)
 					continue;
 				m.Dir = randDir;
-				m.posX = m.posX + speed;
+				m.posX = m.posX + m_speed;
 			}
 			else if (randDir == 2)
 			{
 				if (m.posX < -20)
 					continue;
 				m.Dir = randDir;
-				m.posX = m.posX - speed;
+				m.posX = m.posX - m_speed;
 			}
 			else if (randDir == 3)
 			{
 				if (m.posZ > 20)
 					continue;
 				m.Dir = randDir;
-				m.posZ = m.posZ + speed;
+				m.posZ = m.posZ + m_speed;
 			}
 			else if (randDir == 4)
 			{
 				if (m.posZ < -20)
 					continue;
 				m.Dir = randDir;
-				m.posZ = m.posZ - speed;
+				m.posZ = m.posZ - m_speed;
 			}
 			else if (randDir == 5)
 			{
@@ -193,8 +193,8 @@ void Room::MoveMonster()
 				else if (m.posZ > 20)
 					continue;
 				m.Dir = randDir;
-				m.posX = m.posX + (speed / 2);
-				m.posZ = m.posZ + (speed / 2);
+				m.posX = m.posX + (m_speed / 2);
+				m.posZ = m.posZ + (m_speed / 2);
 			}
 			else if (randDir == 6)
 			{
@@ -203,8 +203,8 @@ void Room::MoveMonster()
 				else if (m.posZ < -20)
 					continue;
 				m.Dir = randDir;
-				m.posX = m.posX + (speed / 2);
-				m.posZ = m.posZ - (speed / 2);
+				m.posX = m.posX + (m_speed / 2);
+				m.posZ = m.posZ - (m_speed / 2);
 			}
 			else if (randDir == 7)
 			{
@@ -212,8 +212,8 @@ void Room::MoveMonster()
 					continue;
 				else if (m.posZ > 20)
 					continue;
-				m.posX = m.posX - (speed / 2);
-				m.posZ = m.posZ + (speed / 2);
+				m.posX = m.posX - (m_speed / 2);
+				m.posZ = m.posZ + (m_speed / 2);
 			}
 			else if (randDir == 8)
 			{
@@ -222,8 +222,8 @@ void Room::MoveMonster()
 				else if (m.posZ < -20)
 					continue;
 				m.Dir = randDir;
-				m.posX = m.posX - (speed / 2);
-				m.posZ = m.posZ - (speed / 2);
+				m.posX = m.posX - (m_speed / 2);
+				m.posZ = m.posZ - (m_speed / 2);
 			}
 		}
 		
