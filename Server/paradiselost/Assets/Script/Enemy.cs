@@ -12,7 +12,7 @@ public class Enemy : MonoBehaviour
     public bool isChase;
     public bool isAttack;
 
-
+    public Vector3 prevVec;
     public Vector3 moveVec2;
 
     public BoxCollider meleeArea;
@@ -57,14 +57,8 @@ public class Enemy : MonoBehaviour
     }
      void Update()
     {
-        /*
-        if (nav.enabled)
-        {
-            nav.SetDestination(target.position);
-            nav.isStopped = !isChase; 
-        }
-        */
-        //Debug.Log(walking);
+        //transform.position += moveVec2 * 0.01f * Time.deltaTime;
+        //moveVec2 = transform.position;
     }
 
     void OnTriggerEnter(Collider other)

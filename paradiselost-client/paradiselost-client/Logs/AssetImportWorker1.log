@@ -1,0 +1,269 @@
+Unity Editor version:    2021.3.20f1 (577897200b8b)
+Branch:                  2021.3/staging
+Build type:              Release
+Batch mode:              YES
+macOS version:           Version 13.2.1 (Build 22D68)
+Darwin version:          22.3.0
+Architecture:            arm64
+Running under Rosetta:   NO
+Available memory:        16384 MB
+Using pre-set license
+Pro License: YES
+
+COMMAND LINE ARGUMENTS:
+/Applications/Unity/Hub/Editor/2021.3.20f1/Unity.app/Contents/MacOS/Unity
+-adb2
+-batchMode
+-noUpm
+-name
+AssetImportWorker1
+-projectPath
+/Users/leeminsik/Documents/GitHub/paradiselost/paradiselost-client/paradiselost-client
+-logFile
+Logs/AssetImportWorker1.log
+-srvPort
+52407
+Successfully changed project path to: /Users/leeminsik/Documents/GitHub/paradiselost/paradiselost-client/paradiselost-client
+/Users/leeminsik/Documents/GitHub/paradiselost/paradiselost-client/paradiselost-client
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gfx=262144"
+Player connection [8673804608] Host "[IP] 192.168.0.27 [Port] 0 [Flags] 2 [Guid] 3550113648 [EditorId] 3550113648 [Version] 1048832 [Id] OSXEditor(0,iminsigs-MacBook-Pro.local) [Debug] 1 [PackageName] OSXEditor [ProjectName] Editor" joined multi-casting on [225.0.0.222:54997]...
+
+Player connection [8673804608] Host "[IP] 192.168.0.27 [Port] 0 [Flags] 2 [Guid] 3550113648 [EditorId] 3550113648 [Version] 1048832 [Id] OSXEditor(0,iminsigs-MacBook-Pro.local) [Debug] 1 [PackageName] OSXEditor [ProjectName] Editor" joined alternative multi-casting on [225.0.0.222:34997]...
+
+Refreshing native plugins compatible for Editor in 51.11 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Initialize engine version: 2021.3.20f1 (577897200b8b)
+[Subsystems] Discovering subsystems at path /Applications/Unity/Hub/Editor/2021.3.20f1/Unity.app/Contents/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path /Users/leeminsik/Documents/GitHub/paradiselost/paradiselost-client/paradiselost-client/Assets
+GfxDevice: creating device client; threaded=0; jobified=0
+ preferred device: Apple M1 Pro (high power)
+Metal devices available: 1
+0: Apple M1 Pro (high power)
+Using device Apple M1 Pro (high power)
+Initializing Metal device caps: Apple M1 Pro
+Initialize mono
+Mono path[0] = '/Applications/Unity/Hub/Editor/2021.3.20f1/Unity.app/Contents/Managed'
+Mono path[1] = '/Applications/Unity/Hub/Editor/2021.3.20f1/Unity.app/Contents/MonoBleedingEdge/lib/mono/unityjit-macos'
+Mono config path = '/Applications/Unity/Hub/Editor/2021.3.20f1/Unity.app/Contents/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56688
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: /Applications/Unity/Hub/Editor/2021.3.20f1/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll
+Register platform support module: /Applications/Unity/Hub/Editor/2021.3.20f1/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll
+Registered in 0.001378 seconds.
+Native extension for OSXStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 51.85 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.400 seconds
+Domain Reload Profiling:
+	ReloadAssembly (400ms)
+		BeginReloadAssembly (74ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (0ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (0ms)
+			CreateAndSetChildDomain (0ms)
+		EndReloadAssembly (271ms)
+			LoadAssemblies (74ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (68ms)
+			ReleaseScriptCaches (0ms)
+			RebuildScriptCaches (18ms)
+			SetupLoadedEditorAssemblies (159ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (4ms)
+				SetLoadedEditorAssemblies (0ms)
+				RefreshPlugins (52ms)
+				BeforeProcessingInitializeOnLoad (1ms)
+				ProcessInitializeOnLoadAttributes (75ms)
+				ProcessInitializeOnLoadMethodAttributes (27ms)
+				AfterProcessingInitializeOnLoad (0ms)
+				EditorAssembliesLoaded (0ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (0ms)
+Platform modules already initialized, skipping
+Registering precompiled user dll's ...
+Registered in 0.001431 seconds.
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory doesn't match image /Users/leeminsik/Documents/GitHub/paradiselost/paradiselost-client/paradiselost-client/Library/PackageCache/com.unity.visualscripting@1.8.0/Editor/VisualScripting.Core/Dependencies/YamlDotNet/Unity.VisualScripting.YamlDotNet.dll
+Symbol file LoadedFromMemory doesn't match image /Users/leeminsik/Documents/GitHub/paradiselost/paradiselost-client/paradiselost-client/Library/PackageCache/com.unity.visualscripting@1.8.0/Editor/VisualScripting.Core/Dependencies/DotNetZip/Unity.VisualScripting.IonicZip.dll
+Native extension for OSXStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 0.32 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.537 seconds
+Domain Reload Profiling:
+	ReloadAssembly (537ms)
+		BeginReloadAssembly (63ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (3ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (0ms)
+			CreateAndSetChildDomain (15ms)
+		EndReloadAssembly (410ms)
+			LoadAssemblies (44ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (137ms)
+			ReleaseScriptCaches (0ms)
+			RebuildScriptCaches (33ms)
+			SetupLoadedEditorAssemblies (178ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (3ms)
+				SetLoadedEditorAssemblies (0ms)
+				RefreshPlugins (0ms)
+				BeforeProcessingInitializeOnLoad (41ms)
+				ProcessInitializeOnLoadAttributes (121ms)
+				ProcessInitializeOnLoadMethodAttributes (11ms)
+				AfterProcessingInitializeOnLoad (1ms)
+				EditorAssembliesLoaded (0ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (2ms)
+Platform modules already initialized, skipping
+========================================================================
+Worker process is ready to serve import requests
+Launching external process: /Applications/Unity/Hub/Editor/2021.3.20f1/Unity.app/Contents/Tools/UnityShaderCompiler
+Launched and connected shader compiler UnityShaderCompiler after 0.05 seconds
+Refreshing native plugins compatible for Editor in 0.27 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2946 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 21 unused Assets / (168.0 KB). Loaded Objects now: 3409.
+Memory consumption went from 99.3 MB to 99.1 MB.
+Total: 2.080417 ms (FindLiveObjects: 0.100209 ms CreateObjectMapping: 0.033958 ms MarkObjects: 1.890000 ms  DeleteObjects: 0.055417 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:framework-osx-AVFoundation: e770b220cccbd017edd2c1fefb359320 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Import Request.
+  Time since last request: 33034.627633 seconds.
+  path: Assets/QuarterView 3D Action BE5/App Icon.png
+  artifactKey: Guid(8daddb70a45a9d745bd298fad8593ea3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/QuarterView 3D Action BE5/App Icon.png using Guid(8daddb70a45a9d745bd298fad8593ea3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'cb24e8eecf374ab47f8d22ce231f50b5') in 0.459481 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 127.598221 seconds.
+  path: Assets/Prefabs/Bullet HandGun.prefab
+  artifactKey: Guid(478e57aca04f2594791648371bc823e4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Bullet HandGun.prefab using Guid(478e57aca04f2594791648371bc823e4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '023cab306f7b941482e20a856ebaffb6') in 0.071726 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000062 seconds.
+  path: Assets/Prefabs/Weapon Hammer.prefab
+  artifactKey: Guid(56a6077dca0772c48b463530380649d8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Weapon Hammer.prefab using Guid(56a6077dca0772c48b463530380649d8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ba67a7425ed62f8b5ab211bae49b1ab5') in 0.176972 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000036 seconds.
+  path: Assets/Prefabs/HpBar.prefab
+  artifactKey: Guid(7a9453bf55f0b3e48b64c0fd7ea716f3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/HpBar.prefab using Guid(7a9453bf55f0b3e48b64c0fd7ea716f3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c63d98d9833d37616d4fe2a40f9c463c') in 0.005019 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000036 seconds.
+  path: Assets/Prefabs/NewPlayer 1.prefab
+  artifactKey: Guid(92b7753837a65da42bdb896cf408c654) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/NewPlayer 1.prefab using Guid(92b7753837a65da42bdb896cf408c654) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7f1431a2d865f9183d3da43214f817b5') in 0.114994 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000054 seconds.
+  path: Assets/Prefabs/NewPlayer.prefab
+  artifactKey: Guid(7de3720f41c40e54ca314d5e13b6980e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/NewPlayer.prefab using Guid(7de3720f41c40e54ca314d5e13b6980e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b6506b3e816b4e60e11f327430cea91b') in 0.011770 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000036 seconds.
+  path: Assets/Prefabs/Weapon HandGun.prefab
+  artifactKey: Guid(34b376a939e36b848bc78a157184f98e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Weapon HandGun.prefab using Guid(34b376a939e36b848bc78a157184f98e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '74a9a8a851b99f80d9bcc40f5a8dd913') in 0.005235 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000044 seconds.
+  path: Assets/Prefabs/Enemy D.prefab
+  artifactKey: Guid(7f0816549879edc419819bee58fd37fd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Enemy D.prefab using Guid(7f0816549879edc419819bee58fd37fd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0c90fda49a519e714962caf332a7930d') in 0.012922 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000054 seconds.
+  path: Assets/Prefabs/Enemy A.prefab
+  artifactKey: Guid(59bc84556d14d4e419581c7670937a2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Enemy A.prefab using Guid(59bc84556d14d4e419581c7670937a2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3ad5cf01bbca8c128b3438540c863860') in 0.007213 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 14.355685 seconds.
+  path: Assets/Prefabs/Player/Joint_Leg.prefab
+  artifactKey: Guid(5e7bfd32f865ae044bb65d0c9f0f6167) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Player/Joint_Leg.prefab using Guid(5e7bfd32f865ae044bb65d0c9f0f6167) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b599b6dbe6d7b1f65bd8d85577234aa7') in 0.002314 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000049 seconds.
+  path: Assets/Prefabs/Player/RollingHead.fbx
+  artifactKey: Guid(12b89e1059e88834c9c801715ee9ff32) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Player/RollingHead.fbx using Guid(12b89e1059e88834c9c801715ee9ff32) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '763c32c10b35133b398443776de4331f') in 0.069344 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000058 seconds.
+  path: Assets/Prefabs/Player/RollingReg.fbx
+  artifactKey: Guid(63c5798c3a431264a9304245662164b6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Player/RollingReg.fbx using Guid(63c5798c3a431264a9304245662164b6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3d45ca74453a2b7803819c6c461531dc') in 0.030369 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000042 seconds.
+  path: Assets/Prefabs/Player/power_englne_robot_head.fbx
+  artifactKey: Guid(98dadd87ca759034bb304ba0fa10f907) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Player/power_englne_robot_head.fbx using Guid(98dadd87ca759034bb304ba0fa10f907) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd6cf15a9f2fda147a98609e597b576c9') in 0.024958 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000047 seconds.
+  path: Assets/Prefabs/Player/power_englne_robot_leg.fbx
+  artifactKey: Guid(b56b6ba57c6e4764b86ba8165093565f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Player/power_englne_robot_leg.fbx using Guid(b56b6ba57c6e4764b86ba8165093565f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4d6a26745095429348f653ea4b8b7e5f') in 0.082160 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000048 seconds.
+  path: Assets/Prefabs/Player/Speed_leg.fbx
+  artifactKey: Guid(3d58bb8bd8a1c324a8c6e4acff5ac317) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Player/Speed_leg.fbx using Guid(3d58bb8bd8a1c324a8c6e4acff5ac317) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '844ed959f8806ac81628b352be823004') in 0.039651 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000351 seconds.
+  path: Assets/Prefabs/Player/power_englne_robot_body.fbx
+  artifactKey: Guid(74afbb96e8711f441bb1403fa504f6c4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Player/power_englne_robot_body.fbx using Guid(74afbb96e8711f441bb1403fa504f6c4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b46f72850506ef0377ce504792ba407d') in 0.400143 seconds 

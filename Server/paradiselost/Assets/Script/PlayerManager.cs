@@ -32,6 +32,7 @@ public class PlayerManager
                         myPlayer.PlayerId = p.playerId;
                         myPlayer.hp = p.hp;
                         //Debug.Log(p.hp);
+                        
                         myPlayer.transform.position = new Vector3(p.posX, p.posY, p.posZ);
                         _myplayer = myPlayer;
                     }
@@ -102,6 +103,7 @@ public class PlayerManager
                     enemy.maxHealth = p.hp;
                     enemy.curHealth = p.hp;
                     enemy.transform.position = new Vector3(p.posX, p.posY, p.posZ);
+                    enemy.prevVec = new Vector3(p.posX, p.posY, p.posZ);
                     _enemys.Add(p.playerId, enemy);
 
                     //Debug.Log("Monster 생성");
@@ -191,8 +193,8 @@ public class PlayerManager
                 player.wDown = packet.wDown;
                 player.transform.position = movePos;
 
-                Debug.Log("Pmovevec:");
-                Debug.Log(player.moveVec);
+                //Debug.Log("Pmovevec:");
+                //Debug.Log(player.moveVec);
 
                 player.anim.SetBool("isRun", player.moveVec2 != Vector3.zero);
                 if (packet.wDown)
@@ -230,8 +232,13 @@ public class PlayerManager
                     enemy.moveVec2 = new Vector3(-(Mathf.Sqrt(0.5f)), 0, Mathf.Sqrt(0.5f));
                 else if (packet.playerDir == 8)
                     enemy.moveVec2 = new Vector3(-(Mathf.Sqrt(0.5f)), 0, -(Mathf.Sqrt(0.5f)));
+                Vector3 testSpeed = Vector3.zero;
 
-                enemy.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
+                //enemy.moveVec2 = new Vector3(packet.posX, packet.posY, packet.posZ);
+
+                enemy.transform.position = Vector3.MoveTowards(enemy.transform.position, new Vector3(packet.posX, packet.posY, packet.posZ), 1f);
+                Debug.Log(enemy.transform.position);
+                //enemy.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
                 enemy.anim.SetBool("isWalk", enemy.isAttack != false);
                 if (packet.wDown)
                 {
