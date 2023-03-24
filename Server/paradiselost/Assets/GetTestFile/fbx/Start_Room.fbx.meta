@@ -1,23 +1,8 @@
 fileFormatVersion: 2
-guid: 74afbb96e8711f441bb1403fa504f6c4
+guid: 1cfdb9ca2c48c434085a31a1ab40685a
 ModelImporter:
   serializedVersion: 21300
-  internalIDToNameTable:
-  - first:
-      74: -5044028817101986379
-    second: BODY_BORN|attack_fist
-  - first:
-      74: -2469169377574548789
-    second: BODY_BORN|attack_queck
-  - first:
-      74: -8416929530777316630
-    second: BODY_BORN|Idle
-  - first:
-      74: 3081457187000982651
-    second: BODY_BORN|rotate_body
-  - first:
-      74: -2117311139527547195
-    second: BODY_BORN|sholder_move
+  internalIDToNameTable: []
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -104,7 +89,7 @@ ModelImporter:
     legStretch: 0.05
     feetSpacing: 0
     globalScale: 1
-    rootMotionBoneName: BODY_BORN
+    rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
@@ -112,7 +97,7 @@ ModelImporter:
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
-  avatarSetup: 1
+  avatarSetup: 0
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
   remapMaterialsIfMaterialImportModeIsNone: 0
   additionalBone: 0
