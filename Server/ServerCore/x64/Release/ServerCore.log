@@ -1,12 +1,24 @@
-﻿  BufferWriter.cpp
+﻿  pch.cpp
+  Allocator.cpp
+  BufferReader.cpp
+  BufferWriter.cpp
   CoreGlobal.cpp
   CorePch.cpp
   CoreTLS.cpp
+  DeadLockProfiler.cpp
   IocpCore.cpp
   IocpEvent.cpp
   Listener.cpp
   Lock.cpp
+  Memory.cpp
+  MemoryPool.cpp
+  NetAddress.cpp
   RecvBuffer.cpp
   RefCounting.cpp
   SendBuffer.cpp
-  ServerCore.vcxproj -> C:\Users\leeminsik\Desktop\졸작\paradiselost\Server\Libraries\Release\ServerCore.lib
+  Service.cpp
+  Session.cpp
+  SocketUtils.cpp
+  컴파일하고 있습니다...
+  ThreadManager.cpp
+  ServerCore.vcxproj -> D:\ParadiseLostClient2\paradiselost\Server\Libraries\Release\ServerCore.lib

@@ -1,7 +1,7 @@
 #pragma once
 
 const float speed = 1.f;
-const float m_speed = 0.5f;
+const float m_speed = 1.5f;
 const float s_speed = 0.2f;
 
 enum

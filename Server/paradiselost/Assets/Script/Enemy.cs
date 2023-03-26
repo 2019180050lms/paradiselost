@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour
 
     public Vector3 prevVec;
     public Vector3 moveVec2;
+    public Vector3 posVec;
 
     public BoxCollider meleeArea;
 
@@ -29,10 +30,12 @@ public class Enemy : MonoBehaviour
 
     public bool walking;
 
+    
     private void Start()
     {
         _network = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
         walking = true;
+        
     }
 
     void Awake()
@@ -41,8 +44,8 @@ public class Enemy : MonoBehaviour
         rigid = GetComponent<Rigidbody>();
         boxCollider = GetComponent<BoxCollider>();
         mat = GetComponentInChildren<MeshRenderer>().material;  // Material�� MesgRenderer�� ���� ������
-        //nav = GetComponent<NavMeshAgent>();
-        
+                                                                //nav = GetComponent<NavMeshAgent>();
+
         
 
         //Invoke("Walk", 2);
@@ -57,8 +60,9 @@ public class Enemy : MonoBehaviour
     }
      void Update()
     {
-        //transform.position += moveVec2 * 0.01f * Time.deltaTime;
-        //moveVec2 = transform.position;
+
+        //transform.position = Vector3.Lerp(transform.position, pos, 0.001f);
+        transform.position = Vector3.Lerp(transform.position, posVec, 0.005f);
     }
 
     void OnTriggerEnter(Collider other)
