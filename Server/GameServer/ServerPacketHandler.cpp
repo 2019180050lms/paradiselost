@@ -15,7 +15,7 @@ void ServerPacketHandler::HandlePacket(PacketSessionRef& session, BYTE* buffer, 
 
 	switch (header.id)
 	{
-	case C_Login:
+	case C_Chat:
 		Handle_C_Login(session, buffer, len);
 		break;
 	case C_ENTER_GAME:
@@ -24,7 +24,7 @@ void ServerPacketHandler::HandlePacket(PacketSessionRef& session, BYTE* buffer, 
 	case C_MOVE:
 		Handle_C_MOVE(session, buffer, len);
 		break;
-	case C_Chat:
+	case C_Login:
 		Handle_C_Chat(session ,buffer, len);
 		break;
 	case C_MONSTERATTACK:
@@ -43,12 +43,42 @@ bool ServerPacketHandler::Handle_C_Login(PacketSessionRef& session, BYTE* buffer
 	GameSessionRef gameSession = static_pointer_cast<GameSession>(session);
 
 	static Atomic<int32> idGenerator = 1;
+	BufferReader br(buffer, len);
+
+	PacketHeader header;
+	br >> header;
+
+	short strLen;
+	br >> strLen;
+
+	char name[256];
+
+	for (int i = 0; i < strLen; i++)
+	{
+		br >> name[i];
+	}
+	
+	char name_print[256];
+
+	int t = 0;
+	for (int i = 0; i < strLen; i++)
+	{
+		if (name[i] == '\0') {
+		}
+		else {
+			name_print[t] = name[i];
+			t++;
+			name_print[t] = '\0';
+		}
+	}
+	wstring wname(name_print, &name_print[sizeof(name_print)]);
+	wcout << wname << endl;
 
 	{
 		PlayerRef playerRef = MakeShared<Player>();
 		playerRef->playerId = idGenerator++;
 		playerRef->hp = 100;
-		playerRef->name = L"Test";
+		playerRef->name = wname;
 		playerRef->type = PlayerType::NONE;
 		playerRef->xPos = 1.0f;
 		playerRef->yPos = 2.0f;
@@ -326,9 +356,12 @@ SendBufferRef ServerPacketHandler::Make_S_PlayerList(List<PlayerList> players)
 	
 	bw << (uint16)(players.size());
 
+	short strLen;
 	for (PlayerList& p : players)
 	{
 		bw << (bool)p.isSelf << (int32)p.playerId << (int32)p.type << (uint16)p.hp << (float)p.posX << (float)p.posY << (float)p.posZ;
+		bw << (uint16)p.name.size();
+		bw.Write((void*)p.name.data(), p.name.size() * sizeof(WCHAR));
 	}
 
 	//cout << sizeof(PlayerList) << endl;

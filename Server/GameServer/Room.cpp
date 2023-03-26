@@ -51,6 +51,7 @@ void Room::Enter(PlayerRef player)
 		l_player.posX = 0.f;
 		l_player.posY = 3.f;
 		l_player.posZ = 0.f;
+		l_player.name = iter->second->name;
 
 		players.push_back(l_player);
 	}

@@ -7,8 +7,8 @@ using UnityEngine;
 
 public enum PacketID
 {
-    C_Login = 0,
-    C_Chat = 1,
+	C_Chat = 0,
+	C_Login = 1,
     S_Chat = 2,
     S_ENTER_GAME = 3,
     C_ENTER_GAME = 4,
@@ -481,6 +481,7 @@ public class S_PlayerList : IPacket
 		public float posX;
 		public float posY;
 		public float posZ;
+		public string name;
 
 		public void Read(ArraySegment<byte> segment, ref ushort count)
 		{
@@ -498,6 +499,10 @@ public class S_PlayerList : IPacket
 			count += sizeof(float);
 			this.posZ = BitConverter.ToSingle(segment.Array, segment.Offset + count);
 			count += sizeof(float);
+			ushort chatLen = BitConverter.ToUInt16(segment.Array, segment.Offset + count);
+			count += sizeof(ushort);
+			this.name = Encoding.Unicode.GetString(segment.Array, segment.Offset + count, chatLen);
+			count += chatLen;
 		}
 
 		public bool Write(ArraySegment<byte> segment, ref ushort count)

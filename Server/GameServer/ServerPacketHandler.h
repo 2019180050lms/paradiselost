@@ -6,8 +6,8 @@ const float s_speed = 0.2f;
 
 enum
 {
-	C_Login = 0,
-	C_Chat = 1,
+	C_Chat = 0,
+	C_Login = 1,
 	S_Chat = 2,
 	S_ENTER_GAME = 3,
 	C_ENTER_GAME = 4,
@@ -35,6 +35,7 @@ struct PlayerList
 	float posY;
 	float posZ;
 	bool wDown;
+	wstring name;
 };
 #pragma pack(pop)
 

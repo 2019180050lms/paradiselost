@@ -42,7 +42,8 @@ public class MainMenu : MonoBehaviour
         Debug.Log(player_ID);
         //Debug.Log("ªı ∞‘¿”");
         //SceneManager.LoadScene("Lobby");
-        C_Login loginPacket = new C_Login();
+        C_Chat loginPacket = new C_Chat();
+        loginPacket.chat = playerID;
         ArraySegment<byte> segment = loginPacket.Write();
         _network.Send(segment);
     }

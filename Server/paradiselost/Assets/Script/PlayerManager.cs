@@ -31,17 +31,21 @@ public class PlayerManager
                         MyPlayer myPlayer = go.AddComponent<MyPlayer>();
                         myPlayer.PlayerId = p.playerId;
                         myPlayer.hp = p.hp;
+                        myPlayer.name = p.name;
                         //Debug.Log(p.hp);
                         
                         myPlayer.transform.position = new Vector3(p.posX, p.posY, p.posZ);
                         _myplayer = myPlayer;
+                        Debug.Log(myPlayer.name);
                     }
                     else
                     {
                         Player player = go.AddComponent<Player>();
                         player.PlayerId = p.playerId;
+                        player.name = p.name;
                         //player.transform.position = new Vector3(p.posX, p.posY, p.posZ);
                         _players.Add(p.playerId, player);
+                        Debug.Log(player.name);
                     }
                 }
                 else if(p.type == 2)
@@ -52,17 +56,21 @@ public class PlayerManager
                     {
                         MyPlayer myPlayer = go.AddComponent<MyPlayer>();
                         myPlayer.PlayerId = p.playerId;
+                        myPlayer.name = p.name;
                         myPlayer.hp = p.hp;
                         //Debug.Log(p.hp);
                         myPlayer.transform.position = new Vector3(p.posX, p.posY, p.posZ);
                         _myplayer = myPlayer;
+                        Debug.Log(myPlayer.name);
                     }
                     else
                     {
                         Player player = go.AddComponent<Player>();
                         player.PlayerId = p.playerId;
+                        player.name = p.name;
                         //player.transform.position = new Vector3(p.posX, p.posY, p.posZ);
                         _players.Add(p.playerId, player);
+                        Debug.Log(player.name);
                     }
                 }
                 else if(p.type == 3)
@@ -73,17 +81,21 @@ public class PlayerManager
                     {
                         MyPlayer myPlayer = go.AddComponent<MyPlayer>();
                         myPlayer.PlayerId = p.playerId;
+                        myPlayer.name = p.name;
                         myPlayer.hp = p.hp;
                         //Debug.Log(p.hp);
                         myPlayer.transform.position = new Vector3(p.posX, p.posY, p.posZ);
                         _myplayer = myPlayer;
+                        Debug.Log(myPlayer.name);
                     }
                     else
                     {
                         Player player = go.AddComponent<Player>();
                         player.PlayerId = p.playerId;
+                        player.name = p.name;
                         //player.transform.position = new Vector3(p.posX, p.posY, p.posZ);
                         _players.Add(p.playerId, player);
+                        Debug.Log(player.name);
                     }
                 }
                 else

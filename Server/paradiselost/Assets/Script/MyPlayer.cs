@@ -10,6 +10,7 @@ public class MyPlayer : Player
 
     public float xmove = 0;  // X축 누적 이동량
     public float ymove = 0;  // Y축 누적 이동량
+    public string name;
     public float distance = 8;
     public static int health = 80;
     public static int maxHealth = 100;
