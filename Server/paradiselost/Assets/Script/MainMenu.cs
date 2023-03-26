@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using UnityEngine.UI;
 using System;
 
 public class MainMenu : MonoBehaviour
@@ -11,7 +12,16 @@ public class MainMenu : MonoBehaviour
     NetworkManager _network;
 
     public int charType = 0;
-    // Start is called before the first frame update
+
+    public InputField playerIDInput;
+    private string playerID = null;
+
+    
+
+     void Awake()
+    {
+        playerID = playerIDInput.GetComponent<InputField>().text;
+    }
     void Start()
     {
         _network = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
@@ -23,9 +33,13 @@ public class MainMenu : MonoBehaviour
         
     }
 
-    public void OnClickNewGame()
+    public void OnClickNewGame()  // 로그인 버튼
     {
+        playerID = playerIDInput.text;
 
+        char[] player_ID = playerID.ToCharArray();
+
+        Debug.Log(player_ID);
         //Debug.Log("새 게임");
         //SceneManager.LoadScene("Lobby");
         C_Login loginPacket = new C_Login();
