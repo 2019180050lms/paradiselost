@@ -125,7 +125,7 @@ void Room::CreateMonster()
 		l_player.type = (int32)PlayerType::MONSTER;
 		l_player.hp = 100;
 		l_player.posX = 1.f;
-		l_player.posY = 3.9f;
+		l_player.posY = 1.2f;
 		l_player.posZ = 1.f;
 
 		GRoom._monsters.push_back(l_player);
