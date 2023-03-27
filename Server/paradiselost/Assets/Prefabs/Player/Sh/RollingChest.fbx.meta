@@ -5,13 +5,13 @@ ModelImporter:
   internalIDToNameTable:
   - first:
       74: -4171083736167310826
-    second: Armature.001|attack1
+    second: attack1
   - first:
       74: 5102330129446978621
     second: Sh_Idle
   - first:
       74: -4583421197078631130
-    second: Armature.001|robot_to_ball
+    second: robot_to_ball
   - first:
       74: -7949148042052844180
     second: Armature.001|shild_close
@@ -20,7 +20,7 @@ ModelImporter:
     second: Armature.001|shild_open
   - first:
       74: 5526545860715686445
-    second: Armature.001|shild_protect
+    second: shild_protect
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -51,7 +51,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Armature.001|attack1
+      name: attack1
       takeName: Armature.001|attack1
       internalID: -4171083736167310826
       firstFrame: 0
@@ -109,7 +109,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature.001|robot_to_ball
+      name: robot_to_ball
       takeName: Armature.001|robot_to_ball
       internalID: -4583421197078631130
       firstFrame: 0
@@ -196,7 +196,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature.001|shild_protect
+      name: shild_protect
       takeName: Armature.001|shild_protect
       internalID: 5526545860715686445
       firstFrame: 0
