@@ -6,6 +6,7 @@ public class PlayerControl : MonoBehaviour
 {
     Rigidbody rb;
     public GameObject CameraRotate;
+ 
     float power = 30f;
 
     public float axis_x;

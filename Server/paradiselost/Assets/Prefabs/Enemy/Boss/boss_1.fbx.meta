@@ -1,24 +1,54 @@
 fileFormatVersion: 2
-guid: 9b16e8b7f52510846953ef89c8eba02a
+guid: 2df7e578ee2885d46adb62ff087de8cc
 ModelImporter:
   serializedVersion: 21300
-  internalIDToNameTable:
+  internalIDToNameTable: []
+  externalObjects:
   - first:
-      74: -2115636876712941938
-    second: Armature|Dragun_Attack1
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Black
+    second: {fileID: 2100000, guid: e6f3bdaeedd362b4484c631b268658cd, type: 2}
   - first:
-      74: 2402621557046006957
-    second: Armature|Dragun_Attack2
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BlackGray
+    second: {fileID: 2100000, guid: 222fd1b0ddf56774aa4367af5ae080d5, type: 2}
   - first:
-      74: 2494082765614469080
-    second: Armature|Dragun_Grap_Attack
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Hose_Material
+    second: {fileID: 2100000, guid: 0ccd40f5fb47d1d49b365856ed557eab, type: 2}
   - first:
-      74: 5084545817491588986
-    second: Armature|Dragun_idle
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.001
+    second: {fileID: 2100000, guid: a3ac9f055aa824a4ea2e66ac84e4f9c0, type: 2}
   - first:
-      74: -6010244397228511724
-    second: Armature|Dragun_tail_idle
-  externalObjects: {}
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mugen_Body_M
+    second: {fileID: 2100000, guid: a5b1a0e5a54ef02409f8d03f13c6e2e7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mugen_Hand_M
+    second: {fileID: 2100000, guid: b97bfddf7f072d84e9401a958292a2f3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mugen_Head_M
+    second: {fileID: 2100000, guid: 0c89b66ec6ce91643a4db559186241a1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mugen_Leg_M
+    second: {fileID: 2100000, guid: 592696f47fc77ac4293c6ced2e41c865, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: WhiteGray
+    second: {fileID: 2100000, guid: f135b779ccfc4ab46a6fc715f5c127d2, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -104,7 +134,7 @@ ModelImporter:
     legStretch: 0.05
     feetSpacing: 0
     globalScale: 1
-    rootMotionBoneName: 
+    rootMotionBoneName: Armature
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
@@ -112,7 +142,7 @@ ModelImporter:
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
-  avatarSetup: 0
+  avatarSetup: 1
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
   remapMaterialsIfMaterialImportModeIsNone: 0
   additionalBone: 0
