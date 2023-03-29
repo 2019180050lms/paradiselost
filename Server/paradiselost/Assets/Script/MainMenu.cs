@@ -20,11 +20,12 @@ public class MainMenu : MonoBehaviour
 
      void Awake()
     {
-        playerID = playerIDInput.GetComponent<InputField>().text;
+        //playerID = playerIDInput.GetComponent<InputField>().text;
     }
     void Start()
     {
         _network = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
+        playerID = playerIDInput.GetComponent<InputField>().text;
     }
 
     // Update is called once per frame

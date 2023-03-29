@@ -1,10 +1,1 @@
-﻿  ServerPacketHandler.cpp
-C:\Users\GIGABYTE\OneDrive - 한국산업기술대학교\바탕 화면\공부\졸작\paradiselost\Server\GameServer\ServerPacketHandler.cpp(303,58): warning C4267: '인수': 'size_t'에서 'uint32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\GIGABYTE\OneDrive - 한국산업기술대학교\바탕 화면\공부\졸작\paradiselost\Server\GameServer\ServerPacketHandler.cpp(364,63): warning C4267: '인수': 'size_t'에서 'uint32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\GIGABYTE\OneDrive - 한국산업기술대학교\바탕 화면\공부\졸작\paradiselost\Server\GameServer\ServerPacketHandler.cpp(359,8): warning C4101: 'strLen' :참조되지 않은 지역 변수입니다.
-  코드를 생성하고 있습니다.
-  2 of 2176 functions (<0.1%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
-  코드를 생성했습니다.
-  GameServer.vcxproj -> C:\Users\GIGABYTE\OneDrive - 한국산업기술대학교\바탕 화면\공부\졸작\paradiselost\Server\Binary\Release\GameServer.exe
+﻿  GameServer.vcxproj -> D:\ParadiseLostClient2\paradiselost\Server\Binary\Release\GameServer.exe
