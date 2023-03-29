@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.AI;
 public class StageBoss : BossEnemy
 {
-
     //public GameObject missile;
     //public Transform missilePortA;
     //public Transform missilePortB;
@@ -12,7 +11,6 @@ public class StageBoss : BossEnemy
 
     //Vector3 lookVec;
     //Vector3 tauntVec;
-    
 
     void Awake()
     {

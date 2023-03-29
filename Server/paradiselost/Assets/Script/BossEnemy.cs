@@ -7,6 +7,7 @@ public class BossEnemy : MonoBehaviour
 {
     public enum Type {  A, D};
     public Type enemyType;
+    public int enemyId;
     public int maxHealth;
     public int curHealth;
     //public Transform target;
@@ -15,6 +16,10 @@ public class BossEnemy : MonoBehaviour
     public bool isChase;
     public bool isAttack;
     public bool isDead;
+
+    //test
+    public Vector3 moveVec2;
+    public Vector3 posVec;
 
     public Rigidbody rigid;
     public BoxCollider boxCollider;
@@ -51,11 +56,7 @@ public class BossEnemy : MonoBehaviour
     }
      void Update()
     {
-        //if (nav.enabled && enemyType != Type.D)
-        //{
-        //    nav.SetDestination(target2.position);
-        //    nav.isStopped = !isChase; 
-        //}
+        transform.position = Vector3.Lerp(transform.position, posVec, 0.005f);
     }
 
     void OnTriggerEnter(Collider other)

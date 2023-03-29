@@ -1,24 +1,2 @@
-﻿  pch.cpp
-  Allocator.cpp
-  BufferReader.cpp
-  BufferWriter.cpp
-  CoreGlobal.cpp
-  CorePch.cpp
-  CoreTLS.cpp
-  DeadLockProfiler.cpp
-  IocpCore.cpp
-  IocpEvent.cpp
-  Listener.cpp
-  Lock.cpp
-  Memory.cpp
-  MemoryPool.cpp
-  NetAddress.cpp
-  RecvBuffer.cpp
-  RefCounting.cpp
-  SendBuffer.cpp
-  Service.cpp
-  Session.cpp
-  SocketUtils.cpp
-  컴파일하고 있습니다...
-  ThreadManager.cpp
-  ServerCore.vcxproj -> D:\ParadiseLostClient2\paradiselost\Server\Libraries\Release\ServerCore.lib
+﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppClean.targets(77,5): warning : 'c:\users\gigabyte\onedrive - 한국산업기술대학교\바탕 화면\공부\졸작\paradiselost\server\servercore\x64\release\servercore.pch' 파일은 다른 프로세스에서 사용 중이므로 프로세스에서 액세스할 수 없습니다.
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppCommon.targets(510,5): error MSB3061: "x64\Release\ServerCore.pch" 파일을 삭제할 수 없습니다. 'C:\Users\GIGABYTE\OneDrive - 한국산업기술대학교\바탕 화면\공부\졸작\paradiselost\Server\ServerCore\x64\Release\ServerCore.pch' 파일은 다른 프로세스에서 사용 중이므로 프로세스에서 액세스할 수 없습니다.

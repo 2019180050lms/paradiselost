@@ -92,7 +92,7 @@ bool ServerPacketHandler::Handle_C_Login(PacketSessionRef& session, BYTE* buffer
 		auto sendBuffer = Make_S_ENTER_GAME(true, (int32)playerRef->type);
 		session->Send(sendBuffer);
 	}
-
+	
 	return true;
 }
 

@@ -7,6 +7,7 @@ enum PlayerType
 	SPEED = 2,
 	AMOR = 3,
 	MONSTER = 4,
+	BOSS = 5
 };
 
 class Player

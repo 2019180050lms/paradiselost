@@ -7,6 +7,7 @@ public class PlayerManager
     MyPlayer _myplayer;
     Player player = null;
     Enemy enemy = null;
+    BossEnemy _boss = null;
     Dictionary<int, Player> _players = new Dictionary<int, Player>();
     Dictionary<int, Enemy> _enemys = new Dictionary<int, Enemy>();
 
@@ -22,7 +23,7 @@ public class PlayerManager
             //GameObject go = Object.Instantiate(obj) as GameObject;
             if (p.type != 4)
             {
-                if(p.type == 1)
+                if (p.type == 1)
                 {
                     Object obj = Resources.Load("Player");
                     GameObject go = Object.Instantiate(obj) as GameObject;
@@ -33,12 +34,12 @@ public class PlayerManager
                         myPlayer.hp = p.hp;
                         myPlayer.name = p.name;
                         //Debug.Log(p.hp);
-                        
+
                         myPlayer.transform.position = new Vector3(p.posX, p.posY, p.posZ);
                         _myplayer = myPlayer;
                         Debug.Log(myPlayer.name);
                     }
-                    else
+                    else if (p.type < 5)
                     {
                         Player player = go.AddComponent<Player>();
                         player.PlayerId = p.playerId;
@@ -48,7 +49,7 @@ public class PlayerManager
                         Debug.Log(player.name);
                     }
                 }
-                else if(p.type == 2)
+                else if (p.type == 2)
                 {
                     Object obj = Resources.Load("Player2");
                     GameObject go = Object.Instantiate(obj) as GameObject;
@@ -73,7 +74,7 @@ public class PlayerManager
                         Debug.Log(player.name);
                     }
                 }
-                else if(p.type == 3)
+                else if (p.type == 3)
                 {
                     Object obj = Resources.Load("Player3");
                     GameObject go = Object.Instantiate(obj) as GameObject;
@@ -98,30 +99,41 @@ public class PlayerManager
                         Debug.Log(player.name);
                     }
                 }
+                else if (p.type == 5)
+                {
+                    Object obj = Resources.Load("StageBoss");
+                    GameObject go = Object.Instantiate(obj) as GameObject;
+
+                    BossEnemy boss = go.AddComponent<BossEnemy>();
+                    boss.enemyId = p.playerId;
+                    boss.maxHealth = p.hp;
+                    boss.curHealth = p.hp;
+                    boss.transform.position = new Vector3(p.posX, p.posY, p.posZ);
+                    _boss = boss;
+                    Debug.Log("보스 생성");
+
+                }
                 else
                 {
                     Debug.Log("캐릭터 생성창 이동");
                 }
             }
-            else
+            else if (p.type == 4)
             {
-                if (p.type == 4)
-                {
-                    Object obj = Resources.Load("Enemy");
-                    GameObject go = Object.Instantiate(obj) as GameObject;
+                Object obj = Resources.Load("Enemy");
+                GameObject go = Object.Instantiate(obj) as GameObject;
 
-                    Enemy enemy = go.AddComponent<Enemy>();
-                    enemy.enemyId = p.playerId;
-                    enemy.maxHealth = p.hp;
-                    enemy.curHealth = p.hp;
-                    enemy.transform.position = new Vector3(p.posX, p.posY, p.posZ);
-                    enemy.prevVec = new Vector3(p.posX, p.posY, p.posZ);
-                    _enemys.Add(p.playerId, enemy);
+                Enemy enemy = go.AddComponent<Enemy>();
+                enemy.enemyId = p.playerId;
+                enemy.maxHealth = p.hp;
+                enemy.curHealth = p.hp;
+                enemy.transform.position = new Vector3(p.posX, p.posY, p.posZ);
+                enemy.prevVec = new Vector3(p.posX, p.posY, p.posZ);
+                _enemys.Add(p.playerId, enemy);
 
-                    //Debug.Log("Monster 생성");
-                    //Debug.Log(enemy.enemyId);
-                    //Debug.Log(enemy.maxHealth);
-                }
+                //Debug.Log("Monster 생성");
+                //Debug.Log(enemy.enemyId);
+                //Debug.Log(enemy.maxHealth);
 
             }
         }
@@ -248,17 +260,55 @@ public class PlayerManager
                 enemy.moveVec2 = new Vector3(packet.posX, packet.posY, packet.posZ);
 
                 //enemy.transform.position = Vector3.MoveTowards(enemy.transform.position, new Vector3(packet.posX, packet.posY, packet.posZ), 1f);
-                Debug.Log(enemy.transform.position);
+                //Debug.Log(enemy.transform.position);
                 //enemy.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
                 enemy.posVec = new Vector3(packet.posX, packet.posY, packet.posZ);
                 enemy.anim.SetBool("isWalk", enemy.isAttack != false);
                 if (packet.wDown)
                 {
-                    Debug.Log("attack !");
+                    //Debug.Log("attack !");
                     enemy.anim.SetTrigger("doAttack");
                 }
                 //enemy.transform.LookAt(enemy.transform.position + enemy.moveVec2);
                 enemy.transform.LookAt(enemy.posVec);
+            }
+            // 보스 처리
+            else if(_boss.enemyId == packet.playerId)
+            {
+                _boss.isAttack = packet.wDown;
+                if (packet.playerDir == 0)
+                    _boss.moveVec2 = new Vector3(0, 0, 0);
+                else if (packet.playerDir == 1)
+                    _boss.moveVec2 = new Vector3(1, 0, 0);
+                else if (packet.playerDir == 2)
+                    _boss.moveVec2 = new Vector3(-1, 0, 0);
+                else if (packet.playerDir == 3)
+                    _boss.moveVec2 = new Vector3(0, 0, 1);
+                else if (packet.playerDir == 4)
+                    _boss.moveVec2 = new Vector3(0, 0, -1);
+                else if (packet.playerDir == 5)
+                    _boss.moveVec2 = new Vector3(Mathf.Sqrt(0.5f), 0, Mathf.Sqrt(0.5f));
+                else if (packet.playerDir == 6)
+                    _boss.moveVec2 = new Vector3(Mathf.Sqrt(0.5f), 0, -(Mathf.Sqrt(0.5f)));
+                else if (packet.playerDir == 7)
+                    _boss.moveVec2 = new Vector3(-(Mathf.Sqrt(0.5f)), 0, Mathf.Sqrt(0.5f));
+                else if (packet.playerDir == 8)
+                    _boss.moveVec2 = new Vector3(-(Mathf.Sqrt(0.5f)), 0, -(Mathf.Sqrt(0.5f)));
+
+                _boss.moveVec2 = new Vector3(packet.posX, packet.posY, packet.posZ);
+
+                //enemy.transform.position = Vector3.MoveTowards(enemy.transform.position, new Vector3(packet.posX, packet.posY, packet.posZ), 1f);
+                //Debug.Log(enemy.transform.position);
+                //enemy.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
+                _boss.posVec = new Vector3(packet.posX, packet.posY, packet.posZ);
+               // _boss.anim.SetBool("isWalk", _boss.isAttack != false);
+                if (packet.wDown)
+                {
+                    //Debug.Log("attack !");
+                    //_boss.anim.SetTrigger("doAttack");
+                }
+                //enemy.transform.LookAt(enemy.transform.position + enemy.moveVec2);
+                //_boss.transform.LookAt(_boss.posVec);
             }
         }
     }

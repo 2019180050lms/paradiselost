@@ -79,10 +79,13 @@ void Room::Leave(PlayerRef player)
 
 void Room::DeadMonster(int32 monsterId)
 {
+	WRITE_LOCK;
 	for (auto iter = _monsters.begin(); iter != _monsters.end(); iter++)
 	{
-		if (iter->playerId == monsterId)
+		if (iter->playerId == monsterId) {
 			_monsters.erase(iter);
+			break;
+		}
 	}
 	// 모두에게 알린다.
 	auto sendBuffer = ServerPacketHandler::Make_S_BroadcastLeave_Game(monsterId);
@@ -121,13 +124,26 @@ void Room::CreateMonster()
 
 	for (int i = 0; i < MAX_MONSTER; i++)
 	{
-		l_player.isSelf = false;
-		l_player.playerId = 500 + i;
-		l_player.type = (int32)PlayerType::MONSTER;
-		l_player.hp = 100;
-		l_player.posX = 1.f;
-		l_player.posY = 1.2f;
-		l_player.posZ = 1.f;
+		if (i == 4)
+		{
+			l_player.isSelf = false;
+			l_player.playerId = 500 + i;
+			l_player.type = (int32)PlayerType::BOSS;
+			l_player.hp = 1000;
+			l_player.posX = 10.f;
+			l_player.posY = 1.1f;
+			l_player.posZ = 10.f;
+		}
+		else
+		{
+			l_player.isSelf = false;
+			l_player.playerId = 500 + i;
+			l_player.type = (int32)PlayerType::MONSTER;
+			l_player.hp = 100;
+			l_player.posX = 1.f;
+			l_player.posY = 1.2f;
+			l_player.posZ = 1.f;
+		}
 
 		GRoom._monsters.push_back(l_player);
 	}
@@ -144,7 +160,7 @@ void Room::MoveMonster()
 				if (p.second->xPos <= m.posX + 5 && p.second->zPos <= m.posZ + 5
 					&& p.second->xPos >= m.posX - 5 && p.second->zPos >= m.posZ - 5)
 				{
-					cout << "p id: " << p.second->playerId << " m id: " << m.playerId << " attack: " << m.wDown << endl;
+					//cout << "p id: " << p.second->playerId << " m id: " << m.playerId << " attack: " << m.wDown << endl;
 					m.wDown = true;
 					break;
 				}

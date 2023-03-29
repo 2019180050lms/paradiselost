@@ -10,6 +10,8 @@ public class Player : MonoBehaviour
     public GameObject[] weapons;
     public bool[] hasWeapons;
 
+    public string name;
+
     public ushort hp;
     public int dir = 0;
     public float hAxis;
