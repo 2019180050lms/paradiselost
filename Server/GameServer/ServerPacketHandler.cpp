@@ -79,6 +79,7 @@ bool ServerPacketHandler::Handle_C_Login(PacketSessionRef& session, BYTE* buffer
 		playerRef->playerId = idGenerator++;
 		playerRef->hp = 100;
 		playerRef->name = wname;
+		playerRef->playerDir = 0;
 		playerRef->type = PlayerType::NONE;
 		playerRef->xPos = 1.0f;
 		playerRef->yPos = 2.0f;
@@ -359,9 +360,11 @@ SendBufferRef ServerPacketHandler::Make_S_PlayerList(List<PlayerList> players)
 	short strLen;
 	for (PlayerList& p : players)
 	{
-		bw << (bool)p.isSelf << (int32)p.playerId << (int32)p.type << (uint16)p.hp << (float)p.posX << (float)p.posY << (float)p.posZ;
-		bw << (uint16)p.name.size();
+		bw << (bool)p.isSelf << (int32)p.playerId << (int32)p.type << (uint16)p.hp << (float)p.posX << (float)p.posY << (float)p.posZ << (uint16)p.name.size();
+		
 		bw.Write((void*)p.name.data(), p.name.size() * sizeof(WCHAR));
+
+		cout << "name size: " << p.name.size() * sizeof(WCHAR) << endl;
 	}
 
 	//cout << sizeof(PlayerList) << endl;
@@ -370,6 +373,8 @@ SendBufferRef ServerPacketHandler::Make_S_PlayerList(List<PlayerList> players)
 	header->id = S_PLAYERLIST;
 
 	sendBuffer->Close(bw.WriteSize());
+
+	cout << "size: " << header->size << endl;
 
 	return sendBuffer;
 }
