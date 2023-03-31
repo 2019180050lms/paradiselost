@@ -16,7 +16,6 @@ public class BossEnemy : MonoBehaviour
     public bool isChase;
     public bool isAttack;
     public bool isDead;
-
     //test
     public Vector3 moveVec2;
     public Vector3 posVec;
@@ -28,6 +27,7 @@ public class BossEnemy : MonoBehaviour
     public NavMeshAgent nav;
 
     public Animator anim;
+
 
 
     //public Transform target2;
@@ -44,15 +44,12 @@ public class BossEnemy : MonoBehaviour
         nav = GetComponent<NavMeshAgent>();
         anim = GetComponentInChildren<Animator>();
 
-        if(enemyType != Type.D)
-            Invoke("ChaseStart", 2);
+
 
     }
 
     void ChaseStart()
     {
-        isChase = true;
-        anim.SetBool("isWalk", true);
     }
      void Update()
     {
@@ -100,8 +97,8 @@ public class BossEnemy : MonoBehaviour
             gameObject.layer = 7;
             isDead = true;
             isChase = false;
-            nav.enabled = false;  // 사망 모션 구현하기 위해 비활성화
-            anim.SetTrigger("doDie");
+            //nav.enabled = false;  // 사망 모션 구현하기 위해 비활성화
+            //anim.SetTrigger("doDie");
 
             // 사망시 넉백
             reactVec = reactVec.normalized;

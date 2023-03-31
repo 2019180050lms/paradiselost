@@ -11,6 +11,7 @@ public class StageBoss : BossEnemy
 
     //Vector3 lookVec;
     //Vector3 tauntVec;
+    
 
     void Awake()
     {
@@ -22,24 +23,11 @@ public class StageBoss : BossEnemy
 
         //nav.isStopped = true;
 
-        StartCoroutine(Think());
+        //StartCoroutine(Think());
     }
     void Update()
     {
-        if(isDead)
-        {
-            StopAllCoroutines();
-            return;
-        }
-        //if (isLook)
-        //{
-        //    float h = Input.GetAxisRaw("Horizontal");
-        //    float v = Input.GetAxisRaw("Vertical");
-        //    lookVec = new Vector3(h, 0, v) * 5f;
-        //    transform.LookAt(target2.position + lookVec);
-        //}
-        //else
-        //    nav.SetDestination(tauntVec);
+       
     }
 
     IEnumerator Think()
