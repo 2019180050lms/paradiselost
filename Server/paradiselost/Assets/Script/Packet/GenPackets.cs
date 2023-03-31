@@ -499,10 +499,10 @@ public class S_PlayerList : IPacket
 			count += sizeof(float);
 			this.posZ = BitConverter.ToSingle(segment.Array, segment.Offset + count);
 			count += sizeof(float);
-			ushort chatLen = BitConverter.ToUInt16(segment.Array, segment.Offset + count);
-			count += sizeof(ushort);
-			this.name = Encoding.Unicode.GetString(segment.Array, segment.Offset + count, chatLen);
-			count += chatLen;
+			//ushort chatLen = BitConverter.ToUInt16(segment.Array, segment.Offset + count);
+			//count += sizeof(ushort);
+			//this.name = Encoding.Unicode.GetString(segment.Array, segment.Offset + count, chatLen);
+			//count += chatLen;
 		}
 
 		public bool Write(ArraySegment<byte> segment, ref ushort count)
