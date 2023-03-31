@@ -360,9 +360,9 @@ SendBufferRef ServerPacketHandler::Make_S_PlayerList(List<PlayerList> players)
 	short strLen;
 	for (PlayerList& p : players)
 	{
-		bw << (bool)p.isSelf << (int32)p.playerId << (int32)p.type << (uint16)p.hp << (float)p.posX << (float)p.posY << (float)p.posZ << (uint16)p.name.size();
+		bw << (bool)p.isSelf << (int32)p.playerId << (int32)p.type << (uint16)p.hp << (float)p.posX << (float)p.posY << (float)p.posZ;
 		
-		bw.Write((void*)p.name.data(), p.name.size() * sizeof(WCHAR));
+		//bw.Write((void*)p.name.data(), p.name.size() * sizeof(WCHAR));
 
 		cout << "name size: " << p.name.size() * sizeof(WCHAR) << endl;
 	}
@@ -374,7 +374,7 @@ SendBufferRef ServerPacketHandler::Make_S_PlayerList(List<PlayerList> players)
 
 	sendBuffer->Close(bw.WriteSize());
 
-	cout << "size: " << header->size << endl;
+	//cout << "size: " << header->size << endl;
 
 	return sendBuffer;
 }
