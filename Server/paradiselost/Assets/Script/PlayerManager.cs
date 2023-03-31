@@ -301,11 +301,10 @@ public class PlayerManager
                 //Debug.Log(enemy.transform.position);
                 //enemy.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
                 _boss.posVec = new Vector3(packet.posX, packet.posY, packet.posZ);
-               // _boss.anim.SetBool("isWalk", _boss.isAttack != false);
                 if (packet.wDown)
                 {
                     //Debug.Log("attack !");
-                    //_boss.anim.SetTrigger("doAttack");
+                    _boss.anim.SetTrigger("Attack1");
                 }
                 //enemy.transform.LookAt(enemy.transform.position + enemy.moveVec2);
                 //_boss.transform.LookAt(_boss.posVec);
