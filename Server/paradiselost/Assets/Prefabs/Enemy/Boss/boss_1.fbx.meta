@@ -2,7 +2,25 @@ fileFormatVersion: 2
 guid: 2df7e578ee2885d46adb62ff087de8cc
 ModelImporter:
   serializedVersion: 21300
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      74: -2115636876712941938
+    second: Armature|Dragun_Attack1
+  - first:
+      74: 2402621557046006957
+    second: Armature|Dragun_Attack2
+  - first:
+      74: 5084545817491588986
+    second: Armature|Dragun_idle
+  - first:
+      74: -2097810888471253736
+    second: Armature|Dragun_idle.003
+  - first:
+      74: -6010244397228511724
+    second: Armature|Dragun_tail_idle
+  - first:
+      74: -6544428077046268240
+    second: Armature|Walk.001
   externalObjects:
   - first:
       type: UnityEngine:Material
