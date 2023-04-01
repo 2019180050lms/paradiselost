@@ -81,9 +81,9 @@ bool ServerPacketHandler::Handle_C_Login(PacketSessionRef& session, BYTE* buffer
 		playerRef->name = wname;
 		playerRef->playerDir = 0;
 		playerRef->type = PlayerType::NONE;
-		playerRef->xPos = 1.0f;
+		playerRef->xPos = 19.0f;
 		playerRef->yPos = 2.0f;
-		playerRef->zPos = 3.0f;
+		playerRef->zPos = 19.0f;
 		playerRef->ownerSession = gameSession;
 
 		gameSession->_players.push_back(playerRef);
@@ -143,80 +143,31 @@ bool ServerPacketHandler::Handle_C_MOVE(PacketSessionRef& session, BYTE* buffer,
 
 	gameSession->_players[0]->playerDir = dir;
 
-	if (dir == 0)
-	{
-		gameSession->_players[0]->xPos = x;
-		gameSession->_players[0]->yPos = y;
-		gameSession->_players[0]->zPos = z;
-		gameSession->_players[0]->wDown = wDown;
-		gameSession->_players[0]->isJump = isJump;
-	}
-	else if (dir == 1)
-	{
-		gameSession->_players[0]->xPos = x + speed;
-		gameSession->_players[0]->yPos = y;
-		gameSession->_players[0]->zPos = z;
-		gameSession->_players[0]->wDown = wDown;
-		gameSession->_players[0]->isJump = isJump;
-	}
-	else if (dir == 2)
+	if (x > 20)
 	{
 		gameSession->_players[0]->xPos = x - speed;
-		gameSession->_players[0]->yPos = y;
-		gameSession->_players[0]->zPos = z;
 		gameSession->_players[0]->wDown = wDown;
 		gameSession->_players[0]->isJump = isJump;
 	}
-	else if (dir == 3)
+	else if (x < -20)
 	{
-		gameSession->_players[0]->xPos = x;
-		gameSession->_players[0]->yPos = y;
-		gameSession->_players[0]->zPos = z + speed;
+		gameSession->_players[0]->xPos = x + speed;
 		gameSession->_players[0]->wDown = wDown;
 		gameSession->_players[0]->isJump = isJump;
 	}
-	else if (dir == 4)
+	else if (z > 20)
 	{
-		gameSession->_players[0]->xPos = x;
-		gameSession->_players[0]->yPos = y;
 		gameSession->_players[0]->zPos = z - speed;
 		gameSession->_players[0]->wDown = wDown;
 		gameSession->_players[0]->isJump = isJump;
 	}
-	else if (dir == 5)
+	else if (z < -20)
 	{
-		gameSession->_players[0]->xPos = x + (speed / 2);
-		gameSession->_players[0]->yPos = y;
-		gameSession->_players[0]->zPos = z + (speed / 2);
+		gameSession->_players[0]->zPos = z + speed;
 		gameSession->_players[0]->wDown = wDown;
 		gameSession->_players[0]->isJump = isJump;
 	}
-	else if (dir == 6)
-	{
-		gameSession->_players[0]->xPos = x + (speed / 2);
-		gameSession->_players[0]->yPos = y;
-		gameSession->_players[0]->zPos = z - (speed / 2);
-		gameSession->_players[0]->wDown = wDown;
-		gameSession->_players[0]->isJump = isJump;
-	}
-	else if (dir == 7)
-	{
-		gameSession->_players[0]->xPos = x - (speed / 2);
-		gameSession->_players[0]->yPos = y;
-		gameSession->_players[0]->zPos = z + (speed / 2);
-		gameSession->_players[0]->wDown = wDown;
-		gameSession->_players[0]->isJump = isJump;
-	}
-	else if (dir == 8)
-	{
-		gameSession->_players[0]->xPos = x - (speed / 2);
-		gameSession->_players[0]->yPos = y;
-		gameSession->_players[0]->zPos = z - (speed / 2);
-		gameSession->_players[0]->wDown = wDown;
-		gameSession->_players[0]->isJump = isJump;
-	}
-
-	if (isJump)
+	else
 	{
 		gameSession->_players[0]->xPos = x;
 		gameSession->_players[0]->yPos = y;
