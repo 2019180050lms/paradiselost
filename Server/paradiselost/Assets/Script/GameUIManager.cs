@@ -7,16 +7,25 @@ public class GameUIManager : MonoBehaviour
 {
     MyPlayer myPlayer;
     public float playTime;
-
+    
 
     public Text stageTxt;
     public Text playerHealthTxt;
     public Text playTimeTxt;
 
     public int hP = 0;
+
+    public BossEnemy boss;
+    public RectTransform bossHealthGroup;
+    public RectTransform bossHealthBar;
     void Start()
     {
+        Invoke("FindBossHp", 0.5f);
+    }
 
+    void FindBossHp()
+    {
+        boss = GameObject.Find("StageBoss(Clone)").GetComponent<StageBoss>();
     }
 
      void Update()
@@ -36,6 +45,8 @@ public class GameUIManager : MonoBehaviour
 
 
         playTimeTxt.text = string.Format("{0:00}", hour) + ":" + string.Format("{0:00}", min) + ":" + string.Format("{0:00}", second);
-        playerHealthTxt.text = MyPlayer.health.ToString() + " /  100"; 
+        playerHealthTxt.text = MyPlayer.health.ToString() + " /  100";
+
+        bossHealthBar.localScale = new Vector3((float)boss.curHealth / boss.maxHealth, 1, 1);
     }
 }

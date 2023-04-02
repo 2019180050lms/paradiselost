@@ -12,7 +12,6 @@ public class PlayerManager
     Dictionary<int, Enemy> _enemys = new Dictionary<int, Enemy>();
 
     public Vector3 moveVec;
-
     public static PlayerManager Instance { get; } = new PlayerManager();
 
     public void Add(S_PlayerList packet)
@@ -27,9 +26,14 @@ public class PlayerManager
                 {
                     Object obj = Resources.Load("Player");
                     GameObject go = Object.Instantiate(obj) as GameObject;
+                    
                     if (p.isSelf)
                     {
+                        Object obj2= Resources.Load("PlayerPtr");
+                        GameObject PlayerPtr = Object.Instantiate(obj2) as GameObject;
+
                         MyPlayer myPlayer = go.AddComponent<MyPlayer>();
+                        PlayerPtr.transform.SetParent(go.transform, false);
                         myPlayer.PlayerId = p.playerId;
                         myPlayer.hp = p.hp;
                         myPlayer.name = p.name;
@@ -55,7 +59,12 @@ public class PlayerManager
                     GameObject go = Object.Instantiate(obj) as GameObject;
                     if (p.isSelf)
                     {
+                        Object obj2 = Resources.Load("PlayerPtr");
+                        GameObject PlayerPtr = Object.Instantiate(obj2) as GameObject;
+
                         MyPlayer myPlayer = go.AddComponent<MyPlayer>();
+
+                        PlayerPtr.transform.SetParent(go.transform, false);
                         myPlayer.PlayerId = p.playerId;
                         myPlayer.name = p.name;
                         myPlayer.hp = p.hp;
@@ -80,7 +89,13 @@ public class PlayerManager
                     GameObject go = Object.Instantiate(obj) as GameObject;
                     if (p.isSelf)
                     {
+
+                        Object obj2 = Resources.Load("PlayerPtr");
+                        GameObject PlayerPtr = Object.Instantiate(obj2) as GameObject;
+
                         MyPlayer myPlayer = go.AddComponent<MyPlayer>();
+
+                        PlayerPtr.transform.SetParent(go.transform, false);
                         myPlayer.PlayerId = p.playerId;
                         myPlayer.name = p.name;
                         myPlayer.hp = p.hp;
@@ -310,7 +325,7 @@ public class PlayerManager
                     //_boss.transform.LookAt();
                 }
                 //enemy.transform.LookAt(enemy.transform.position + enemy.moveVec2);
-                //_boss.transform.LookAt(_boss.posVec);
+                _boss.transform.LookAt(_boss.posVec);
             }
         }
     }

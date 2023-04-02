@@ -2825,7 +2825,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 84
   m_CollisionDetection: 0
 --- !u!65 &984533184995346631
 BoxCollider:
@@ -2854,8 +2854,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyType: 0
   enemyId: 0
-  maxHealth: 0
-  curHealth: 0
+  maxHealth: 1000
+  curHealth: 500
   meleeArea: {fileID: 0}
   bullet: {fileID: 0}
   isChase: 0
