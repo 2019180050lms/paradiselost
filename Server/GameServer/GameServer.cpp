@@ -14,7 +14,11 @@ void Monster_AI();
 int main()
 {
 	ServerServiceRef service = MakeShared<ServerService>(
+<<<<<<< HEAD
 		NetAddress(L"192.168.219.100", 7777),
+=======
+		NetAddress(L"192.168.0.7", 7778),
+>>>>>>> e83cd55da2cfac2e808f4e8316da48c502b76207
 		MakeShared<IocpCore>(),
 		MakeShared<GameSession>, // TODO : SessionManager 등
 		100);
