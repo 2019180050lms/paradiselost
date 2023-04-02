@@ -45,6 +45,31 @@ public class MyPlayer : Player
         rightDown = Input.GetKey(KeyCode.D);
         backDown = Input.GetKey(KeyCode.S);
 
+        CameraMove();
+
+        if (dir == 0)
+            moveVec2 = new Vector3(0, 0, 0);
+        else if (dir == 1)
+            moveVec2 = new Vector3(1, 0, 0);
+        else if (dir == 2)
+            moveVec2 = new Vector3(-1, 0, 0);
+        else if (dir == 3)
+            moveVec2 = new Vector3(0, 0, 1);
+        else if (dir == 4)
+            moveVec2 = new Vector3(0, 0, -1);
+        else if (dir == 5)
+            moveVec2 = new Vector3(Mathf.Sqrt(0.5f), 0, Mathf.Sqrt(0.5f));
+        else if (dir == 6)
+            moveVec2 = new Vector3(Mathf.Sqrt(0.5f), 0, -(Mathf.Sqrt(0.5f)));
+        else if (dir == 7)
+            moveVec2 = new Vector3(-(Mathf.Sqrt(0.5f)), 0, Mathf.Sqrt(0.5f));
+        else if (dir == 8)
+            moveVec2 = new Vector3(-(Mathf.Sqrt(0.5f)), 0, -(Mathf.Sqrt(0.5f)));
+
+        //Move();
+        transform.position += moveVec2 * speed * Time.deltaTime;
+        transform.LookAt(transform.position + moveVec2);
+        
     }
 
 
@@ -138,7 +163,7 @@ public class MyPlayer : Player
             if (wDown)
                 Debug.Log("wDown True");
 
-            CameraMove();
+            //CameraMove();
             cs_move_packet();
         }
     }

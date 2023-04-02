@@ -190,7 +190,7 @@ public class PlayerManager
             */
             _myplayer.dir = packet.playerDir;
             _myplayer.wDown = packet.wDown;
-            _myplayer.transform.position = movePos;
+            //_myplayer.transform.position = movePos;
 
             //Debug.Log(packet.hp);
 
@@ -201,13 +201,13 @@ public class PlayerManager
                 _myplayer.anim.SetTrigger("doSwing");
                 _myplayer.StartCoroutine("Swing");
             }
-            _myplayer.transform.LookAt(_myplayer.transform.position + _myplayer.moveVec2);
+            //_myplayer.transform.LookAt(_myplayer.transform.position + _myplayer.moveVec2);
         }
         else if (packet.playerId < 500)
         {
             if (_players.TryGetValue(packet.playerId, out player))
             {
-                Vector3 movePos = new Vector3(packet.posX, packet.posY, packet.posZ);
+                player.posVec = new Vector3(packet.posX, packet.posY, packet.posZ);
                 if (packet.playerDir == 0)
                     player.moveVec2 = new Vector3(0, 0, 0);
                 else if (packet.playerDir == 1)
@@ -230,7 +230,7 @@ public class PlayerManager
                 //player.moveVec = new Vector3(_myplayer.hAxis, 0, _myplayer.vAxis).normalized;
 
                 player.wDown = packet.wDown;
-                player.transform.position = movePos;
+                //player.transform.position = movePos;
 
                 //Debug.Log("Pmovevec:");
                 //Debug.Log(player.moveVec);
