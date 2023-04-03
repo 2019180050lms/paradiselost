@@ -48,7 +48,7 @@ public class MyPlayer : Player
 
 
         MoveControl();
-        Jump();
+        Jump(testJump);
         testJump = false;
     }
 

@@ -43,8 +43,7 @@ public class Player : MonoBehaviour
     public float fireDelay;
     bool isBorder;
 
-    int jumpCount = 0;
-    private bool isJumping;
+    public bool isJumping;
     void Start()
     {
         isJumping = false;
@@ -53,7 +52,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         transform.position = Vector3.Lerp(transform.position, posVec, 0.005f);
-        Jump();
+        Jump(other_jump);
     }
 
     void Awake()
@@ -111,9 +110,9 @@ public class Player : MonoBehaviour
         transform.LookAt(transform.position + moveVec);
     }
 
-    public void Jump()
+    public void Jump(bool Jumping)
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Jumping)
         {
             if (!isJumping)
             {
