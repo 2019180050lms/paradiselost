@@ -1,7 +1,7 @@
 #pragma once
 #include "ServerPacketHandler.h"
 
-#define MAX_MONSTER 5
+#define MAX_MONSTER 2
 
 class Room
 {
@@ -11,7 +11,8 @@ public:
 	void DeadMonster(int32 monsterId);
 	void AttackedMonster(int32 monsterId, uint16 hp);
 	void BroadCast(SendBufferRef sendBuffer);
-	void CreateMonster();
+	void CreateMonster(float x, float y, float z);
+	PlayerList CreateBossMonster();
 	void MoveMonster();
 
 private:
@@ -19,7 +20,8 @@ private:
 	map<uint64, PlayerRef> _players;
 
 public:
-	list<PlayerList> _monsters;
+	List<PlayerList> _monsters;
+	short stage = 0;
 };
 
 extern Room GRoom;

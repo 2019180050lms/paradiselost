@@ -305,7 +305,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  damage: 10
+  damage: 50
   rate: 0.4
   meleeArea: {fileID: 0}
   trailEffect: {fileID: 0}

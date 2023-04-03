@@ -152,47 +152,62 @@ bool ServerPacketHandler::Handle_C_MOVE(PacketSessionRef& session, BYTE* buffer,
 
 	if (x > 20)
 	{
-		gameSession->_players[0]->xPos = 19.f;
+		//gameSession->_players[0]->xPos = 19.f;
+		gameSession->_players[0]->xPos = x;
+		gameSession->_players[0]->yPos = y;
+		gameSession->_players[0]->zPos = z;
 		gameSession->_players[0]->wDown = wDown;
 		gameSession->_players[0]->isJump = isJump;
 
 		auto collisionMove = Make_S_MOVE(id, gameSession->_players[0]->xPos, gameSession->_players[0]->yPos, gameSession->_players[0]->zPos);
 
-		session->Send(collisionMove);
+		//session->Send(collisionMove);
 	}
 	else if (x < -20)
 	{
-		gameSession->_players[0]->xPos = -19.f;
+		//gameSession->_players[0]->xPos = -19.f;
+		gameSession->_players[0]->xPos = x;
+		gameSession->_players[0]->yPos = y;
+		gameSession->_players[0]->zPos = z;
 		gameSession->_players[0]->wDown = wDown;
 		gameSession->_players[0]->isJump = isJump;
 
 		auto collisionMove = Make_S_MOVE(id, gameSession->_players[0]->xPos, gameSession->_players[0]->yPos, gameSession->_players[0]->zPos);
 
-		session->Send(collisionMove);
+		//session->Send(collisionMove);
 	}
 	else if (z > 20)
 	{
-		gameSession->_players[0]->zPos = 19.f;
+		//gameSession->_players[0]->zPos = 19.f;
+		gameSession->_players[0]->xPos = x;
+		gameSession->_players[0]->yPos = y;
+		gameSession->_players[0]->zPos = z;
 		gameSession->_players[0]->wDown = wDown;
 		gameSession->_players[0]->isJump = isJump;
 
 		auto collisionMove = Make_S_MOVE(id, gameSession->_players[0]->xPos, gameSession->_players[0]->yPos, gameSession->_players[0]->zPos);
 
-		session->Send(collisionMove);
+		//session->Send(collisionMove);
 	}
 	else if (z < -20)
 	{
-		gameSession->_players[0]->zPos = -19.f;
+		//gameSession->_players[0]->zPos = -19.f;
+		gameSession->_players[0]->xPos = x;
+		gameSession->_players[0]->yPos = y;
+		gameSession->_players[0]->zPos = z;
 		gameSession->_players[0]->wDown = wDown;
 		gameSession->_players[0]->isJump = isJump;
 
 		auto collisionMove = Make_S_MOVE(id, gameSession->_players[0]->xPos, gameSession->_players[0]->yPos, gameSession->_players[0]->zPos);
 
-		session->Send(collisionMove);
+		//session->Send(collisionMove);
 	}
 	else if (y < 1.5f)
 	{
-		gameSession->_players[0]->yPos = 1.5f;
+		gameSession->_players[0]->xPos = x;
+		//gameSession->_players[0]->yPos = 1.5f;
+		gameSession->_players[0]->yPos = y;
+		gameSession->_players[0]->zPos = z;
 
 		auto collisionMove = Make_S_MOVE(id, gameSession->_players[0]->xPos, gameSession->_players[0]->yPos, gameSession->_players[0]->zPos);
 

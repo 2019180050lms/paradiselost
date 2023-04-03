@@ -34,7 +34,7 @@ void Room::Enter(PlayerRef player)
 	}
 	i = 0;
 
-	auto sendBufferM = ServerPacketHandler::Make_S_PlayerList(players);
+	auto sendBufferM = ServerPacketHandler::Make_S_PlayerList(_monsters);
 	_players[player->playerId]->ownerSession->Send(sendBufferM);
 
 	players.clear();
@@ -79,10 +79,10 @@ void Room::Leave(PlayerRef player)
 
 void Room::DeadMonster(int32 monsterId)
 {
-	WRITE_LOCK;
 	for (auto iter = _monsters.begin(); iter != _monsters.end(); iter++)
 	{
 		if (iter->playerId == monsterId) {
+			WRITE_LOCK;
 			_monsters.erase(iter);
 			break;
 		}
@@ -118,39 +118,62 @@ void Room::BroadCast(SendBufferRef sendBuffer)
 	}
 }
 
-void Room::CreateMonster()
+void Room::CreateMonster(float x, float y, float z)
 {
 	PlayerList l_player;
 
 	for (int i = 0; i < MAX_MONSTER; i++)
 	{
-		if (i == 4)
-		{
-			l_player.isSelf = false;
-			l_player.playerId = 500 + i;
-			l_player.type = (int32)PlayerType::BOSS;
-			l_player.hp = 1000;
-			l_player.posX = 10.f;
-			l_player.posY = 1.1f;
-			l_player.posZ = 10.f;
-		}
-		else
-		{
-			l_player.isSelf = false;
-			l_player.playerId = 500 + i;
-			l_player.type = (int32)PlayerType::MONSTER;
-			l_player.hp = 100;
-			l_player.posX = 1.f;
-			l_player.posY = 1.2f;
-			l_player.posZ = 1.f;
-		}
-
+		l_player.isSelf = false;
+		l_player.playerId = 500 + i;
+		l_player.type = (int32)PlayerType::MONSTER;
+		l_player.hp = 100;
+		l_player.posX = x;
+		l_player.posY = y;
+		l_player.posZ = z;
 		GRoom._monsters.push_back(l_player);
 	}
 }
 
+PlayerList Room::CreateBossMonster()
+{
+	PlayerList l_player;
+
+	l_player.isSelf = false;
+	l_player.playerId = 1000;
+	l_player.Dir = 0;
+	l_player.type = (int32)PlayerType::BOSS;
+	l_player.hp = 1000;   
+	l_player.posX = 246.757f;
+	l_player.posY = -7.6f;
+	l_player.posZ = 1.53712f;
+	GRoom._monsters.push_back(l_player);
+
+	return l_player;
+}
+
 void Room::MoveMonster()
 {
+	if (_monsters.size() == 0)
+	{
+		if (stage == 0) {
+			CreateMonster(106.f, 1.5f, 1.5f);
+			auto monster = ServerPacketHandler::Make_S_PlayerList(_monsters);
+			BroadCast(monster);
+			stage += 1;
+		}
+		else if (stage == 1)
+		{
+			List<PlayerList> l_boss;
+			PlayerList boss = CreateBossMonster();
+			l_boss.emplace_back(boss);
+			auto bossSend = ServerPacketHandler::Make_S_PlayerList(l_boss);
+			BroadCast(bossSend);
+			cout << "send boss" << endl;
+			stage = 0;
+		}
+	}
+
 	for (auto& m : _monsters)
 	{
 		for (auto& p : _players)
@@ -177,37 +200,37 @@ void Room::MoveMonster()
 			}
 			else if (randDir == 1)
 			{
-				if (m.posX > 20)
+				if (m.posX > 20 && stage == 0)
 					continue;
 				m.Dir = randDir;
 				m.posX = m.posX + m_speed;
 			}
 			else if (randDir == 2)
 			{
-				if (m.posX < -20)
+				if (m.posX < -20 && stage == 0)
 					continue;
 				m.Dir = randDir;
 				m.posX = m.posX - m_speed;
 			}
 			else if (randDir == 3)
 			{
-				if (m.posZ > 20)
+				if (m.posZ > 20 && stage == 0)
 					continue;
 				m.Dir = randDir;
 				m.posZ = m.posZ + m_speed;
 			}
 			else if (randDir == 4)
 			{
-				if (m.posZ < -20)
+				if (m.posZ < -20 && stage == 0)
 					continue;
 				m.Dir = randDir;
 				m.posZ = m.posZ - m_speed;
 			}
 			else if (randDir == 5)
 			{
-				if (m.posZ > 20)
+				if (m.posZ > 20 && stage == 0)
 					continue;
-				else if (m.posZ > 20)
+				else if (m.posZ > 20 && stage == 0)
 					continue;
 				m.Dir = randDir;
 				m.posX = m.posX + (m_speed / 2);
@@ -215,9 +238,9 @@ void Room::MoveMonster()
 			}
 			else if (randDir == 6)
 			{
-				if (m.posZ > 20)
+				if (m.posZ > 20 && stage == 0)
 					continue;
-				else if (m.posZ < -20)
+				else if (m.posZ < -20 && stage == 0)
 					continue;
 				m.Dir = randDir;
 				m.posX = m.posX + (m_speed / 2);
@@ -225,18 +248,18 @@ void Room::MoveMonster()
 			}
 			else if (randDir == 7)
 			{
-				if (m.posZ < -20)
+				if (m.posZ < -20 && stage == 0)
 					continue;
-				else if (m.posZ > 20)
+				else if (m.posZ > 20 && stage == 0)
 					continue;
 				m.posX = m.posX - (m_speed / 2);
 				m.posZ = m.posZ + (m_speed / 2);
 			}
 			else if (randDir == 8)
 			{
-				if (m.posZ < -20)
+				if (m.posZ < -20 && stage == 0)
 					continue;
-				else if (m.posZ < -20)
+				else if (m.posZ < -20 && stage == 0)
 					continue;
 				m.Dir = randDir;
 				m.posX = m.posX - (m_speed / 2);
