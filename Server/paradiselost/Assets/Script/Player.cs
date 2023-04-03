@@ -44,17 +44,16 @@ public class Player : MonoBehaviour
     bool isBorder;
 
     int jumpCount = 0;
-
+    private bool isJumping;
     void Start()
     {
-        
+        isJumping = false;
     }
 
     void Update()
     {
         transform.position = Vector3.Lerp(transform.position, posVec, 0.005f);
-        Jump(other_jump);
-        other_jump = false;
+        Jump();
     }
 
     void Awake()
@@ -112,15 +111,20 @@ public class Player : MonoBehaviour
         transform.LookAt(transform.position + moveVec);
     }
 
-    public void Jump(bool isJump)
+    public void Jump()
     {
-        if (isJump && jumpCount == 0 && moveVec != Vector3.zero)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            jumpCount += 1;
-            rigid.AddForce(Vector3.up * speed, ForceMode.Impulse);
+            if (!isJumping)
+            {
+                isJumping = true;
+                rigid.AddForce(Vector3.up * speed, ForceMode.Impulse);
+            }
+
+            else
+                return;
             //.SetBool("isJump", true);
             //anim.SetTrigger("doJump");
-            jumpCount -= 1;
         }
     }
 
@@ -210,8 +214,9 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.tag == "Floor")
         {
-            anim.SetBool("isJump", false);
-            isJump = false;
+            //anim.SetBool("isJump", false);
+            isJumping = false;
         }
+
     }
 }
