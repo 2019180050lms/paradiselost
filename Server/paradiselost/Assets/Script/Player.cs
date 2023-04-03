@@ -10,6 +10,8 @@ public class Player : MonoBehaviour
     public GameObject[] weapons;
     public bool[] hasWeapons;
 
+    public string name;
+
     public ushort hp;
     public int dir = 0;
     public float hAxis;
@@ -28,6 +30,7 @@ public class Player : MonoBehaviour
 
     public Vector3 moveVec;
     public Vector3 moveVec2;
+    public Vector3 posVec;
     public Vector3 dodgeVec;
 
     public Rigidbody rigid;
@@ -47,7 +50,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        //Turn();
+        transform.position = Vector3.Lerp(transform.position, posVec, 0.005f);
     }
 
     void Awake()
@@ -89,26 +92,26 @@ public class Player : MonoBehaviour
     public void Move()
     {
         // 방향값을 무조건 1로 고정
-        moveVec = new Vector3(hAxis, 0, vAxis).normalized;
+        moveVec2 = new Vector3(hAxis, 0, vAxis).normalized;
 
         if (isDodge)
-            moveVec = dodgeVec;
+            moveVec2 = dodgeVec;
 
         if (isSwap || !isFireReady)
-            moveVec = Vector3.zero;
+            moveVec2 = Vector3.zero;
 
         if (wDown)
         {
-            transform.position += moveVec * speed * 0.3f * Time.deltaTime;
+            transform.position += moveVec2 * speed * 0.3f * Time.deltaTime;
             moveVec = transform.position;
         }
         else
         {
-            transform.position += moveVec * speed * 10 * Time.deltaTime;
+            transform.position += moveVec2 * speed * Time.deltaTime;
             moveVec = transform.position;
         }
 
-        anim.SetBool("isRun", moveVec != Vector3.zero);
+        anim.SetBool("isRun", moveVec2 != Vector3.zero);
         anim.SetBool("isWalk", wDown);
 
 

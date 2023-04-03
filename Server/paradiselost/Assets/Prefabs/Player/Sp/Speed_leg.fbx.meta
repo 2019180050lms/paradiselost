@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e6a893011a487134fb99eef304546ba1
+guid: 3d58bb8bd8a1c324a8c6e4acff5ac317
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable:
@@ -104,7 +104,7 @@ ModelImporter:
     legStretch: 0.05
     feetSpacing: 0
     globalScale: 1
-    rootMotionBoneName: 
+    rootMotionBoneName: Armature
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
@@ -112,7 +112,7 @@ ModelImporter:
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
-  avatarSetup: 0
+  avatarSetup: 1
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
   remapMaterialsIfMaterialImportModeIsNone: 0
   additionalBone: 0

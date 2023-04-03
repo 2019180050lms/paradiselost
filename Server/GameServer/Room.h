@@ -12,6 +12,7 @@ public:
 	void AttackedMonster(int32 monsterId, uint16 hp);
 	void BroadCast(SendBufferRef sendBuffer);
 	void CreateMonster();
+	void MoveMonster();
 
 private:
 	USE_LOCK;

@@ -15,7 +15,7 @@ void ServerPacketHandler::HandlePacket(PacketSessionRef& session, BYTE* buffer, 
 
 	switch (header.id)
 	{
-	case C_Login:
+	case C_Chat:
 		Handle_C_Login(session, buffer, len);
 		break;
 	case C_ENTER_GAME:
@@ -24,7 +24,7 @@ void ServerPacketHandler::HandlePacket(PacketSessionRef& session, BYTE* buffer, 
 	case C_MOVE:
 		Handle_C_MOVE(session, buffer, len);
 		break;
-	case C_Chat:
+	case C_Login:
 		Handle_C_Chat(session ,buffer, len);
 		break;
 	case C_MONSTERATTACK:
@@ -43,16 +43,47 @@ bool ServerPacketHandler::Handle_C_Login(PacketSessionRef& session, BYTE* buffer
 	GameSessionRef gameSession = static_pointer_cast<GameSession>(session);
 
 	static Atomic<int32> idGenerator = 1;
+	BufferReader br(buffer, len);
+
+	PacketHeader header;
+	br >> header;
+
+	short strLen;
+	br >> strLen;
+
+	char name[256];
+
+	for (int i = 0; i < strLen; i++)
+	{
+		br >> name[i];
+	}
+	
+	char name_print[256];
+
+	int t = 0;
+	for (int i = 0; i < strLen; i++)
+	{
+		if (name[i] == '\0') {
+		}
+		else {
+			name_print[t] = name[i];
+			t++;
+			name_print[t] = '\0';
+		}
+	}
+	wstring wname(name_print, &name_print[sizeof(name_print)]);
+	wcout << wname << endl;
 
 	{
 		PlayerRef playerRef = MakeShared<Player>();
 		playerRef->playerId = idGenerator++;
 		playerRef->hp = 100;
-		playerRef->name = L"Test";
+		playerRef->name = wname;
+		playerRef->playerDir = 0;
 		playerRef->type = PlayerType::NONE;
-		playerRef->xPos = 1.0f;
+		playerRef->xPos = 19.0f;
 		playerRef->yPos = 2.0f;
-		playerRef->zPos = 3.0f;
+		playerRef->zPos = 19.0f;
 		playerRef->ownerSession = gameSession;
 
 		gameSession->_players.push_back(playerRef);
@@ -62,7 +93,7 @@ bool ServerPacketHandler::Handle_C_Login(PacketSessionRef& session, BYTE* buffer
 		auto sendBuffer = Make_S_ENTER_GAME(true, (int32)playerRef->type);
 		session->Send(sendBuffer);
 	}
-
+	
 	return true;
 }
 
@@ -112,80 +143,31 @@ bool ServerPacketHandler::Handle_C_MOVE(PacketSessionRef& session, BYTE* buffer,
 
 	gameSession->_players[0]->playerDir = dir;
 
-	if (dir == 0)
-	{
-		gameSession->_players[0]->xPos = x;
-		gameSession->_players[0]->yPos = y;
-		gameSession->_players[0]->zPos = z;
-		gameSession->_players[0]->wDown = wDown;
-		gameSession->_players[0]->isJump = isJump;
-	}
-	else if (dir == 1)
-	{
-		gameSession->_players[0]->xPos = x + speed;
-		gameSession->_players[0]->yPos = y;
-		gameSession->_players[0]->zPos = z;
-		gameSession->_players[0]->wDown = wDown;
-		gameSession->_players[0]->isJump = isJump;
-	}
-	else if (dir == 2)
+	if (x > 20)
 	{
 		gameSession->_players[0]->xPos = x - speed;
-		gameSession->_players[0]->yPos = y;
-		gameSession->_players[0]->zPos = z;
 		gameSession->_players[0]->wDown = wDown;
 		gameSession->_players[0]->isJump = isJump;
 	}
-	else if (dir == 3)
+	else if (x < -20)
 	{
-		gameSession->_players[0]->xPos = x;
-		gameSession->_players[0]->yPos = y;
-		gameSession->_players[0]->zPos = z + speed;
+		gameSession->_players[0]->xPos = x + speed;
 		gameSession->_players[0]->wDown = wDown;
 		gameSession->_players[0]->isJump = isJump;
 	}
-	else if (dir == 4)
+	else if (z > 20)
 	{
-		gameSession->_players[0]->xPos = x;
-		gameSession->_players[0]->yPos = y;
 		gameSession->_players[0]->zPos = z - speed;
 		gameSession->_players[0]->wDown = wDown;
 		gameSession->_players[0]->isJump = isJump;
 	}
-	else if (dir == 5)
+	else if (z < -20)
 	{
-		gameSession->_players[0]->xPos = x + (speed / 2);
-		gameSession->_players[0]->yPos = y;
-		gameSession->_players[0]->zPos = z + (speed / 2);
+		gameSession->_players[0]->zPos = z + speed;
 		gameSession->_players[0]->wDown = wDown;
 		gameSession->_players[0]->isJump = isJump;
 	}
-	else if (dir == 6)
-	{
-		gameSession->_players[0]->xPos = x + (speed / 2);
-		gameSession->_players[0]->yPos = y;
-		gameSession->_players[0]->zPos = z - (speed / 2);
-		gameSession->_players[0]->wDown = wDown;
-		gameSession->_players[0]->isJump = isJump;
-	}
-	else if (dir == 7)
-	{
-		gameSession->_players[0]->xPos = x - (speed / 2);
-		gameSession->_players[0]->yPos = y;
-		gameSession->_players[0]->zPos = z + (speed / 2);
-		gameSession->_players[0]->wDown = wDown;
-		gameSession->_players[0]->isJump = isJump;
-	}
-	else if (dir == 8)
-	{
-		gameSession->_players[0]->xPos = x - (speed / 2);
-		gameSession->_players[0]->yPos = y;
-		gameSession->_players[0]->zPos = z - (speed / 2);
-		gameSession->_players[0]->wDown = wDown;
-		gameSession->_players[0]->isJump = isJump;
-	}
-
-	if (isJump)
+	else
 	{
 		gameSession->_players[0]->xPos = x;
 		gameSession->_players[0]->yPos = y;
@@ -193,7 +175,6 @@ bool ServerPacketHandler::Handle_C_MOVE(PacketSessionRef& session, BYTE* buffer,
 		gameSession->_players[0]->wDown = wDown;
 		gameSession->_players[0]->isJump = isJump;
 	}
-	
 
 	auto sendBuffer = Make_S_BroadcastMove(gameSession->_players[0]->playerId,
 		gameSession->_players[0]->playerDir,
@@ -204,39 +185,6 @@ bool ServerPacketHandler::Handle_C_MOVE(PacketSessionRef& session, BYTE* buffer,
 
 	GRoom.BroadCast(sendBuffer);
 
-	for (auto& m : GRoom._monsters)
-	{
-		uint16 randDir = rand() % 5;
-		if (randDir == 0)
-		{
-			continue;
-		}
-		else if (randDir == 1)
-		{
-			m.posX = m.posX + speed;
-		}
-		else if (randDir == 2)
-		{
-			m.posX = m.posX - speed;
-		}
-		else if (randDir == 3)
-		{
-			m.posZ = m.posZ + speed;
-		}
-		else if (randDir == 4)
-		{
-			m.posZ = m.posZ - speed;
-		}
-
-		//cout << "ID: " << m.playerId << " POS: " << m.posX << " " << m.posY << " " << m.posZ << endl;
-		auto sendBufferM = Make_S_BroadcastMove(m.playerId,
-			randDir,
-			m.hp, m.posX,
-			m.posY, m.posZ,
-			false, false);
-
-		GRoom.BroadCast(sendBufferM);
-	}
 	return true;
 }
 
@@ -360,9 +308,14 @@ SendBufferRef ServerPacketHandler::Make_S_PlayerList(List<PlayerList> players)
 	
 	bw << (uint16)(players.size());
 
+	short strLen;
 	for (PlayerList& p : players)
 	{
 		bw << (bool)p.isSelf << (int32)p.playerId << (int32)p.type << (uint16)p.hp << (float)p.posX << (float)p.posY << (float)p.posZ;
+		
+		//bw.Write((void*)p.name.data(), p.name.size() * sizeof(WCHAR));
+
+		cout << "name size: " << p.name.size() * sizeof(WCHAR) << endl;
 	}
 
 	//cout << sizeof(PlayerList) << endl;
@@ -371,6 +324,8 @@ SendBufferRef ServerPacketHandler::Make_S_PlayerList(List<PlayerList> players)
 	header->id = S_PLAYERLIST;
 
 	sendBuffer->Close(bw.WriteSize());
+
+	//cout << "size: " << header->size << endl;
 
 	return sendBuffer;
 }

@@ -2,7 +2,11 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>C:\Users\leemi\Desktop\공부\졸업작품\paradiselost\Server\Binary\Debug\GameServer.exe</FullPath>
+<<<<<<< HEAD
+      <FullPath>D:\ParadiseLostClient2\paradiselost\Server\Binary\Debug\GameServer.exe</FullPath>
+=======
+      <FullPath>C:\Users\GIGABYTE\OneDrive - 한국산업기술대학교\바탕 화면\공부\졸작\paradiselost\Server\Binary\Debug\GameServer.exe</FullPath>
+>>>>>>> e83cd55da2cfac2e808f4e8316da48c502b76207
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />

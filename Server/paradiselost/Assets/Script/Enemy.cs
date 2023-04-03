@@ -12,6 +12,10 @@ public class Enemy : MonoBehaviour
     public bool isChase;
     public bool isAttack;
 
+    public Vector3 prevVec;
+    public Vector3 moveVec2;
+    public Vector3 posVec;
+
     public BoxCollider meleeArea;
 
     Rigidbody rigid;
@@ -20,46 +24,52 @@ public class Enemy : MonoBehaviour
 
     NavMeshAgent nav;
 
-    Animator anim;
+    public Animator anim;
 
     NetworkManager _network;
+
+    public bool walking;
+
+    
     private void Start()
     {
         _network = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
+        walking = true;
+        
     }
 
     void Awake()
     {
+        anim = GetComponentInChildren<Animator>();
         rigid = GetComponent<Rigidbody>();
         boxCollider = GetComponent<BoxCollider>();
-        mat = GetComponentInChildren<MeshRenderer>().material;  // MaterialÀº MesgRenderer¸¦ ÅëÇØ °¡Á®¿È
-        nav = GetComponent<NavMeshAgent>();
-        anim = GetComponentInChildren<Animator>();
+        mat = GetComponentInChildren<MeshRenderer>().material;  // Materialï¿½ï¿½ MesgRendererï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+                                                                //nav = GetComponent<NavMeshAgent>();
 
-        Invoke("ChaseStart", 2);
+        
+
+        //Invoke("Walk", 2);
+        
+       // anim.SetBool("isWalk", true);
     }
 
-    void ChaseStart()
+    void Walk()
     {
-        isChase = true;
+        //isChase = true;
         //anim.SetBool("isWalk", true);
     }
      void Update()
     {
-        /*
-        if (nav.enabled)
-        {
-            nav.SetDestination(target.position);
-            nav.isStopped = !isChase; 
-        }
-        */
+
+        //transform.position = Vector3.Lerp(transform.position, pos, 0.001f);
+        transform.position = Vector3.Lerp(transform.position, posVec, 0.005f);
     }
 
     void OnTriggerEnter(Collider other)
     {
         if(other.tag == "Melee")
         {
-            //Debug.Log(" Ãæµ¹ " );
+            //Debug.Log(" ï¿½æµ¹ " );
            Weapon weapon = other.GetComponent<Weapon>();
             curHealth -= weapon.damage;
             Vector3 reactVec = transform.position - other.transform.position;
@@ -82,6 +92,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
+
     IEnumerator OnDamage(Vector3 reactVec)
     {
         mat.color = Color.red;
@@ -96,10 +107,10 @@ public class Enemy : MonoBehaviour
             mat.color = Color.gray;
             gameObject.layer = 7;
             isChase = false;
-            nav.enabled = false;  // »ç¸Á ¸ð¼Ç ±¸ÇöÇÏ±â À§ÇØ ºñÈ°¼ºÈ­
+            nav.enabled = false;  // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È°ï¿½ï¿½È­
             anim.SetTrigger("doDie");
 
-            // »ç¸Á½Ã ³Ë¹é
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë¹ï¿½
             reactVec = reactVec.normalized;
             reactVec += Vector3.up;
             rigid.AddForce(reactVec * 5, ForceMode.Impulse);
@@ -108,7 +119,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    void FreezVelocity() // È¸Àü ¹ö±× ÇØ°á
+    void FreezVelocity() // È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ø°ï¿½
     {
         if (isChase)
         {
