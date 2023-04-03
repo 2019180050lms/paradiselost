@@ -122,7 +122,7 @@ public class MyPlayer : Player
         if(moveVec != Vector3.zero || wDown || jDown)
         {
             C_Move movePacket = new C_Move();
-            movePacket.playerIndex = 0;
+            movePacket.playerIndex = PlayerId;
             movePacket.playerDir = dir;
             movePacket.hp = hp;
             movePacket.posX = transform.position.x;
@@ -131,6 +131,7 @@ public class MyPlayer : Player
             movePacket.wDown = wDown;
             movePacket.isJump = jDown;
             _network.Send(movePacket.Write());
+            Debug.Log(PlayerId);
         }
         else
         {

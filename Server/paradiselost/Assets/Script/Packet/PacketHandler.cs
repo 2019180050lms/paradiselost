@@ -53,6 +53,8 @@ class PacketHandler
 		ServerSession serverSession = session as ServerSession;
 
 		PlayerManager.Instance.CollisionMove(movePacket);
+
+		Debug.Log("col");
 	}
 
 	public static void S_PlayerListHandler(PacketSession session, IPacket packet)

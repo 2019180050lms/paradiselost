@@ -120,7 +120,6 @@ public class Player : MonoBehaviour
                 isJumping = true;
                 rigid.AddForce(Vector3.up * speed, ForceMode.Impulse);
             }
-
             else
                 return;
             //.SetBool("isJump", true);
