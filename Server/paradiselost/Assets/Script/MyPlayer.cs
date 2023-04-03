@@ -21,7 +21,7 @@ public class MyPlayer : Player
     bool rightDown;
     bool backDown;
 
-
+    
 
     void Start()
     {
@@ -48,7 +48,7 @@ public class MyPlayer : Player
 
 
         MoveControl();
-        Jump(testJump);
+        Jump();
         testJump = false;
     }
 
