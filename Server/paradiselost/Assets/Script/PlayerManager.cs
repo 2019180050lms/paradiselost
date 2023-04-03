@@ -303,6 +303,16 @@ public class PlayerManager
         }
     }
 
+    public void CollisionMove(S_Move packet)
+    {
+        if(_myplayer.PlayerId == packet.playerIndex)
+        {
+            _myplayer.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
+
+            Debug.Log("collision");
+        }
+    }
+
 
     public void EnterGame(S_BroadcastEnterGame packet)
     {

@@ -136,7 +136,6 @@ bool ServerPacketHandler::Handle_C_MOVE(PacketSessionRef& session, BYTE* buffer,
 	br >> id >> dir >> hp >> x >> y >> z >> wDown >> isJump;
 
 	//cout << "ID: " << gameSession->_players[0]->playerId << " HP: " << gameSession->_players[0]->hp << endl;
-	cout << "ID: " << gameSession->_players[0]->playerId << " POS: " << x << " " << y << " " << z << " ";
 	//cout << "Dir: " << dir << endl;
 
 	PlayerRef player = gameSession->_players[0];
@@ -153,27 +152,43 @@ bool ServerPacketHandler::Handle_C_MOVE(PacketSessionRef& session, BYTE* buffer,
 
 	if (x > 20)
 	{
-		gameSession->_players[0]->xPos = x - speed;
+		gameSession->_players[0]->xPos = 19.f;
 		gameSession->_players[0]->wDown = wDown;
 		gameSession->_players[0]->isJump = isJump;
+
+		auto collisionMove = Make_S_MOVE(id, gameSession->_players[0]->xPos, gameSession->_players[0]->yPos, gameSession->_players[0]->zPos);
+
+		session->Send(collisionMove);
 	}
 	else if (x < -20)
 	{
-		gameSession->_players[0]->xPos = x + speed;
+		gameSession->_players[0]->xPos = -19.f;
 		gameSession->_players[0]->wDown = wDown;
 		gameSession->_players[0]->isJump = isJump;
+
+		auto collisionMove = Make_S_MOVE(id, gameSession->_players[0]->xPos, gameSession->_players[0]->yPos, gameSession->_players[0]->zPos);
+
+		session->Send(collisionMove);
 	}
 	else if (z > 20)
 	{
-		gameSession->_players[0]->zPos = z - speed;
+		gameSession->_players[0]->zPos = 19.f;
 		gameSession->_players[0]->wDown = wDown;
 		gameSession->_players[0]->isJump = isJump;
+
+		auto collisionMove = Make_S_MOVE(id, gameSession->_players[0]->xPos, gameSession->_players[0]->yPos, gameSession->_players[0]->zPos);
+
+		session->Send(collisionMove);
 	}
 	else if (z < -20)
 	{
-		gameSession->_players[0]->zPos = z + speed;
+		gameSession->_players[0]->zPos = -19.f;
 		gameSession->_players[0]->wDown = wDown;
 		gameSession->_players[0]->isJump = isJump;
+
+		auto collisionMove = Make_S_MOVE(id, gameSession->_players[0]->xPos, gameSession->_players[0]->yPos, gameSession->_players[0]->zPos);
+
+		session->Send(collisionMove);
 	}
 	else
 	{
@@ -183,6 +198,7 @@ bool ServerPacketHandler::Handle_C_MOVE(PacketSessionRef& session, BYTE* buffer,
 		gameSession->_players[0]->wDown = wDown;
 		gameSession->_players[0]->isJump = isJump;
 	}
+	cout << "ID: " << gameSession->_players[0]->playerId << " POS: " << gameSession->_players[0]->xPos << " " << gameSession->_players[0]->yPos << " " << gameSession->_players[0]->zPos << " ";
 
 	auto sendBuffer = Make_S_BroadcastMove(gameSession->_players[0]->playerId,
 		gameSession->_players[0]->playerDir,

@@ -52,10 +52,7 @@ class PacketHandler
 		S_Move movePacket = packet as S_Move;
 		ServerSession serverSession = session as ServerSession;
 
-		Debug.Log(movePacket.playerIndex);
-		Debug.Log(movePacket.posX);
-		Debug.Log(movePacket.posY);
-		Debug.Log(movePacket.posZ);
+		PlayerManager.Instance.CollisionMove(movePacket);
 	}
 
 	public static void S_PlayerListHandler(PacketSession session, IPacket packet)
