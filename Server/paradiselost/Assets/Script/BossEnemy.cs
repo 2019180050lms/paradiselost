@@ -28,11 +28,13 @@ public class BossEnemy : MonoBehaviour
 
     public Animator anim;
 
+    NetworkManager _network;
 
 
     //public Transform target2;
     void Start()
     {
+        _network = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
         //target2 = GameObject.Find("Player2").GetComponent<Transform>();
     }
 
@@ -60,12 +62,17 @@ public class BossEnemy : MonoBehaviour
     {
         if(other.tag == "Melee")
         {
-            Debug.Log(" 충돌 " );
-           Weapon weapon = other.GetComponent<Weapon>();
+            //Debug.Log(" 충돌 " );
+            Weapon weapon = other.GetComponent<Weapon>();
             curHealth -= weapon.damage;
             Vector3 reactVec = transform.position - other.transform.position;
-            Debug.Log("Melee : " + curHealth);
+            //Debug.Log("Melee : " + curHealth);
             StartCoroutine(OnDamage(reactVec));
+
+            C_AttackedMonster attackedPacket = new C_AttackedMonster();
+            attackedPacket.id = enemyId;
+            attackedPacket.hp = (ushort)curHealth;
+            _network.Send(attackedPacket.Write());
         }
         else if (other.tag == "Bullet")
         {
@@ -105,8 +112,8 @@ public class BossEnemy : MonoBehaviour
             reactVec += Vector3.up;
             rigid.AddForce(reactVec * 5, ForceMode.Impulse);
 
-            if(enemyType != Type.D)
-                Destroy(gameObject, 2);
+            //if(enemyType != Type.D)
+                //Destroy(gameObject, 2);
 
         }
     }

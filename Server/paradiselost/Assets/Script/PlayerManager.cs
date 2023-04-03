@@ -376,6 +376,11 @@ public class PlayerManager
                     GameObject.Destroy(enemy.gameObject);
                     _enemys.Remove(packet.playerId);
                 }
+                else if(packet.playerId >= 1000)
+                {
+                    GameObject.Destroy(_boss.gameObject, 2);
+                    _boss = null;
+                }
             }
         }
     }
@@ -385,9 +390,12 @@ public class PlayerManager
         Enemy enemy = null;
         if (_enemys.TryGetValue(packet.id, out enemy))
         {
-            Debug.Log("적 피격");
-            Debug.Log(enemy.curHealth);
             enemy.curHealth = packet.hp;
+        }
+        else if(packet.id >= 1000)
+        {
+            _boss.curHealth = packet.hp;
+            Debug.Log("보스 피격" + _boss.curHealth);
         }
     }
 

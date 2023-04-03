@@ -1,7 +1,7 @@
 #pragma once
 #include "ServerPacketHandler.h"
 
-#define MAX_MONSTER 2
+#define MAX_MONSTER 5
 
 class Room
 {
