@@ -136,12 +136,20 @@ bool ServerPacketHandler::Handle_C_MOVE(PacketSessionRef& session, BYTE* buffer,
 	br >> id >> dir >> hp >> x >> y >> z >> wDown >> isJump;
 
 	//cout << "ID: " << gameSession->_players[0]->playerId << " HP: " << gameSession->_players[0]->hp << endl;
-	//cout << "ID: " << gameSession->_players[0]->playerId << " POS: " << x << " " << y << " " << z << endl;
+	cout << "ID: " << gameSession->_players[0]->playerId << " POS: " << x << " " << y << " " << z << " ";
 	//cout << "Dir: " << dir << endl;
 
 	PlayerRef player = gameSession->_players[0];
 
 	gameSession->_players[0]->playerDir = dir;
+
+	if (isJump)
+	{
+		if (gameSession->_players[0]->yPos > 5)
+			gameSession->_players[0]->isJump = false;
+	}
+
+	cout << gameSession->_players[0]->isJump << endl;
 
 	if (x > 20)
 	{

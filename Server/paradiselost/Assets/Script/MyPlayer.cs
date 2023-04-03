@@ -13,6 +13,8 @@ public class MyPlayer : Player
     public float distance = 8;
     public static int health = 80;
     public static int maxHealth = 100;
+    public bool jDown;
+    public bool testJump;
 
     bool frontDown;
     bool leftDown;
@@ -37,7 +39,6 @@ public class MyPlayer : Player
     {
         GetInput();
         Interaction();
-        moveVec = new Vector3(hAxis, 0, vAxis).normalized;
         anim.SetBool("isRun", moveVec != Vector3.zero);
 
         frontDown = Input.GetKey(KeyCode.W);
@@ -45,6 +46,28 @@ public class MyPlayer : Player
         rightDown = Input.GetKey(KeyCode.D);
         backDown = Input.GetKey(KeyCode.S);
 
+
+        MoveControl();
+        Jump(testJump);
+        testJump = false;
+    }
+
+    void GetInput()
+    {
+        hAxis = Input.GetAxisRaw("Horizontal");
+        vAxis = Input.GetAxisRaw("Vertical");
+        wDown = Input.GetButton("Walk");
+        jDown = Input.GetButton("Jump");
+        fDown = Input.GetButtonDown("Fire1");
+        iDown = Input.GetButtonDown("Interaction");
+
+        sDown1 = Input.GetButtonDown("Swap1");
+        sDown2 = Input.GetButtonDown("Swap2");
+    }
+
+    void MoveControl()
+    {
+        moveVec = new Vector3(hAxis, 0, vAxis).normalized;
         CameraMove();
 
         if (dir == 0)
@@ -66,13 +89,9 @@ public class MyPlayer : Player
         else if (dir == 8)
             moveVec2 = new Vector3(-(Mathf.Sqrt(0.5f)), 0, -(Mathf.Sqrt(0.5f)));
 
-        //Move();
         transform.position += moveVec2 * speed * Time.deltaTime;
         transform.LookAt(transform.position + moveVec2);
-        
     }
-
-
 
     void LateUpdate()
     {
@@ -100,7 +119,7 @@ public class MyPlayer : Player
 
     void cs_move_packet()
     {
-        if(moveVec != Vector3.zero || wDown)
+        if(moveVec != Vector3.zero || wDown || jDown)
         {
             C_Move movePacket = new C_Move();
             movePacket.playerIndex = 0;

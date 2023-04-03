@@ -159,37 +159,10 @@ public class PlayerManager
         if (_myplayer.PlayerId == packet.playerId)
         {
             Vector3 movePos = new Vector3(packet.posX, packet.posY, packet.posZ);
-            //_myplayer.moveVec = new Vector3(_myplayer.hAxis, 0, _myplayer.vAxis).normalized;
-            if (packet.playerDir == 0)
-                _myplayer.moveVec2 = new Vector3(0, 0, 0);
-            else if (packet.playerDir == 1)
-                _myplayer.moveVec2 = new Vector3(1, 0, 0);
-            else if (packet.playerDir == 2)
-                _myplayer.moveVec2 = new Vector3(-1, 0, 0);
-            else if (packet.playerDir == 3)
-                _myplayer.moveVec2 = new Vector3(0, 0, 1);
-            else if (packet.playerDir == 4)
-                _myplayer.moveVec2 = new Vector3(0, 0, -1);
-            else if (packet.playerDir == 5)
-                _myplayer.moveVec2 = new Vector3(Mathf.Sqrt(0.5f), 0, Mathf.Sqrt(0.5f));
-            else if (packet.playerDir == 6)
-                _myplayer.moveVec2 = new Vector3(Mathf.Sqrt(0.5f), 0, -(Mathf.Sqrt(0.5f)));
-            else if (packet.playerDir == 7)
-                _myplayer.moveVec2 = new Vector3(-(Mathf.Sqrt(0.5f)), 0, Mathf.Sqrt(0.5f));
-            else if (packet.playerDir == 8)
-                _myplayer.moveVec2 = new Vector3(-(Mathf.Sqrt(0.5f)), 0, -(Mathf.Sqrt(0.5f)));
-
-            /*
-            if(packet.isJump && _myplayer.moveVec2 == Vector3.zero && !_myplayer.isJump && !_myplayer.isDodge && !_myplayer.isSwap)
-            {
-                _myplayer.rigid.AddForce(Vector3.up * 15, ForceMode.Impulse);
-                _myplayer.anim.SetBool("isJump", true);
-                _myplayer.anim.SetTrigger("doJump");
-                _myplayer.isJump = true;
-            }    
-            */
             _myplayer.dir = packet.playerDir;
             _myplayer.wDown = packet.wDown;
+            Debug.Log(packet.isJump);
+            _myplayer.testJump = packet.isJump;
             //_myplayer.transform.position = movePos;
 
             //Debug.Log(packet.hp);
@@ -230,6 +203,7 @@ public class PlayerManager
                 //player.moveVec = new Vector3(_myplayer.hAxis, 0, _myplayer.vAxis).normalized;
 
                 player.wDown = packet.wDown;
+                player.other_jump = packet.isJump;
                 //player.transform.position = movePos;
 
                 //Debug.Log("Pmovevec:");
@@ -317,7 +291,6 @@ public class PlayerManager
                 //enemy.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
                 _boss.posVec = new Vector3(packet.posX, packet.posY, packet.posZ);
                 //_boss.anim.SetBool("isWalk", _boss.isAttack != false);
-                Debug.Log(packet.wDown);
                 if (packet.wDown)
                 {
                     _boss.anim.SetTrigger("doAttack");

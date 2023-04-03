@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
     public GameObject[] weapons;
     public bool[] hasWeapons;
 
-    public string name;
+    //public string name;
 
     public ushort hp;
     public int dir = 0;
@@ -18,7 +18,6 @@ public class Player : MonoBehaviour
     public float vAxis;
     public bool wDown;
     public bool iDown;
-    public bool jDown;
     public bool sDown1;
     public bool sDown2;
     public bool fDown;
@@ -27,6 +26,7 @@ public class Player : MonoBehaviour
     public bool isJump;
     public bool isSwap;
     public bool isFireReady = true;
+    public bool other_jump;
 
     public Vector3 moveVec;
     public Vector3 moveVec2;
@@ -43,6 +43,8 @@ public class Player : MonoBehaviour
     public float fireDelay;
     bool isBorder;
 
+    int jumpCount = 0;
+
     void Start()
     {
         
@@ -51,6 +53,8 @@ public class Player : MonoBehaviour
     void Update()
     {
         transform.position = Vector3.Lerp(transform.position, posVec, 0.005f);
+        Jump(other_jump);
+        other_jump = false;
     }
 
     void Awake()
@@ -58,19 +62,7 @@ public class Player : MonoBehaviour
         rigid = GetComponent<Rigidbody>();
         anim = GetComponentInChildren<Animator>();
     }
-
-    public void GetInput()
-    {
-        hAxis = Input.GetAxisRaw("Horizontal");
-        vAxis = Input.GetAxisRaw("Vertical");
-        wDown = Input.GetButton("Walk");
-        jDown = Input.GetButtonDown("Jump");
-        fDown = Input.GetButtonDown("Fire1");
-        iDown = Input.GetButtonDown("Interaction");
-
-        sDown1 = Input.GetButtonDown("Swap1");
-        sDown2 = Input.GetButtonDown("Swap2");
-    }
+    
 
     void StopToWall() // 관통 버그 해결
     {
@@ -113,8 +105,6 @@ public class Player : MonoBehaviour
 
         anim.SetBool("isRun", moveVec2 != Vector3.zero);
         anim.SetBool("isWalk", wDown);
-
-
     }
 
     public void Turn()
@@ -124,12 +114,13 @@ public class Player : MonoBehaviour
 
     public void Jump(bool isJump)
     {
-        if (jDown && moveVec == Vector3.zero && !isJump && !isDodge && !isSwap)
+        if (isJump && jumpCount == 0 && moveVec != Vector3.zero)
         {
-            rigid.AddForce(Vector3.up * 15, ForceMode.Impulse);
-            anim.SetBool("isJump", true);
-            anim.SetTrigger("doJump");
-            isJump = true;
+            jumpCount += 1;
+            rigid.AddForce(Vector3.up * speed, ForceMode.Impulse);
+            //.SetBool("isJump", true);
+            //anim.SetTrigger("doJump");
+            jumpCount -= 1;
         }
     }
 
@@ -150,6 +141,7 @@ public class Player : MonoBehaviour
     }
     public void Dodge()
     {
+        /*
         if (jDown && moveVec != Vector3.zero && !isJump && !isDodge && !isSwap)
         {
             dodgeVec = moveVec;
@@ -159,6 +151,7 @@ public class Player : MonoBehaviour
 
             Invoke("DodgeOut", 0.5f);
         }
+        */
     }
 
     public void Swap()
