@@ -7,20 +7,29 @@ public class GameUIManager : MonoBehaviour
 {
     MyPlayer myPlayer;
     public float playTime;
-    
+
+    BoxCollider boxCollider;
 
     public Text stageTxt;
     public Text playerHealthTxt;
     public Text playTimeTxt;
 
+    
     public int hP = 0;
 
     public BossEnemy boss;
     public RectTransform bossHealthGroup;
     public RectTransform bossHealthBar;
+
+    public GameObject BossUI;
     void Start()
     {
-        Invoke("FindBossHp", 0.5f);
+        //Invoke("FindBossHp", 0.5f);
+    }
+
+    void Awake()
+    {
+        boxCollider = GetComponent<BoxCollider>();
     }
 
     void FindBossHp()
@@ -48,5 +57,15 @@ public class GameUIManager : MonoBehaviour
         playerHealthTxt.text = MyPlayer.health.ToString() + " /  100";
 
         bossHealthBar.localScale = new Vector3((float)boss.curHealth / boss.maxHealth, 1, 1);
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            Debug.Log("Enter BossRoom");
+            FindBossHp();
+            BossUI.SetActive(true);
+        }
     }
 }

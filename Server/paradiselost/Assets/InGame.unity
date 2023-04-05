@@ -604,7 +604,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &488831250
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2128,6 +2128,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1960229463}
   - component: {fileID: 1960229464}
+  - component: {fileID: 1960229465}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -2143,7 +2144,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1960229462}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 947.307, y: 720.76447, z: -3.3284793}
+  m_LocalPosition: {x: 4.84, y: 8.4, z: -1.41}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2170,6 +2171,20 @@ MonoBehaviour:
   boss: {fileID: 0}
   bossHealthGroup: {fileID: 488831250}
   bossHealthBar: {fileID: 807131735}
+  BossUI: {fileID: 488831249}
+--- !u!65 &1960229465
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1960229462}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 75, y: 30, z: 75}
+  m_Center: {x: 234, y: -10, z: 0}
 --- !u!1 &1971194483
 GameObject:
   m_ObjectHideFlags: 0
