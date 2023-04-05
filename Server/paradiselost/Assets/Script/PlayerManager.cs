@@ -7,7 +7,7 @@ public class PlayerManager
     MyPlayer _myplayer;
     Player player = null;
     Enemy enemy = null;
-    BossEnemy _boss = null;
+    public BossEnemy _boss = null;
     Dictionary<int, Player> _players = new Dictionary<int, Player>();
     Dictionary<int, Enemy> _enemys = new Dictionary<int, Enemy>();
 

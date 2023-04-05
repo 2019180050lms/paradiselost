@@ -2855,7 +2855,7 @@ MonoBehaviour:
   enemyType: 0
   enemyId: 0
   maxHealth: 1000
-  curHealth: 500
+  curHealth: 1000
   meleeArea: {fileID: 0}
   bullet: {fileID: 0}
   isChase: 0
