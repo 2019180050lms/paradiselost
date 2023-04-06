@@ -21,6 +21,8 @@ enum
 	C_MONSTERATTACK = 12,
 	C_MONSTERDEAD = 13,
 	S_ATTACKEDMONSTER = 14,
+	S_BROADCAST_ITEM = 15,
+	C_ENTER_ITEM = 16
 };
 
 #pragma pack(push, 1)
@@ -49,6 +51,7 @@ public:
 	static bool Handle_C_MOVE(PacketSessionRef& session, BYTE* buffer, int32 len);
 	static bool Handle_C_MonsterAttack(PacketSessionRef& session, BYTE* buffer, int32 len);
 	static bool Handle_C_MonsterDead(PacketSessionRef& session, BYTE* buffer, int32 len);
+	static bool Handle_C_Item(PacketSessionRef& session, BYTE* buffer, int32 len);
 
 	static bool Handle_C_Chat(PacketSessionRef& session, BYTE* buffer, int32 len);
 	
@@ -59,6 +62,7 @@ public:
 	static SendBufferRef Make_S_BroadcastEnter_Game(int32 playerId, int32 type, float posX, float posY, float posZ);
 	static SendBufferRef Make_S_BroadcastLeave_Game(int32 playerId);
 	static SendBufferRef Make_S_BroadcastMove(int32 playerId, int32 playerDir, uint16 hp, float posX, float posY, float posZ, bool wDown, bool isJump);
+	static SendBufferRef Make_S_BroadcastItem(int32 playerId, int32 itemType);
 
 	static SendBufferRef Make_S_AttackedMonster(int32 playerId, uint16 hp);
 };

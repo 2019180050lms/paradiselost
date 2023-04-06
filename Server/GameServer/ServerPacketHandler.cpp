@@ -33,6 +33,9 @@ void ServerPacketHandler::HandlePacket(PacketSessionRef& session, BYTE* buffer, 
 	case C_MONSTERDEAD:
 		Handle_C_MonsterDead(session, buffer, len);
 		break;
+	case C_ENTER_ITEM:
+		Handle_C_Item(session, buffer, len);
+		break;
 	default:
 		break;
 	}
@@ -210,7 +213,7 @@ bool ServerPacketHandler::Handle_C_MOVE(PacketSessionRef& session, BYTE* buffer,
 		gameSession->_players[0]->zPos = 19.f;
 
 		auto collisionMove = Make_S_MOVE(id, gameSession->_players[0]->xPos, gameSession->_players[0]->yPos, gameSession->_players[0]->zPos);
-		cout << "ID: " << id << " POS: " << gameSession->_players[0]->xPos << " " << gameSession->_players[0]->yPos << " " << gameSession->_players[0]->zPos << " " << endl;
+		//cout << "ID: " << id << " POS: " << gameSession->_players[0]->xPos << " " << gameSession->_players[0]->yPos << " " << gameSession->_players[0]->zPos << " " << endl;
 		session->Send(collisionMove);
 	}
 	else
@@ -221,7 +224,7 @@ bool ServerPacketHandler::Handle_C_MOVE(PacketSessionRef& session, BYTE* buffer,
 		gameSession->_players[0]->wDown = wDown;
 		gameSession->_players[0]->isJump = isJump;
 	}
-	cout << "ID: " << id << " POS: " << gameSession->_players[0]->xPos << " " << gameSession->_players[0]->yPos << " " << gameSession->_players[0]->zPos << " " << endl;
+	//cout << "ID: " << id << " POS: " << gameSession->_players[0]->xPos << " " << gameSession->_players[0]->yPos << " " << gameSession->_players[0]->zPos << " " << endl;
 
 	auto sendBuffer = Make_S_BroadcastMove(gameSession->_players[0]->playerId,
 		gameSession->_players[0]->playerDir,
@@ -263,6 +266,24 @@ bool ServerPacketHandler::Handle_C_MonsterDead(PacketSessionRef& session, BYTE* 
 	int32 id;
 	br >> id;
 	GRoom.DeadMonster(id);
+
+	return true;
+}
+
+bool ServerPacketHandler::Handle_C_Item(PacketSessionRef& session, BYTE* buffer, int32 len)
+{
+	BufferReader br(buffer, len);
+
+	PacketHeader header;
+	br >> header;
+
+	int32 id, itemType;
+	br >> id >> itemType;
+
+	cout << "player id: " << id << " itemType: " << itemType << endl;
+		
+	auto sendBuffer = Make_S_BroadcastItem(id, itemType);
+	GRoom.BroadCast(sendBuffer);
 
 	return true;
 }
@@ -425,6 +446,24 @@ SendBufferRef ServerPacketHandler::Make_S_BroadcastMove(int32 playerId, int32 pl
 
 	header->size = bw.WriteSize();
 	header->id = S_BROADCAST_MOVE;
+
+	sendBuffer->Close(bw.WriteSize());
+
+	return sendBuffer;
+}
+
+SendBufferRef ServerPacketHandler::Make_S_BroadcastItem(int32 playerId, int32 itemType)
+{
+	SendBufferRef sendBuffer = GSendBufferManager->Open(4096);
+
+	BufferWriter bw(sendBuffer->Buffer(), sendBuffer->AllocSize());
+
+	PacketHeader* header = bw.Reserve<PacketHeader>();
+
+	bw << playerId << itemType;
+
+	header->size = bw.WriteSize();
+	header->id = S_BROADCAST_ITEM;
 
 	sendBuffer->Close(bw.WriteSize());
 

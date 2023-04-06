@@ -172,7 +172,17 @@ public class MyPlayer : Player
         //trailEffect.enabled = false;
     }
 
-    
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "Item")
+        {
+            C_Item i_pkt = new C_Item();
+            i_pkt.playerId = PlayerId;
+            i_pkt.itemType = 0;
+            _network.Send(i_pkt.Write());
+            Destroy(other.gameObject);
+        }
+    }
 
     IEnumerator CoSendPacket()
     {

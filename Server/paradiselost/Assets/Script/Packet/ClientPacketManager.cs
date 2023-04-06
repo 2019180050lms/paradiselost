@@ -42,7 +42,10 @@ class PacketManager
 
         _makeFunc.Add((ushort)PacketID.S_ATTACKEDMONSTER, MakePacket<S_AttackedMonster>);
         _handler.Add((ushort)PacketID.S_ATTACKEDMONSTER, PacketHandler.S_AttackedMonsterHandler);
-    }
+
+		_makeFunc.Add((ushort)PacketID.S_BROADCAST_ITEM, MakePacket<S_Broadcast_Item>);
+		_handler.Add((ushort)PacketID.S_BROADCAST_ITEM, PacketHandler.S_BroadCastItem);
+	}
 
 	public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer, Action<PacketSession, IPacket> onRecvCallback = null)
 	{

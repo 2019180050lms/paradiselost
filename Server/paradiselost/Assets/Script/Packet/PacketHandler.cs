@@ -102,4 +102,15 @@ class PacketHandler
 		//if (chatPacket.playerId == 1)
 			//Console.WriteLine(chatPacket.chat);
 	}
+
+	public static void S_BroadCastItem(PacketSession session, IPacket packet)
+	{
+		S_Broadcast_Item pkt = packet as S_Broadcast_Item;
+		ServerSession serverSession = session as ServerSession;
+
+		//PlayerManager.Instance.CollisionMove();
+
+		Debug.Log("아이템 먹은 플레이어" + pkt.playerId);
+		Debug.Log("아이템 타입: " + pkt.itemType);
+	}
 }

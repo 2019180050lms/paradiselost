@@ -208,6 +208,16 @@ public class Player : MonoBehaviour
             nearObject = null;
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "Item")
+        {
+            Destroy(other.gameObject);
+            //other.gameObject.SetActive(false);
+            Debug.Log("destroy item");
+        }
+    }
+
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Floor")
