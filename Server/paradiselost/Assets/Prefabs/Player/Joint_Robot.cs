@@ -5,31 +5,24 @@ using UnityEngine;
 public class Joint_Robot : MonoBehaviour
 {
     enum parts { head = 0, body = 1, leg = 2};
-    GameObject leg;
-    GameObject body;
-    GameObject head;
+    public GameObject leg;
+    public GameObject body;
+    public GameObject  head;
     public GameObject[] po_list;
     public GameObject[] sh_list;
     public GameObject[] sp_list;
 
     //private bool quit_canvas;
-    private int change_parts;
+    public int change_parts;
 
     public int type = 1;
     [SerializeField] GameObject canvas;
+
+    public static Joint_Robot Instance { get; } = new Joint_Robot();
+
     // Start is called before the first frame update
     void Start()
     {
-        change_parts = 0;
-        leg = Instantiate(sp_list[(int)parts.leg], transform);
-        //leg.transform.position = new Vector3(-5, 5, 3);
-
-        body = Instantiate(sp_list[(int)parts.body], transform);
-        body.transform.position = leg.transform.position + leg.transform.Find("Joint_Leg").transform.localPosition - body.transform.Find("Joint_Leg").transform.localPosition;
-
-        head = Instantiate(sp_list[(int)parts.head], transform);
-        head.transform.position = body.transform.position + body.transform.Find("Joint_Head").transform.localPosition - head.transform.Find("Joint_Head").transform.localPosition;
-
         //quit_canvas = false;
 
         //canvas.gameObject.SetActive(false);
@@ -87,7 +80,7 @@ public class Joint_Robot : MonoBehaviour
        
     }
 
-    void SwitchParts(int type)
+    public void SwitchParts(int type)
     {
         switch (change_parts)
         {
@@ -180,30 +173,4 @@ public class Joint_Robot : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.tag == "Body_Item")
-        {
-            change_parts = 2;
-            ItemParts obj = other.GetComponent<ItemParts>();
-            int type = obj.type;
-            SwitchParts(type);
-        }
-
-        else if(other.tag == "Leg_Item")
-        {
-            change_parts = 3;
-            ItemParts obj = other.GetComponent<ItemParts>();
-            int type = obj.type;
-            SwitchParts(type);
-        }
-
-        else if (other.tag == "Head_Item")
-        {
-            change_parts = 1;
-            ItemParts obj = other.GetComponent<ItemParts>();
-            int type = obj.type;
-            SwitchParts(type);
-        }
-    }
 }

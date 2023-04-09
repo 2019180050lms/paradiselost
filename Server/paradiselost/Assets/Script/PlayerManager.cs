@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class PlayerManager
 {
-    MyPlayer _myplayer;
+    public MyPlayer _myplayer;
     Player player = null;
     Enemy enemy = null;
+    public Joint_Robot joint;
     public BossEnemy _boss = null;
     Dictionary<int, Player> _players = new Dictionary<int, Player>();
     Dictionary<int, Enemy> _enemys = new Dictionary<int, Enemy>();
@@ -24,15 +25,41 @@ public class PlayerManager
             {
                 if (p.type == 1)
                 {
-                    Object obj = Resources.Load("Player");
+                    Object obj = Resources.Load("Player_t");
                     GameObject go = Object.Instantiate(obj) as GameObject;
                     
                     if (p.isSelf)
                     {
-                        Object obj2= Resources.Load("PlayerPtr");
+                        Object obj2 = Resources.Load("PlayerPtr");
                         GameObject PlayerPtr = Object.Instantiate(obj2) as GameObject;
 
+                        Debug.Log("item: " + p.head + " " + p.body + " " + p.leg);
+
+                        Object head = Resources.Load("Po_Head_Parts");
+                        Object body = Resources.Load("Po_Body_Parts");
+                        Object leg = Resources.Load("Po_Leg_Parts");
+                        //GameObject head_p = Object.Instantiate(head) as GameObject;
+                        //GameObject body_p = Object.Instantiate(body) as GameObject;
+                        //GameObject leg_p = Object.Instantiate(leg) as GameObject;
+
                         MyPlayer myPlayer = go.AddComponent<MyPlayer>();
+                        joint = go.AddComponent<Joint_Robot>();
+                        joint.po_list = new GameObject[3];
+                        
+                        joint.po_list[0] = head as GameObject;
+                        joint.po_list[1] = body as GameObject;
+                        joint.po_list[2] = leg as GameObject;
+
+                        joint.leg = Object.Instantiate(joint.po_list[2], myPlayer.transform);
+                        //leg.transform.position = new Vector3(-5, 5, 3);
+
+                        joint.body = Object.Instantiate(joint.po_list[1], myPlayer.transform);
+                        joint.body.transform.position = joint.leg.transform.position + joint.leg.transform.Find("Joint_Leg").transform.localPosition - joint.body.transform.Find("Joint_Leg").transform.localPosition;
+
+                        joint.head = Object.Instantiate(joint.po_list[0], myPlayer.transform);
+                        joint.head.transform.position = joint.body.transform.position + joint.body.transform.Find("Joint_Head").transform.localPosition - joint.head.transform.Find("Joint_Head").transform.localPosition;
+
+
                         PlayerPtr.transform.SetParent(go.transform, false);
                         myPlayer.PlayerId = p.playerId;
                         myPlayer.hp = p.hp;
@@ -381,6 +408,41 @@ public class PlayerManager
                     GameObject.Destroy(_boss.gameObject, 2);
                     _boss = null;
                 }
+            }
+        }
+    }
+
+    public void ItemManager(S_Broadcast_Item packet)
+    {
+        if(packet.playerId == _myplayer.PlayerId)
+        {
+            if (packet.charactorType == 1)
+            {
+                _myplayer.head = packet.itemType;
+            }
+            else if (packet.charactorType == 2)
+            {
+                _myplayer.body = packet.itemType;
+            }
+            else if (packet.charactorType == 3)
+            {
+                _myplayer.leg = packet.itemType;
+            }
+        }
+        else if (_players.TryGetValue(packet.playerId, out player))
+        {
+
+            if (packet.charactorType == 1)
+            {
+                player.head = packet.itemType;
+            }
+            else if (packet.charactorType == 2)
+            {
+                player.body = packet.itemType;
+            }
+            else if (packet.charactorType == 3)
+            {
+                player.leg = packet.itemType;
             }
         }
     }

@@ -36,6 +36,9 @@ struct PlayerList
 	float posX;
 	float posY;
 	float posZ;
+	uint16 head;
+	uint16 body;
+	uint16 leg;
 	bool wDown;
 	wstring name;
 };
@@ -62,7 +65,7 @@ public:
 	static SendBufferRef Make_S_BroadcastEnter_Game(int32 playerId, int32 type, float posX, float posY, float posZ);
 	static SendBufferRef Make_S_BroadcastLeave_Game(int32 playerId);
 	static SendBufferRef Make_S_BroadcastMove(int32 playerId, int32 playerDir, uint16 hp, float posX, float posY, float posZ, bool wDown, bool isJump);
-	static SendBufferRef Make_S_BroadcastItem(int32 playerId, int32 itemType);
+	static SendBufferRef Make_S_BroadcastItem(int32 playerId, uint16 charactorType, uint16 itemType);
 
 	static SendBufferRef Make_S_AttackedMonster(int32 playerId, uint16 hp);
 };

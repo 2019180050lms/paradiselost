@@ -28,6 +28,11 @@ public class Player : MonoBehaviour
     public bool isFireReady = true;
     public bool other_jump;
 
+    // 아이템
+    public ushort head;
+    public ushort body;
+    public ushort leg;
+
     public Vector3 moveVec;
     public Vector3 moveVec2;
     public Vector3 posVec;

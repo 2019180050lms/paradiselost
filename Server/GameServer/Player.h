@@ -22,6 +22,9 @@ public:
 	float			xPos;
 	float			yPos;
 	float			zPos;
+	uint16			head;
+	uint16			body;
+	uint16			leg;
 
 	// 애니메이션
 	bool wDown = false;
