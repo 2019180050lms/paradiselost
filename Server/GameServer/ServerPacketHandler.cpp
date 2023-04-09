@@ -116,9 +116,30 @@ bool ServerPacketHandler::Handle_C_ENTER_GAME(PacketSessionRef& session, BYTE* b
 	PlayerRef player = gameSession->_players[playerIndex];
 	player->type = (PlayerType)playerType;
 
+	if (playerType == PlayerType::AMOR)
+	{
+		gameSession->_players[0]->head = 2;
+		gameSession->_players[0]->body = 2;
+		gameSession->_players[0]->leg = 2;
+	}
+	else if (playerType == PlayerType::POWER)
+	{
+		gameSession->_players[0]->head = 1;
+		gameSession->_players[0]->body = 1;
+		gameSession->_players[0]->leg = 1;
+	}
+	else if (playerType == PlayerType::SPEED)
+	{
+		gameSession->_players[0]->head = 3;
+		gameSession->_players[0]->body = 3;
+		gameSession->_players[0]->leg = 3;
+	}
+
 	GRoom.Enter(player);
 
-	cout << "ENTER GAME ID: " << gameSession->_players[playerIndex]->playerId << endl;
+	cout << "ENTER GAME ID: " << gameSession->_players[playerIndex]->playerId << " "
+		<< gameSession->_players[playerIndex]->head << " " << gameSession->_players[playerIndex]->body <<
+		" " << gameSession->_players[playerIndex]->leg << endl;
 
 	return true;
 }
@@ -272,17 +293,36 @@ bool ServerPacketHandler::Handle_C_MonsterDead(PacketSessionRef& session, BYTE* 
 
 bool ServerPacketHandler::Handle_C_Item(PacketSessionRef& session, BYTE* buffer, int32 len)
 {
+	GameSessionRef gameSession = static_pointer_cast<GameSession>(session);
+
 	BufferReader br(buffer, len);
 
 	PacketHeader header;
 	br >> header;
 
-	int32 id, itemType;
-	br >> id >> itemType;
+	PlayerRef player = gameSession->_players[0];
 
-	cout << "player id: " << id << " itemType: " << itemType << endl;
+	int32 id;
+	uint16 charactorType, itemType;
+	br >> id >> charactorType >> itemType;
+
+	if (charactorType == 1)
+	{
+		player->head = itemType;
 		
-	auto sendBuffer = Make_S_BroadcastItem(id, itemType);
+	}
+	else if (charactorType == 2)
+	{
+		player->body = itemType;
+	}
+	else if (charactorType == 3)
+	{
+		player->leg = itemType;
+	}
+
+	cout << "player id: " << id << "charactorType: " << charactorType << " itemType: " << itemType << endl;
+		
+	auto sendBuffer = Make_S_BroadcastItem(id, charactorType, itemType);
 	GRoom.BroadCast(sendBuffer);
 
 	return true;
@@ -379,7 +419,7 @@ SendBufferRef ServerPacketHandler::Make_S_PlayerList(List<PlayerList> players)
 	short strLen;
 	for (PlayerList& p : players)
 	{
-		bw << (bool)p.isSelf << (int32)p.playerId << (int32)p.type << (uint16)p.hp << (float)p.posX << (float)p.posY << (float)p.posZ;
+		bw << (bool)p.isSelf << (int32)p.playerId << (int32)p.type << (uint16)p.hp << (float)p.posX << (float)p.posY << (float)p.posZ << p.head << p.body << p.leg;
 		
 		//bw.Write((void*)p.name.data(), p.name.size() * sizeof(WCHAR));
 
@@ -452,7 +492,7 @@ SendBufferRef ServerPacketHandler::Make_S_BroadcastMove(int32 playerId, int32 pl
 	return sendBuffer;
 }
 
-SendBufferRef ServerPacketHandler::Make_S_BroadcastItem(int32 playerId, int32 itemType)
+SendBufferRef ServerPacketHandler::Make_S_BroadcastItem(int32 playerId, uint16 charactorType, uint16 itemType)
 {
 	SendBufferRef sendBuffer = GSendBufferManager->Open(4096);
 
@@ -460,7 +500,7 @@ SendBufferRef ServerPacketHandler::Make_S_BroadcastItem(int32 playerId, int32 it
 
 	PacketHeader* header = bw.Reserve<PacketHeader>();
 
-	bw << playerId << itemType;
+	bw << playerId << charactorType << itemType;
 
 	header->size = bw.WriteSize();
 	header->id = S_BROADCAST_ITEM;

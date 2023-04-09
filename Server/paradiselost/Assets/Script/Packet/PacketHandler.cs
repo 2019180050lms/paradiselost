@@ -111,6 +111,7 @@ class PacketHandler
 		//PlayerManager.Instance.CollisionMove();
 
 		Debug.Log("아이템 먹은 플레이어" + pkt.playerId);
+		Debug.Log("캐릭터 타입: " + pkt.charactorType);
 		Debug.Log("아이템 타입: " + pkt.itemType);
 	}
 }

@@ -28,6 +28,9 @@ void Room::Enter(PlayerRef player)
 		l_player.posX = iter->posX;
 		l_player.posY = iter->posY;
 		l_player.posZ = iter->posZ;
+		l_player.head = 0;
+		l_player.body = 0;
+		l_player.leg = 0;
 
 		players.push_back(l_player);
 		i++;
@@ -51,7 +54,10 @@ void Room::Enter(PlayerRef player)
 		l_player.posX = 10.f;
 		l_player.posY = 3.f;
 		l_player.posZ = 10.f;
-		l_player.name = iter->second->name;
+		l_player.head = iter->second->head;
+		l_player.body = iter->second->body;
+		l_player.leg = iter->second->leg;
+		//l_player.name = iter->second->name;
 
 		players.push_back(l_player);
 	}

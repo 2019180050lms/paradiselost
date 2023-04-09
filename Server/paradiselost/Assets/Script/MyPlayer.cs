@@ -39,7 +39,7 @@ public class MyPlayer : Player
     {
         GetInput();
         Interaction();
-        anim.SetBool("isRun", moveVec != Vector3.zero);
+        //anim.SetBool("isRun", moveVec != Vector3.zero);
 
         frontDown = Input.GetKey(KeyCode.W);
         leftDown = Input.GetKey(KeyCode.A);
@@ -174,13 +174,44 @@ public class MyPlayer : Player
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Item")
+        if(other.tag == "Body_Item")
         {
+            ItemParts obj = other.GetComponent<ItemParts>();
             C_Item i_pkt = new C_Item();
             i_pkt.playerId = PlayerId;
-            i_pkt.itemType = 0;
+            i_pkt.charactorType = 2;
+            i_pkt.itemType = (ushort)obj.type;
             _network.Send(i_pkt.Write());
             Destroy(other.gameObject);
+            Joint_Robot.Instance.change_parts = 2;
+            Joint_Robot.Instance.SwitchParts(obj.type);
+        }
+        else if (other.tag == "Leg_Item")
+        {
+            ItemParts obj = other.GetComponent<ItemParts>();
+            C_Item i_pkt = new C_Item();
+            i_pkt.playerId = PlayerId;
+            i_pkt.charactorType = 3;
+            i_pkt.itemType = (ushort)obj.type;
+            _network.Send(i_pkt.Write());
+            Destroy(other.gameObject);
+            Joint_Robot.Instance.change_parts = 3;
+            Joint_Robot.Instance.SwitchParts(obj.type);
+        }
+
+        else if (other.tag == "Head_Item")
+        {
+            ItemParts obj = other.GetComponent<ItemParts>();
+            C_Item i_pkt = new C_Item();
+            i_pkt.playerId = PlayerId;
+            i_pkt.charactorType = 1;
+            i_pkt.itemType = (ushort)obj.type;
+            _network.Send(i_pkt.Write());
+            Destroy(other.gameObject);
+            PlayerManager.Instance.joint.sp_list = new GameObject[1];
+            PlayerManager.Instance.joint.sp_list[0] = Resources.Load("Sp_Head_Parts") as GameObject;
+            PlayerManager.Instance.joint.change_parts = 1;
+            PlayerManager.Instance.joint.SwitchParts(obj.type);
         }
     }
 
