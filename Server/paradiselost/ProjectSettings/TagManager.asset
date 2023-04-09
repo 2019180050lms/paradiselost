@@ -8,6 +8,10 @@ TagManager:
   - Item
   - Weapon
   - Melee
+  - Joint
+  - Body_Item
+  - Head_Item
+  - Leg_Item
   layers:
   - Default
   - TransparentFX

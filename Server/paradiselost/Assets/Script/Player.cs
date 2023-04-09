@@ -212,9 +212,9 @@ public class Player : MonoBehaviour
     {
         if(other.tag == "Item")
         {
-            Destroy(other.gameObject);
+            //Destroy(other.gameObject);
             //other.gameObject.SetActive(false);
-            Debug.Log("destroy item");
+            //Debug.Log("destroy item");
         }
     }
 
