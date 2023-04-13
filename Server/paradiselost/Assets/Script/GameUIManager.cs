@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class GameUIManager : MonoBehaviour
 {
     MyPlayer myPlayer;
+    Joint_Robot joint_robot;
     public float playTime;
 
     BoxCollider boxCollider;
@@ -21,15 +22,24 @@ public class GameUIManager : MonoBehaviour
     public RectTransform bossHealthGroup;
     public RectTransform bossHealthBar;
 
+    public Image weapon1Img;
+    public Image weapon2Img;
+    public Image weapon3Img;
+
     public GameObject BossUI;
     void Start()
     {
-        //Invoke("FindBossHp", 0.5f);
+        Invoke("ItemIcon", 0.5f);
     }
 
     void Awake()
     {
         boxCollider = GetComponent<BoxCollider>();
+        
+        
+        weapon2Img.color = new Color(0, 0, 0, 0);
+
+
     }
 
     void FindBossHp()
@@ -37,10 +47,29 @@ public class GameUIManager : MonoBehaviour
         boss = GameObject.Find("StageBoss(Clone)").GetComponent<StageBoss>();
     }
 
+    void ItemIcon()
+    {
+
+        myPlayer = GameObject.FindGameObjectWithTag("MyPlayer").GetComponent<MyPlayer>();
+
+        if (myPlayer.hasHeadItem)
+        {
+            Debug.Log("dasd");
+            //weapon1Img.color = new Color(1, 1, 1, 0);
+        }
+    }
+
      void Update()
     {
         playTime += Time.deltaTime;
         //playerHealthTxt.text = MyPlayer.health.ToString();
+
+        Debug.Log(myPlayer.hasHeadItem);
+
+        if (myPlayer.hasHeadItem == true)
+        {
+            weapon1Img.color = new Color(1, 1, 1, 0);
+        }
     }
 
     // Update is called once per frame
@@ -56,7 +85,13 @@ public class GameUIManager : MonoBehaviour
         playTimeTxt.text = string.Format("{0:00}", hour) + ":" + string.Format("{0:00}", min) + ":" + string.Format("{0:00}", second);
         playerHealthTxt.text = MyPlayer.health.ToString() + " /  100";
 
+        
+
         bossHealthBar.localScale = new Vector3((float)PlayerManager.Instance._boss.curHealth / boss.maxHealth, 1, 1);
+
+        //weapon1Img.color = new Color(1, 1, 1, myPlayer.hasHeadItem ? 1 : 0);
+
+        
     }
 
     private void OnTriggerStay(Collider other)

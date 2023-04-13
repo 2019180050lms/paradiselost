@@ -21,7 +21,7 @@ public class MyPlayer : Player
     bool rightDown;
     bool backDown;
 
-    
+    public bool hasHeadItem = false;
 
     void Start()
     {
@@ -30,7 +30,7 @@ public class MyPlayer : Player
         _network = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
 
         health = 50;
-
+        transform.tag = "MyPlayer";
     }
 
 
@@ -201,6 +201,7 @@ public class MyPlayer : Player
 
         else if (other.tag == "Head_Item")
         {
+            hasHeadItem = true;
             ItemParts obj = other.GetComponent<ItemParts>();
             C_Item i_pkt = new C_Item();
             i_pkt.playerId = PlayerId;

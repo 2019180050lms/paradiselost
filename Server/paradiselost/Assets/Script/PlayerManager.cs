@@ -27,7 +27,6 @@ public class PlayerManager
                 {
                     Object obj = Resources.Load("Player_t");
                     GameObject go = Object.Instantiate(obj) as GameObject;
-                    
                     if (p.isSelf)
                     {
                         Object obj2 = Resources.Load("PlayerPtr");
@@ -43,6 +42,7 @@ public class PlayerManager
                         //GameObject leg_p = Object.Instantiate(leg) as GameObject;
 
                         MyPlayer myPlayer = go.AddComponent<MyPlayer>();
+                        
                         joint = go.AddComponent<Joint_Robot>();
                         joint.po_list = new GameObject[3];
                         
