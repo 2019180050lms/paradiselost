@@ -146,13 +146,6 @@ public class MyPlayer : Player
         {
             if (nearObject.tag == "Weapon")
             {
-                Item item = nearObject.GetComponent<Item>();
-                Debug.Log(item.name);
-                Debug.Log(item.value);
-                int weaponIndex = item.value;
-                hasWeapons[weaponIndex] = true;
-                Debug.Log(weaponIndex);
-                Debug.Log(hasWeapons[weaponIndex]);
                 //Destroy(nearObject);
             }
         }
@@ -197,11 +190,12 @@ public class MyPlayer : Player
             Destroy(other.gameObject);
             Joint_Robot.Instance.change_parts = 3;
             Joint_Robot.Instance.SwitchParts(obj.type);
+
         }
 
         else if (other.tag == "Head_Item")
         {
-            hasHeadItem = true;
+            //hasHeadItem = true;
             ItemParts obj = other.GetComponent<ItemParts>();
             C_Item i_pkt = new C_Item();
             i_pkt.playerId = PlayerId;
@@ -211,8 +205,8 @@ public class MyPlayer : Player
             Destroy(other.gameObject);
             PlayerManager.Instance.joint.sp_list = new GameObject[1];
             PlayerManager.Instance.joint.sp_list[0] = Resources.Load("Sp_Head_Parts") as GameObject;
-            PlayerManager.Instance.joint.change_parts = 1;
-            PlayerManager.Instance.joint.SwitchParts(obj.type);
+            //PlayerManager.Instance.joint.change_parts = 1;
+            //PlayerManager.Instance.joint.SwitchParts(obj.type);
         }
     }
 

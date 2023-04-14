@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2899759633549219161}
   - component: {fileID: 5133949480009679766}
   - component: {fileID: 7562831617723488473}
+  - component: {fileID: 6576022319423992099}
   m_Layer: 0
   m_Name: Player_t
   m_TagString: Player
@@ -77,3 +78,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   meleeArea: {fileID: 0}
+--- !u!114 &6576022319423992099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 740038914882134520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 791a1fd612718c342802f09056078a51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemList:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  InventoryUI: {fileID: 0}
+  hasHeadItem: 0

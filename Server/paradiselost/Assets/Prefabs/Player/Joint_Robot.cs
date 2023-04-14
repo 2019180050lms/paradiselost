@@ -33,31 +33,17 @@ public class Joint_Robot : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.T)) // 머리
         {
-            //StartCoroutine(QuitCanvas());
             change_parts = 1;
           
-
-
-            //Destroy(head);
-            //head = Instantiate(sh_list[(int)parts.head]);
-            //head.transform.position = body.transform.position + body.transform.Find("Joint_Head").transform.localPosition - head.transform.Find("Joint_Head").transform.localPosition;
         }
 
         if (Input.GetKeyDown(KeyCode.Y)) // 몸통
         {
-            //StartCoroutine(QuitCanvas());
-            //Destroy(head);
-            //head = Instantiate(sp_list[(int)parts.head]);
-            //head.transform.position = body.transform.position + body.transform.Find("Joint_Head").transform.localPosition - head.transform.Find("Joint_Head").transform.localPosition;
             change_parts = 2;
         }
 
         if (Input.GetKeyDown(KeyCode.U)) // 다리
         {
-            //StartCoroutine(QuitCanvas());
-            //Destroy(head);
-            //head = Instantiate(po_list[(int)parts.head]);
-            //head.transform.position = body.transform.position + body.transform.Find("Joint_Head").transform.localPosition - head.transform.Find("Joint_Head").transform.localPosition;
             change_parts = 3;
         }
 

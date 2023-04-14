@@ -28,14 +28,11 @@ public class PlayerManager
                 {
                     Object obj = Resources.Load("Player_t");
                     GameObject go = Object.Instantiate(obj) as GameObject;
-<<<<<<< HEAD
-=======
 
                     Object head = Resources.Load("Po_Head_Parts");
                     Object body = Resources.Load("Po_Body_Parts");
                     Object leg = Resources.Load("Po_Leg_Parts");
 
->>>>>>> 5eb6ed242c0b57b6632fe9988f33084e2e478e8d
                     if (p.isSelf)
                     {
                         Object obj2 = Resources.Load("PlayerPtr");

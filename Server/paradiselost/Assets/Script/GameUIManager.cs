@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class GameUIManager : MonoBehaviour
 {
     MyPlayer myPlayer;
-    Joint_Robot joint_robot;
+    Inventory inventory;
     public float playTime;
 
     BoxCollider boxCollider;
@@ -17,6 +18,7 @@ public class GameUIManager : MonoBehaviour
 
     
     public int hP = 0;
+    int index = 0;
 
     public BossEnemy boss;
     public RectTransform bossHealthGroup;
@@ -26,10 +28,13 @@ public class GameUIManager : MonoBehaviour
     public Image weapon2Img;
     public Image weapon3Img;
 
+    public List<Image> ItemImg = new List<Image>() { };
+    public List<Button> buttonList = new List<Button>();
     public GameObject BossUI;
     void Start()
     {
         Invoke("ItemIcon", 0.5f);
+
     }
 
     void Awake()
@@ -37,8 +42,6 @@ public class GameUIManager : MonoBehaviour
         boxCollider = GetComponent<BoxCollider>();
         
         
-        weapon2Img.color = new Color(0, 0, 0, 0);
-
 
     }
 
@@ -50,13 +53,8 @@ public class GameUIManager : MonoBehaviour
     void ItemIcon()
     {
 
-        myPlayer = GameObject.FindGameObjectWithTag("MyPlayer").GetComponent<MyPlayer>();
+        inventory = GameObject.FindGameObjectWithTag("MyPlayer").GetComponent<Inventory>();
 
-        if (myPlayer.hasHeadItem)
-        {
-            Debug.Log("dasd");
-            //weapon1Img.color = new Color(1, 1, 1, 0);
-        }
     }
 
      void Update()
@@ -64,18 +62,12 @@ public class GameUIManager : MonoBehaviour
         playTime += Time.deltaTime;
         //playerHealthTxt.text = MyPlayer.health.ToString();
 
-        Debug.Log(myPlayer.hasHeadItem);
 
-        if (myPlayer.hasHeadItem == true)
-        {
-            weapon1Img.color = new Color(1, 1, 1, 0);
-        }
     }
 
     // Update is called once per frame
     void LateUpdate()
     {
-        //MyPlayer myplayer = GameObject.Find("Player").GetComponent<MyPlayer>();
 
         int hour = (int)(playTime / 3600);
         int min = (int)((playTime - hour * 3600) / 60);
@@ -85,13 +77,18 @@ public class GameUIManager : MonoBehaviour
         playTimeTxt.text = string.Format("{0:00}", hour) + ":" + string.Format("{0:00}", min) + ":" + string.Format("{0:00}", second);
         playerHealthTxt.text = MyPlayer.health.ToString() + " /  100";
 
-        
+
+        for (int i = 0; i < 9; ++ i )
+        {
+            if (inventory.ItemList[i].hasItem)
+            {
+                ItemImg[i].color = new Color(1, 1, 1, 1);
+            }
+            else if(inventory.ItemList[i] == null)
+                ItemImg[i].color = new Color(1, 1, 1, 0);
+        }
 
         bossHealthBar.localScale = new Vector3((float)PlayerManager.Instance._boss.curHealth / boss.maxHealth, 1, 1);
-
-        //weapon1Img.color = new Color(1, 1, 1, myPlayer.hasHeadItem ? 1 : 0);
-
-        
     }
 
     private void OnTriggerStay(Collider other)
@@ -102,5 +99,51 @@ public class GameUIManager : MonoBehaviour
             FindBossHp();
             BossUI.SetActive(true);
         }
+    }
+
+    public void FindTagName(string TagName)  // 태그로 몇번 칸인지 검색
+    {
+        if (TagName == "Inven1")
+            index = 0;
+        else if (TagName == "Inven2")
+            index = 1;
+        else if (TagName == "Inven3")
+            index = 2;
+    }
+
+    public void OnClick()
+    {
+        string tagName = EventSystem.current.currentSelectedGameObject.tag;
+        FindTagName(tagName);
+
+
+        if(inventory.ItemList[index].tag == "Head_Item") // 해당 칸의 아이템이 머리 파츠이면
+        {
+            PlayerManager.Instance.joint.change_parts = 1; 
+            PlayerManager.Instance.joint.SwitchParts(inventory.ItemList[index].type); // 플레이어의 인벤에 있는 파츠의 타입에 따라 파츠 변경
+            ItemImg[index].color = new Color(1, 1, 1, 0); // 장비 아이콘 UI 끄기
+            inventory.ItemList.RemoveAt(index); // 인벤 List에서 해당 파츠 제거
+        }
+        else if (inventory.ItemList[index].tag == "Body_Item") 
+        {
+            PlayerManager.Instance.joint.change_parts = 2;
+            PlayerManager.Instance.joint.SwitchParts(inventory.ItemList[index].type);
+            ItemImg[index].color = new Color(1, 1, 1, 0);
+            inventory.ItemList.RemoveAt(index);
+        }
+        else if (inventory.ItemList[index].tag == "Leg_Item")
+        {
+            PlayerManager.Instance.joint.change_parts = 3;
+            PlayerManager.Instance.joint.SwitchParts(inventory.ItemList[index].type);
+            ItemImg[index].color = new Color(1, 1, 1, 0);
+            inventory.ItemList.RemoveAt(index);
+        }
+
+        for (int i = 0; i < 9; ++i) // 인벤 정렬
+        {
+          if (inventory.ItemList[i] == null)
+                ItemImg[i].color = new Color(1, 1, 1, 0);
+        }
+
     }
 }

@@ -2,15 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Item : MonoBehaviour
+[CreateAssetMenu]
+public class Item : ScriptableObject
 {
-    public enum Type {Ammo, Coin, Grenade, Heart, Weapon };
-    public Type type;
-    public int value;
+    public string ItemName;
+    public Sprite itemImage;
 
-    void Update()
-    {
-        transform.Rotate(Vector3.up * 20 * Time.deltaTime);
-    }
 
 }

@@ -49,11 +49,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e6434e3f0da8b844a9c16013a4cfeb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  leg: {fileID: 0}
+  body: {fileID: 0}
+  head: {fileID: 0}
   po_list: []
   sh_list: []
   sp_list: []
+  change_parts: 0
   type: 2
   canvas: {fileID: 0}
+  hasItem: 1
 --- !u!65 &729016114829740246
 BoxCollider:
   m_ObjectHideFlags: 0

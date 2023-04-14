@@ -107,10 +107,9 @@ public class Enemy : MonoBehaviour
             mat.color = Color.gray;
             gameObject.layer = 7;
             isChase = false;
-            nav.enabled = false;  // ��� ��� �����ϱ� ���� ��Ȱ��ȭ
+            nav.enabled = false;  
             anim.SetTrigger("doDie");
 
-            // ����� �˹�
             reactVec = reactVec.normalized;
             reactVec += Vector3.up;
             rigid.AddForce(reactVec * 5, ForceMode.Impulse);
@@ -119,7 +118,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    void FreezVelocity() // ȸ�� ���� �ذ�
+    void FreezVelocity() 
     {
         if (isChase)
         {

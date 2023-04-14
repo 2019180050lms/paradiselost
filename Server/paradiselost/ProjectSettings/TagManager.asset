@@ -12,6 +12,13 @@ TagManager:
   - Body_Item
   - Head_Item
   - Leg_Item
+  - MyPlayer
+  - InventoryUI
+  - Enemy
+  - EnemyBullet
+  - Inven1
+  - Inven2
+  - Inven3
   layers:
   - Default
   - TransparentFX
