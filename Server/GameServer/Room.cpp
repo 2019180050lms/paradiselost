@@ -132,7 +132,12 @@ void Room::CreateMonster(float x, float y, float z)
 	{
 		l_player.isSelf = false;
 		l_player.playerId = 500 + i;
-		l_player.type = (int32)PlayerType::MONSTER;
+		if (i < 2)
+			l_player.type = (int32)MonsterType::MONSTER1;
+		else if(i == 3)
+			l_player.type = (int32)MonsterType::MONSTER2;
+		else if(i == 4)
+			l_player.type = (int32)MonsterType::MONSTER3;
 		l_player.hp = 100;
 		l_player.posX = x;
 		l_player.posY = y;
@@ -148,7 +153,7 @@ PlayerList Room::CreateBossMonster()
 	l_player.isSelf = false;
 	l_player.playerId = 1000;
 	l_player.Dir = 0;
-	l_player.type = (int32)PlayerType::BOSS;
+	l_player.type = (int32)BossType::BOSS1;
 	l_player.hp = 1000;   
 	l_player.posX = 246.757f;
 	l_player.posY = -7.6f;

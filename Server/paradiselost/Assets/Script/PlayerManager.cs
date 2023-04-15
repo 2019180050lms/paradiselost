@@ -18,8 +18,6 @@ public class PlayerManager
 
     void SetCharacter(int playerId, ushort hp, int playerType, bool isSelf, Vector3 pos)
     {
-        
-        
         if (isSelf)
         {
             Object obj = Resources.Load("Player_t1");
@@ -279,20 +277,6 @@ public class PlayerManager
                 Vector3 playerPos = new Vector3(p.posX, p.posY, p.posZ);
                 SetCharacter(p.playerId, p.hp, p.type, p.isSelf, playerPos);
             }
-            else if (p.type == 5)
-            {
-                Object obj = Resources.Load("StageBoss");
-                GameObject go = Object.Instantiate(obj) as GameObject;
-
-                BossEnemy boss = go.AddComponent<BossEnemy>();
-                boss.enemyId = p.playerId;
-                boss.maxHealth = p.hp;
-                boss.curHealth = p.hp;
-                boss.transform.position = new Vector3(p.posX, p.posY, p.posZ);
-                _boss = boss;
-                Debug.Log("보스 생성");
-
-            }
             else if (p.type == 4)
             {
                 Object obj = Resources.Load("Enemy");
@@ -309,6 +293,54 @@ public class PlayerManager
                 //Debug.Log("Monster 생성");
                 //Debug.Log(enemy.enemyId);
                 //Debug.Log(enemy.maxHealth);
+            }
+            else if (p.type == 5)
+            {
+                Object obj = Resources.Load("Enemy");
+                GameObject go = Object.Instantiate(obj) as GameObject;
+
+                Enemy enemy = go.AddComponent<Enemy>();
+                enemy.enemyId = p.playerId;
+                enemy.maxHealth = p.hp;
+                enemy.curHealth = p.hp;
+                enemy.transform.position = new Vector3(p.posX, p.posY, p.posZ);
+                enemy.prevVec = new Vector3(p.posX, p.posY, p.posZ);
+                _enemys.Add(p.playerId, enemy);
+
+                //Debug.Log("Monster 생성");
+                //Debug.Log(enemy.enemyId);
+                //Debug.Log(enemy.maxHealth);
+            }
+            else if (p.type == 6)
+            {
+                Object obj = Resources.Load("Enemy");
+                GameObject go = Object.Instantiate(obj) as GameObject;
+
+                Enemy enemy = go.AddComponent<Enemy>();
+                enemy.enemyId = p.playerId;
+                enemy.maxHealth = p.hp;
+                enemy.curHealth = p.hp;
+                enemy.transform.position = new Vector3(p.posX, p.posY, p.posZ);
+                enemy.prevVec = new Vector3(p.posX, p.posY, p.posZ);
+                _enemys.Add(p.playerId, enemy);
+
+                //Debug.Log("Monster 생성");
+                //Debug.Log(enemy.enemyId);
+                //Debug.Log(enemy.maxHealth);
+            }
+            else if (p.type == 7)
+            {
+                Object obj = Resources.Load("StageBoss");
+                GameObject go = Object.Instantiate(obj) as GameObject;
+
+                BossEnemy boss = go.AddComponent<BossEnemy>();
+                boss.enemyId = p.playerId;
+                boss.maxHealth = p.hp;
+                boss.curHealth = p.hp;
+                boss.transform.position = new Vector3(p.posX, p.posY, p.posZ);
+                _boss = boss;
+                Debug.Log("보스 생성");
+
             }
         }
     }

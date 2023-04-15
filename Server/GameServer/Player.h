@@ -6,8 +6,18 @@ enum PlayerType
 	POWER = 1,
 	SPEED = 2,
 	AMOR = 3,
-	MONSTER = 4,
-	BOSS = 5
+};
+
+enum MonsterType
+{
+	MONSTER1 = 4,
+	MONSTER2 = 5,
+	MONSTER3 = 6
+};
+
+enum BossType
+{
+	BOSS1 = 7
 };
 
 class Player
