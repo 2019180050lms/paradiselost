@@ -111,6 +111,18 @@ public class GameUIManager : MonoBehaviour
             index = 1;
         else if (TagName == "Inven3")
             index = 2;
+        else if (TagName == "Inven4")
+            index = 3;
+        else if (TagName == "Inven5")
+            index = 4;
+        else if (TagName == "Inven6")
+            index = 5;
+        else if (TagName == "Inven7")
+            index = 6;
+        else if (TagName == "Inven8")
+            index = 7;
+        else if (TagName == "Inven9")
+            index = 8;
     }
 
     void C_Send_Item(ushort itemType, ushort itemNum)
@@ -130,29 +142,23 @@ public class GameUIManager : MonoBehaviour
 
         if(inventory.ItemList[index].tag == "Head_Item") // 해당 칸의 아이템이 머리 파츠이면
         {
-            //PlayerManager.Instance.joint.change_parts = 1; 
-            //PlayerManager.Instance.joint.SwitchParts(inventory.ItemList[index].type); // 플레이어의 인벤에 있는 파츠의 타입에 따라 파츠 변경
             C_Send_Item(1, (ushort)inventory.ItemList[index].type);
-            //PlayerManager.Instance.joint.sp_list = new GameObject[3];
-            //PlayerManager.Instance.joint.sp_list[0] = Resources.Load("Sp_Head_Parts") as GameObject;
             ItemImg[index].color = new Color(1, 1, 1, 0); // 장비 아이콘 UI 끄기
-            inventory.ItemList.RemoveAt(index); // 인벤 List에서 해당 파츠 제거
+            //inventory.ItemList.RemoveAt(index); // 인벤 List에서 해당 파츠 제거
+            inventory.ItemList[index] = null;
         }
         else if (inventory.ItemList[index].tag == "Body_Item") 
         {
-            //PlayerManager.Instance.joint.change_parts = 2;
-            //PlayerManager.Instance.joint.SwitchParts(inventory.ItemList[index].type);
             C_Send_Item(2, (ushort)inventory.ItemList[index].type);
             ItemImg[index].color = new Color(1, 1, 1, 0);
-            inventory.ItemList.RemoveAt(index);
+            inventory.ItemList[index] = null;
         }
         else if (inventory.ItemList[index].tag == "Leg_Item")
         {
-            //PlayerManager.Instance.joint.change_parts = 3;
-            //PlayerManager.Instance.joint.SwitchParts(inventory.ItemList[index].type);
             C_Send_Item(3, (ushort)inventory.ItemList[index].type);
             ItemImg[index].color = new Color(1, 1, 1, 0);
-            inventory.ItemList.RemoveAt(index);
+            //inventory.ItemList.RemoveAt(index);
+            inventory.ItemList[index] = null;
         }
 
         for (int i = 0; i < 9; ++i) // 인벤 정렬

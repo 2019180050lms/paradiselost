@@ -19,6 +19,12 @@ TagManager:
   - Inven1
   - Inven2
   - Inven3
+  - Inven4
+  - Inven5
+  - Inven6
+  - Inven7
+  - Inven8
+  - Inven9
   layers:
   - Default
   - TransparentFX

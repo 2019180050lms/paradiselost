@@ -53,7 +53,11 @@ public class Inventory : MonoBehaviour
             {
                 if ( ItemList[i] == null)
                 {
-                    if(obj.type == 3)
+                    if (obj.type == 1)
+                        ItemList[i] = Resources.Load<ItemParts>("Items/Po_Head_Item");
+                    else if (obj.type == 2)
+                        ItemList[i] = Resources.Load<ItemParts>("Items/Sh_Head_Item");
+                    else if (obj.type == 3)
                         ItemList[i] = Resources.Load<ItemParts>("Items/Sp_Head_Item");
                     break;
                 }
@@ -67,8 +71,12 @@ public class Inventory : MonoBehaviour
             {
                 if (ItemList[i] == null)
                 {
-                    if (obj.type == 2)
+                    if (obj.type == 1)
+                        ItemList[i] = Resources.Load<ItemParts>("Items/Po_Body_Item");
+                    else if (obj.type == 2)
                         ItemList[i] = Resources.Load<ItemParts>("Items/Sh_Body_Item");
+                    else if (obj.type == 3)
+                        ItemList[i] = Resources.Load<ItemParts>("Items/Sp_Body_Item");
                     break;
                 }
             }
@@ -83,6 +91,10 @@ public class Inventory : MonoBehaviour
                 {
                     if (obj.type == 1)
                         ItemList[i] = Resources.Load<ItemParts>("Items/Po_Leg_Item");
+                    if (obj.type == 2)
+                        ItemList[i] = Resources.Load<ItemParts>("Items/Sh_Leg_Item");
+                    if (obj.type == 3)
+                        ItemList[i] = Resources.Load<ItemParts>("Items/Sp_Leg_Item");
                     break;
                 }
             }

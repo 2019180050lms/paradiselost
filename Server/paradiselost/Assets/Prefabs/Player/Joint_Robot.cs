@@ -12,23 +12,20 @@ public class Joint_Robot : MonoBehaviour
     public GameObject[] sh_list;
     public GameObject[] sp_list;
 
-    //private bool quit_canvas;
     public int change_parts;
 
     public int type = 1;
-    [SerializeField] GameObject canvas;
 
     public static Joint_Robot Instance { get; } = new Joint_Robot();
 
     // Start is called before the first frame update
     void Start()
     {
-        //quit_canvas = false;
         po_list = new GameObject[3];
         sh_list = new GameObject[3];
         sp_list = new GameObject[3];
-        //canvas.gameObject.SetActive(false);
     }
+
 
     // Update is called once per frame
     void Update()
@@ -128,7 +125,7 @@ public class Joint_Robot : MonoBehaviour
                     case 1:
                         Destroy(leg);
                         leg = Instantiate(po_list[(int)parts.leg], transform);
-                        leg.transform.position = gameObject.transform.position + new Vector3(0, 0.5f, 0);
+                        leg.transform.position = gameObject.transform.position + new Vector3(0, -1f, 0);
                         body.transform.position = leg.transform.position + leg.transform.Find("Joint_Leg").transform.localPosition - body.transform.Find("Joint_Leg").transform.localPosition;
                         head.transform.position = body.transform.position + body.transform.Find("Joint_Head").transform.localPosition - head.transform.Find("Joint_Head").transform.localPosition;
                         // quit_canvas = true;

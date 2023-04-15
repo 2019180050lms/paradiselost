@@ -323,12 +323,12 @@ public class PlayerManager
 
             //Debug.Log(packet.hp);
 
-            //_myplayer.anim.SetBool("isRun", _myplayer.moveVec != Vector3.zero);
+            _myplayer.anim.SetBool("isRun", _myplayer.moveVec != Vector3.zero);
             if (packet.wDown)
             {
-                //_myplayer.StopCoroutine("Swing");
+                _myplayer.StopCoroutine("Swing");
                 //_myplayer.anim.SetTrigger("doSwing");
-                //_myplayer.StartCoroutine("Swing");
+                _myplayer.StartCoroutine("Swing");
             }
             //_myplayer.transform.LookAt(_myplayer.transform.position + _myplayer.moveVec2);
         }
@@ -479,7 +479,7 @@ public class PlayerManager
             Debug.Log("캐릭터 생성");
         else if(packet.type == 1)
         {
-            Object obj = Resources.Load("Player_t");
+            Object obj = Resources.Load("Player_t1");
             GameObject go = Object.Instantiate(obj) as GameObject;
 
             Object head = Resources.Load("Po_Head_Parts");
@@ -603,7 +603,7 @@ public class PlayerManager
                         joint.SwitchParts(packet.itemType);
                         break;
                     case 2:
-                        joint.sh_list[1] = Resources.Load("Items/Sh_Body_Item") as GameObject;
+                        joint.sh_list[1] = Resources.Load("Sh_Body_Parts") as GameObject;
                         joint.SwitchParts(packet.itemType);
                         break;
                     case 3:
@@ -626,7 +626,7 @@ public class PlayerManager
                         joint.SwitchParts(packet.itemType);
                         break;
                     case 3:
-                        joint.sp_list[2] = Resources.Load("Items/Sp_Leg_Item") as GameObject;
+                        joint.sp_list[2] = Resources.Load("Sp_Leg_Parts") as GameObject;
                         joint.SwitchParts(packet.itemType);
                         break;
                 }
@@ -666,7 +666,7 @@ public class PlayerManager
                             c_p_parts.SwitchParts(packet.itemType);
                             break;
                         case 2:
-                            c_p_parts.sh_list[1] = Resources.Load("Items/Sh_Body_Item") as GameObject;
+                            c_p_parts.sh_list[1] = Resources.Load("Sh_Body_Parts") as GameObject;
                             c_p_parts.SwitchParts(packet.itemType);
                             break;
                         case 3:
@@ -689,7 +689,7 @@ public class PlayerManager
                             c_p_parts.SwitchParts(packet.itemType);
                             break;
                         case 3:
-                            c_p_parts.sp_list[2] = Resources.Load("Items/Sp_Leg_Item") as GameObject;
+                            c_p_parts.sp_list[2] = Resources.Load("Sp_Leg_Parts") as GameObject;
                             c_p_parts.SwitchParts(packet.itemType);
                             break;
                     }
