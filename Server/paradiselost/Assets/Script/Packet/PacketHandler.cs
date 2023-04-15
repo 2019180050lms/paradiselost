@@ -108,7 +108,7 @@ class PacketHandler
 		S_Broadcast_Item pkt = packet as S_Broadcast_Item;
 		ServerSession serverSession = session as ServerSession;
 
-		//PlayerManager.Instance.CollisionMove();
+		PlayerManager.Instance.ItemManager(pkt);
 
 		Debug.Log("아이템 먹은 플레이어" + pkt.playerId);
 		Debug.Log("캐릭터 타입: " + pkt.charactorType);

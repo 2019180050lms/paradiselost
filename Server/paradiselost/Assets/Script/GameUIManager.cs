@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class GameUIManager : MonoBehaviour
 {
+    NetworkManager _network;
+
     MyPlayer myPlayer;
     Inventory inventory;
     public float playTime;
@@ -34,7 +36,7 @@ public class GameUIManager : MonoBehaviour
     void Start()
     {
         Invoke("ItemIcon", 0.5f);
-
+        _network = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
     }
 
     void Awake()
@@ -111,6 +113,15 @@ public class GameUIManager : MonoBehaviour
             index = 2;
     }
 
+    void C_Send_Item(ushort itemType, ushort itemNum)
+    {
+        C_Item item_packet = new C_Item();
+        item_packet.playerId = PlayerManager.Instance._myplayer.PlayerId;
+        item_packet.charactorType = itemType;
+        item_packet.itemType = itemNum;
+        _network.Send(item_packet.Write());
+    }
+
     public void OnClick()
     {
         string tagName = EventSystem.current.currentSelectedGameObject.tag;
@@ -119,22 +130,27 @@ public class GameUIManager : MonoBehaviour
 
         if(inventory.ItemList[index].tag == "Head_Item") // 해당 칸의 아이템이 머리 파츠이면
         {
-            PlayerManager.Instance.joint.change_parts = 1; 
-            PlayerManager.Instance.joint.SwitchParts(inventory.ItemList[index].type); // 플레이어의 인벤에 있는 파츠의 타입에 따라 파츠 변경
+            //PlayerManager.Instance.joint.change_parts = 1; 
+            //PlayerManager.Instance.joint.SwitchParts(inventory.ItemList[index].type); // 플레이어의 인벤에 있는 파츠의 타입에 따라 파츠 변경
+            C_Send_Item(1, (ushort)inventory.ItemList[index].type);
+            //PlayerManager.Instance.joint.sp_list = new GameObject[3];
+            //PlayerManager.Instance.joint.sp_list[0] = Resources.Load("Sp_Head_Parts") as GameObject;
             ItemImg[index].color = new Color(1, 1, 1, 0); // 장비 아이콘 UI 끄기
             inventory.ItemList.RemoveAt(index); // 인벤 List에서 해당 파츠 제거
         }
         else if (inventory.ItemList[index].tag == "Body_Item") 
         {
-            PlayerManager.Instance.joint.change_parts = 2;
-            PlayerManager.Instance.joint.SwitchParts(inventory.ItemList[index].type);
+            //PlayerManager.Instance.joint.change_parts = 2;
+            //PlayerManager.Instance.joint.SwitchParts(inventory.ItemList[index].type);
+            C_Send_Item(2, (ushort)inventory.ItemList[index].type);
             ItemImg[index].color = new Color(1, 1, 1, 0);
             inventory.ItemList.RemoveAt(index);
         }
         else if (inventory.ItemList[index].tag == "Leg_Item")
         {
-            PlayerManager.Instance.joint.change_parts = 3;
-            PlayerManager.Instance.joint.SwitchParts(inventory.ItemList[index].type);
+            //PlayerManager.Instance.joint.change_parts = 3;
+            //PlayerManager.Instance.joint.SwitchParts(inventory.ItemList[index].type);
+            C_Send_Item(3, (ushort)inventory.ItemList[index].type);
             ItemImg[index].color = new Color(1, 1, 1, 0);
             inventory.ItemList.RemoveAt(index);
         }
