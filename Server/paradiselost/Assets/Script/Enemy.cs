@@ -23,17 +23,20 @@ public class Enemy : MonoBehaviour
     Material mat;
 
     NavMeshAgent nav;
-
+    public HitBox hitBox;
     public Animator anim;
 
     NetworkManager _network;
 
     public bool walking;
 
-    
+
+    int count = 0;
+
     private void Start()
     {
         _network = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
+        hitBox = GetComponent<HitBox>();
         walking = true;
         
     }
@@ -63,6 +66,11 @@ public class Enemy : MonoBehaviour
 
         //transform.position = Vector3.Lerp(transform.position, pos, 0.001f);
         transform.position = Vector3.Lerp(transform.position, posVec, 0.005f);
+        if (isAttack && count == 0)
+        {
+            StartCoroutine("Attack");
+            count++;
+        }
     }
 
     void OnTriggerEnter(Collider other)
@@ -142,22 +150,25 @@ public class Enemy : MonoBehaviour
 
     IEnumerator Attack()
     {
+
+        Debug.Log("몬스터 공격");
         isChase = false;
         isAttack = true;
         //anim.SetBool("isAttack", true);
 
         yield return new WaitForSeconds(0.2f);
-        meleeArea.enabled = true;
+        hitBox.meleeArea.enabled = true;
 
-        yield return new WaitForSeconds(1f);
-        meleeArea.enabled = false;
+        yield return new WaitForSeconds(0.5f);
+        hitBox.meleeArea.enabled = false;
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(3f); // 몬스터 공격속도
 
         isChase = true;
         isAttack = false;
         //anim.SetBool("isAttack", false);
 
+        count--;
     }
 
     void FixedUpdate()

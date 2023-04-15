@@ -298,8 +298,8 @@ public class PlayerManager
             {
                 Object obj = Resources.Load("Monster_Dog");
                 GameObject go = Object.Instantiate(obj) as GameObject;
-
                 Enemy enemy = go.AddComponent<Enemy>();
+                enemy.enabled = true;
                 enemy.enemyId = p.playerId;
                 enemy.maxHealth = p.hp;
                 enemy.curHealth = p.hp;
@@ -315,8 +315,8 @@ public class PlayerManager
             {
                 Object obj = Resources.Load("Monster_Spider");
                 GameObject go = Object.Instantiate(obj) as GameObject;
-
                 Enemy enemy = go.AddComponent<Enemy>();
+                enemy.enabled = true;
                 enemy.enemyId = p.playerId;
                 enemy.maxHealth = p.hp;
                 enemy.curHealth = p.hp;
@@ -445,6 +445,7 @@ public class PlayerManager
                 if (packet.wDown)
                 {
                     //Debug.Log("attack !");
+                    //enemy.StartCoroutine("Attack");
                     //enemy.anim.SetTrigger("doAttack");
                 }
                 //enemy.transform.LookAt(enemy.transform.position + enemy.moveVec2);

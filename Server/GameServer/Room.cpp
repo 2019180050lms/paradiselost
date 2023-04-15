@@ -140,7 +140,13 @@ void Room::CreateMonster(float x, float y, float z)
 			l_player.type = (int32)MonsterType::MONSTER3;
 		l_player.hp = 100;
 		l_player.posX = x;
-		l_player.posY = y;
+		if (l_player.type == MONSTER2)
+		{
+			l_player.posY = y + 2;
+		}
+		else
+			l_player.posY = y;
+
 		l_player.posZ = z;
 		GRoom._monsters.push_back(l_player);
 	}
