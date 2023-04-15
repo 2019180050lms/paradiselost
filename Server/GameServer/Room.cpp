@@ -276,6 +276,7 @@ void Room::MoveMonster()
 				m.posX = m.posX - (m_speed / 2);
 				m.posZ = m.posZ - (m_speed / 2);
 			}
+			cout << "m id: " << m.playerId << " m x: " << m.posX << " m z: " << m.posZ << endl;
 		}
 		
 		auto sendBufferM = ServerPacketHandler::Make_S_BroadcastMove(m.playerId,

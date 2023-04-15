@@ -296,7 +296,7 @@ public class PlayerManager
             }
             else if (p.type == 5)
             {
-                Object obj = Resources.Load("Enemy");
+                Object obj = Resources.Load("Monster_Dog");
                 GameObject go = Object.Instantiate(obj) as GameObject;
 
                 Enemy enemy = go.AddComponent<Enemy>();
@@ -313,7 +313,7 @@ public class PlayerManager
             }
             else if (p.type == 6)
             {
-                Object obj = Resources.Load("Enemy");
+                Object obj = Resources.Load("Monster_Spider");
                 GameObject go = Object.Instantiate(obj) as GameObject;
 
                 Enemy enemy = go.AddComponent<Enemy>();
@@ -358,7 +358,7 @@ public class PlayerManager
 
             //Debug.Log(packet.hp);
 
-            _myplayer.anim.SetBool("isRun", _myplayer.moveVec != Vector3.zero);
+            //_myplayer.anim.SetBool("isRun", _myplayer.moveVec != Vector3.zero);
             if (packet.wDown)
             {
                 _myplayer.StopCoroutine("Swing");
@@ -408,8 +408,6 @@ public class PlayerManager
         }
         else
         {
-            if (player != null)
-                //player.anim.SetBool("isRun", false);
             // 몬스터 움직임
             if (_enemys.TryGetValue(packet.playerId, out enemy))
             {
@@ -443,11 +441,11 @@ public class PlayerManager
                 //Debug.Log(enemy.transform.position);
                 //enemy.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
                 enemy.posVec = new Vector3(packet.posX, packet.posY, packet.posZ);
-                enemy.anim.SetBool("isWalk", enemy.isAttack != false);
+                //enemy.anim.SetBool("isWalk", enemy.isAttack != false);
                 if (packet.wDown)
                 {
                     //Debug.Log("attack !");
-                    enemy.anim.SetTrigger("doAttack");
+                    //enemy.anim.SetTrigger("doAttack");
                 }
                 //enemy.transform.LookAt(enemy.transform.position + enemy.moveVec2);
                 enemy.transform.LookAt(enemy.posVec);

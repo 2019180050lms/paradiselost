@@ -144,7 +144,7 @@ public class Enemy : MonoBehaviour
     {
         isChase = false;
         isAttack = true;
-        anim.SetBool("isAttack", true);
+        //anim.SetBool("isAttack", true);
 
         yield return new WaitForSeconds(0.2f);
         meleeArea.enabled = true;
@@ -156,7 +156,7 @@ public class Enemy : MonoBehaviour
 
         isChase = true;
         isAttack = false;
-        anim.SetBool("isAttack", false);
+        //anim.SetBool("isAttack", false);
 
     }
 
