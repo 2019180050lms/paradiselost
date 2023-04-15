@@ -18,14 +18,14 @@ public class PlayerManager
 
     void SetCharacter(int playerId, ushort hp, int playerType, bool isSelf, Vector3 pos)
     {
-        Object obj = Resources.Load("Player_t1");
-        GameObject go = Object.Instantiate(obj) as GameObject;
         
-        Object obj2 = Resources.Load("PlayerPtr");
-        GameObject PlayerPtr = Object.Instantiate(obj2) as GameObject;
-
+        
         if (isSelf)
         {
+            Object obj = Resources.Load("Player_t1");
+            GameObject go = Object.Instantiate(obj) as GameObject;
+            Object obj2 = Resources.Load("PlayerPtr");
+            GameObject PlayerPtr = Object.Instantiate(obj2) as GameObject;
             switch (playerType)
             {
                 case 1:
@@ -145,6 +145,8 @@ public class PlayerManager
         }
         else
         {
+            Object obj = Resources.Load("Player_t1");
+            GameObject go = Object.Instantiate(obj) as GameObject;
             switch (playerType)
             {
                 case 1:
@@ -175,6 +177,8 @@ public class PlayerManager
 
                         jointP.head = Object.Instantiate(jointP.po_list[0], player.transform);
                         jointP.head.transform.position = jointP.body.transform.position + jointP.body.transform.Find("Joint_Head").transform.localPosition - jointP.head.transform.Find("Joint_Head").transform.localPosition;
+
+                        player.transform.position = new Vector3(pos.x, pos.y, pos.z);
 
                         _playerParts.Add(playerId, jointP);
                         _players.Add(playerId, player);
@@ -211,6 +215,8 @@ public class PlayerManager
                         jointP.head = Object.Instantiate(jointP.sh_list[0], player.transform);
                         jointP.head.transform.position = jointP.body.transform.position + jointP.body.transform.Find("Joint_Head").transform.localPosition - jointP.head.transform.Find("Joint_Head").transform.localPosition;
 
+                        player.transform.position = new Vector3(pos.x, pos.y, pos.z);
+
                         _playerParts.Add(playerId, jointP);
                         _players.Add(playerId, player);
 
@@ -245,6 +251,8 @@ public class PlayerManager
 
                         jointP.head = Object.Instantiate(jointP.sp_list[0], player.transform);
                         jointP.head.transform.position = jointP.body.transform.position + jointP.body.transform.Find("Joint_Head").transform.localPosition - jointP.head.transform.Find("Joint_Head").transform.localPosition;
+
+                        player.transform.position = new Vector3(pos.x, pos.y, pos.z);
 
                         _playerParts.Add(playerId, jointP);
                         _players.Add(playerId, player);
