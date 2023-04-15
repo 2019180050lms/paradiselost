@@ -274,9 +274,12 @@ public class PlayerManager
         {
             //Object obj = Resources.Load("Player");
             //GameObject go = Object.Instantiate(obj) as GameObject;
-            Vector3 playerPos = new Vector3(p.posX, p.posY, p.posZ);
-            SetCharacter(p.playerId, p.hp, p.type, p.isSelf, playerPos);
-            if (p.type == 5)
+            if(p.type <= 3)
+            {
+                Vector3 playerPos = new Vector3(p.posX, p.posY, p.posZ);
+                SetCharacter(p.playerId, p.hp, p.type, p.isSelf, playerPos);
+            }
+            else if (p.type == 5)
             {
                 Object obj = Resources.Load("StageBoss");
                 GameObject go = Object.Instantiate(obj) as GameObject;
@@ -479,7 +482,7 @@ public class PlayerManager
             Debug.Log("캐릭터 생성");
         else if(packet.type == 1)
         {
-            Object obj = Resources.Load("Player_t");
+            Object obj = Resources.Load("Player_t1");
             GameObject go = Object.Instantiate(obj) as GameObject;
 
             Object head = Resources.Load("Po_Head_Parts");
@@ -495,6 +498,9 @@ public class PlayerManager
             Joint_Robot jointP = go.AddComponent<Joint_Robot>();
 
             jointP.po_list = new GameObject[3];
+            jointP.sh_list = new GameObject[3];
+            jointP.sp_list = new GameObject[3];
+
             jointP.po_list[0] = head as GameObject;
             jointP.po_list[1] = body as GameObject;
             jointP.po_list[2] = leg as GameObject;
@@ -515,21 +521,81 @@ public class PlayerManager
         }
         else if (packet.type == 2)
         {
-            Object obj = Resources.Load("Player2");
+            Object obj = Resources.Load("Player_t1");
             GameObject go = Object.Instantiate(obj) as GameObject;
+
+            Object head = Resources.Load("Sh_Head_Parts");
+            Object body = Resources.Load("Sh_Body_Parts");
+            Object leg = Resources.Load("Sh_Leg_Parts");
+
 
             Player player = go.AddComponent<Player>();
             player.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
+
+            player.PlayerId = packet.playerId;
+
+            Joint_Robot jointP = go.AddComponent<Joint_Robot>();
+
+            jointP.po_list = new GameObject[3];
+            jointP.sh_list = new GameObject[3];
+            jointP.sp_list = new GameObject[3];
+
+            jointP.sh_list[0] = head as GameObject;
+            jointP.sh_list[1] = body as GameObject;
+            jointP.sh_list[2] = leg as GameObject;
+
+            jointP.leg = Object.Instantiate(jointP.sh_list[2], player.transform);
+            //leg.transform.position = new Vector3(-5, 5, 3);
+
+            jointP.body = Object.Instantiate(jointP.sh_list[1], player.transform);
+            jointP.body.transform.position = jointP.leg.transform.position + jointP.leg.transform.Find("Joint_Leg").transform.localPosition - jointP.body.transform.Find("Joint_Leg").transform.localPosition;
+
+            jointP.head = Object.Instantiate(jointP.sh_list[0], player.transform);
+            jointP.head.transform.position = jointP.body.transform.position + jointP.body.transform.Find("Joint_Head").transform.localPosition - jointP.head.transform.Find("Joint_Head").transform.localPosition;
+
+            _playerParts.Add(packet.playerId, jointP);
             _players.Add(packet.playerId, player);
+
+            Debug.Log(player.name);
         }
         else if (packet.type == 3)
         {
-            Object obj = Resources.Load("Player3");
+            Object obj = Resources.Load("Player_t1");
             GameObject go = Object.Instantiate(obj) as GameObject;
+
+            Object head = Resources.Load("Sp_Head_Parts");
+            Object body = Resources.Load("Sp_Body_Parts");
+            Object leg = Resources.Load("Sp_Leg_Parts");
+
 
             Player player = go.AddComponent<Player>();
             player.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
+
+            player.PlayerId = packet.playerId;
+
+            Joint_Robot jointP = go.AddComponent<Joint_Robot>();
+
+            jointP.po_list = new GameObject[3];
+            jointP.sh_list = new GameObject[3];
+            jointP.sp_list = new GameObject[3];
+
+            jointP.sp_list[0] = head as GameObject;
+            jointP.sp_list[1] = body as GameObject;
+            jointP.sp_list[2] = leg as GameObject;
+
+            jointP.leg = Object.Instantiate(jointP.sp_list[2], player.transform);
+            //leg.transform.position = new Vector3(-5, 5, 3);
+
+            jointP.body = Object.Instantiate(jointP.sp_list[1], player.transform);
+            jointP.body.transform.position = jointP.leg.transform.position + jointP.leg.transform.Find("Joint_Leg").transform.localPosition - jointP.body.transform.Find("Joint_Leg").transform.localPosition;
+
+            jointP.head = Object.Instantiate(jointP.sp_list[0], player.transform);
+            jointP.head.transform.position = jointP.body.transform.position + jointP.body.transform.Find("Joint_Head").transform.localPosition - jointP.head.transform.Find("Joint_Head").transform.localPosition;
+
+            _playerParts.Add(packet.playerId, jointP);
             _players.Add(packet.playerId, player);
+
+            Debug.Log(player.name);
         }
     }
 
