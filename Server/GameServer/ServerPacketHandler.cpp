@@ -320,7 +320,7 @@ bool ServerPacketHandler::Handle_C_Item(PacketSessionRef& session, BYTE* buffer,
 		player->leg = itemType;
 	}
 
-	cout << "player id: " << id << "charactorType: " << charactorType << " itemType: " << itemType << endl;
+	cout << "player id: " << id << " charactorType: " << charactorType << " itemType: " << itemType << endl;
 		
 	auto sendBuffer = Make_S_BroadcastItem(id, charactorType, itemType);
 	GRoom.BroadCast(sendBuffer);

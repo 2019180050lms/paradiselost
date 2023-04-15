@@ -24,7 +24,9 @@ public class Joint_Robot : MonoBehaviour
     void Start()
     {
         //quit_canvas = false;
-
+        po_list = new GameObject[3];
+        sh_list = new GameObject[3];
+        sp_list = new GameObject[3];
         //canvas.gameObject.SetActive(false);
     }
 
@@ -61,11 +63,8 @@ public class Joint_Robot : MonoBehaviour
         {
             SwitchParts(3);
         }
-
-        
-       
     }
-
+    
     public void SwitchParts(int type)
     {
         switch (change_parts)

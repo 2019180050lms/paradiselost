@@ -12,44 +12,35 @@ public class PlayerManager
     Dictionary<int, Player> _players = new Dictionary<int, Player>();
     public Dictionary<int, Joint_Robot> _playerParts = new Dictionary<int, Joint_Robot>();
     Dictionary<int, Enemy> _enemys = new Dictionary<int, Enemy>();
-
+    Joint_Robot c_p_parts = null;
     public Vector3 moveVec;
     public static PlayerManager Instance { get; } = new PlayerManager();
 
-    public void Add(S_PlayerList packet)
+    void SetCharacter(int playerId, ushort hp, int playerType, bool isSelf, Vector3 pos)
     {
-        foreach (S_PlayerList.Player p in packet.players)
+        Object obj = Resources.Load("Player_t1");
+        GameObject go = Object.Instantiate(obj) as GameObject;
+        
+        Object obj2 = Resources.Load("PlayerPtr");
+        GameObject PlayerPtr = Object.Instantiate(obj2) as GameObject;
+
+        if (isSelf)
         {
-            //Object obj = Resources.Load("Player");
-            //GameObject go = Object.Instantiate(obj) as GameObject;
-            if (p.type != 4)
+            switch (playerType)
             {
-                if (p.type == 1)
-                {
-                    Object obj = Resources.Load("Player_t");
-                    GameObject go = Object.Instantiate(obj) as GameObject;
-
-                    Object head = Resources.Load("Po_Head_Parts");
-                    Object body = Resources.Load("Po_Body_Parts");
-                    Object leg = Resources.Load("Po_Leg_Parts");
-
-                    if (p.isSelf)
+                case 1:
                     {
-                        Object obj2 = Resources.Load("PlayerPtr");
-                        GameObject PlayerPtr = Object.Instantiate(obj2) as GameObject;
-
-                        Debug.Log("item: " + p.head + " " + p.body + " " + p.leg);
-
-                        
-                        //GameObject head_p = Object.Instantiate(head) as GameObject;
-                        //GameObject body_p = Object.Instantiate(body) as GameObject;
-                        //GameObject leg_p = Object.Instantiate(leg) as GameObject;
-
                         MyPlayer myPlayer = go.AddComponent<MyPlayer>();
-                        
+                        Object head = Resources.Load("Po_Head_Parts");
+                        Object body = Resources.Load("Po_Body_Parts");
+                        Object leg = Resources.Load("Po_Leg_Parts");
+
                         joint = go.AddComponent<Joint_Robot>();
-                        joint.po_list = new GameObject[3];
                         
+                        joint.po_list = new GameObject[3];
+                        joint.sh_list = new GameObject[3];
+                        joint.sp_list = new GameObject[3];
+
                         joint.po_list[0] = head as GameObject;
                         joint.po_list[1] = body as GameObject;
                         joint.po_list[2] = leg as GameObject;
@@ -63,26 +54,115 @@ public class PlayerManager
                         joint.head = Object.Instantiate(joint.po_list[0], myPlayer.transform);
                         joint.head.transform.position = joint.body.transform.position + joint.body.transform.Find("Joint_Head").transform.localPosition - joint.head.transform.Find("Joint_Head").transform.localPosition;
 
-
-                        PlayerPtr.transform.SetParent(go.transform, false);
-                        myPlayer.PlayerId = p.playerId;
-                        myPlayer.hp = p.hp;
-                        myPlayer.name = p.name;
+                        myPlayer.PlayerId = playerId;
+                        myPlayer.hp = hp;
+                        //myPlayer.name = name;
                         //Debug.Log(p.hp);
 
-                        myPlayer.transform.position = new Vector3(p.posX, p.posY, p.posZ);
+                        myPlayer.transform.position = new Vector3(pos.x, pos.y, pos.z);
                         _myplayer = myPlayer;
+                        PlayerPtr.transform.SetParent(go.transform, false);
+
                         Debug.Log(myPlayer.name);
+                        break;
                     }
-                    else if (p.type < 5)
+                case 2:
+                    {
+                        MyPlayer myPlayer = go.AddComponent<MyPlayer>();
+                        Object head = Resources.Load("Sh_Head_Parts");
+                        Object body = Resources.Load("Sh_Body_Parts");
+                        Object leg = Resources.Load("Sh_Leg_Parts");
+
+                        joint = go.AddComponent<Joint_Robot>();
+                        joint.po_list = new GameObject[3];
+                        joint.sh_list = new GameObject[3];
+                        joint.sp_list = new GameObject[3];
+
+                        joint.sh_list[0] = head as GameObject;
+                        joint.sh_list[1] = body as GameObject;
+                        joint.sh_list[2] = leg as GameObject;
+
+                        joint.leg = Object.Instantiate(joint.sh_list[2], myPlayer.transform);
+                        //leg.transform.position = new Vector3(-5, 5, 3);
+
+                        joint.body = Object.Instantiate(joint.sh_list[1], myPlayer.transform);
+                        joint.body.transform.position = joint.leg.transform.position + joint.leg.transform.Find("Joint_Leg").transform.localPosition - joint.body.transform.Find("Joint_Leg").transform.localPosition;
+
+                        joint.head = Object.Instantiate(joint.sh_list[0], myPlayer.transform);
+                        joint.head.transform.position = joint.body.transform.position + joint.body.transform.Find("Joint_Head").transform.localPosition - joint.head.transform.Find("Joint_Head").transform.localPosition;
+
+                        myPlayer.PlayerId = playerId;
+                        //myPlayer.name = p.name;
+                        myPlayer.hp = hp;
+                        //Debug.Log(p.hp);
+                        myPlayer.transform.position = new Vector3(pos.x, pos.y, pos.z);
+                        _myplayer = myPlayer;
+                        PlayerPtr.transform.SetParent(go.transform, false);
+
+                        Debug.Log(myPlayer.name);
+                        break;
+                    }
+                case 3:
+                    {
+                        MyPlayer myPlayer = go.AddComponent<MyPlayer>();
+                        Object head = Resources.Load("Sp_Head_Parts");
+                        Object body = Resources.Load("Sp_Body_Parts");
+                        Object leg = Resources.Load("Sp_Leg_Parts");
+
+                        joint = go.AddComponent<Joint_Robot>();
+                        joint.po_list = new GameObject[3];
+                        joint.sh_list = new GameObject[3];
+                        joint.sp_list = new GameObject[3];
+
+                        joint.sp_list[0] = head as GameObject;
+                        joint.sp_list[1] = body as GameObject;
+                        joint.sp_list[2] = leg as GameObject;
+
+                        joint.leg = Object.Instantiate(joint.sp_list[2], myPlayer.transform);
+                        //leg.transform.position = new Vector3(-5, 5, 3);
+
+                        joint.body = Object.Instantiate(joint.sp_list[1], myPlayer.transform);
+                        joint.body.transform.position = joint.leg.transform.position + joint.leg.transform.Find("Joint_Leg").transform.localPosition - joint.body.transform.Find("Joint_Leg").transform.localPosition;
+
+                        joint.head = Object.Instantiate(joint.sp_list[0], myPlayer.transform);
+                        joint.head.transform.position = joint.body.transform.position + joint.body.transform.Find("Joint_Head").transform.localPosition - joint.head.transform.Find("Joint_Head").transform.localPosition;
+
+                        myPlayer.PlayerId = playerId;
+                        //myPlayer.name = p.name;
+                        myPlayer.hp = hp;
+                        //Debug.Log(p.hp);
+                        myPlayer.transform.position = new Vector3(pos.x, pos.y, pos.z);
+                        _myplayer = myPlayer;
+                        PlayerPtr.transform.SetParent(go.transform, false);
+
+                        Debug.Log(myPlayer.name);
+                        break;
+                    }
+                default:
+                    Debug.Log("오류");
+                    break;
+            }
+        }
+        else
+        {
+            switch (playerType)
+            {
+                case 1:
                     {
                         Player player = go.AddComponent<Player>();
-                        player.PlayerId = p.playerId;
-                        player.name = p.name;
+                        Object head = Resources.Load("Po_Head_Parts");
+                        Object body = Resources.Load("Po_Body_Parts");
+                        Object leg = Resources.Load("Po_Leg_Parts");
+
+                        player.PlayerId = playerId;
+                        //player.name = p.name;
                         //player.transform.position = new Vector3(p.posX, p.posY, p.posZ);
                         Joint_Robot jointP = go.AddComponent<Joint_Robot>();
 
                         jointP.po_list = new GameObject[3];
+                        jointP.sh_list = new GameObject[3];
+                        jointP.sp_list = new GameObject[3];
+
                         jointP.po_list[0] = head as GameObject;
                         jointP.po_list[1] = body as GameObject;
                         jointP.po_list[2] = leg as GameObject;
@@ -96,91 +176,111 @@ public class PlayerManager
                         jointP.head = Object.Instantiate(jointP.po_list[0], player.transform);
                         jointP.head.transform.position = jointP.body.transform.position + jointP.body.transform.Find("Joint_Head").transform.localPosition - jointP.head.transform.Find("Joint_Head").transform.localPosition;
 
-                        _playerParts.Add(p.playerId, jointP);
-                        _players.Add(p.playerId, player);
+                        _playerParts.Add(playerId, jointP);
+                        _players.Add(playerId, player);
 
                         Debug.Log(player.name);
+                        break;
                     }
-                }
-                else if (p.type == 2)
-                {
-                    Object obj = Resources.Load("Player2");
-                    GameObject go = Object.Instantiate(obj) as GameObject;
-                    if (p.isSelf)
-                    {
-                        Object obj2 = Resources.Load("PlayerPtr");
-                        GameObject PlayerPtr = Object.Instantiate(obj2) as GameObject;
-
-                        MyPlayer myPlayer = go.AddComponent<MyPlayer>();
-
-                        PlayerPtr.transform.SetParent(go.transform, false);
-                        myPlayer.PlayerId = p.playerId;
-                        myPlayer.name = p.name;
-                        myPlayer.hp = p.hp;
-                        //Debug.Log(p.hp);
-                        myPlayer.transform.position = new Vector3(p.posX, p.posY, p.posZ);
-                        _myplayer = myPlayer;
-                        Debug.Log(myPlayer.name);
-                    }
-                    else
+                case 2:
                     {
                         Player player = go.AddComponent<Player>();
-                        player.PlayerId = p.playerId;
-                        player.name = p.name;
+                        Object head = Resources.Load("Sh_Head_Parts");
+                        Object body = Resources.Load("Sh_Body_Parts");
+                        Object leg = Resources.Load("Sh_Leg_Parts");
+
+                        player.PlayerId = playerId;
+                        //player.name = p.name;
                         //player.transform.position = new Vector3(p.posX, p.posY, p.posZ);
-                        _players.Add(p.playerId, player);
+                        Joint_Robot jointP = go.AddComponent<Joint_Robot>();
+
+                        jointP.po_list = new GameObject[3];
+                        jointP.sh_list = new GameObject[3];
+                        jointP.sp_list = new GameObject[3];
+
+                        jointP.sh_list[0] = head as GameObject;
+                        jointP.sh_list[1] = body as GameObject;
+                        jointP.sh_list[2] = leg as GameObject;
+
+                        jointP.leg = Object.Instantiate(jointP.sh_list[2], player.transform);
+                        //leg.transform.position = new Vector3(-5, 5, 3);
+
+                        jointP.body = Object.Instantiate(jointP.sh_list[1], player.transform);
+                        jointP.body.transform.position = jointP.leg.transform.position + jointP.leg.transform.Find("Joint_Leg").transform.localPosition - jointP.body.transform.Find("Joint_Leg").transform.localPosition;
+
+                        jointP.head = Object.Instantiate(jointP.sh_list[0], player.transform);
+                        jointP.head.transform.position = jointP.body.transform.position + jointP.body.transform.Find("Joint_Head").transform.localPosition - jointP.head.transform.Find("Joint_Head").transform.localPosition;
+
+                        _playerParts.Add(playerId, jointP);
+                        _players.Add(playerId, player);
+
                         Debug.Log(player.name);
+                        break;
                     }
-                }
-                else if (p.type == 3)
-                {
-                    Object obj = Resources.Load("Player3");
-                    GameObject go = Object.Instantiate(obj) as GameObject;
-                    if (p.isSelf)
-                    {
-
-                        Object obj2 = Resources.Load("PlayerPtr");
-                        GameObject PlayerPtr = Object.Instantiate(obj2) as GameObject;
-
-                        MyPlayer myPlayer = go.AddComponent<MyPlayer>();
-
-                        PlayerPtr.transform.SetParent(go.transform, false);
-                        myPlayer.PlayerId = p.playerId;
-                        myPlayer.name = p.name;
-                        myPlayer.hp = p.hp;
-                        //Debug.Log(p.hp);
-                        myPlayer.transform.position = new Vector3(p.posX, p.posY, p.posZ);
-                        _myplayer = myPlayer;
-                        Debug.Log(myPlayer.name);
-                    }
-                    else
+                case 3:
                     {
                         Player player = go.AddComponent<Player>();
-                        player.PlayerId = p.playerId;
-                        player.name = p.name;
+                        Object head = Resources.Load("Sp_Head_Parts");
+                        Object body = Resources.Load("Sp_Body_Parts");
+                        Object leg = Resources.Load("Sp_Leg_Parts");
+
+                        player.PlayerId = playerId;
+                        //player.name = p.name;
                         //player.transform.position = new Vector3(p.posX, p.posY, p.posZ);
-                        _players.Add(p.playerId, player);
+                        Joint_Robot jointP = go.AddComponent<Joint_Robot>();
+
+                        jointP.po_list = new GameObject[3];
+                        jointP.sh_list = new GameObject[3];
+                        jointP.sp_list = new GameObject[3];
+
+                        jointP.sp_list[0] = head as GameObject;
+                        jointP.sp_list[1] = body as GameObject;
+                        jointP.sp_list[2] = leg as GameObject;
+
+                        jointP.leg = Object.Instantiate(jointP.sp_list[2], player.transform);
+                        //leg.transform.position = new Vector3(-5, 5, 3);
+
+                        jointP.body = Object.Instantiate(jointP.sp_list[1], player.transform);
+                        jointP.body.transform.position = jointP.leg.transform.position + jointP.leg.transform.Find("Joint_Leg").transform.localPosition - jointP.body.transform.Find("Joint_Leg").transform.localPosition;
+
+                        jointP.head = Object.Instantiate(jointP.sp_list[0], player.transform);
+                        jointP.head.transform.position = jointP.body.transform.position + jointP.body.transform.Find("Joint_Head").transform.localPosition - jointP.head.transform.Find("Joint_Head").transform.localPosition;
+
+                        _playerParts.Add(playerId, jointP);
+                        _players.Add(playerId, player);
+
                         Debug.Log(player.name);
+                        break;
                     }
-                }
-                else if (p.type == 5)
-                {
-                    Object obj = Resources.Load("StageBoss");
-                    GameObject go = Object.Instantiate(obj) as GameObject;
+                default:
+                    Debug.Log("오류");
+                    break;
+            }
+        }
 
-                    BossEnemy boss = go.AddComponent<BossEnemy>();
-                    boss.enemyId = p.playerId;
-                    boss.maxHealth = p.hp;
-                    boss.curHealth = p.hp;
-                    boss.transform.position = new Vector3(p.posX, p.posY, p.posZ);
-                    _boss = boss;
-                    Debug.Log("보스 생성");
+    }
 
-                }
-                else
-                {
-                    Debug.Log("캐릭터 생성창 이동");
-                }
+    public void Add(S_PlayerList packet)
+    {
+        foreach (S_PlayerList.Player p in packet.players)
+        {
+            //Object obj = Resources.Load("Player");
+            //GameObject go = Object.Instantiate(obj) as GameObject;
+            Vector3 playerPos = new Vector3(p.posX, p.posY, p.posZ);
+            SetCharacter(p.playerId, p.hp, p.type, p.isSelf, playerPos);
+            if (p.type == 5)
+            {
+                Object obj = Resources.Load("StageBoss");
+                GameObject go = Object.Instantiate(obj) as GameObject;
+
+                BossEnemy boss = go.AddComponent<BossEnemy>();
+                boss.enemyId = p.playerId;
+                boss.maxHealth = p.hp;
+                boss.curHealth = p.hp;
+                boss.transform.position = new Vector3(p.posX, p.posY, p.posZ);
+                _boss = boss;
+                Debug.Log("보스 생성");
+
             }
             else if (p.type == 4)
             {
@@ -198,7 +298,6 @@ public class PlayerManager
                 //Debug.Log("Monster 생성");
                 //Debug.Log(enemy.enemyId);
                 //Debug.Log(enemy.maxHealth);
-
             }
         }
     }
@@ -219,9 +318,9 @@ public class PlayerManager
             //_myplayer.anim.SetBool("isRun", _myplayer.moveVec != Vector3.zero);
             if (packet.wDown)
             {
-                _myplayer.StopCoroutine("Swing");
-                _myplayer.anim.SetTrigger("doSwing");
-                _myplayer.StartCoroutine("Swing");
+                //_myplayer.StopCoroutine("Swing");
+                //_myplayer.anim.SetTrigger("doSwing");
+                //_myplayer.StartCoroutine("Swing");
             }
             //_myplayer.transform.LookAt(_myplayer.transform.position + _myplayer.moveVec2);
         }
@@ -258,7 +357,7 @@ public class PlayerManager
                 //Debug.Log("Pmovevec:");
                 //Debug.Log(player.moveVec);
 
-                player.anim.SetBool("isRun", player.moveVec2 != Vector3.zero);
+                //player.anim.SetBool("isRun", player.moveVec2 != Vector3.zero);
                 if (packet.wDown)
                     player.anim.SetTrigger("doSwing");
                 player.transform.LookAt(player.transform.position + player.moveVec2);
@@ -267,7 +366,7 @@ public class PlayerManager
         else
         {
             if (player != null)
-                player.anim.SetBool("isRun", false);
+                //player.anim.SetBool("isRun", false);
             // 몬스터 움직임
             if (_enemys.TryGetValue(packet.playerId, out enemy))
             {
@@ -432,6 +531,7 @@ public class PlayerManager
         {
             GameObject.Destroy(_myplayer.gameObject);
             _myplayer = null;
+            joint = null;
         }
         else
         {
@@ -442,6 +542,7 @@ public class PlayerManager
                 {
                     GameObject.Destroy(player.gameObject);
                     _players.Remove(packet.playerId);
+                    _playerParts.Remove(packet.playerId);
                 }
             }
             else
@@ -465,33 +566,127 @@ public class PlayerManager
     {
         if(packet.playerId == _myplayer.PlayerId)
         {
+            joint.change_parts = packet.charactorType;
             if (packet.charactorType == 1)
             {
+                switch(packet.itemType)
+                {
+                    case 1:
+                        joint.po_list[0] = Resources.Load("Po_Head_Parts") as GameObject;
+                        joint.SwitchParts(packet.itemType);
+                        break;
+                    case 2:
+                        joint.sh_list[0] = Resources.Load("Sh_Head_Parts") as GameObject;
+                        joint.SwitchParts(packet.itemType);
+                        break;
+                    case 3:
+                        joint.sp_list[0] = Resources.Load("Sp_Head_Parts") as GameObject;
+                        joint.SwitchParts(packet.itemType);
+                        break;
+                }
                 _myplayer.head = packet.itemType;
             }
             else if (packet.charactorType == 2)
             {
+                switch (packet.itemType)
+                {
+                    case 1:
+                        joint.po_list[1] = Resources.Load("Po_Body_Parts") as GameObject;
+                        joint.SwitchParts(packet.itemType);
+                        break;
+                    case 2:
+                        joint.sh_list[1] = Resources.Load("Items/Sh_Body_Item") as GameObject;
+                        joint.SwitchParts(packet.itemType);
+                        break;
+                    case 3:
+                        joint.sp_list[1] = Resources.Load("Sp_Body_Parts") as GameObject;
+                        joint.SwitchParts(packet.itemType);
+                        break;
+                }
                 _myplayer.body = packet.itemType;
             }
             else if (packet.charactorType == 3)
             {
+                switch (packet.itemType)
+                {
+                    case 1:
+                        joint.po_list[2] = Resources.Load("Po_Leg_Parts") as GameObject;
+                        joint.SwitchParts(packet.itemType);
+                        break;
+                    case 2:
+                        joint.sh_list[2] = Resources.Load("Sh_Leg_Parts") as GameObject;
+                        joint.SwitchParts(packet.itemType);
+                        break;
+                    case 3:
+                        joint.sp_list[2] = Resources.Load("Items/Sp_Leg_Item") as GameObject;
+                        joint.SwitchParts(packet.itemType);
+                        break;
+                }
                 _myplayer.leg = packet.itemType;
             }
         }
         else if (_players.TryGetValue(packet.playerId, out player))
         {
-
-            if (packet.charactorType == 1)
+            if (_playerParts.TryGetValue(packet.playerId, out c_p_parts))
             {
-                player.head = packet.itemType;
-            }
-            else if (packet.charactorType == 2)
-            {
-                player.body = packet.itemType;
-            }
-            else if (packet.charactorType == 3)
-            {
-                player.leg = packet.itemType;
+                c_p_parts.change_parts = packet.charactorType;
+                if (packet.charactorType == 1)
+                {
+                    switch (packet.itemType)
+                    {
+                        case 1:
+                            c_p_parts.po_list[0] = Resources.Load("Po_Head_Parts") as GameObject;
+                            c_p_parts.SwitchParts(packet.itemType);
+                            break;
+                        case 2:
+                            c_p_parts.sh_list[0] = Resources.Load("Sh_Head_Parts") as GameObject;
+                            c_p_parts.SwitchParts(packet.itemType);
+                            break;
+                        case 3:
+                            c_p_parts.sp_list[0] = Resources.Load("Sp_Head_Parts") as GameObject;
+                            c_p_parts.SwitchParts(packet.itemType);
+                            break;
+                    }
+                    player.head = packet.itemType;
+                }
+                else if (packet.charactorType == 2)
+                {
+                    switch (packet.itemType)
+                    {
+                        case 1:
+                            c_p_parts.po_list[1] = Resources.Load("Po_Body_Parts") as GameObject;
+                            c_p_parts.SwitchParts(packet.itemType);
+                            break;
+                        case 2:
+                            c_p_parts.sh_list[1] = Resources.Load("Items/Sh_Body_Item") as GameObject;
+                            c_p_parts.SwitchParts(packet.itemType);
+                            break;
+                        case 3:
+                            c_p_parts.sp_list[1] = Resources.Load("Sp_Body_Parts") as GameObject;
+                            c_p_parts.SwitchParts(packet.itemType);
+                            break;
+                    }
+                    player.body = packet.itemType;
+                }
+                else if (packet.charactorType == 3)
+                {
+                    switch (packet.itemType)
+                    {
+                        case 1:
+                            c_p_parts.po_list[2] = Resources.Load("Po_Leg_Parts") as GameObject;
+                            c_p_parts.SwitchParts(packet.itemType);
+                            break;
+                        case 2:
+                            c_p_parts.sh_list[2] = Resources.Load("Sh_Leg_Parts") as GameObject;
+                            c_p_parts.SwitchParts(packet.itemType);
+                            break;
+                        case 3:
+                            c_p_parts.sp_list[2] = Resources.Load("Items/Sp_Leg_Item") as GameObject;
+                            c_p_parts.SwitchParts(packet.itemType);
+                            break;
+                    }
+                    player.leg = packet.itemType;
+                }
             }
         }
     }
@@ -509,5 +704,4 @@ public class PlayerManager
             Debug.Log("보스 피격" + _boss.curHealth);
         }
     }
-
 }
