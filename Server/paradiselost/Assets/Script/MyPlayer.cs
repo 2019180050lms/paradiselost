@@ -39,7 +39,12 @@ public class MyPlayer : Player
     {
         GetInput();
         Interaction();
-        //anim.SetBool("isRun", moveVec != Vector3.zero);
+        if(moveVec == Vector3.zero)
+        {
+            anim_Body.SetBool("isRun", false);
+            anim_Leg.SetBool("isRun", false);
+        }
+        
 
         frontDown = Input.GetKey(KeyCode.W);
         leftDown = Input.GetKey(KeyCode.A);

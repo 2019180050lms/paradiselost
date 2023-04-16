@@ -132,6 +132,9 @@ public class PlayerManager
                         myPlayer.transform.position = new Vector3(pos.x, pos.y, pos.z);
                         _myplayer = myPlayer;
                         PlayerPtr.transform.SetParent(go.transform, false);
+                        myPlayer.anim_Head = joint.head.gameObject.transform.GetChild(0).GetComponent<Animator>();
+                        myPlayer.anim_Body = joint.body.gameObject.transform.GetChild(0).GetComponent<Animator>();
+                        myPlayer.anim_Leg = joint.leg.gameObject.transform.GetChild(0).GetComponent<Animator>();
 
                         Debug.Log(myPlayer.name);
                         break;
@@ -358,11 +361,16 @@ public class PlayerManager
 
             //Debug.Log(packet.hp);
 
-            //_myplayer.anim.SetBool("isRun", _myplayer.moveVec != Vector3.zero);
+            _myplayer.anim_Head.SetBool("isRun", _myplayer.moveVec != Vector3.zero);
+            _myplayer.anim_Body.SetBool("isRun", _myplayer.moveVec != Vector3.zero);
+            _myplayer.anim_Leg.SetBool("isRun", _myplayer.moveVec != Vector3.zero);
+
             if (packet.wDown)
             {
                 _myplayer.StopCoroutine("Swing");
-                //_myplayer.anim.SetTrigger("doSwing");
+                _myplayer.anim_Head.SetTrigger("doSwing");
+                _myplayer.anim_Body.SetTrigger("doSwing");
+                _myplayer.anim_Leg.SetTrigger("doSwing");
                 _myplayer.StartCoroutine("Swing");
             }
             //_myplayer.transform.LookAt(_myplayer.transform.position + _myplayer.moveVec2);
@@ -401,8 +409,17 @@ public class PlayerManager
                 //Debug.Log(player.moveVec);
 
                 //player.anim.SetBool("isRun", player.moveVec2 != Vector3.zero);
+                player.anim_Head.SetBool("isRun", _myplayer.moveVec != Vector3.zero);
+                player.anim_Body.SetBool("isRun", _myplayer.moveVec != Vector3.zero);
+                player.anim_Leg.SetBool("isRun", _myplayer.moveVec != Vector3.zero);
+
                 if (packet.wDown)
-                    player.anim.SetTrigger("doSwing");
+                {
+                    player.anim_Head.SetTrigger("doSwing");
+                    player.anim_Body.SetTrigger("doSwing");
+                    player.anim_Leg.SetTrigger("doSwing");
+                }
+                    
                 player.transform.LookAt(player.transform.position + player.moveVec2);
             }
         }
@@ -689,6 +706,7 @@ public class PlayerManager
                         joint.SwitchParts(packet.itemType);
                         break;
                 }
+                _myplayer.anim_Head = joint.head.gameObject.transform.GetChild(0).GetComponent<Animator>();
                 _myplayer.head = packet.itemType;
             }
             else if (packet.charactorType == 2)
@@ -708,6 +726,7 @@ public class PlayerManager
                         joint.SwitchParts(packet.itemType);
                         break;
                 }
+                _myplayer.anim_Body = joint.body.gameObject.transform.GetChild(0).GetComponent<Animator>();
                 _myplayer.body = packet.itemType;
             }
             else if (packet.charactorType == 3)
@@ -727,6 +746,7 @@ public class PlayerManager
                         joint.SwitchParts(packet.itemType);
                         break;
                 }
+                _myplayer.anim_Leg = joint.leg.gameObject.transform.GetChild(0).GetComponent<Animator>();
                 _myplayer.leg = packet.itemType;
             }
         }

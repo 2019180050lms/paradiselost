@@ -41,6 +41,10 @@ public class Player : MonoBehaviour
     public Rigidbody rigid;
     public Animator anim;
 
+    public Animator anim_Head;
+    public Animator anim_Body;
+    public Animator anim_Leg;
+
     public GameObject nearObject;
     public Weapon equipWeapon;
     public HitBox hitBox;
@@ -64,7 +68,7 @@ public class Player : MonoBehaviour
     {
         rigid = GetComponent<Rigidbody>();
         anim = GetComponentInChildren<Animator>();
-        
+
     }
     
 
@@ -107,8 +111,8 @@ public class Player : MonoBehaviour
             moveVec = transform.position;
         }
 
-        anim.SetBool("isRun", moveVec2 != Vector3.zero);
-        anim.SetBool("isWalk", wDown);
+        //anim.SetBool("isRun", moveVec2 != Vector3.zero);
+        //anim.SetBool("isWalk", wDown);
     }
 
     public void Turn()
