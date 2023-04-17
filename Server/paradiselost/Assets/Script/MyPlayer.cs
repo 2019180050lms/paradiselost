@@ -29,7 +29,6 @@ public class MyPlayer : Player
         hitBox = GetComponent<HitBox>();
         _network = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
 
-        health = 50;
         transform.tag = "MyPlayer";
     }
 
@@ -184,6 +183,12 @@ public class MyPlayer : Player
         else if (other.tag == "Head_Item")
         {
             Destroy(other.gameObject);
+        }
+
+        else if (other.tag == "EnemyBullet")
+        {
+            // 피격 처리
+            hp -= 20;
         }
     }
 

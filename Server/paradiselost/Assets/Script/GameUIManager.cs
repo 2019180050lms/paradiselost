@@ -35,15 +35,14 @@ public class GameUIManager : MonoBehaviour
     public GameObject BossUI;
     void Start()
     {
-        Invoke("ItemIcon", 0.5f);
+        Invoke("FindMyPlayer", 0.5f);
         _network = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
     }
 
     void Awake()
     {
         boxCollider = GetComponent<BoxCollider>();
-        
-        
+
 
     }
 
@@ -52,12 +51,13 @@ public class GameUIManager : MonoBehaviour
         boss = GameObject.Find("StageBoss(Clone)").GetComponent<StageBoss>();
     }
 
-    void ItemIcon()
+    void FindMyPlayer()
     {
 
         inventory = GameObject.FindGameObjectWithTag("MyPlayer").GetComponent<Inventory>();
-
+        myPlayer = GameObject.FindGameObjectWithTag("MyPlayer").GetComponent<MyPlayer>();
     }
+
 
      void Update()
     {
@@ -75,10 +75,9 @@ public class GameUIManager : MonoBehaviour
         int min = (int)((playTime - hour * 3600) / 60);
         int second = (int)(playTime % 60);
 
-
         playTimeTxt.text = string.Format("{0:00}", hour) + ":" + string.Format("{0:00}", min) + ":" + string.Format("{0:00}", second);
-        playerHealthTxt.text = MyPlayer.health.ToString() + " /  100";
-
+        playerHealthTxt.text = myPlayer.hp.ToString() + " /  100";
+        
 
         for (int i = 0; i < 9; ++ i )
         {

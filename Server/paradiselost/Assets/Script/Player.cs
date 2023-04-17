@@ -226,9 +226,10 @@ public class Player : MonoBehaviour
             //other.gameObject.SetActive(false);
             //Debug.Log("destroy item");
         }
-        else if(other.tag == "EnemyBullet")
+        if(other.tag == "EnemyBullet")
         {
             // 피격 처리
+            hp -= 20;
         }
     }
 
