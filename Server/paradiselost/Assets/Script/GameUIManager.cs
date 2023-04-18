@@ -76,7 +76,7 @@ public class GameUIManager : MonoBehaviour
         int second = (int)(playTime % 60);
 
         playTimeTxt.text = string.Format("{0:00}", hour) + ":" + string.Format("{0:00}", min) + ":" + string.Format("{0:00}", second);
-        playerHealthTxt.text = myPlayer.hp.ToString() + " /  100";
+        playerHealthTxt.text = myPlayer.hp.ToString() + " /  100";  // 플레이어 체력 표시
         
 
         for (int i = 0; i < 9; ++ i )

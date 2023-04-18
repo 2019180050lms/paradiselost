@@ -226,11 +226,7 @@ public class Player : MonoBehaviour
             //other.gameObject.SetActive(false);
             //Debug.Log("destroy item");
         }
-        if(other.tag == "EnemyBullet")
-        {
-            // 피격 처리
-            hp -= 20;
-        }
+        
     }
 
     void OnCollisionEnter(Collision collision)

@@ -188,6 +188,8 @@ public class MyPlayer : Player
         else if (other.tag == "EnemyBullet")
         {
             // 피격 처리
+            Enemy monsterInfo = other.GetComponentInParent<Enemy>(); // 공격한 몬스터 객체 불러오기
+            //Debug.Log(monsterInfo.enemyId);  // 공격한 몬스터 객체의 ID 출력
             hp -= 20;
         }
     }
