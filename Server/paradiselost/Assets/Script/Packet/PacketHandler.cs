@@ -83,7 +83,15 @@ class PacketHandler
         PlayerManager.Instance.AttackedMonster(pkt);
     }
 
-    public static void S_ChatHandler(PacketSession session, IPacket packet)
+	public static void S_AttackedPlayerHandler(PacketSession session, IPacket packet)
+	{
+		S_AttackedPlayer pkt = packet as S_AttackedPlayer;
+		ServerSession serverSession = session as ServerSession;
+
+		PlayerManager.Instance.AttackedPlayer(pkt);
+	}
+
+	public static void S_ChatHandler(PacketSession session, IPacket packet)
 	{
 		S_Chat chatPacket = packet as S_Chat;
 		ServerSession serverSession = session as ServerSession;

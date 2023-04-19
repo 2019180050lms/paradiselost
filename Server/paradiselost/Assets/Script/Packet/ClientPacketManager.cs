@@ -43,6 +43,9 @@ class PacketManager
         _makeFunc.Add((ushort)PacketID.S_ATTACKEDMONSTER, MakePacket<S_AttackedMonster>);
         _handler.Add((ushort)PacketID.S_ATTACKEDMONSTER, PacketHandler.S_AttackedMonsterHandler);
 
+		_makeFunc.Add((ushort)PacketID.S_PLAYERATTACK, MakePacket<S_AttackedPlayer>);
+		_handler.Add((ushort)PacketID.S_PLAYERATTACK, PacketHandler.S_AttackedPlayerHandler);
+
 		_makeFunc.Add((ushort)PacketID.S_BROADCAST_ITEM, MakePacket<S_Broadcast_Item>);
 		_handler.Add((ushort)PacketID.S_BROADCAST_ITEM, PacketHandler.S_BroadCastItem);
 	}

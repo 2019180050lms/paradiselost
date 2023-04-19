@@ -67,6 +67,8 @@ public class MyPlayer : Player
 
         sDown1 = Input.GetButtonDown("Swap1");
         sDown2 = Input.GetButtonDown("Swap2");
+
+        Debug.Log("input");
     }
 
     void MoveControl()
@@ -141,7 +143,15 @@ public class MyPlayer : Player
         {
             //Debug.Log("movevec = 0");
         }
+    }
 
+    void cs_send_playerdamage(int m_id)
+    {
+        C_AttackedPlayer packet = new C_AttackedPlayer();
+        packet.p_id = PlayerId;
+        packet.m_id = m_id;
+        _network.Send(packet.Write());
+        Debug.Log("attack test");
     }
 
     public void Interaction()
@@ -190,7 +200,8 @@ public class MyPlayer : Player
             // 피격 처리
             Enemy monsterInfo = other.GetComponentInParent<Enemy>(); // 공격한 몬스터 객체 불러오기
             //Debug.Log(monsterInfo.enemyId);  // 공격한 몬스터 객체의 ID 출력
-            hp -= 20;
+            //hp -= 20;
+            cs_send_playerdamage(monsterInfo.enemyId);
         }
     }
 
@@ -379,7 +390,5 @@ public class MyPlayer : Player
             else
                 dir = 0;
         }
-
-       
     }
 }

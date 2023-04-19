@@ -355,15 +355,15 @@ public class PlayerManager
             Vector3 movePos = new Vector3(packet.posX, packet.posY, packet.posZ);
             _myplayer.dir = packet.playerDir;
             _myplayer.wDown = packet.wDown;
-            Debug.Log(packet.isJump);
+            //Debug.Log(packet.isJump);
             _myplayer.testJump = packet.isJump;
             //_myplayer.transform.position = movePos;
 
             //Debug.Log(packet.hp);
 
-            _myplayer.anim_Head.SetBool("isRun", _myplayer.moveVec != Vector3.zero);
-            _myplayer.anim_Body.SetBool("isRun", _myplayer.moveVec != Vector3.zero);
-            _myplayer.anim_Leg.SetBool("isRun", _myplayer.moveVec != Vector3.zero);
+            //_myplayer.anim_Head.SetBool("isRun", _myplayer.moveVec != Vector3.zero);
+            //_myplayer.anim_Body.SetBool("isRun", _myplayer.moveVec != Vector3.zero);
+            //_myplayer.anim_Leg.SetBool("isRun", _myplayer.moveVec != Vector3.zero);
 
             if (packet.wDown)
             {
@@ -828,5 +828,19 @@ public class PlayerManager
             _boss.curHealth = packet.hp;
             Debug.Log("보스 피격" + _boss.curHealth);
         }
+    }
+
+    public void AttackedPlayer(S_AttackedPlayer packet)
+    {
+        if(_myplayer.PlayerId == packet.p_id)
+        {
+            _myplayer.hp = packet.hp;
+        }
+        else if(_players.TryGetValue(packet.p_id, out player))
+        {
+            player.hp = packet.hp;
+        }
+
+        Debug.Log("player hp: " + packet.hp);
     }
 }
