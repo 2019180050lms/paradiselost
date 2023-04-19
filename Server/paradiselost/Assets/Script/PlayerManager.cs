@@ -60,6 +60,9 @@ public class PlayerManager
                         myPlayer.transform.position = new Vector3(pos.x, pos.y, pos.z);
                         _myplayer = myPlayer;
                         PlayerPtr.transform.SetParent(go.transform, false);
+                        myPlayer.anim_Head = joint.head.gameObject.transform.GetChild(0).GetComponent<Animator>();
+                        myPlayer.anim_Body = joint.body.gameObject.transform.GetChild(0).GetComponent<Animator>();
+                        myPlayer.anim_Leg = joint.leg.gameObject.transform.GetChild(0).GetComponent<Animator>();
 
                         Debug.Log(myPlayer.name);
                         break;
@@ -96,6 +99,10 @@ public class PlayerManager
                         myPlayer.transform.position = new Vector3(pos.x, pos.y, pos.z);
                         _myplayer = myPlayer;
                         PlayerPtr.transform.SetParent(go.transform, false);
+                        myPlayer.anim_Head = joint.head.gameObject.transform.GetChild(0).GetComponent<Animator>();
+                        myPlayer.anim_Body = joint.body.gameObject.transform.GetChild(0).GetComponent<Animator>();
+                        myPlayer.anim_Leg = joint.leg.gameObject.transform.GetChild(0).GetComponent<Animator>();
+
 
                         Debug.Log(myPlayer.name);
                         break;
