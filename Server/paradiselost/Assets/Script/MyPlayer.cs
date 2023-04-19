@@ -38,18 +38,16 @@ public class MyPlayer : Player
     {
         GetInput();
         Interaction();
-        if(moveVec == Vector3.zero)
-        {
-            anim_Body.SetBool("isRun", false);
-            anim_Leg.SetBool("isRun", false);
-        }
-        
 
         frontDown = Input.GetKey(KeyCode.W);
         leftDown = Input.GetKey(KeyCode.A);
         rightDown = Input.GetKey(KeyCode.D);
         backDown = Input.GetKey(KeyCode.S);
-
+        if (moveVec == Vector3.zero)
+        {
+            anim_Body.SetBool("isRun", false);
+            anim_Leg.SetBool("isRun", false);
+        }
 
         MoveControl();
         Jump(testJump);

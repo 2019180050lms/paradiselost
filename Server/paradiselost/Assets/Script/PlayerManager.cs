@@ -187,6 +187,9 @@ public class PlayerManager
                         jointP.head.transform.position = jointP.body.transform.position + jointP.body.transform.Find("Joint_Head").transform.localPosition - jointP.head.transform.Find("Joint_Head").transform.localPosition;
 
                         player.transform.position = new Vector3(pos.x, pos.y, pos.z);
+                        player.anim_Head = jointP.head.gameObject.transform.GetChild(0).GetComponent<Animator>();
+                        player.anim_Body = jointP.body.gameObject.transform.GetChild(0).GetComponent<Animator>();
+                        player.anim_Leg = jointP.leg.gameObject.transform.GetChild(0).GetComponent<Animator>();
 
                         _playerParts.Add(playerId, jointP);
                         _players.Add(playerId, player);
@@ -224,6 +227,9 @@ public class PlayerManager
                         jointP.head.transform.position = jointP.body.transform.position + jointP.body.transform.Find("Joint_Head").transform.localPosition - jointP.head.transform.Find("Joint_Head").transform.localPosition;
 
                         player.transform.position = new Vector3(pos.x, pos.y, pos.z);
+                        player.anim_Head = jointP.head.gameObject.transform.GetChild(0).GetComponent<Animator>();
+                        player.anim_Body = jointP.body.gameObject.transform.GetChild(0).GetComponent<Animator>();
+                        player.anim_Leg = jointP.leg.gameObject.transform.GetChild(0).GetComponent<Animator>();
 
                         _playerParts.Add(playerId, jointP);
                         _players.Add(playerId, player);
@@ -261,6 +267,9 @@ public class PlayerManager
                         jointP.head.transform.position = jointP.body.transform.position + jointP.body.transform.Find("Joint_Head").transform.localPosition - jointP.head.transform.Find("Joint_Head").transform.localPosition;
 
                         player.transform.position = new Vector3(pos.x, pos.y, pos.z);
+                        player.anim_Head = jointP.head.gameObject.transform.GetChild(0).GetComponent<Animator>();
+                        player.anim_Body = jointP.body.gameObject.transform.GetChild(0).GetComponent<Animator>();
+                        player.anim_Leg = jointP.leg.gameObject.transform.GetChild(0).GetComponent<Animator>();
 
                         _playerParts.Add(playerId, jointP);
                         _players.Add(playerId, player);
@@ -416,9 +425,9 @@ public class PlayerManager
                 //Debug.Log(player.moveVec);
 
                 //player.anim.SetBool("isRun", player.moveVec2 != Vector3.zero);
-                player.anim_Head.SetBool("isRun", _myplayer.moveVec != Vector3.zero);
-                player.anim_Body.SetBool("isRun", _myplayer.moveVec != Vector3.zero);
-                player.anim_Leg.SetBool("isRun", _myplayer.moveVec != Vector3.zero);
+                player.anim_Head.SetBool("isRun", player.moveVec2 != Vector3.zero);
+                player.anim_Body.SetBool("isRun", player.moveVec2 != Vector3.zero);
+                player.anim_Leg.SetBool("isRun", player.moveVec2 != Vector3.zero);
 
                 if (packet.wDown)
                 {
@@ -568,6 +577,9 @@ public class PlayerManager
 
             jointP.head = Object.Instantiate(jointP.po_list[0], player.transform);
             jointP.head.transform.position = jointP.body.transform.position + jointP.body.transform.Find("Joint_Head").transform.localPosition - jointP.head.transform.Find("Joint_Head").transform.localPosition;
+            player.anim_Head = jointP.head.gameObject.transform.GetChild(0).GetComponent<Animator>();
+            player.anim_Body = jointP.body.gameObject.transform.GetChild(0).GetComponent<Animator>();
+            player.anim_Leg = jointP.leg.gameObject.transform.GetChild(0).GetComponent<Animator>();
 
             _playerParts.Add(packet.playerId, jointP);
             _players.Add(packet.playerId, player);
@@ -607,6 +619,9 @@ public class PlayerManager
 
             jointP.head = Object.Instantiate(jointP.sh_list[0], player.transform);
             jointP.head.transform.position = jointP.body.transform.position + jointP.body.transform.Find("Joint_Head").transform.localPosition - jointP.head.transform.Find("Joint_Head").transform.localPosition;
+            player.anim_Head = jointP.head.gameObject.transform.GetChild(0).GetComponent<Animator>();
+            player.anim_Body = jointP.body.gameObject.transform.GetChild(0).GetComponent<Animator>();
+            player.anim_Leg = jointP.leg.gameObject.transform.GetChild(0).GetComponent<Animator>();
 
             _playerParts.Add(packet.playerId, jointP);
             _players.Add(packet.playerId, player);
@@ -646,6 +661,9 @@ public class PlayerManager
 
             jointP.head = Object.Instantiate(jointP.sp_list[0], player.transform);
             jointP.head.transform.position = jointP.body.transform.position + jointP.body.transform.Find("Joint_Head").transform.localPosition - jointP.head.transform.Find("Joint_Head").transform.localPosition;
+            player.anim_Head = jointP.head.gameObject.transform.GetChild(0).GetComponent<Animator>();
+            player.anim_Body = jointP.body.gameObject.transform.GetChild(0).GetComponent<Animator>();
+            player.anim_Leg = jointP.leg.gameObject.transform.GetChild(0).GetComponent<Animator>();
 
             _playerParts.Add(packet.playerId, jointP);
             _players.Add(packet.playerId, player);

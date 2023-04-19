@@ -62,6 +62,11 @@ public class Player : MonoBehaviour
     {
         transform.position = Vector3.Lerp(transform.position, posVec, 0.005f);
         Jump(other_jump);
+        if (moveVec2 == Vector3.zero)
+        {
+            anim_Body.SetBool("isRun", false);
+            anim_Leg.SetBool("isRun", false);
+        }
     }
 
     void Awake()
