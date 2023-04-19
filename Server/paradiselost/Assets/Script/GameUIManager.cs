@@ -78,16 +78,19 @@ public class GameUIManager : MonoBehaviour
         playTimeTxt.text = string.Format("{0:00}", hour) + ":" + string.Format("{0:00}", min) + ":" + string.Format("{0:00}", second);
         playerHealthTxt.text = myPlayer.hp.ToString() + " /  100";  // 플레이어 체력 표시
         
-
-        for (int i = 0; i < 9; ++ i )
+        if(inventory.ItemList[0] != null)
         {
-            if (inventory.ItemList[i].hasItem)
+            for (int i = 0; i < 9; ++i)
             {
-                ItemImg[i].color = new Color(1, 1, 1, 1);
+                if (inventory.ItemList[i].hasItem)
+                {
+                    ItemImg[i].color = new Color(1, 1, 1, 1);
+                }
+                else if (inventory.ItemList[i] == null)
+                    ItemImg[i].color = new Color(1, 1, 1, 0);
             }
-            else if(inventory.ItemList[i] == null)
-                ItemImg[i].color = new Color(1, 1, 1, 0);
         }
+       
 
         bossHealthBar.localScale = new Vector3((float)PlayerManager.Instance._boss.curHealth / boss.maxHealth, 1, 1);
     }
@@ -95,6 +98,16 @@ public class GameUIManager : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.tag == "Player")
+        {
+            Debug.Log("Enter BossRoom");
+            FindBossHp();
+            BossUI.SetActive(true);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Player" || other.gameObject.tag =="MyPlayer")
         {
             Debug.Log("Enter BossRoom");
             FindBossHp();
