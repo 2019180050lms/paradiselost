@@ -161,9 +161,9 @@ PlayerList Room::CreateBossMonster()
 	l_player.Dir = 0;
 	l_player.type = (int32)BossType::BOSS1;
 	l_player.hp = 1000;   
-	l_player.posX = 246.757f;
-	l_player.posY = -7.6f;
-	l_player.posZ = 1.53712f;
+	l_player.posX = -660.f;
+	l_player.posY = -3.f;
+	l_player.posZ = 118.f;
 	GRoom._monsters.push_back(l_player);
 
 	return l_player;
@@ -174,123 +174,174 @@ void Room::MoveMonster()
 	if (_monsters.size() == 0)
 	{
 		if (stage == 0) {
-			CreateMonster(106.f, 1.5f, 1.5f);
-			auto monster = ServerPacketHandler::Make_S_PlayerList(_monsters);
-			BroadCast(monster);
-			stage += 1;
+			for (auto& p : _players)
+			{
+				if (p.second->xPos <= -120.f + 10.f && p.second->zPos <= 27.f + 7.5f
+					&& p.second->xPos >= -120.f - 10.f && p.second->zPos >= 27.f - 7.5f)
+				{
+					CreateMonster(-235.f, 2.5f, 27.f);
+					auto monster = ServerPacketHandler::Make_S_PlayerList(_monsters);
+					BroadCast(monster);
+					stage += 1;
+					break;
+				}
+				else if (p.second->xPos <= 0.f + 10.f && p.second->zPos <= 125.f + 7.5f
+					&& p.second->xPos >= 0.f - 10.f && p.second->zPos >= 125.f - 7.5f)
+				{
+					CreateMonster(0.f, 2.5f, 225.f);
+					auto monster = ServerPacketHandler::Make_S_PlayerList(_monsters);
+					BroadCast(monster);
+					stage += 1;
+					break;
+				}
+			}
 		}
 		else if (stage == 1)
 		{
-			List<PlayerList> l_boss;
-			PlayerList boss = CreateBossMonster();
-			l_boss.emplace_back(boss);
-			auto bossSend = ServerPacketHandler::Make_S_PlayerList(l_boss);
-			BroadCast(bossSend);
-			cout << "send boss" << endl;
-			stage = 0;
-		}
-	}
-
-	for (auto& m : _monsters)
-	{
-		for (auto& p : _players)
-		{
-			if (p.second->playerId < 500)
+			for (auto& p : _players)
 			{
-				if (p.second->xPos <= m.posX + 5 && p.second->zPos <= m.posZ + 5
-					&& p.second->xPos >= m.posX - 5 && p.second->zPos >= m.posZ - 5)
+				if (p.second->xPos <= -120.f + 10.f && p.second->zPos <= 225.f + 7.5f
+					&& p.second->xPos >= -120.f - 10.f && p.second->zPos >= 225.f - 7.5f)
 				{
-					//cout << "p id: " << p.second->playerId << " m id: " << m.playerId << " attack: " << m.wDown << endl;
-					m.wDown = true;
+					CreateMonster(-235.f, 2.5f, 225.f);
+					auto monster = ServerPacketHandler::Make_S_PlayerList(_monsters);
+					BroadCast(monster);
+					stage += 1;
 					break;
 				}
-				else
-					m.wDown = false;
+				if (p.second->xPos <= -235.f + 10.f && p.second->zPos <= 120.f + 7.5f
+					&& p.second->xPos >= -235.f - 10.f && p.second->zPos >= 120.f - 7.5f)
+				{
+					CreateMonster(-235.f, 2.5f, 225.f);
+					auto monster = ServerPacketHandler::Make_S_PlayerList(_monsters);
+					BroadCast(monster);
+					stage += 1;
+					break;
+				}
 			}
 		}
-		uint16 randDir = rand() % 9;
-		if (!m.wDown)
+		else if (stage == 2)
 		{
-			if (randDir == 0)
+			for (auto& p : _players)
 			{
-				continue;
+				if (p.second->xPos <= -435.f + 10.f && p.second->zPos <= 118.f + 7.5f
+					&& p.second->xPos >= -435.f - 10.f && p.second->zPos >= 118.f - 7.5f)
+				{
+					List<PlayerList> l_boss;
+					PlayerList boss = CreateBossMonster();
+					l_boss.emplace_back(boss);
+					auto bossSend = ServerPacketHandler::Make_S_PlayerList(l_boss);
+					BroadCast(bossSend);
+					cout << "send boss " << stage << endl;
+					stage = 0;
+					break;
+				}
 			}
-			else if (randDir == 1)
-			{
-				if (m.posX > 20 && stage == 0)
-					continue;
-				m.Dir = randDir;
-				m.posX = m.posX + m_speed;
-			}
-			else if (randDir == 2)
-			{
-				if (m.posX < -20 && stage == 0)
-					continue;
-				m.Dir = randDir;
-				m.posX = m.posX - m_speed;
-			}
-			else if (randDir == 3)
-			{
-				if (m.posZ > 20 && stage == 0)
-					continue;
-				m.Dir = randDir;
-				m.posZ = m.posZ + m_speed;
-			}
-			else if (randDir == 4)
-			{
-				if (m.posZ < -20 && stage == 0)
-					continue;
-				m.Dir = randDir;
-				m.posZ = m.posZ - m_speed;
-			}
-			else if (randDir == 5)
-			{
-				if (m.posZ > 20 && stage == 0)
-					continue;
-				else if (m.posZ > 20 && stage == 0)
-					continue;
-				m.Dir = randDir;
-				m.posX = m.posX + (m_speed / 2);
-				m.posZ = m.posZ + (m_speed / 2);
-			}
-			else if (randDir == 6)
-			{
-				if (m.posZ > 20 && stage == 0)
-					continue;
-				else if (m.posZ < -20 && stage == 0)
-					continue;
-				m.Dir = randDir;
-				m.posX = m.posX + (m_speed / 2);
-				m.posZ = m.posZ - (m_speed / 2);
-			}
-			else if (randDir == 7)
-			{
-				if (m.posZ < -20 && stage == 0)
-					continue;
-				else if (m.posZ > 20 && stage == 0)
-					continue;
-				m.posX = m.posX - (m_speed / 2);
-				m.posZ = m.posZ + (m_speed / 2);
-			}
-			else if (randDir == 8)
-			{
-				if (m.posZ < -20 && stage == 0)
-					continue;
-				else if (m.posZ < -20 && stage == 0)
-					continue;
-				m.Dir = randDir;
-				m.posX = m.posX - (m_speed / 2);
-				m.posZ = m.posZ - (m_speed / 2);
-			}
-			//cout << "m id: " << m.playerId << " m x: " << m.posX << " m z: " << m.posZ << endl;
 		}
-		
-		auto sendBufferM = ServerPacketHandler::Make_S_BroadcastMove(m.playerId,
-			m.Dir,
-			m.hp, m.posX,
-			m.posY, m.posZ,
-			m.wDown, false);
+	}
+	else
+	{
+		for (auto& m : _monsters)
+		{
+			for (auto& p : _players)
+			{
+				if (p.second->playerId < 500)
+				{
+					if (p.second->xPos <= m.posX + 5 && p.second->zPos <= m.posZ + 5
+						&& p.second->xPos >= m.posX - 5 && p.second->zPos >= m.posZ - 5)
+					{
+						//cout << "p id: " << p.second->playerId << " m id: " << m.playerId << " attack: " << m.wDown << endl;
+						m.wDown = true;
+						break;
+					}
+					else
+						m.wDown = false;
+				}
+			}
+			uint16 randDir = rand() % 9;
+			if (!m.wDown)
+			{
+				if (randDir == 0)
+				{
+					continue;
+				}
+				else if (randDir == 1)
+				{
+					if (m.posX > 20 && stage == 0)
+						continue;
+					m.Dir = randDir;
+					m.posX = m.posX + m_speed;
+				}
+				else if (randDir == 2)
+				{
+					if (m.posX < -20 && stage == 0)
+						continue;
+					m.Dir = randDir;
+					m.posX = m.posX - m_speed;
+				}
+				else if (randDir == 3)
+				{
+					if (m.posZ > 20 && stage == 0)
+						continue;
+					m.Dir = randDir;
+					m.posZ = m.posZ + m_speed;
+				}
+				else if (randDir == 4)
+				{
+					if (m.posZ < -20 && stage == 0)
+						continue;
+					m.Dir = randDir;
+					m.posZ = m.posZ - m_speed;
+				}
+				else if (randDir == 5)
+				{
+					if (m.posZ > 20 && stage == 0)
+						continue;
+					else if (m.posZ > 20 && stage == 0)
+						continue;
+					m.Dir = randDir;
+					m.posX = m.posX + (m_speed / 2);
+					m.posZ = m.posZ + (m_speed / 2);
+				}
+				else if (randDir == 6)
+				{
+					if (m.posZ > 20 && stage == 0)
+						continue;
+					else if (m.posZ < -20 && stage == 0)
+						continue;
+					m.Dir = randDir;
+					m.posX = m.posX + (m_speed / 2);
+					m.posZ = m.posZ - (m_speed / 2);
+				}
+				else if (randDir == 7)
+				{
+					if (m.posZ < -20 && stage == 0)
+						continue;
+					else if (m.posZ > 20 && stage == 0)
+						continue;
+					m.posX = m.posX - (m_speed / 2);
+					m.posZ = m.posZ + (m_speed / 2);
+				}
+				else if (randDir == 8)
+				{
+					if (m.posZ < -20 && stage == 0)
+						continue;
+					else if (m.posZ < -20 && stage == 0)
+						continue;
+					m.Dir = randDir;
+					m.posX = m.posX - (m_speed / 2);
+					m.posZ = m.posZ - (m_speed / 2);
+				}
+				//cout << "m id: " << m.playerId << " m x: " << m.posX << " m z: " << m.posZ << endl;
+			}
 
-		BroadCast(sendBufferM);
+			auto sendBufferM = ServerPacketHandler::Make_S_BroadcastMove(m.playerId,
+				m.Dir,
+				m.hp, m.posX,
+				m.posY, m.posZ,
+				m.wDown, false);
+
+			BroadCast(sendBufferM);
+		}
 	}
 }
