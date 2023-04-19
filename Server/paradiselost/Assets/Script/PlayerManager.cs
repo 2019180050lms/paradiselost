@@ -368,9 +368,9 @@ public class PlayerManager
 
             //Debug.Log(packet.hp);
 
-            //_myplayer.anim_Head.SetBool("isRun", _myplayer.moveVec != Vector3.zero);
-            //_myplayer.anim_Body.SetBool("isRun", _myplayer.moveVec != Vector3.zero);
-            //_myplayer.anim_Leg.SetBool("isRun", _myplayer.moveVec != Vector3.zero);
+            _myplayer.anim_Head.SetBool("isRun", _myplayer.moveVec != Vector3.zero);
+            _myplayer.anim_Body.SetBool("isRun", _myplayer.moveVec != Vector3.zero);
+            _myplayer.anim_Leg.SetBool("isRun", _myplayer.moveVec != Vector3.zero);
 
             if (packet.wDown)
             {
