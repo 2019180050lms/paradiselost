@@ -797,6 +797,7 @@ public class PlayerManager
                             c_p_parts.SwitchParts(packet.itemType);
                             break;
                     }
+                    player.anim_Head = c_p_parts.head.gameObject.transform.GetChild(0).GetComponent<Animator>();
                     player.head = packet.itemType;
                 }
                 else if (packet.charactorType == 2)
@@ -816,6 +817,7 @@ public class PlayerManager
                             c_p_parts.SwitchParts(packet.itemType);
                             break;
                     }
+                    player.anim_Body = c_p_parts.body.gameObject.transform.GetChild(0).GetComponent<Animator>();
                     player.body = packet.itemType;
                 }
                 else if (packet.charactorType == 3)
@@ -835,6 +837,7 @@ public class PlayerManager
                             c_p_parts.SwitchParts(packet.itemType);
                             break;
                     }
+                    player.anim_Leg = c_p_parts.leg.gameObject.transform.GetChild(0).GetComponent<Animator>();
                     player.leg = packet.itemType;
                 }
             }
