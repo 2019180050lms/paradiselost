@@ -3,7 +3,32 @@ guid: 6629bd8f036059a4aadc40d6181fbfc3
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Gear_Material
+    second: {fileID: 2100000, guid: 4494437c40dd949428b2233373f9115e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Rusting
+    second: {fileID: 2100000, guid: 15c82482225aaa14dac9b74bfcc78e4f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stanless
+    second: {fileID: 2100000, guid: 56e09916b8ca2364099cae6542330b90, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stoneic
+    second: {fileID: 2100000, guid: 06c1771cf0876d34ca763755edd3b9b8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: WoodMaterial.001
+    second: {fileID: 2100000, guid: a8b6ad6f94a2cc54681844cc21b457b8, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
