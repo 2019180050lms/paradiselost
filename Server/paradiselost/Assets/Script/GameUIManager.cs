@@ -31,8 +31,11 @@ public class GameUIManager : MonoBehaviour
     public Image weapon3Img;
 
     public List<Image> ItemImg = new List<Image>() { };
-    public List<Button> buttonList = new List<Button>();
+    //public List<Button> buttonList = new List<Button>();
     public GameObject BossUI;
+
+    public List<Text> ItemTxt = new List<Text>() { };
+
     void Start()
     {
         Invoke("FindMyPlayer", 0.5f);
@@ -85,6 +88,24 @@ public class GameUIManager : MonoBehaviour
                 if (inventory.ItemList[i].hasItem)
                 {
                     ItemImg[i].color = new Color(1, 1, 1, 1);
+                    //if(inventory.ItemList[index].tag == "Head_Item" && inventory.ItemList[index].type == 1)
+                    //    ItemTxt[index].text = "Power Head";
+                    //else if (inventory.ItemList[index].tag == "Head_Item" && inventory.ItemList[index].type == 2)
+                    //    ItemTxt[index].text = "Shield Head";
+                    //else if (inventory.ItemList[index].tag == "Head_Item" && inventory.ItemList[index].type == 3)
+                    //    ItemTxt[index].text = "Speed Head";
+                    //else if (inventory.ItemList[index].tag == "Body_Item" && inventory.ItemList[index].type == 1)
+                    //    ItemTxt[index].text = "Power Body";
+                    //else if (inventory.ItemList[index].tag == "Body_Item" && inventory.ItemList[index].type == 2)
+                    //    ItemTxt[index].text = "Shield Body";
+                    //else if (inventory.ItemList[index].tag == "Body_Item" && inventory.ItemList[index].type == 3)
+                    //    ItemTxt[index].text = "Speed Body";
+                    //else if (inventory.ItemList[index].tag == "Leg_Item" && inventory.ItemList[index].type == 1)
+                    //    ItemTxt[index].text = "Power Leg";
+                    //else if (inventory.ItemList[index].tag == "Leg_Item" && inventory.ItemList[index].type == 2)
+                    //    ItemTxt[index].text = "Shield Leg";
+                    //else if (inventory.ItemList[index].tag == "Leg_Item" && inventory.ItemList[index].type == 3)
+                    //    ItemTxt[index].text = "Speed Leg";
                 }
                 else if (inventory.ItemList[i] == null)
                     ItemImg[i].color = new Color(1, 1, 1, 0);
@@ -158,12 +179,15 @@ public class GameUIManager : MonoBehaviour
             ItemImg[index].color = new Color(1, 1, 1, 0); // 장비 아이콘 UI 끄기
             //inventory.ItemList.RemoveAt(index); // 인벤 List에서 해당 파츠 제거
             inventory.ItemList[index] = null;
+            ItemTxt[index].text = " ";
+            
         }
         else if (inventory.ItemList[index].tag == "Body_Item") 
         {
             C_Send_Item(2, (ushort)inventory.ItemList[index].type);
             ItemImg[index].color = new Color(1, 1, 1, 0);
             inventory.ItemList[index] = null;
+            ItemTxt[index].text = " ";
         }
         else if (inventory.ItemList[index].tag == "Leg_Item")
         {
@@ -171,6 +195,7 @@ public class GameUIManager : MonoBehaviour
             ItemImg[index].color = new Color(1, 1, 1, 0);
             //inventory.ItemList.RemoveAt(index);
             inventory.ItemList[index] = null;
+            ItemTxt[index].text = " ";
         }
 
         for (int i = 0; i < 9; ++i) // 인벤 정렬

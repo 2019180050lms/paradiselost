@@ -20,7 +20,7 @@ public class MyPlayer : Player
     bool leftDown;
     bool rightDown;
     bool backDown;
-
+    bool isBorder;
     public bool hasHeadItem = false;
 
     void Start()
@@ -51,6 +51,14 @@ public class MyPlayer : Player
 
         MoveControl();
         Jump(testJump);
+
+        
+        if (isBorder)
+        {
+            Debug.Log(isBorder);
+            moveVec = Vector3.zero;
+        }
+
         testJump = false;
     }
 
@@ -120,6 +128,24 @@ public class MyPlayer : Player
         
 
     }
+
+    void StopToWall() // 관통 버그 해결
+    {
+        Debug.DrawRay(transform.position, transform.forward * 5, Color.green);
+        isBorder = Physics.Raycast(transform.position, transform.forward, 5, LayerMask.GetMask("Wall"));       // ray가 벽을 감지하면 Border가 true
+    }
+
+    void FixedUpdate()
+    {
+        FreezeRotation();
+        StopToWall();
+    }
+
+    void FreezeRotation() // 회전 버그 해결
+    {
+        rigid.angularVelocity = Vector3.zero;
+    }
+
 
     void cs_move_packet()
     {

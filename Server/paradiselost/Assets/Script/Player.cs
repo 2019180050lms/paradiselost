@@ -50,7 +50,7 @@ public class Player : MonoBehaviour
     public HitBox hitBox;
     public int equipWeaponIndex = -1;
     public float fireDelay;
-    bool isBorder;
+    
 
     public bool isJumping;
     void Start()
@@ -67,6 +67,7 @@ public class Player : MonoBehaviour
             anim_Body.SetBool("isRun", false);
             anim_Leg.SetBool("isRun", false);
         }
+        
     }
 
     void Awake()
@@ -77,11 +78,7 @@ public class Player : MonoBehaviour
     }
     
 
-    void StopToWall() // 관통 버그 해결
-    {
-        Debug.DrawRay(transform.position, transform.forward * 5, Color.green);
-        isBorder = Physics.Raycast(transform.position, transform.forward, 5, LayerMask.GetMask("Wall"));       // ray가 벽을 감지하면 Border가 true
-    }
+    
 
     void FreezeRotation() // 회전 버그 해결
     {
@@ -91,7 +88,6 @@ public class Player : MonoBehaviour
     void FixedUpdate()
     {
         FreezeRotation();
-        StopToWall();
     }
 
     public void Move()
