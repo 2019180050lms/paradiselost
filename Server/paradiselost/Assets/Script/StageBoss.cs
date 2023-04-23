@@ -8,10 +8,9 @@ public class StageBoss : BossEnemy
     //public Transform missilePortA;
     //public Transform missilePortB;
     //public bool isLook;
-
+    public HitBox hitBox;
     //Vector3 lookVec;
     //Vector3 tauntVec;
-    
 
     void Awake()
     {
@@ -20,7 +19,7 @@ public class StageBoss : BossEnemy
         meshs = GetComponentsInChildren<MeshRenderer>();  // Material은 MesgRenderer를 통해 가져옴
         //nav = GetComponent<NavMeshAgent>();
         anim = GetComponentInChildren<Animator>();
-
+        hitBox = GetComponent<HitBox>();
         //nav.isStopped = true;
 
         //StartCoroutine(Think());
@@ -53,7 +52,15 @@ public class StageBoss : BossEnemy
     IEnumerator Attack1()
     {
         anim.SetTrigger("Attack1");
-        yield return new WaitForSeconds(2f);
+        //yield return new WaitForSeconds(2f);
+
+        yield return new WaitForSeconds(0.2f);
+        hitBox.meleeArea.enabled = true;
+
+        yield return new WaitForSeconds(0.5f);
+        hitBox.meleeArea.enabled = false;
+
+        yield return new WaitForSeconds(3f); // 몬스터 공격속도
 
         StartCoroutine(Think());
     }

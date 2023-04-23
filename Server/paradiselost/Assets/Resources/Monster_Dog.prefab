@@ -307,6 +307,51 @@ Transform:
   m_Father: {fileID: 562645462137997252}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2697485332968288437
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 148939151853073817}
+  - component: {fileID: 5317757717585627884}
+  m_Layer: 13
+  m_Name: EnemyBullet
+  m_TagString: EnemyBullet
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &148939151853073817
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2697485332968288437}
+  m_LocalRotation: {x: -0, y: 0.9997922, z: -0, w: -0.02038422}
+  m_LocalPosition: {x: 0, y: 0, z: 4}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6242292808989330700}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &5317757717585627884
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2697485332968288437}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 5.86, y: 7.21, z: 7.96}
+  m_Center: {x: 0.36, y: 0, z: 0}
 --- !u!1 &2842677111519571239
 GameObject:
   m_ObjectHideFlags: 0
@@ -1094,6 +1139,7 @@ GameObject:
   - component: {fileID: -3160897704030410209}
   - component: {fileID: 7217764453138505153}
   - component: {fileID: 5598426010053858354}
+  - component: {fileID: 5518185645365075693}
   m_Layer: 0
   m_Name: Monster_Dog
   m_TagString: Enemy
@@ -1117,6 +1163,7 @@ Transform:
   - {fileID: 7565636707130417373}
   - {fileID: 4045363717813386982}
   - {fileID: 6784219363167128615}
+  - {fileID: 148939151853073817}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1182,6 +1229,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hpBar: {fileID: 2899963415848454439}
+--- !u!114 &5518185645365075693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6767437513057933238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7479be066ea6eb148b10f97c4167fa2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meleeArea: {fileID: 5317757717585627884}
 --- !u!1 &7026780718386367115
 GameObject:
   m_ObjectHideFlags: 0
