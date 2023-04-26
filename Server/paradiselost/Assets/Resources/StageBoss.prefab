@@ -2979,6 +2979,10 @@ MonoBehaviour:
   meshs: []
   nav: {fileID: 0}
   anim: {fileID: 0}
+  missile: {fileID: 0}
+  missilePortA: {fileID: 0}
+  missilePortB: {fileID: 0}
+  target2: {fileID: 0}
   hitBox: {fileID: 0}
 --- !u!114 &3193042691210398076
 MonoBehaviour:

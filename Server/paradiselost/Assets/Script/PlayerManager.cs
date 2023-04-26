@@ -529,8 +529,9 @@ public class PlayerManager
                 //_boss.anim.SetBool("isWalk", _boss.isAttack != false);
                 if (packet.wDown)
                 {
+                    _boss.StopCoroutine("MissileShot");
                     _boss.anim.SetTrigger("doAttack");
-
+                    _boss.StartCoroutine("MissileShot");
                     //_boss.transform.LookAt();
                 }
                 //enemy.transform.LookAt(enemy.transform.position + enemy.moveVec2);

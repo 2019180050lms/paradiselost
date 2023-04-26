@@ -10,16 +10,22 @@ public class BossMissile : Bullet
 
     void Start()
     {
-        target = GameObject.Find("Player2").GetComponent<Transform>();
+        
     }
     void Awake()
     {
-        nav = GetComponent<NavMeshAgent>();
+        //nav = GetComponent<NavMeshAgent>();
+        //nav.enabled = false;
+        target = GameObject.Find("Player_t1(Clone)").GetComponent<Transform>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        nav.SetDestination(target.position);
+
+        //nav.SetDestination(target.position);
+        //nav.enabled = true;
+        transform.position = Vector3.Lerp(transform.position, target.position, 0.005f);
+        transform.LookAt(target.position);
     }
 }

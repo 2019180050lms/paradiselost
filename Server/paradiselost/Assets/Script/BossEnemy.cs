@@ -33,7 +33,7 @@ public class BossEnemy : MonoBehaviour
     public GameObject missile;
     public Transform missilePortA;
     public Transform missilePortB;
-    //public Transform target2;
+    public Transform target2;
     void Start()
     {
         _network = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
@@ -48,8 +48,10 @@ public class BossEnemy : MonoBehaviour
         nav = GetComponent<NavMeshAgent>();
         anim = GetComponentInChildren<Animator>();
 
+        missilePortA = transform.GetChild(2);
+        missilePortB = transform.GetChild(3);
 
-
+        target2 = GameObject.Find("Player_t1(Clone)").GetComponent<Transform>();
     }
 
     void ChaseStart()
@@ -87,23 +89,7 @@ public class BossEnemy : MonoBehaviour
             StartCoroutine(OnDamage(reactVec));
         }
     }
-    IEnumerator MissileShot()
-    {
-        anim.SetTrigger("doShot");
-        yield return new WaitForSeconds(0.2f);
-        GameObject instantMissileA = Instantiate(missile, missilePortA.position, missilePortA.rotation);
-        BossMissile bossMissileA = instantMissileA.GetComponent<BossMissile>();
-        //bossMissileA.target = target2;
-
-        yield return new WaitForSeconds(0.3f);
-        GameObject instantMissileB = Instantiate(missile, missilePortB.position, missilePortB.rotation);
-        BossMissile bossMissileB = instantMissileB.GetComponent<BossMissile>();
-        //bossMissileB.target = target2;
-
-
-        yield return new WaitForSeconds(2f);
-
-    }
+    
 
     IEnumerator OnDamage(Vector3 reactVec)
     {
@@ -180,6 +166,24 @@ public class BossEnemy : MonoBehaviour
         isChase = true;
         isAttack = false;
         anim.SetBool("isAttack", false);
+
+    }
+
+    IEnumerator MissileShot()
+    {
+        //anim.SetTrigger("doShot");
+        yield return new WaitForSeconds(0.2f);
+        GameObject instantMissileA = Instantiate(Resources.Load("Boss Missile", typeof(GameObject)), missilePortA.position, missilePortA.rotation) as GameObject;
+        BossMissile bossMissileA = instantMissileA.GetComponent<BossMissile>();
+        bossMissileA.target = target2;
+
+        yield return new WaitForSeconds(0.3f);
+        GameObject instantMissileB = Instantiate(Resources.Load("Boss Missile", typeof(GameObject)), missilePortB.position, missilePortB.rotation) as GameObject;
+        BossMissile bossMissileB = instantMissileB.GetComponent<BossMissile>();
+        bossMissileB.target = target2;
+
+
+        yield return new WaitForSeconds(2f);
 
     }
 
