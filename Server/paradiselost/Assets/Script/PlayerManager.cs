@@ -114,6 +114,8 @@ public class PlayerManager
                         Object body = Resources.Load("Sp_Body_Parts");
                         Object leg = Resources.Load("Sp_Leg_Parts");
 
+                        myPlayer.body = 3;
+
                         joint = go.AddComponent<Joint_Robot>();
                         joint.po_list = new GameObject[3];
                         joint.sh_list = new GameObject[3];
@@ -383,11 +385,22 @@ public class PlayerManager
 
             if (packet.wDown)
             {
-                _myplayer.StopCoroutine("Swing");
-                _myplayer.anim_Head.SetTrigger("doSwing");
-                _myplayer.anim_Body.SetTrigger("doSwing");
-                _myplayer.anim_Leg.SetTrigger("doSwing");
-                _myplayer.StartCoroutine("Swing");
+                if((int)_myplayer.body == 3)
+                {
+                    _myplayer.StopCoroutine("Shot");
+                    _myplayer.anim_Head.SetTrigger("doSwing");
+                    _myplayer.anim_Body.SetTrigger("doSwing");
+                    _myplayer.anim_Leg.SetTrigger("doSwing");
+                    _myplayer.StartCoroutine("Shot");
+                }
+                else
+                {
+                    _myplayer.StopCoroutine("Swing");
+                    _myplayer.anim_Head.SetTrigger("doSwing");
+                    _myplayer.anim_Body.SetTrigger("doSwing");
+                    _myplayer.anim_Leg.SetTrigger("doSwing");
+                    _myplayer.StartCoroutine("Swing");
+                }
             }
             //_myplayer.transform.LookAt(_myplayer.transform.position + _myplayer.moveVec2);
         }
@@ -642,7 +655,7 @@ public class PlayerManager
             player.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
 
             player.PlayerId = packet.playerId;
-
+            player.body = 3;
             Joint_Robot jointP = go.AddComponent<Joint_Robot>();
 
             jointP.po_list = new GameObject[3];

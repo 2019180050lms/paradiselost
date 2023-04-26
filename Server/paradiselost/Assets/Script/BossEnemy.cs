@@ -30,7 +30,9 @@ public class BossEnemy : MonoBehaviour
 
     NetworkManager _network;
 
-
+    public GameObject missile;
+    public Transform missilePortA;
+    public Transform missilePortB;
     //public Transform target2;
     void Start()
     {
@@ -84,6 +86,23 @@ public class BossEnemy : MonoBehaviour
             Debug.Log("Bullet : " + curHealth);
             StartCoroutine(OnDamage(reactVec));
         }
+    }
+    IEnumerator MissileShot()
+    {
+        anim.SetTrigger("doShot");
+        yield return new WaitForSeconds(0.2f);
+        GameObject instantMissileA = Instantiate(missile, missilePortA.position, missilePortA.rotation);
+        BossMissile bossMissileA = instantMissileA.GetComponent<BossMissile>();
+        //bossMissileA.target = target2;
+
+        yield return new WaitForSeconds(0.3f);
+        GameObject instantMissileB = Instantiate(missile, missilePortB.position, missilePortB.rotation);
+        BossMissile bossMissileB = instantMissileB.GetComponent<BossMissile>();
+        //bossMissileB.target = target2;
+
+
+        yield return new WaitForSeconds(2f);
+
     }
 
     IEnumerator OnDamage(Vector3 reactVec)
