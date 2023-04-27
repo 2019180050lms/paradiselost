@@ -13,7 +13,7 @@ public class PlayerManager
     public Dictionary<int, Joint_Robot> _playerParts = new Dictionary<int, Joint_Robot>();
     Dictionary<int, Enemy> _enemys = new Dictionary<int, Enemy>();
     Joint_Robot c_p_parts = null;
-    GameObject item;
+    public GameObject item;
     public Vector3 moveVec;
     public static PlayerManager Instance { get; } = new PlayerManager();
 
@@ -543,11 +543,20 @@ public class PlayerManager
                 //enemy.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
                 _boss.posVec = new Vector3(packet.posX, packet.posY, packet.posZ);
                 //_boss.anim.SetBool("isWalk", _boss.isAttack != false);
-                if (packet.wDown)
+
+                Debug.Log("Boss Attack " + packet.bossAttack);
+                if(packet.bossAttack == 1)
+                {
+                    _boss.StopCoroutine("Attack");
+                    _boss.anim.SetTrigger("doAttack");
+                    _boss.StartCoroutine("Attack");
+                    Debug.Log("Boss Attack1 " + packet.bossAttack);
+                }
+                else if (packet.bossAttack == 2)
                 {
                     _boss.StopCoroutine("MissileShot");
-                    _boss.anim.SetTrigger("doAttack");
                     _boss.StartCoroutine("MissileShot");
+                    Debug.Log("Boss Attack2 " + packet.bossAttack);
                     //_boss.transform.LookAt();
                 }
                 //enemy.transform.LookAt(enemy.transform.position + enemy.moveVec2);
@@ -758,8 +767,10 @@ public class PlayerManager
                         items = Resources.Load("Items/Sp_Leg_Item");
                         break;
                     default:
+                        items = null;
                         break;
                 }
+                Debug.Log("itemNum: " + packet.itemNum);
                 if(_enemys.TryGetValue(packet.playerId, out enemy))
                 {
                     GameObject.Destroy(enemy.gameObject);

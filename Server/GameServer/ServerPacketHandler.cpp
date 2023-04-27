@@ -255,7 +255,7 @@ bool ServerPacketHandler::Handle_C_MOVE(PacketSessionRef& session, BYTE* buffer,
 		gameSession->_players[0]->hp,
 		gameSession->_players[0]->xPos, gameSession->_players[0]->yPos,
 		gameSession->_players[0]->zPos, gameSession->_players[0]->wDown,
-		gameSession->_players[0]->isJump);
+		gameSession->_players[0]->isJump, 0);
 
 	GRoom.BroadCast(sendBuffer);
 
@@ -519,7 +519,7 @@ SendBufferRef ServerPacketHandler::Make_S_BroadcastLeave_Game(int32 playerId)
 	return sendBuffer;
 }
 
-SendBufferRef ServerPacketHandler::Make_S_BroadcastMove(int32 playerId, int32 playerDir, uint16 hp, float posX, float posY, float posZ, bool wDown, bool isJump)
+SendBufferRef ServerPacketHandler::Make_S_BroadcastMove(int32 playerId, int32 playerDir, uint16 hp, float posX, float posY, float posZ, bool wDown, bool isJump, short bossAttack)
 {
 	SendBufferRef sendBuffer = GSendBufferManager->Open(4096);
 
@@ -527,7 +527,7 @@ SendBufferRef ServerPacketHandler::Make_S_BroadcastMove(int32 playerId, int32 pl
 
 	PacketHeader* header = bw.Reserve<PacketHeader>();
 
-	bw << playerId << playerDir << hp << posX << posY << posZ << wDown << isJump;
+	bw << playerId << playerDir << hp << posX << posY << posZ << wDown << isJump << bossAttack;
 
 	header->size = bw.WriteSize();
 	header->id = S_BROADCAST_MOVE;

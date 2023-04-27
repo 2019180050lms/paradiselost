@@ -285,6 +285,7 @@ public class S_BroadcastMove : IPacket
 	public float posZ;
 	public bool wDown;
 	public bool isJump;
+	public short bossAttack;
 
 	public ushort Protocol { get { return (ushort)PacketID.S_BROADCAST_MOVE; } }
 
@@ -309,6 +310,8 @@ public class S_BroadcastMove : IPacket
 		count += sizeof(bool);
 		this.isJump = BitConverter.ToBoolean(segment.Array, segment.Offset + count);
 		count += sizeof(bool);
+		this.bossAttack = BitConverter.ToInt16(segment.Array, segment.Offset + count);
+		count += sizeof(short);
 	}
 
 	public ArraySegment<byte> Write()
@@ -335,6 +338,8 @@ public class S_BroadcastMove : IPacket
 		count += sizeof(bool);
 		Array.Copy(BitConverter.GetBytes(this.isJump), 0, segment.Array, segment.Offset + count, sizeof(bool));
 		count += sizeof(bool);
+		Array.Copy(BitConverter.GetBytes(this.bossAttack), 0, segment.Array, segment.Offset + count, sizeof(short));
+		count += sizeof(short);
 
 		Array.Copy(BitConverter.GetBytes(count), 0, segment.Array, segment.Offset, sizeof(ushort));
 
