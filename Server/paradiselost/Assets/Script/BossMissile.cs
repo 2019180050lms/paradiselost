@@ -5,8 +5,10 @@ using UnityEngine.AI;
 
 public class BossMissile : Bullet
 {
-    public Transform target;
+    public Player target;
     NavMeshAgent nav;
+
+    public Vector3 targetPos;
 
     void Start()
     {
@@ -16,7 +18,11 @@ public class BossMissile : Bullet
     {
         //nav = GetComponent<NavMeshAgent>();
         //nav.enabled = false;
-        target = GameObject.Find("Player_t1(Clone)").GetComponent<Transform>();
+        target = GameObject.Find("Player_t1(Clone)").GetComponent<Player>();
+        if(target.PlayerId == 1)
+        {
+            targetPos = target.transform.position;
+        }
     }
 
     // Update is called once per frame
@@ -25,7 +31,7 @@ public class BossMissile : Bullet
 
         //nav.SetDestination(target.position);
         //nav.enabled = true;
-        transform.position = Vector3.Lerp(transform.position, target.position, 0.005f);
-        transform.LookAt(target.position);
+        transform.position = Vector3.Lerp(transform.position, targetPos, 0.005f);
+        transform.LookAt(targetPos);
     }
 }

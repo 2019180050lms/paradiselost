@@ -35,11 +35,13 @@ public class BossEnemy : MonoBehaviour
     public Transform missilePortA;
     public Transform missilePortB;
     public Transform target2;
+
+    public Player target;
+    public Vector3 targetPos;
     void Start()
     {
         _network = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
         hitBox = GetComponent<HitBox>();
-        //target2 = GameObject.Find("Player2").GetComponent<Transform>();
     }
 
     void Awake()
@@ -53,7 +55,9 @@ public class BossEnemy : MonoBehaviour
         missilePortA = transform.GetChild(2);
         missilePortB = transform.GetChild(3);
 
-        target2 = GameObject.Find("Player_t1(Clone)").GetComponent<Transform>();
+        //target2 = GameObject.Find("Player_t1(Clone)").GetComponent<Transform>();
+
+        target = GameObject.Find("Player_t1(Clone)").GetComponent<Player>();
     }
 
     void ChaseStart()
@@ -177,12 +181,12 @@ public class BossEnemy : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
         GameObject instantMissileA = Instantiate(Resources.Load("Boss Missile", typeof(GameObject)), missilePortA.position, missilePortA.rotation) as GameObject;
         BossMissile bossMissileA = instantMissileA.GetComponent<BossMissile>();
-        bossMissileA.target = target2;
+        bossMissileA.target = target;
 
         yield return new WaitForSeconds(0.3f);
         GameObject instantMissileB = Instantiate(Resources.Load("Boss Missile", typeof(GameObject)), missilePortB.position, missilePortB.rotation) as GameObject;
         BossMissile bossMissileB = instantMissileB.GetComponent<BossMissile>();
-        bossMissileB.target = target2;
+        bossMissileB.target = target;
 
 
         yield return new WaitForSeconds(2f);
