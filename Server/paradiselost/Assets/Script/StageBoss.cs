@@ -8,7 +8,7 @@ public class StageBoss : BossEnemy
     //public Transform missilePortA;
     //public Transform missilePortB;
     //public bool isLook;
-    public HitBox hitBox;
+    //public HitBox hitBox;
     //Vector3 lookVec;
     //Vector3 tauntVec;
 
@@ -19,7 +19,7 @@ public class StageBoss : BossEnemy
         meshs = GetComponentsInChildren<MeshRenderer>();  // Material은 MesgRenderer를 통해 가져옴
         //nav = GetComponent<NavMeshAgent>();
         anim = GetComponentInChildren<Animator>();
-        hitBox = GetComponent<HitBox>();
+        //hitBox = GetComponent<HitBox>();
         //nav.isStopped = true;
 
         //StartCoroutine(Think());

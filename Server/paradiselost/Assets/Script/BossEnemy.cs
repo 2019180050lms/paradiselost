@@ -12,6 +12,7 @@ public class BossEnemy : MonoBehaviour
     public int curHealth;
     //public Transform target;
     public BoxCollider meleeArea;
+    public HitBox hitBox;
     public GameObject bullet;
     public bool isChase;
     public bool isAttack;
@@ -37,6 +38,7 @@ public class BossEnemy : MonoBehaviour
     void Start()
     {
         _network = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
+        hitBox = GetComponent<HitBox>();
         //target2 = GameObject.Find("Player2").GetComponent<Transform>();
     }
 
@@ -156,10 +158,10 @@ public class BossEnemy : MonoBehaviour
         anim.SetBool("isAttack", true);
 
         yield return new WaitForSeconds(0.2f);
-        meleeArea.enabled = true;
+        hitBox.enabled = true;
 
         yield return new WaitForSeconds(1f);
-        meleeArea.enabled = false;
+        hitBox.enabled = false;
 
         yield return new WaitForSeconds(1f);
 

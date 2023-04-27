@@ -25,8 +25,11 @@ public class Enemy : MonoBehaviour
     NavMeshAgent nav;
     public HitBox hitBox;
     public Animator anim;
+    public Transform bulletPos;
+    public GameObject bullet;
 
     NetworkManager _network;
+
 
     public bool walking;
 
@@ -38,7 +41,7 @@ public class Enemy : MonoBehaviour
         _network = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
         hitBox = GetComponent<HitBox>();
         walking = true;
-        
+        bulletPos = transform.GetChild(0);
     }
 
     void Awake()
@@ -165,6 +168,32 @@ public class Enemy : MonoBehaviour
         yield return new WaitForSeconds(3f); // 몬스터 공격속도
 
         isChase = true;
+        isAttack = false;
+        //anim.SetBool("isAttack", false);
+
+        count--;
+    }
+
+    IEnumerator Shoot()
+    {
+
+        GameObject intantBullet = Instantiate(Resources.Load("EnemyBullet", typeof(GameObject)), bulletPos.position, bulletPos.rotation) as GameObject;
+        Rigidbody bulletRigid = intantBullet.GetComponent<Rigidbody>();
+
+        bulletRigid.velocity = bulletPos.forward * 75;
+        Destroy(intantBullet, 3f);
+        yield return null;
+
+        isAttack = true;
+
+        //yield return new WaitForSeconds(0.2f);
+        //hitBox.meleeArea.enabled = true;
+
+        //yield return new WaitForSeconds(0.5f);
+        //hitBox.meleeArea.enabled = false;
+
+        //yield return new WaitForSeconds(3f); // 몬스터 공격속도
+
         isAttack = false;
         //anim.SetBool("isAttack", false);
 

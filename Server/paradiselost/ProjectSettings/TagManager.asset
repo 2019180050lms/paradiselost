@@ -25,6 +25,7 @@ TagManager:
   - Inven7
   - Inven8
   - Inven9
+  - EnemyMelee
   layers:
   - Default
   - TransparentFX
