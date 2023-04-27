@@ -171,6 +171,8 @@ PlayerList Room::CreateBossMonster()
 
 void Room::MoveMonster()
 {
+	float maxXpos[3] = {1.f, -235.f, 0.f};
+	float maxZpos[3] = {1.f, 27.f, 225.f};
 	if (_monsters.size() == 0)
 	{
 		if (stage == 0) {
@@ -274,37 +276,35 @@ void Room::MoveMonster()
 				}
 				else if (randDir == 1)
 				{
-					if (m.posX > 20 && stage == 0)
+					if (m.posX > maxXpos[stage] + 20)
 						continue;
 					m.Dir = randDir;
 					m.posX = m.posX + m_speed;
 				}
 				else if (randDir == 2)
 				{
-					if (m.posX < -20 && stage == 0)
+					if (m.posX < maxXpos[stage] - 20)
 						continue;
 					m.Dir = randDir;
 					m.posX = m.posX - m_speed;
 				}
 				else if (randDir == 3)
 				{
-					if (m.posZ > 20 && stage == 0)
+					if (m.posZ > maxZpos[stage] + 20)
 						continue;
 					m.Dir = randDir;
 					m.posZ = m.posZ + m_speed;
 				}
 				else if (randDir == 4)
 				{
-					if (m.posZ < -20 && stage == 0)
+					if (m.posZ < maxZpos[stage] - 20)
 						continue;
 					m.Dir = randDir;
 					m.posZ = m.posZ - m_speed;
 				}
 				else if (randDir == 5)
 				{
-					if (m.posZ > 20 && stage == 0)
-						continue;
-					else if (m.posZ > 20 && stage == 0)
+					if (m.posZ > maxZpos[stage] + 20)
 						continue;
 					m.Dir = randDir;
 					m.posX = m.posX + (m_speed / 2);
@@ -312,9 +312,9 @@ void Room::MoveMonster()
 				}
 				else if (randDir == 6)
 				{
-					if (m.posZ > 20 && stage == 0)
+					if (m.posZ > maxZpos[stage] + 20)
 						continue;
-					else if (m.posZ < -20 && stage == 0)
+					else if (m.posZ < maxZpos[stage] - 20)
 						continue;
 					m.Dir = randDir;
 					m.posX = m.posX + (m_speed / 2);
@@ -322,18 +322,18 @@ void Room::MoveMonster()
 				}
 				else if (randDir == 7)
 				{
-					if (m.posZ < -20 && stage == 0)
+					if (m.posZ < maxZpos[stage] - 20)
 						continue;
-					else if (m.posZ > 20 && stage == 0)
+					else if (m.posZ > maxZpos[stage] + 20)
 						continue;
 					m.posX = m.posX - (m_speed / 2);
 					m.posZ = m.posZ + (m_speed / 2);
 				}
 				else if (randDir == 8)
 				{
-					if (m.posZ < -20 && stage == 0)
+					if (m.posZ < maxZpos[stage] - 20)
 						continue;
-					else if (m.posZ < -20 && stage == 0)
+					else if (m.posZ < maxZpos[stage] - 20)
 						continue;
 					m.Dir = randDir;
 					m.posX = m.posX - (m_speed / 2);

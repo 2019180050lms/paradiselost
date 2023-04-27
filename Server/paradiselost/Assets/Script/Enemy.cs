@@ -99,6 +99,10 @@ public class Enemy : MonoBehaviour
             Destroy(other.gameObject);
 
             Debug.Log("Bullet : " + curHealth);
+            C_AttackedMonster attackedPacket = new C_AttackedMonster();
+            attackedPacket.id = enemyId;
+            attackedPacket.hp = (ushort)curHealth;
+            _network.Send(attackedPacket.Write());
             StartCoroutine(OnDamage(reactVec));
         }
     }
