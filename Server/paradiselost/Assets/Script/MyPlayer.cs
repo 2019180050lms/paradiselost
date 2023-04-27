@@ -23,8 +23,6 @@ public class MyPlayer : Player
     bool isBorder;
     public bool hasHeadItem = false;
 
-    public Transform bulletPos;
-    public GameObject bullet;
     void Start()
     {
         StartCoroutine("CoSendPacket");
@@ -32,7 +30,6 @@ public class MyPlayer : Player
         _network = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
 
         transform.tag = "MyPlayer";
-        bulletPos = transform.GetChild(1);
     }
 
 
@@ -204,17 +201,6 @@ public class MyPlayer : Player
 
         yield return new WaitForSeconds(0.3f);
         //trailEffect.enabled = false;
-    }
-
-    IEnumerator Shot()
-    {
-        // 총알 발사
-        GameObject intantBullet = Instantiate(Resources.Load("Bullet", typeof(GameObject)), bulletPos.position, bulletPos.rotation) as GameObject;
-        Rigidbody bulletRigid = intantBullet.GetComponent<Rigidbody>();
-        bulletRigid.velocity = bulletPos.forward * 75;
-        Destroy(intantBullet, 3f);
-        yield return null;
-
     }
 
     private void OnTriggerEnter(Collider other)

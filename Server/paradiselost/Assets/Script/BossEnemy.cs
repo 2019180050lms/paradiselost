@@ -81,7 +81,7 @@ public class BossEnemy : MonoBehaviour
 
             C_AttackedMonster attackedPacket = new C_AttackedMonster();
             attackedPacket.id = enemyId;
-            attackedPacket.hp = (ushort)curHealth;
+            attackedPacket.hp = (short)curHealth;
             _network.Send(attackedPacket.Write());
         }
         else if (other.tag == "Bullet")
