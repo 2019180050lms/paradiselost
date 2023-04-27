@@ -270,7 +270,7 @@ bool ServerPacketHandler::Handle_C_MonsterAttack(PacketSessionRef& session, BYTE
 	br >> header;
 
 	int32 id;
-	uint16 hp;
+	int16 hp;
 	br >> id >> hp;
 	if (hp > 1)
 		GRoom.AttackedMonster(id, hp);

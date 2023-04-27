@@ -88,7 +88,7 @@ public class Enemy : MonoBehaviour
             StartCoroutine(OnDamage(reactVec));
             C_AttackedMonster attackedPacket = new C_AttackedMonster();
             attackedPacket.id = enemyId;
-            attackedPacket.hp = (ushort)curHealth;
+            attackedPacket.hp = (short)curHealth;
             _network.Send(attackedPacket.Write());
         }
         else if (other.tag == "Bullet")
@@ -97,11 +97,12 @@ public class Enemy : MonoBehaviour
             curHealth -= bullet.damage;
             Vector3 reactVec = transform.position - other.transform.position;
             Destroy(other.gameObject);
-
+            if (curHealth < 1)
+                curHealth = 0;
             Debug.Log("Bullet : " + curHealth);
             C_AttackedMonster attackedPacket = new C_AttackedMonster();
             attackedPacket.id = enemyId;
-            attackedPacket.hp = (ushort)curHealth;
+            attackedPacket.hp = (short)curHealth;
             _network.Send(attackedPacket.Write());
             StartCoroutine(OnDamage(reactVec));
         }

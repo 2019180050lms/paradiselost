@@ -144,7 +144,8 @@ public class PlayerManager
                         myPlayer.anim_Head = joint.head.gameObject.transform.GetChild(0).GetComponent<Animator>();
                         myPlayer.anim_Body = joint.body.gameObject.transform.GetChild(0).GetComponent<Animator>();
                         myPlayer.anim_Leg = joint.leg.gameObject.transform.GetChild(0).GetComponent<Animator>();
-
+                        myPlayer.intantBullet =Resources.Load("Bullet");
+                        myPlayer.bulletPos = myPlayer.transform.GetChild(1);
                         Debug.Log(myPlayer.name);
                         break;
                     }
@@ -192,7 +193,8 @@ public class PlayerManager
                         player.anim_Head = jointP.head.gameObject.transform.GetChild(0).GetComponent<Animator>();
                         player.anim_Body = jointP.body.gameObject.transform.GetChild(0).GetComponent<Animator>();
                         player.anim_Leg = jointP.leg.gameObject.transform.GetChild(0).GetComponent<Animator>();
-
+                        player.intantBullet = Resources.Load("Bullet");
+                        player.bulletPos = player.transform.GetChild(1);
                         _playerParts.Add(playerId, jointP);
                         _players.Add(playerId, player);
 
@@ -444,9 +446,22 @@ public class PlayerManager
 
                 if (packet.wDown)
                 {
-                    player.anim_Head.SetTrigger("doSwing");
-                    player.anim_Body.SetTrigger("doSwing");
-                    player.anim_Leg.SetTrigger("doSwing");
+                    if ((int)player.body == 3)
+                    {
+                        player.StopCoroutine("Shot");
+                        player.anim_Head.SetTrigger("doSwing");
+                        player.anim_Body.SetTrigger("doSwing");
+                        player.anim_Leg.SetTrigger("doSwing");
+                        player.StartCoroutine("Shot");
+                    }
+                    else
+                    {
+                        player.StopCoroutine("Swing");
+                        player.anim_Head.SetTrigger("doSwing");
+                        player.anim_Body.SetTrigger("doSwing");
+                        player.anim_Leg.SetTrigger("doSwing");
+                        player.StartCoroutine("Swing");
+                    }
                 }
                     
                 player.transform.LookAt(player.transform.position + player.moveVec2);
@@ -678,6 +693,8 @@ public class PlayerManager
             player.anim_Head = jointP.head.gameObject.transform.GetChild(0).GetComponent<Animator>();
             player.anim_Body = jointP.body.gameObject.transform.GetChild(0).GetComponent<Animator>();
             player.anim_Leg = jointP.leg.gameObject.transform.GetChild(0).GetComponent<Animator>();
+            player.intantBullet = Resources.Load("Bullet");
+            player.bulletPos = player.transform.GetChild(1);
 
             _playerParts.Add(packet.playerId, jointP);
             _players.Add(packet.playerId, player);

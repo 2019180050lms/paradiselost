@@ -9,6 +9,9 @@ public class Player : MonoBehaviour
     public float speed = 15.0f;
     public GameObject[] weapons;
     public bool[] hasWeapons;
+    public Transform bulletPos;
+    public GameObject bullet;
+    public Object intantBullet;
 
     //public string name;
 
@@ -56,6 +59,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         isJumping = false;
+        bulletPos = transform.GetChild(1);
     }
 
     void Update()
@@ -193,6 +197,18 @@ public class Player : MonoBehaviour
 
             Invoke("SwapOut", 0.5f);
         }
+    }
+
+    IEnumerator Shot()
+    {
+        // 총알 발사
+        bullet = Object.Instantiate(intantBullet) as GameObject;
+        bullet.transform.position = bulletPos.transform.position;
+        bullet.transform.rotation = bulletPos.rotation;
+        Rigidbody bulletRigid = bullet.GetComponent<Rigidbody>();
+        bulletRigid.velocity = bulletPos.forward * 75;
+        Destroy(bullet, 3f);
+        yield return null;
     }
 
     public void DodgeOut()
