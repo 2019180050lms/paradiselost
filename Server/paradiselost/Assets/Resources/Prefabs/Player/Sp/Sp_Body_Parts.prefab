@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4755255299112925506}
+  - component: {fileID: 7429581671876806810}
   m_Layer: 0
   m_Name: Sp_Body_Parts
   m_TagString: Melee
@@ -34,6 +35,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7429581671876806810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4755255299112925507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a314e461b63ffb44d9e8e010f253ce11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  body: {fileID: 5566280165790273599}
+  animator: {fileID: 0}
 --- !u!1001 &4755255299587707060
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -218,6 +233,11 @@ CapsuleCollider:
   m_Height: 0.004474912
   m_Direction: 1
   m_Center: {x: -3.0309927e-10, y: 0.0017374457, z: 2.9270406e-10}
+--- !u!1 &5566280165790273599 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 874d01727b56c844191d7a4cb0ca565f, type: 3}
+  m_PrefabInstance: {fileID: 4755255299621154158}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &5755747293869905486 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1017402483158186784, guid: 874d01727b56c844191d7a4cb0ca565f, type: 3}
