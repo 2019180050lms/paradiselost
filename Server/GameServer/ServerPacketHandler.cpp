@@ -502,6 +502,14 @@ SendBufferRef ServerPacketHandler::Make_S_BroadcastLeave_Game(int32 playerId)
 	PacketHeader* header = bw.Reserve<PacketHeader>();
 
 	bw << playerId;
+	
+	int item[10] = { 1,2,3,4,5,6,7,8,9,10 };
+
+	if (playerId > 500)
+	{
+		int itemNum = rand() % 10;
+		bw << item[itemNum];
+	}
 
 	header->size = bw.WriteSize();
 	header->id = S_BROADCASTLEAVE_GAME;

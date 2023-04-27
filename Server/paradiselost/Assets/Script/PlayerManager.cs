@@ -13,6 +13,7 @@ public class PlayerManager
     public Dictionary<int, Joint_Robot> _playerParts = new Dictionary<int, Joint_Robot>();
     Dictionary<int, Enemy> _enemys = new Dictionary<int, Enemy>();
     Joint_Robot c_p_parts = null;
+    GameObject item;
     public Vector3 moveVec;
     public static PlayerManager Instance { get; } = new PlayerManager();
 
@@ -726,10 +727,48 @@ public class PlayerManager
             else
             {
                 Enemy enemy = null;
+                Object items = null;
+                switch (packet.itemNum)
+                {
+                    case 1:
+                        items = Resources.Load("Items/Po_Body_Item");
+                        break;
+                    case 2:
+                        items = Resources.Load("Items/Po_Head_Item");
+                        break;
+                    case 3:
+                        items = Resources.Load("Items/Po_Leg_Item");
+                        break;
+                    case 4:
+                        items = Resources.Load("Items/Sh_Body_Item");
+                        break;
+                    case 5:
+                        items = Resources.Load("Items/Sh_Head_Item");
+                        break;
+                    case 6:
+                        items = Resources.Load("Items/Sh_Leg_Item");
+                        break;
+                    case 7:
+                        items = Resources.Load("Items/Sp_Body_Item");
+                        break;
+                    case 8:
+                        items = Resources.Load("Items/Sp_Head_Item");
+                        break;
+                    case 9:
+                        items = Resources.Load("Items/Sp_Leg_Item");
+                        break;
+                    default:
+                        break;
+                }
                 if(_enemys.TryGetValue(packet.playerId, out enemy))
                 {
                     GameObject.Destroy(enemy.gameObject);
                     _enemys.Remove(packet.playerId);
+                    if (items != null)
+                    {
+                        item = Object.Instantiate(items) as GameObject;
+                        item.transform.position = enemy.transform.position;
+                    }
                 }
                 else if(packet.playerId >= 1000)
                 {
