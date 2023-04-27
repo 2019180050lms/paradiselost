@@ -247,12 +247,19 @@ void Room::MoveMonster()
 			{
 				if (p.second->playerId < 500)
 				{
-					if (p.second->xPos <= m.posX + 5 && p.second->zPos <= m.posZ + 5
-						&& p.second->xPos >= m.posX - 5 && p.second->zPos >= m.posZ - 5)
+					if (p.second->xPos <= m.posX + 10 && p.second->zPos <= m.posZ + 10
+						&& p.second->xPos >= m.posX - 10 && p.second->zPos >= m.posZ - 10)
 					{
-						//cout << "p id: " << p.second->playerId << " m id: " << m.playerId << " attack: " << m.wDown << endl;
+						if (p.second->xPos <= m.posX)
+							m.posX -= m_speed;
+						if (p.second->xPos >= m.posX)
+							m.posX += m_speed;
+						if (p.second->zPos <= m.posZ)
+							m.posZ -= m_speed;
+						if (p.second->zPos >= m.posZ)
+							m.posZ += m_speed;
 						m.wDown = true;
-						break;
+						cout << "p id: " << p.second->playerId << " m id: " << m.playerId << " x: " << m.posX << " z: " << m.posZ << " attack: " << m.wDown << endl;
 					}
 					else
 						m.wDown = false;
