@@ -162,7 +162,7 @@ PlayerList Room::CreateBossMonster()
 	l_player.type = (int32)BossType::BOSS1;
 	l_player.hp = 1000;   
 	l_player.posX = -660.f;
-	l_player.posY = -3.f;
+	l_player.posY = -2.f;
 	l_player.posZ = 118.f;
 	GRoom._monsters.push_back(l_player);
 
@@ -171,6 +171,8 @@ PlayerList Room::CreateBossMonster()
 
 void Room::MoveMonster()
 {
+	float maxXpos[4] = {1.f, -235.f, 0.f, -660.f};
+	float maxZpos[4] = {1.f, 27.f, 225.f, 118.f};
 	if (_monsters.size() == 0)
 	{
 		if (stage == 0) {
@@ -233,11 +235,13 @@ void Room::MoveMonster()
 					auto bossSend = ServerPacketHandler::Make_S_PlayerList(l_boss);
 					BroadCast(bossSend);
 					cout << "send boss " << stage << endl;
-					stage = 0;
+					stage += 1;
 					break;
 				}
 			}
 		}
+		else if (stage == 3)
+			stage = 0;
 	}
 	else
 	{
@@ -274,37 +278,35 @@ void Room::MoveMonster()
 				}
 				else if (randDir == 1)
 				{
-					if (m.posX > 20 && stage == 0)
+					if (m.posX > maxXpos[stage] + 20)
 						continue;
 					m.Dir = randDir;
 					m.posX = m.posX + m_speed;
 				}
 				else if (randDir == 2)
 				{
-					if (m.posX < -20 && stage == 0)
+					if (m.posX < maxXpos[stage] - 20)
 						continue;
 					m.Dir = randDir;
 					m.posX = m.posX - m_speed;
 				}
 				else if (randDir == 3)
 				{
-					if (m.posZ > 20 && stage == 0)
+					if (m.posZ > maxZpos[stage] + 20)
 						continue;
 					m.Dir = randDir;
 					m.posZ = m.posZ + m_speed;
 				}
 				else if (randDir == 4)
 				{
-					if (m.posZ < -20 && stage == 0)
+					if (m.posZ < maxZpos[stage] - 20)
 						continue;
 					m.Dir = randDir;
 					m.posZ = m.posZ - m_speed;
 				}
 				else if (randDir == 5)
 				{
-					if (m.posZ > 20 && stage == 0)
-						continue;
-					else if (m.posZ > 20 && stage == 0)
+					if (m.posZ > maxZpos[stage] + 20)
 						continue;
 					m.Dir = randDir;
 					m.posX = m.posX + (m_speed / 2);
@@ -312,9 +314,9 @@ void Room::MoveMonster()
 				}
 				else if (randDir == 6)
 				{
-					if (m.posZ > 20 && stage == 0)
+					if (m.posZ > maxZpos[stage] + 20)
 						continue;
-					else if (m.posZ < -20 && stage == 0)
+					else if (m.posZ < maxZpos[stage] - 20)
 						continue;
 					m.Dir = randDir;
 					m.posX = m.posX + (m_speed / 2);
@@ -322,18 +324,18 @@ void Room::MoveMonster()
 				}
 				else if (randDir == 7)
 				{
-					if (m.posZ < -20 && stage == 0)
+					if (m.posZ < maxZpos[stage] - 20)
 						continue;
-					else if (m.posZ > 20 && stage == 0)
+					else if (m.posZ > maxZpos[stage] + 20)
 						continue;
 					m.posX = m.posX - (m_speed / 2);
 					m.posZ = m.posZ + (m_speed / 2);
 				}
 				else if (randDir == 8)
 				{
-					if (m.posZ < -20 && stage == 0)
+					if (m.posZ < maxZpos[stage] - 20)
 						continue;
-					else if (m.posZ < -20 && stage == 0)
+					else if (m.posZ < maxZpos[stage] - 20)
 						continue;
 					m.Dir = randDir;
 					m.posX = m.posX - (m_speed / 2);

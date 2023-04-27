@@ -14,7 +14,7 @@ void Monster_AI();
 int main()
 {
 	ServerServiceRef service = MakeShared<ServerService>(
-		NetAddress(L"127.0.0.1", 7778),
+		NetAddress(L"192.168.0.7", 7778),
 		MakeShared<IocpCore>(),
 		MakeShared<GameSession>, // TODO : SessionManager 등
 		100);
@@ -22,7 +22,7 @@ int main()
 	ASSERT_CRASH(service->Start());
 
 	// 몬스터 생성
-	GRoom.CreateMonster(1.f, 2.1f, 1.f);
+	GRoom.CreateMonster(1.f, 2.1f, 31.f);
 
 	//
 	for (int32 i = 0; i < 5; i++)

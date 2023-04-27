@@ -582,7 +582,7 @@ public class S_PlayerList : IPacket
 public class S_AttackedMonster : IPacket
 {
     public int id;
-    public ushort hp;
+    public short hp;
 
     public ushort Protocol { get { return (ushort)PacketID.S_ATTACKEDMONSTER; } }
 
@@ -593,8 +593,8 @@ public class S_AttackedMonster : IPacket
         count += sizeof(ushort);
         this.id = BitConverter.ToInt32(segment.Array, segment.Offset + count);
         count += sizeof(int);
-        this.hp = BitConverter.ToUInt16(segment.Array, segment.Offset + count);
-        count += sizeof(ushort);
+        this.hp = BitConverter.ToInt16(segment.Array, segment.Offset + count);
+        count += sizeof(short);
     }
 
     public ArraySegment<byte> Write()
@@ -607,8 +607,8 @@ public class S_AttackedMonster : IPacket
         count += sizeof(ushort);
         Array.Copy(BitConverter.GetBytes(this.id), 0, segment.Array, segment.Offset + count, sizeof(int));
         count += sizeof(int);
-        Array.Copy(BitConverter.GetBytes(this.hp), 0, segment.Array, segment.Offset + count, sizeof(ushort));
-        count += sizeof(ushort);
+        Array.Copy(BitConverter.GetBytes(this.hp), 0, segment.Array, segment.Offset + count, sizeof(short));
+        count += sizeof(short);
 
         Array.Copy(BitConverter.GetBytes(count), 0, segment.Array, segment.Offset, sizeof(ushort));
 
@@ -701,7 +701,7 @@ public class S_Broadcast_Item : IPacket
 public class C_AttackedMonster : IPacket
 {
     public int id;
-    public ushort hp;
+    public short hp;
 
     public ushort Protocol { get { return (ushort)PacketID.C_MONSTERATTACK; } }
 
@@ -712,8 +712,8 @@ public class C_AttackedMonster : IPacket
         count += sizeof(ushort);
         this.id = BitConverter.ToInt32(segment.Array, segment.Offset + count);
         count += sizeof(int);
-        this.hp = BitConverter.ToUInt16(segment.Array, segment.Offset + count);
-        count += sizeof(ushort);
+        this.hp = BitConverter.ToInt16(segment.Array, segment.Offset + count);
+        count += sizeof(short);
     }
 
     public ArraySegment<byte> Write()
@@ -726,8 +726,8 @@ public class C_AttackedMonster : IPacket
         count += sizeof(ushort);
         Array.Copy(BitConverter.GetBytes(this.id), 0, segment.Array, segment.Offset + count, sizeof(int));
         count += sizeof(int);
-        Array.Copy(BitConverter.GetBytes(this.hp), 0, segment.Array, segment.Offset + count, sizeof(ushort));
-        count += sizeof(ushort);
+        Array.Copy(BitConverter.GetBytes(this.hp), 0, segment.Array, segment.Offset + count, sizeof(short));
+        count += sizeof(short);
 
         Array.Copy(BitConverter.GetBytes(count), 0, segment.Array, segment.Offset, sizeof(ushort));
 
