@@ -59,7 +59,6 @@ public class Player : MonoBehaviour
     void Start()
     {
         isJumping = false;
-        bulletPos = transform.GetChild(1);
     }
 
     void Update()

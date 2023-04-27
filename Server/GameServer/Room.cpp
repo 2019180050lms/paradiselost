@@ -254,6 +254,9 @@ void Room::MoveMonster()
 					if (p.second->xPos <= m.posX + 10 && p.second->zPos <= m.posZ + 10
 						&& p.second->xPos >= m.posX - 10 && p.second->zPos >= m.posZ - 10)
 					{
+						if (m.type == 4) {
+							continue;
+						}
 						if (p.second->xPos <= m.posX)
 							m.posX -= m_speed;
 						if (p.second->xPos >= m.posX)
@@ -270,7 +273,7 @@ void Room::MoveMonster()
 				}
 			}
 			uint16 randDir = rand() % 9;
-			if (!m.wDown)
+			if (!m.wDown && m.type != 4)
 			{
 				if (randDir == 0)
 				{

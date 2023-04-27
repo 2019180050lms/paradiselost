@@ -302,10 +302,10 @@ public class PlayerManager
             }
             else if (p.type == 4)
             {
-                Object obj = Resources.Load("Enemy");
+                Object obj = Resources.Load("Monster_turret");
                 GameObject go = Object.Instantiate(obj) as GameObject;
-
                 Enemy enemy = go.AddComponent<Enemy>();
+                enemy.enabled = true;
                 enemy.enemyId = p.playerId;
                 enemy.maxHealth = p.hp;
                 enemy.curHealth = p.hp;
