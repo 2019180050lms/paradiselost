@@ -58,6 +58,11 @@ public class BossEnemy : MonoBehaviour
         //target2 = GameObject.Find("Player_t1(Clone)").GetComponent<Transform>();
 
         target = GameObject.Find("Player_t1(Clone)").GetComponent<Player>();
+        if(target.PlayerId == 1)
+        {
+            Debug.Log("find PlayerID  1");
+            targetPos = target.transform.position;
+        }
     }
 
     void ChaseStart()
@@ -81,7 +86,7 @@ public class BossEnemy : MonoBehaviour
 
             C_AttackedMonster attackedPacket = new C_AttackedMonster();
             attackedPacket.id = enemyId;
-            attackedPacket.hp = (ushort)curHealth;
+            attackedPacket.hp = (short)curHealth;
             _network.Send(attackedPacket.Write());
         }
         else if (other.tag == "Bullet")
@@ -181,12 +186,12 @@ public class BossEnemy : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
         GameObject instantMissileA = Instantiate(Resources.Load("Boss Missile", typeof(GameObject)), missilePortA.position, missilePortA.rotation) as GameObject;
         BossMissile bossMissileA = instantMissileA.GetComponent<BossMissile>();
-        bossMissileA.target = target;
+        bossMissileA.targetPos = targetPos;
 
         yield return new WaitForSeconds(0.3f);
         GameObject instantMissileB = Instantiate(Resources.Load("Boss Missile", typeof(GameObject)), missilePortB.position, missilePortB.rotation) as GameObject;
         BossMissile bossMissileB = instantMissileB.GetComponent<BossMissile>();
-        bossMissileB.target = target;
+        bossMissileB.targetPos = targetPos;
 
 
         yield return new WaitForSeconds(2f);
