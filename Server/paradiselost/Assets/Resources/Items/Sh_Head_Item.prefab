@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6999984576988683543}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -17.28, y: 2.16, z: -4.18}
+  m_LocalPosition: {x: -17.28, y: 0, z: -4.18}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -68,7 +68,6 @@ MonoBehaviour:
   sp_list: []
   change_parts: 0
   type: 2
-  canvas: {fileID: 0}
   hasItem: 1
 --- !u!1001 &1085114835965432149
 PrefabInstance:

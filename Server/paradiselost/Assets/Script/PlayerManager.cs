@@ -778,7 +778,7 @@ public class PlayerManager
                     if (items != null)
                     {
                         item = Object.Instantiate(items) as GameObject;
-                        item.transform.position = enemy.transform.position;
+                        item.transform.position = new Vector3(enemy.transform.position.x, 0f, enemy.transform.position.z);
                     }
                 }
                 else if(packet.playerId >= 1000)
