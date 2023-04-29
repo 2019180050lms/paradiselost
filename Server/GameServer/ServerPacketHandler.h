@@ -67,7 +67,7 @@ public:
 	static SendBufferRef Make_S_PlayerList(List<PlayerList> players);
 	static SendBufferRef Make_S_BroadcastEnter_Game(int32 playerId, int32 type, float posX, float posY, float posZ);
 	static SendBufferRef Make_S_BroadcastLeave_Game(int32 playerId);
-	static SendBufferRef Make_S_BroadcastMove(int32 playerId, int32 playerDir, uint16 hp, float posX, float posY, float posZ, bool wDown, bool isJump);
+	static SendBufferRef Make_S_BroadcastMove(int32 playerId, int32 playerDir, uint16 hp, float posX, float posY, float posZ, bool wDown, bool isJump, short bossAttack);
 	static SendBufferRef Make_S_BroadcastItem(int32 playerId, uint16 charactorType, uint16 itemType);
 
 	static SendBufferRef Make_S_AttackedMonster(int32 playerId, uint16 hp);

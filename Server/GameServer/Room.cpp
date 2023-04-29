@@ -173,6 +173,7 @@ void Room::MoveMonster()
 {
 	float maxXpos[4] = {1.f, -235.f, 0.f, -660.f};
 	float maxZpos[4] = {1.f, 27.f, 225.f, 118.f};
+	int bossAttack = 0;
 	if (_monsters.size() == 0)
 	{
 		if (stage == 0) {
@@ -251,26 +252,61 @@ void Room::MoveMonster()
 			{
 				if (p.second->playerId < 500)
 				{
-					if (p.second->xPos <= m.posX + 10 && p.second->zPos <= m.posZ + 10
-						&& p.second->xPos >= m.posX - 10 && p.second->zPos >= m.posZ - 10)
+					if (m.type == (int)BOSS1)
 					{
-						if (p.second->xPos <= m.posX)
-							m.posX -= m_speed;
-						if (p.second->xPos >= m.posX)
-							m.posX += m_speed;
-						if (p.second->zPos <= m.posZ)
-							m.posZ -= m_speed;
-						if (p.second->zPos >= m.posZ)
-							m.posZ += m_speed;
-						m.wDown = true;
-						cout << "p id: " << p.second->playerId << " m id: " << m.playerId << " x: " << m.posX << " z: " << m.posZ << " attack: " << m.wDown << endl;
+						if (p.second->xPos <= m.posX + 10 && p.second->zPos <= m.posZ + 10
+							&& p.second->xPos >= m.posX - 10 && p.second->zPos >= m.posZ - 10)
+						{
+							if (p.second->xPos <= m.posX)
+								m.posX -= m_speed;
+							if (p.second->xPos >= m.posX)
+								m.posX += m_speed;
+							if (p.second->zPos <= m.posZ)
+								m.posZ -= m_speed;
+							if (p.second->zPos >= m.posZ)
+								m.posZ += m_speed;
+							m.wDown = true;
+							bossAttack = 1;
+							cout << "boss attack: " << bossAttack << endl;
+						}
+						else if (p.second->xPos <= m.posX + 20 && p.second->zPos <= m.posZ + 20
+							&& p.second->xPos >= m.posX - 20 && p.second->zPos >= m.posZ - 20)
+						{
+							m.wDown = true;
+							bossAttack = 2;
+							cout << "boss attack: " << bossAttack << endl;
+						}
+						else {
+							m.wDown = false;
+							bossAttack = 0;
+						}
 					}
 					else
-						m.wDown = false;
+					{
+						if (p.second->xPos <= m.posX + 10 && p.second->zPos <= m.posZ + 10
+							&& p.second->xPos >= m.posX - 10 && p.second->zPos >= m.posZ - 10)
+						{
+							if (m.type == 4) {
+								continue;
+							}
+							if (p.second->xPos <= m.posX)
+								m.posX -= m_speed;
+							if (p.second->xPos >= m.posX)
+								m.posX += m_speed;
+							if (p.second->zPos <= m.posZ)
+								m.posZ -= m_speed;
+							if (p.second->zPos >= m.posZ)
+								m.posZ += m_speed;
+							m.wDown = true;
+							//cout << "p id: " << p.second->playerId << " m id: " << m.playerId << " x: " << m.posX << " z: " << m.posZ << " attack: " << m.wDown << endl;
+						}
+						else
+							m.wDown = false;
+					}
 				}
 			}
 			uint16 randDir = rand() % 9;
-			if (!m.wDown)
+			if (!m.wDown && m.type != 4)
 			{
 				if (randDir == 0)
 				{
@@ -348,7 +384,7 @@ void Room::MoveMonster()
 				m.Dir,
 				m.hp, m.posX,
 				m.posY, m.posZ,
-				m.wDown, false);
+				m.wDown, false, bossAttack);
 
 			BroadCast(sendBufferM);
 		}

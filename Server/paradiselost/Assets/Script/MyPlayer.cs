@@ -161,7 +161,7 @@ public class MyPlayer : Player
             movePacket.wDown = wDown;
             movePacket.isJump = jDown;
             _network.Send(movePacket.Write());
-            Debug.Log(PlayerId);
+            //Debug.Log(PlayerId);
         }
         else
         {
@@ -205,6 +205,7 @@ public class MyPlayer : Player
 
     private void OnTriggerEnter(Collider other)
     {
+        /*
         if(other.tag == "Body_Item")
         {
             Destroy(other.gameObject);
@@ -218,8 +219,8 @@ public class MyPlayer : Player
         {
             Destroy(other.gameObject);
         }
-
-        else if (other.tag == "EnemyMelee")
+        */
+        if (other.tag == "EnemyMelee")
         {
             // 피격 처리
             Enemy monsterInfo = other.GetComponentInParent<Enemy>(); // 공격한 몬스터 객체 불러오기

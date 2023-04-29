@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 729016114829740245}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 13.607079, y: 0.9, z: 14.07}
+  m_LocalPosition: {x: 13.607079, y: 0, z: 14.07}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -57,7 +57,6 @@ MonoBehaviour:
   sp_list: []
   change_parts: 0
   type: 2
-  canvas: {fileID: 0}
   hasItem: 1
 --- !u!65 &729016114829740246
 BoxCollider:
@@ -148,6 +147,10 @@ MonoBehaviour:
   rate: 0.4
   meleeArea: {fileID: 0}
   trailEffect: {fileID: 0}
+  bulletPos: {fileID: 0}
+  bullet: {fileID: 0}
+  maxAmmo: 0
+  curAmmo: 0
 --- !u!1 &9149810593012935005
 GameObject:
   m_ObjectHideFlags: 0

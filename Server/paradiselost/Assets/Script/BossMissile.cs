@@ -19,18 +19,16 @@ public class BossMissile : Bullet
         //nav = GetComponent<NavMeshAgent>();
         //nav.enabled = false;
         target = GameObject.Find("Player_t1(Clone)").GetComponent<Player>();
-        if(target.PlayerId == 1)
-        {
-            targetPos = target.transform.position;
-        }
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        //nav.SetDestination(target.position);
-        //nav.enabled = true;
+        if (target.PlayerId == 1)
+        {
+            targetPos = target.transform.position;
+        }
         transform.position = Vector3.Lerp(transform.position, targetPos, 0.005f);
         transform.LookAt(targetPos);
     }

@@ -13,6 +13,7 @@ public class PlayerManager
     public Dictionary<int, Joint_Robot> _playerParts = new Dictionary<int, Joint_Robot>();
     Dictionary<int, Enemy> _enemys = new Dictionary<int, Enemy>();
     Joint_Robot c_p_parts = null;
+    public GameObject item;
     public Vector3 moveVec;
     public static PlayerManager Instance { get; } = new PlayerManager();
 
@@ -302,10 +303,10 @@ public class PlayerManager
             }
             else if (p.type == 4)
             {
-                Object obj = Resources.Load("Enemy");
+                Object obj = Resources.Load("Monster_turret");
                 GameObject go = Object.Instantiate(obj) as GameObject;
-
                 Enemy enemy = go.AddComponent<Enemy>();
+                enemy.enabled = true;
                 enemy.enemyId = p.playerId;
                 enemy.maxHealth = p.hp;
                 enemy.curHealth = p.hp;
@@ -542,11 +543,20 @@ public class PlayerManager
                 //enemy.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
                 _boss.posVec = new Vector3(packet.posX, packet.posY, packet.posZ);
                 //_boss.anim.SetBool("isWalk", _boss.isAttack != false);
-                if (packet.wDown)
+
+                Debug.Log("Boss Attack " + packet.bossAttack);
+                if(packet.bossAttack == 1)
+                {
+                    _boss.StopCoroutine("Attack");
+                    _boss.anim.SetTrigger("doAttack");
+                    _boss.StartCoroutine("Attack");
+                    Debug.Log("Boss Attack1 " + packet.bossAttack);
+                }
+                else if (packet.bossAttack == 2)
                 {
                     _boss.StopCoroutine("MissileShot");
-                    _boss.anim.SetTrigger("doAttack");
                     _boss.StartCoroutine("MissileShot");
+                    Debug.Log("Boss Attack2 " + packet.bossAttack);
                     //_boss.transform.LookAt();
                 }
                 //enemy.transform.LookAt(enemy.transform.position + enemy.moveVec2);
@@ -726,10 +736,50 @@ public class PlayerManager
             else
             {
                 Enemy enemy = null;
+                Object items = null;
+                switch (packet.itemNum)
+                {
+                    case 1:
+                        items = Resources.Load("Items/Po_Body_Item");
+                        break;
+                    case 2:
+                        items = Resources.Load("Items/Po_Head_Item");
+                        break;
+                    case 3:
+                        items = Resources.Load("Items/Po_Leg_Item");
+                        break;
+                    case 4:
+                        items = Resources.Load("Items/Sh_Body_Item");
+                        break;
+                    case 5:
+                        items = Resources.Load("Items/Sh_Head_Item");
+                        break;
+                    case 6:
+                        items = Resources.Load("Items/Sh_Leg_Item");
+                        break;
+                    case 7:
+                        items = Resources.Load("Items/Sp_Body_Item");
+                        break;
+                    case 8:
+                        items = Resources.Load("Items/Sp_Head_Item");
+                        break;
+                    case 9:
+                        items = Resources.Load("Items/Sp_Leg_Item");
+                        break;
+                    default:
+                        items = null;
+                        break;
+                }
+                Debug.Log("itemNum: " + packet.itemNum);
                 if(_enemys.TryGetValue(packet.playerId, out enemy))
                 {
                     GameObject.Destroy(enemy.gameObject);
                     _enemys.Remove(packet.playerId);
+                    if (items != null)
+                    {
+                        item = Object.Instantiate(items) as GameObject;
+                        item.transform.position = new Vector3(enemy.transform.position.x, 0f, enemy.transform.position.z);
+                    }
                 }
                 else if(packet.playerId >= 1000)
                 {
