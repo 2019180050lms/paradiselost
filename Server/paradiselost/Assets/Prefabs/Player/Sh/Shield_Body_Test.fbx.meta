@@ -1,20 +1,8 @@
 fileFormatVersion: 2
-guid: 67335cff815d2664b8afdf693a03305a
+guid: a8a98bc6079e30642b1a68f8eed697e2
 ModelImporter:
   serializedVersion: 21300
-  internalIDToNameTable:
-  - first:
-      74: -5758508490104160889
-    second: Shield
-  - first:
-      74: 1474744063889944348
-    second: Armature|mixamo.com|Layer0
-  - first:
-      74: 6330412072174222829
-    second: Run
-  - first:
-      74: -414533963852719560
-    second: Dance_Idle
+  internalIDToNameTable: []
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -47,7 +35,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Shield
       takeName: Shield
-      internalID: 0
+      internalID: -5758508490104160889
       firstFrame: 0
       lastFrame: 17
       wrapMode: 0
@@ -76,8 +64,8 @@ ModelImporter:
     - serializedVersion: 16
       name: Armature|mixamo.com|Layer0
       takeName: Armature|mixamo.com|Layer0
-      internalID: 0
-      firstFrame: 0
+      internalID: 1474744063889944348
+      firstFrame: 15
       lastFrame: 17
       wrapMode: 0
       orientationOffsetY: 0
@@ -105,7 +93,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Run
       takeName: Armature.001|mixamo.com|Layer0
-      internalID: 0
+      internalID: 6330412072174222829
       firstFrame: 0
       lastFrame: 12
       wrapMode: 0
@@ -114,7 +102,7 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -134,7 +122,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Dance_Idle
       takeName: Dance_Idle
-      internalID: 0
+      internalID: -414533963852719560
       firstFrame: 0
       lastFrame: 399
       wrapMode: 0

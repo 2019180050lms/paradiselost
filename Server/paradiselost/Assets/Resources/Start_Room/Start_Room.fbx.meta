@@ -3,7 +3,12 @@ guid: 9078350351aabc5408f47b89b798a5ba
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stoneic
+    second: {fileID: 2100000, guid: 6bd61b18a5b7a77419c724a4927afa39, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
