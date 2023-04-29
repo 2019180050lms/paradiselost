@@ -41,7 +41,7 @@ public class Enemy : MonoBehaviour
         _network = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
         hitBox = GetComponent<HitBox>();
         walking = true;
-        bulletPos = transform.GetChild(0);
+        bulletPos = transform.GetChild(1);
     }
 
     void Awake()
@@ -78,6 +78,7 @@ public class Enemy : MonoBehaviour
             StartCoroutine("Attack");
             count++;
         }
+
     }
 
     void OnTriggerEnter(Collider other)

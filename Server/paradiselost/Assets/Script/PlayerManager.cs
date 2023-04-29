@@ -507,12 +507,17 @@ public class PlayerManager
                 //enemy.anim.SetBool("isWalk", enemy.isAttack != false);
                 if (packet.wDown)
                 {
-                    //Debug.Log("attack !");
                     //enemy.StartCoroutine("Shoot");
                     //enemy.anim.SetTrigger("doAttack");
                 }
                 //enemy.transform.LookAt(enemy.transform.position + enemy.moveVec2);
                 enemy.transform.LookAt(enemy.posVec);
+                if(enemy.tag == "EnemyTurret" )
+                {
+                    EnemyTurret enemyTurret = GameObject.Find("TargetArea").GetComponent<EnemyTurret>();
+                    enemy.transform.LookAt(enemyTurret.targetPos);
+                    Debug.Log(enemyTurret.targetPos);
+                }
             }
             // 보스 처리
             else if(_boss.enemyId == packet.playerId)

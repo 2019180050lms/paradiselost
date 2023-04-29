@@ -287,6 +287,7 @@ void Room::MoveMonster()
 							&& p.second->xPos >= m.posX - 10 && p.second->zPos >= m.posZ - 10)
 						{
 							if (m.type == 4) {
+								m.wDown = true;
 								continue;
 							}
 							if (p.second->xPos <= m.posX)

@@ -24,7 +24,6 @@ int main()
 	// 몬스터 생성
 	GRoom.CreateMonster(1.f, 2.1f, 31.f);
 
-	//
 	for (int32 i = 0; i < 5; i++)
 	{
 		
