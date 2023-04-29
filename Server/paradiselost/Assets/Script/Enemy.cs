@@ -66,10 +66,14 @@ public class Enemy : MonoBehaviour
     }
      void Update()
     {
-
         //transform.position = Vector3.Lerp(transform.position, pos, 0.001f);
         transform.position = Vector3.Lerp(transform.position, posVec, 0.005f);
-        if (isAttack && count == 0)
+        if (transform.tag == "EnemyTurret" && isAttack && count == 0)
+        {
+            StartCoroutine("Shoot");
+            count++;
+        }
+        if (transform.tag == "Enemy" && isAttack && count == 0)
         {
             StartCoroutine("Attack");
             count++;
@@ -181,15 +185,15 @@ public class Enemy : MonoBehaviour
 
     IEnumerator Shoot()
     {
-
+        isAttack = true;
+        yield return new WaitForSeconds(1f);
         GameObject intantBullet = Instantiate(Resources.Load("EnemyBullet", typeof(GameObject)), bulletPos.position, bulletPos.rotation) as GameObject;
         Rigidbody bulletRigid = intantBullet.GetComponent<Rigidbody>();
 
         bulletRigid.velocity = bulletPos.forward * 75;
         Destroy(intantBullet, 3f);
-        yield return null;
-
-        isAttack = true;
+        //yield return new WaitForSeconds(1f);
+        isAttack = false;
 
         //yield return new WaitForSeconds(0.2f);
         //hitBox.meleeArea.enabled = true;
@@ -198,8 +202,7 @@ public class Enemy : MonoBehaviour
         //hitBox.meleeArea.enabled = false;
 
         //yield return new WaitForSeconds(3f); // 몬스터 공격속도
-
-        isAttack = false;
+       
         //anim.SetBool("isAttack", false);
 
         count--;
