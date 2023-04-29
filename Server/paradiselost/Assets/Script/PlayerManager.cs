@@ -17,6 +17,7 @@ public class PlayerManager
     public Vector3 moveVec;
     public static PlayerManager Instance { get; } = new PlayerManager();
 
+
     void SetCharacter(int playerId, ushort hp, int playerType, bool isSelf, Vector3 pos)
     {
         if (isSelf)
@@ -507,7 +508,7 @@ public class PlayerManager
                 if (packet.wDown)
                 {
                     //Debug.Log("attack !");
-                    //enemy.StartCoroutine("Attack");
+                    //enemy.StartCoroutine("Shoot");
                     //enemy.anim.SetTrigger("doAttack");
                 }
                 //enemy.transform.LookAt(enemy.transform.position + enemy.moveVec2);
@@ -544,7 +545,6 @@ public class PlayerManager
                 _boss.posVec = new Vector3(packet.posX, packet.posY, packet.posZ);
                 //_boss.anim.SetBool("isWalk", _boss.isAttack != false);
 
-                Debug.Log("Boss Attack " + packet.bossAttack);
                 if(packet.bossAttack == 1)
                 {
                     _boss.StopCoroutine("Attack");
