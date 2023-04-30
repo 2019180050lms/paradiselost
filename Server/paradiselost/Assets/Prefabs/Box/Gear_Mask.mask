@@ -1,0 +1,153 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!319 &31900000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Gear_Mask
+  m_Mask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: Arm_L
+    m_Weight: 0
+  - m_Path: Arm_R
+    m_Weight: 0
+  - m_Path: Armature
+    m_Weight: 0
+  - m_Path: Armature/MasterBorn
+    m_Weight: 0
+  - m_Path: Armature/MasterBorn/Chest
+    m_Weight: 0
+  - m_Path: Armature/MasterBorn/Chest/Chest_Gear_Spine
+    m_Weight: 1
+  - m_Path: Armature/MasterBorn/Chest/Gear_Chest_support_Spin
+    m_Weight: 1
+  - m_Path: Armature/MasterBorn/Chest/Neck
+    m_Weight: 0
+  - m_Path: Armature/MasterBorn/Chest/Neck/Head
+    m_Weight: 0
+  - m_Path: Armature/MasterBorn/Chest/Neck/Head/Eye_Spin
+    m_Weight: 1
+  - m_Path: Armature/MasterBorn/Chest/Neck/Head/Mouse_Spin
+    m_Weight: 1
+  - m_Path: Armature/MasterBorn/Chest/Sholder.L
+    m_Weight: 0
+  - m_Path: Armature/MasterBorn/Chest/Sholder.L/U_Arm.L
+    m_Weight: 0
+  - m_Path: Armature/MasterBorn/Chest/Sholder.L/U_Arm.L/D_Arm.L
+    m_Weight: 0
+  - m_Path: Armature/MasterBorn/Chest/Sholder.L/U_Arm.L/D_Arm.L/Hand.L
+    m_Weight: 0
+  - m_Path: Armature/MasterBorn/Chest/Sholder.L/U_Arm.L/D_Arm.L/Hand.L/BigThumb.L
+    m_Weight: 0
+  - m_Path: Armature/MasterBorn/Chest/Sholder.L/U_Arm.L/D_Arm.L/Hand.L/BigThumb.L/BigThumb.001.L
+    m_Weight: 0
+  - m_Path: Armature/MasterBorn/Chest/Sholder.L/U_Arm.L/D_Arm.L/Hand.L/Hand.003.L
+    m_Weight: 0
+  - m_Path: Armature/MasterBorn/Chest/Sholder.L/U_Arm.L/D_Arm.L/Hand.L/Hand.003.L/Hand.005.L
+    m_Weight: 0
+  - m_Path: Armature/MasterBorn/Chest/Sholder.L/U_Arm.L/D_Arm.L/Hand.L/Hand.003.L/Hand.005.L/Hand.004.L
+    m_Weight: 0
+  - m_Path: Armature/MasterBorn/Chest/Sholder.L/U_Arm.L/D_Arm.L/Hand.L/Hand.009.L
+    m_Weight: 0
+  - m_Path: Armature/MasterBorn/Chest/Sholder.L/U_Arm.L/D_Arm.L/Hand.L/Hand.009.L/Hand.011.L
+    m_Weight: 0
+  - m_Path: Armature/MasterBorn/Chest/Sholder.L/U_Arm.L/D_Arm.L/Hand.L/Hand.009.L/Hand.011.L/Hand.010.L
+    m_Weight: 0
+  - m_Path: Armature/MasterBorn/Chest/Sholder.L/U_Arm.L/D_Arm.L/Hand.L/Hand.012.L
+    m_Weight: 0
+  - m_Path: Armature/MasterBorn/Chest/Sholder.L/U_Arm.L/D_Arm.L/Hand.L/Hand.012.L/Hand.014.L
+    m_Weight: 0
+  - m_Path: Armature/MasterBorn/Chest/Sholder.L/U_Arm.L/D_Arm.L/Hand.L/Hand.012.L/Hand.014.L/Hand.013.L
+    m_Weight: 0
+  - m_Path: Armature/MasterBorn/Chest/Sholder.L/U_Arm.L/D_Arm.L/Hand.L/MiddleThumb.L
+    m_Weight: 0
+  - m_Path: Armature/MasterBorn/Chest/Sholder.L/U_Arm.L/D_Arm.L/Hand.L/MiddleThumb.L/MiddleThumb.001.L
+    m_Weight: 0
+  - m_Path: Armature/MasterBorn/Chest/Sholder.L/U_Arm.L/D_Arm.L/Hand.L/MiddleThumb.L/MiddleThumb.001.L/MiddleThumb.002.L
+    m_Weight: 0
+  - m_Path: Armature/MasterBorn/Chest/Sholder.R
+    m_Weight: 0
+  - m_Path: Armature/MasterBorn/Chest/Sholder.R/U_Arm.R
+    m_Weight: 0
+  - m_Path: Armature/MasterBorn/Chest/Sholder.R/U_Arm.R/D_Arm.R
+    m_Weight: 0
+  - m_Path: Armature/MasterBorn/Chest/Sholder.R/U_Arm.R/D_Arm.R/Hand.R
+    m_Weight: 0
+  - m_Path: Armature/MasterBorn/Chest/Sholder.R/U_Arm.R/D_Arm.R/Hand.R/BigThumb.R
+    m_Weight: 0
+  - m_Path: Armature/MasterBorn/Chest/Sholder.R/U_Arm.R/D_Arm.R/Hand.R/BigThumb.R/BigThumb.001.R
+    m_Weight: 0
+  - m_Path: Armature/MasterBorn/Chest/Sholder.R/U_Arm.R/D_Arm.R/Hand.R/Hand.003.R
+    m_Weight: 0
+  - m_Path: Armature/MasterBorn/Chest/Sholder.R/U_Arm.R/D_Arm.R/Hand.R/Hand.003.R/Hand.005.R
+    m_Weight: 0
+  - m_Path: Armature/MasterBorn/Chest/Sholder.R/U_Arm.R/D_Arm.R/Hand.R/Hand.003.R/Hand.005.R/Hand.004.R
+    m_Weight: 0
+  - m_Path: Armature/MasterBorn/Chest/Sholder.R/U_Arm.R/D_Arm.R/Hand.R/Hand.009.R
+    m_Weight: 0
+  - m_Path: Armature/MasterBorn/Chest/Sholder.R/U_Arm.R/D_Arm.R/Hand.R/Hand.009.R/Hand.011.R
+    m_Weight: 0
+  - m_Path: Armature/MasterBorn/Chest/Sholder.R/U_Arm.R/D_Arm.R/Hand.R/Hand.009.R/Hand.011.R/Hand.010.R
+    m_Weight: 0
+  - m_Path: Armature/MasterBorn/Chest/Sholder.R/U_Arm.R/D_Arm.R/Hand.R/Hand.012.R
+    m_Weight: 0
+  - m_Path: Armature/MasterBorn/Chest/Sholder.R/U_Arm.R/D_Arm.R/Hand.R/Hand.012.R/Hand_014.R
+    m_Weight: 0
+  - m_Path: Armature/MasterBorn/Chest/Sholder.R/U_Arm.R/D_Arm.R/Hand.R/Hand.012.R/Hand_014.R/Hand.013.R
+    m_Weight: 0
+  - m_Path: Armature/MasterBorn/Chest/Sholder.R/U_Arm.R/D_Arm.R/Hand.R/MiddleThumb.R
+    m_Weight: 0
+  - m_Path: Armature/MasterBorn/Chest/Sholder.R/U_Arm.R/D_Arm.R/Hand.R/MiddleThumb.R/MiddleThumb.001.R
+    m_Weight: 0
+  - m_Path: Armature/MasterBorn/Chest/Sholder.R/U_Arm.R/D_Arm.R/Hand.R/MiddleThumb.R/MiddleThumb.001.R/MiddleThumb.002.R
+    m_Weight: 0
+  - m_Path: Armature/MasterBorn/Chest/Sholder_Gear_Spin
+    m_Weight: 1
+  - m_Path: Armature/MasterBorn/Hip
+    m_Weight: 0
+  - m_Path: Armature/MasterBorn/Hip/Leg_Spin
+    m_Weight: 0
+  - m_Path: Armature/MasterBorn/Hip/U_Leg.L
+    m_Weight: 0
+  - m_Path: Armature/MasterBorn/Hip/U_Leg.L/D_Leg.L
+    m_Weight: 0
+  - m_Path: Armature/MasterBorn/Hip/U_Leg.L/D_Leg.L/Foot.L
+    m_Weight: 0
+  - m_Path: Armature/MasterBorn/Hip/U_Leg.R
+    m_Weight: 0
+  - m_Path: Armature/MasterBorn/Hip/U_Leg.R/D_Leg.R
+    m_Weight: 0
+  - m_Path: Armature/MasterBorn/Hip/U_Leg.R/D_Leg.R/Foot.R
+    m_Weight: 0
+  - m_Path: ChestBody
+    m_Weight: 0
+  - m_Path: Cylinder.003
+    m_Weight: 0
+  - m_Path: Gear1
+    m_Weight: 0
+  - m_Path: Gear_Mouse
+    m_Weight: 0
+  - m_Path: Hip
+    m_Weight: 0
+  - m_Path: Leg_R
+    m_Weight: 0
+  - m_Path: Main_Gear.chest
+    m_Weight: 0
+  - m_Path: Pump
+    m_Weight: 0
+  - m_Path: Reg_L
+    m_Weight: 0
+  - m_Path: Robot_Cylinder
+    m_Weight: 0
+  - m_Path: SholderBigGear
+    m_Weight: 0
+  - m_Path: Sphere
+    m_Weight: 0
+  - m_Path: Sphere.001
+    m_Weight: 0
+  - m_Path: Support_Gear
+    m_Weight: 0

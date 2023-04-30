@@ -8,7 +8,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Stoneic
-    second: {fileID: 2100000, guid: 6bd61b18a5b7a77419c724a4927afa39, type: 2}
+    second: {fileID: 2100000, guid: c87a1ca7636a55647b73ec043c5d02a0, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
