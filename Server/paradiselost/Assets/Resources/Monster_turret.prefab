@@ -878,6 +878,7 @@ GameObject:
   - component: {fileID: 5634336893245919367}
   - component: {fileID: 7608736444792841474}
   - component: {fileID: 974355945510475356}
+  - component: {fileID: 2341866584292583522}
   m_Layer: 0
   m_Name: TargetArea
   m_TagString: Untagged
@@ -925,24 +926,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85a962acd6b16ce4b820606fcc458ec4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyId: 0
-  maxHealth: 0
-  curHealth: 0
-  target: {fileID: 0}
-  isChase: 0
-  isAttack: 0
-  prevVec: {x: 0, y: 0, z: 0}
-  moveVec2: {x: 0, y: 0, z: 0}
-  posVec: {x: 0, y: 0, z: 0}
-  meleeArea: {fileID: 0}
-  hitBox: {fileID: 0}
-  anim: {fileID: 0}
-  bulletPos: {fileID: 0}
-  bullet: {fileID: 0}
-  walking: 0
-  findtarget: {fileID: 0}
   targetPos: {x: 0, y: 0, z: 0}
-  targetArea: {fileID: 0}
+--- !u!54 &2341866584292583522
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7797156199316089747}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &8901879064533554284
 GameObject:
   m_ObjectHideFlags: 0

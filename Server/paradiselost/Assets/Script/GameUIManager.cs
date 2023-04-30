@@ -26,6 +26,9 @@ public class GameUIManager : MonoBehaviour
     public RectTransform bossHealthGroup;
     public RectTransform bossHealthBar;
 
+    public RectTransform playerHealthGroup;
+    public RectTransform playerHealthBar;
+
     public Image weapon1Img;
     public Image weapon2Img;
     public Image weapon3Img;
@@ -33,6 +36,7 @@ public class GameUIManager : MonoBehaviour
     public List<Image> ItemImg = new List<Image>() { };
     //public List<Button> buttonList = new List<Button>();
     public GameObject BossUI;
+    public GameObject PlayerUI;
 
     public List<Text> ItemTxt = new List<Text>() { };
 
@@ -80,32 +84,16 @@ public class GameUIManager : MonoBehaviour
 
         playTimeTxt.text = string.Format("{0:00}", hour) + ":" + string.Format("{0:00}", min) + ":" + string.Format("{0:00}", second);
         playerHealthTxt.text = myPlayer.hp.ToString() + " /  100";  // 플레이어 체력 표시
-        
-        if(inventory.ItemList[0] != null)
+
+        playerHealthBar.localScale = new Vector3((float)PlayerManager.Instance._myplayer.hp / 100, 1, 1);
+
+        if (inventory.ItemList[0] != null)
         {
             for (int i = 0; i < 9; ++i)
             {
                 if (inventory.ItemList[i].hasItem)
                 {
                     ItemImg[i].color = new Color(1, 1, 1, 1);
-                    //if(inventory.ItemList[index].tag == "Head_Item" && inventory.ItemList[index].type == 1)
-                    //    ItemTxt[index].text = "Power Head";
-                    //else if (inventory.ItemList[index].tag == "Head_Item" && inventory.ItemList[index].type == 2)
-                    //    ItemTxt[index].text = "Shield Head";
-                    //else if (inventory.ItemList[index].tag == "Head_Item" && inventory.ItemList[index].type == 3)
-                    //    ItemTxt[index].text = "Speed Head";
-                    //else if (inventory.ItemList[index].tag == "Body_Item" && inventory.ItemList[index].type == 1)
-                    //    ItemTxt[index].text = "Power Body";
-                    //else if (inventory.ItemList[index].tag == "Body_Item" && inventory.ItemList[index].type == 2)
-                    //    ItemTxt[index].text = "Shield Body";
-                    //else if (inventory.ItemList[index].tag == "Body_Item" && inventory.ItemList[index].type == 3)
-                    //    ItemTxt[index].text = "Speed Body";
-                    //else if (inventory.ItemList[index].tag == "Leg_Item" && inventory.ItemList[index].type == 1)
-                    //    ItemTxt[index].text = "Power Leg";
-                    //else if (inventory.ItemList[index].tag == "Leg_Item" && inventory.ItemList[index].type == 2)
-                    //    ItemTxt[index].text = "Shield Leg";
-                    //else if (inventory.ItemList[index].tag == "Leg_Item" && inventory.ItemList[index].type == 3)
-                    //    ItemTxt[index].text = "Speed Leg";
                 }
                 else if (inventory.ItemList[i] == null)
                     ItemImg[i].color = new Color(1, 1, 1, 0);

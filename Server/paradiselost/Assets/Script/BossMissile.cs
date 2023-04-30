@@ -5,6 +5,8 @@ using UnityEngine.AI;
 
 public class BossMissile : Bullet
 {
+    public int enemyId;
+
     public Player target;
     NavMeshAgent nav;
 
