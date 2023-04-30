@@ -197,8 +197,8 @@ public class PlayerManager
 
                         PlayerText.transform.SetParent(go.transform, false);
                         PlayerText playerText = PlayerText.GetComponent<PlayerText>();
-                        
-                        switch(playerId)
+
+                        switch (playerId % 4)
                         {
                             case 1:
                                 playerText.playerText.text = "Player1";
@@ -209,7 +209,7 @@ public class PlayerManager
                             case 3:
                                 playerText.playerText.text = "Player3";
                                 break;
-                            case 4:
+                            case 0:
                                 playerText.playerText.text = "Player4";
                                 break;
                         }
@@ -259,7 +259,7 @@ public class PlayerManager
                         PlayerText.transform.SetParent(go.transform, false);
                         PlayerText playerText = PlayerText.GetComponent<PlayerText>();
 
-                        switch (playerId)
+                        switch (playerId % 4)
                         {
                             case 1:
                                 playerText.playerText.text = "Player1";
@@ -270,7 +270,7 @@ public class PlayerManager
                             case 3:
                                 playerText.playerText.text = "Player3";
                                 break;
-                            case 4:
+                            case 0:
                                 playerText.playerText.text = "Player4";
                                 break;
                         }
@@ -320,6 +320,7 @@ public class PlayerManager
 
                         PlayerText.transform.SetParent(go.transform, false);
                         PlayerText playerText = PlayerText.GetComponent<PlayerText>();
+
 
                         switch (playerId % 4)
                         {
