@@ -160,8 +160,8 @@ public class PlayerManager
         {
             Object obj = Resources.Load("Player_t1");
             GameObject go = Object.Instantiate(obj) as GameObject;
-            Object obj2 = Resources.Load("PlayerText");
-            GameObject PlayerText = Object.Instantiate(obj2) as GameObject;
+            Object obj3 = Resources.Load("PlayerText");
+            GameObject PlayerText = Object.Instantiate(obj3) as GameObject;
             switch (playerType)
             {
                 case 1:
@@ -201,16 +201,16 @@ public class PlayerManager
                         switch (playerId % 4)
                         {
                             case 1:
-                                playerText.playerText.text = "Player1";
+                                playerText.playerText.text = "Player 1";
                                 break;
                             case 2:
-                                playerText.playerText.text = "Player2";
+                                playerText.playerText.text = "Player 2";
                                 break;
                             case 3:
-                                playerText.playerText.text = "Player3";
+                                playerText.playerText.text = "Player 3";
                                 break;
                             case 0:
-                                playerText.playerText.text = "Player4";
+                                playerText.playerText.text = "Player 4";
                                 break;
                         }
 
@@ -262,18 +262,19 @@ public class PlayerManager
                         switch (playerId % 4)
                         {
                             case 1:
-                                playerText.playerText.text = "Player1";
+                                playerText.playerText.text = "Player 1";
                                 break;
                             case 2:
-                                playerText.playerText.text = "Player2";
+                                playerText.playerText.text = "Player 2";
                                 break;
                             case 3:
-                                playerText.playerText.text = "Player3";
+                                playerText.playerText.text = "Player 3";
                                 break;
                             case 0:
-                                playerText.playerText.text = "Player4";
+                                playerText.playerText.text = "Player 4";
                                 break;
                         }
+
 
 
 
@@ -321,20 +322,19 @@ public class PlayerManager
                         PlayerText.transform.SetParent(go.transform, false);
                         PlayerText playerText = PlayerText.GetComponent<PlayerText>();
 
-
                         switch (playerId % 4)
                         {
                             case 1:
-                                playerText.playerText.text = "Player1";
+                                playerText.playerText.text = "Player 1";
                                 break;
                             case 2:
-                                playerText.playerText.text = "Player2";
+                                playerText.playerText.text = "Player 2";
                                 break;
                             case 3:
-                                playerText.playerText.text = "Player3";
+                                playerText.playerText.text = "Player 3";
                                 break;
                             case 0:
-                                playerText.playerText.text = "Player4";
+                                playerText.playerText.text = "Player 4";
                                 break;
                         }
 
@@ -352,6 +352,8 @@ public class PlayerManager
                     Debug.Log("오류");
                     break;
             }
+
+
         }
 
     }
