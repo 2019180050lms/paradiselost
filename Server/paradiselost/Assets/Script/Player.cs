@@ -206,6 +206,7 @@ public class Player : MonoBehaviour
         bullet.transform.rotation = bulletPos.rotation;
         Rigidbody bulletRigid = bullet.GetComponent<Rigidbody>();
         bulletRigid.velocity = bulletPos.forward * 75;
+        
         Destroy(bullet, 3f);
         yield return null;
     }

@@ -6,6 +6,7 @@ public class Door : MonoBehaviour
 {
 
     GameObject findEnemy;
+    GameObject findEnemy2;
 
     Animator anim;
     BoxCollider boxCollider;
@@ -20,10 +21,11 @@ public class Door : MonoBehaviour
     void Update()
     {
         findEnemy = GameObject.FindWithTag("Enemy");
+        findEnemy2 = GameObject.FindWithTag("EnemyTurret");
         anim.SetBool("Open", findEnemy == null);
         anim.SetBool("Close", findEnemy != null);
 
-        if (findEnemy == null)
+        if (findEnemy == null && findEnemy2 == null)
             boxCollider.enabled = false;
         else
             boxCollider.enabled = true;
