@@ -21,8 +21,8 @@ public class Player : MonoBehaviour
     public float vAxis;
     public bool wDown;
     public bool iDown;
-    public bool sDown1;
-    public bool sDown2;
+    public bool cDown1;
+    public bool cDown2;
     public bool fDown;
 
     public bool isDodge;
@@ -170,33 +170,33 @@ public class Player : MonoBehaviour
         */
     }
 
-    public void Swap()
-    {
-        if (sDown1 && (!hasWeapons[0] || equipWeaponIndex == 0))
-            return;
-        if (sDown2 && (!hasWeapons[1] || equipWeaponIndex == 1))
-            return;
+    //public void Swap()
+    //{
+    //    if (sDown1 && (!hasWeapons[0] || equipWeaponIndex == 0))
+    //        return;
+    //    if (sDown2 && (!hasWeapons[1] || equipWeaponIndex == 1))
+    //        return;
 
-        int weaponIndex = -1;
-        if (sDown1) weaponIndex = 0;
-        if (sDown2) weaponIndex = 1;
+    //    int weaponIndex = -1;
+    //    if (sDown1) weaponIndex = 0;
+    //    if (sDown2) weaponIndex = 1;
 
-        if ((sDown1 || sDown2) && !isJump && !isDodge)
-        {
-            if (equipWeapon != null)
-                equipWeapon.gameObject.SetActive(false);
+    //    if ((sDown1 || sDown2) && !isJump && !isDodge)
+    //    {
+    //        if (equipWeapon != null)
+    //            equipWeapon.gameObject.SetActive(false);
 
-            equipWeaponIndex = weaponIndex;
-            equipWeapon = weapons[weaponIndex].GetComponent<Weapon>();
-            equipWeapon.gameObject.SetActive(true);
+    //        equipWeaponIndex = weaponIndex;
+    //        equipWeapon = weapons[weaponIndex].GetComponent<Weapon>();
+    //        equipWeapon.gameObject.SetActive(true);
 
-            anim.SetTrigger("doSwap");
+    //        anim.SetTrigger("doSwap");
 
-            isSwap = true;
+    //        isSwap = true;
 
-            Invoke("SwapOut", 0.5f);
-        }
-    }
+    //        Invoke("SwapOut", 0.5f);
+    //    }
+    //}
 
     IEnumerator Shot()
     {

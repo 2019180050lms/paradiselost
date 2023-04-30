@@ -23,6 +23,9 @@ public class MyPlayer : Player
     bool isBorder;
     public bool hasHeadItem = false;
 
+    bool camera1 = true;
+    bool camera2 = false;
+
     void Start()
     {
         StartCoroutine("CoSendPacket");
@@ -55,9 +58,41 @@ public class MyPlayer : Player
         
         if (isBorder)
         {
-            Debug.Log(isBorder);
             moveVec = Vector3.zero;
         }
+
+        if (Input.GetKey(KeyCode.F1))
+        {
+            if (camera1 == true)
+            {
+                camera1 = false;
+                camera2 = false;
+            }
+                
+            else
+            {
+                camera1 = true;
+                camera2 = false;
+            }
+                
+        }
+
+        if (Input.GetKey(KeyCode.F2))
+        {
+            if (camera2 == true)
+            {
+                camera1 = false;
+                camera2 = false;
+            }
+
+            else
+            {
+                camera2 = true;
+                camera1 = false;
+            }
+        }
+
+        Debug.Log("camera2 = " + camera2);
 
         testJump = false;
     }
@@ -71,10 +106,9 @@ public class MyPlayer : Player
         fDown = Input.GetButtonDown("Fire1");
         iDown = Input.GetButtonDown("Interaction");
 
-        sDown1 = Input.GetButtonDown("Swap1");
-        sDown2 = Input.GetButtonDown("Swap2");
+        cDown1 = Input.GetButtonDown("Camera1");
+        cDown2 = Input.GetButtonDown("Camera2");
 
-        Debug.Log("input");
     }
 
     void MoveControl()
@@ -123,9 +157,20 @@ public class MyPlayer : Player
         }
         Camera.main.transform.rotation = Quaternion.Euler(ymove, xmove, 0); // 이동량에 따라 카메라의 바라보는 방향을 조정합니다.
         Vector3 reverseDistance = new Vector3(0.0f, 0.0f, distance); // 이동량에 따른 Z 축방향의 벡터를 구합니다.
-        Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y + 5, transform.position.z) - Camera.main.transform.rotation * reverseDistance; // 플레이어의 위치에서 카메라가 바라보는 방향에 벡터값을 적용한 상대 좌표를 차감합니다.
 
-        
+        if(camera1)
+            Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y + 5, transform.position.z) - Camera.main.transform.rotation * reverseDistance; // 플레이어의 위치에서 카메라가 바라보는 방향에 벡터값을 적용한 상대 좌표를 차감합니다.
+        else if(camera2)
+        {
+            Player[] playerOb = GameObject.FindGameObjectWithTag("Player").GetComponents<Player>();
+            Debug.Log(playerOb);
+            Camera.main.transform.position = new Vector3(playerOb[0].transform.position.x, playerOb[0].transform.position.y + 5, playerOb[0].transform.position.z) - Camera.main.transform.rotation * reverseDistance;
+        }
+
+    }
+
+    void CameraSet()
+    {
 
     }
 

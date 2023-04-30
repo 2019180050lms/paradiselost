@@ -187,7 +187,7 @@ public class Enemy : MonoBehaviour
     IEnumerator Shoot()
     {
         isAttack = true;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         GameObject intantBullet = Instantiate(Resources.Load("EnemyBullet", typeof(GameObject)), bulletPos.position, bulletPos.rotation) as GameObject;
         Rigidbody bulletRigid = intantBullet.GetComponent<Rigidbody>();
 
@@ -196,15 +196,6 @@ public class Enemy : MonoBehaviour
         //yield return new WaitForSeconds(1f);
         isAttack = false;
 
-        //yield return new WaitForSeconds(0.2f);
-        //hitBox.meleeArea.enabled = true;
-
-        //yield return new WaitForSeconds(0.5f);
-        //hitBox.meleeArea.enabled = false;
-
-        //yield return new WaitForSeconds(3f); // 몬스터 공격속도
-       
-        //anim.SetBool("isAttack", false);
 
         count--;
     }
