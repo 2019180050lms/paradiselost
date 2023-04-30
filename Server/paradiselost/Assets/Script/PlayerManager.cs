@@ -309,7 +309,7 @@ public class PlayerManager
                         jointP.sp_list[2] = leg as GameObject;
 
                         jointP.leg = Object.Instantiate(jointP.sp_list[2], player.transform);
-                        //leg.transform.position = new Vector3(-5, 5, 3);
+                        jointP.leg.transform.position = new Vector3(0, 0, 0);
 
                         jointP.body = Object.Instantiate(jointP.sp_list[1], player.transform);
                         jointP.body.transform.position = jointP.leg.transform.position + jointP.leg.transform.Find("Joint_Leg").transform.localPosition - jointP.body.transform.Find("Joint_Leg").transform.localPosition;
