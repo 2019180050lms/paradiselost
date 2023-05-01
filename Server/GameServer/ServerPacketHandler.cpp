@@ -296,7 +296,7 @@ bool ServerPacketHandler::Handle_C_PlayerAttacked(PacketSessionRef& session, BYT
 	
 	PlayerRef player = gameSession->_players[0];
 
-	cout << "player id: " << p_id << " monster id: " << m_id << endl;
+	cout << "player id: " << p_id << " monster id: " << m_id;
 
 	for (auto& m : GRoom._monsters)
 	{
@@ -314,6 +314,7 @@ bool ServerPacketHandler::Handle_C_PlayerAttacked(PacketSessionRef& session, BYT
 			}
 			else if (m.type == BOSS1)
 			{
+				cout << " m type: " << m.type << endl;
 				if (player->xPos <= m.posX + 10 && player->zPos <= m.posZ + 10
 					&& player->xPos >= m.posX - 10 && player->zPos >= m.posZ - 10)
 				{

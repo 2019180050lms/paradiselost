@@ -192,6 +192,7 @@ public class BossEnemy : MonoBehaviour
         GameObject instantMissileA = Instantiate(Resources.Load("Boss Missile", typeof(GameObject)), missilePortA.position, missilePortA.rotation) as GameObject;
         BossMissile bossMissileA = instantMissileA.GetComponent<BossMissile>();
         bossMissileA.targetPos = targetPos;
+        bossMissileA.enemyId = enemyId;
 
         yield return new WaitForSeconds(0.3f);
         GameObject instantMissileB = Instantiate(Resources.Load("Boss Missile", typeof(GameObject)), missilePortB.position, missilePortB.rotation) as GameObject;

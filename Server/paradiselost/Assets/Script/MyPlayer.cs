@@ -277,6 +277,7 @@ public class MyPlayer : Player
             BossEnemy monsterInfo2 = other.GetComponentInParent<BossEnemy>(); // 공격한 몬스터 객체 불러오기
             //Debug.Log(monsterInfo.enemyId);  // 공격한 몬스터 객체의 ID 출력
             //hp -= 20;
+            Debug.Log("Test boss id: " + monsterInfo2.enemyId);
             cs_send_playerdamage(monsterInfo2.enemyId);
         }
 
