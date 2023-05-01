@@ -41,6 +41,32 @@ public class MyPlayer : Player
     {
         GetInput();
         Interaction();
+        if (Input.GetButtonDown("Camera1"))
+        {
+            if (camera1 == true)
+            {
+                camera1 = false;
+                camera2 = false;
+            }
+            else
+            {
+                camera1 = true;
+                camera2 = false;
+            }
+        }
+        if (Input.GetButtonDown("Camera2"))
+        {
+            if (camera2 == true)
+            {
+                camera1 = false;
+                camera2 = false;
+            }
+            else
+            {
+                camera2 = true;
+                camera1 = false;
+            }
+        }
 
         frontDown = Input.GetKey(KeyCode.W);
         leftDown = Input.GetKey(KeyCode.A);
@@ -61,36 +87,7 @@ public class MyPlayer : Player
             moveVec = Vector3.zero;
         }
 
-        if (Input.GetKey(KeyCode.F1))
-        {
-            if (camera1 == true)
-            {
-                camera1 = false;
-                camera2 = false;
-            }
-                
-            else
-            {
-                camera1 = true;
-                camera2 = false;
-            }
-                
-        }
-
-        if (Input.GetKey(KeyCode.F2))
-        {
-            if (camera2 == true)
-            {
-                camera1 = false;
-                camera2 = false;
-            }
-
-            else
-            {
-                camera2 = true;
-                camera1 = false;
-            }
-        }
+        
 
         if (isShot && bulletCount == 0)
         {

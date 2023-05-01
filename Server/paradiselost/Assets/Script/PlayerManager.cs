@@ -873,7 +873,10 @@ public class PlayerManager
     {
         if(_myplayer.PlayerId == packet.playerId)
         {
-            GameObject.Destroy(_myplayer.gameObject);
+            //GameObject.Destroy(_myplayer.gameObject);
+            GameObject.Destroy(joint.head);
+            GameObject.Destroy(joint.body);
+            GameObject.Destroy(joint.leg);
             _myplayer.hp = 0;
             Debug.Log("사망 처리 테스트");
         }
