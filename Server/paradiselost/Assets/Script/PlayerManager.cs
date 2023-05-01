@@ -644,7 +644,12 @@ public class PlayerManager
                     //_boss.transform.LookAt();
                 }
                 //enemy.transform.LookAt(enemy.transform.position + enemy.moveVec2);
-                _boss.transform.LookAt(_boss.posVec);
+                if (enemy.tag == "StageBoss")
+                {
+                    EnemyTurret enemyTurret = GameObject.Find("TargetArea").GetComponent<EnemyTurret>();
+                    _boss.transform.LookAt(enemyTurret.targetPos);
+                    //Debug.Log(enemyTurret.targetPos);
+                }
             }
         }
     }
