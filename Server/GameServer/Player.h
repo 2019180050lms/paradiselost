@@ -27,6 +27,7 @@ public:
 	int32			playerId = 0;
 	int32			playerDir = 0;
 	uint16			hp = 0;
+	bool			dead = false;
 	PlayerType		type;
 	wstring			name;
 	float			xPos;

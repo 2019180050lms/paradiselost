@@ -83,6 +83,14 @@ void Room::Leave(PlayerRef player)
 	BroadCast(sendBuffer);
 }
 
+void Room::PlayerDead(PlayerRef player)
+{
+	auto sendBuffer = ServerPacketHandler::Make_S_BroadcastLeave_Game(player->playerId);
+	cout << "Dead Player ID: " << player->playerId << endl;
+	player->dead = true;
+	BroadCast(sendBuffer);
+}
+
 void Room::DeadMonster(int32 monsterId)
 {
 	for (auto iter = _monsters.begin(); iter != _monsters.end(); iter++)
@@ -255,7 +263,7 @@ void Room::MoveMonster()
 					if (m.type == (int)BOSS1)
 					{
 						if (p.second->xPos <= m.posX + 10 && p.second->zPos <= m.posZ + 10
-							&& p.second->xPos >= m.posX - 10 && p.second->zPos >= m.posZ - 10)
+							&& p.second->xPos >= m.posX - 10 && p.second->zPos >= m.posZ - 10 && !p.second->dead)
 						{
 							if (p.second->xPos <= m.posX)
 								m.posX -= m_speed;
@@ -270,7 +278,7 @@ void Room::MoveMonster()
 							cout << "boss attack: " << bossAttack << endl;
 						}
 						else if (p.second->xPos <= m.posX + 20 && p.second->zPos <= m.posZ + 20
-							&& p.second->xPos >= m.posX - 20 && p.second->zPos >= m.posZ - 20)
+							&& p.second->xPos >= m.posX - 20 && p.second->zPos >= m.posZ - 20 && !p.second->dead)
 						{
 							m.wDown = true;
 							bossAttack = 2;
@@ -284,12 +292,8 @@ void Room::MoveMonster()
 					else
 					{
 						if (p.second->xPos <= m.posX + 10 && p.second->zPos <= m.posZ + 10
-							&& p.second->xPos >= m.posX - 10 && p.second->zPos >= m.posZ - 10)
+							&& p.second->xPos >= m.posX - 10 && p.second->zPos >= m.posZ - 10 && !p.second->dead && m.type != 4)
 						{
-							if (m.type == 4) {
-								m.wDown = true;
-								continue;
-							}
 							if (p.second->xPos <= m.posX)
 								m.posX -= m_speed;
 							if (p.second->xPos >= m.posX)
@@ -300,6 +304,11 @@ void Room::MoveMonster()
 								m.posZ += m_speed;
 							m.wDown = true;
 							//cout << "p id: " << p.second->playerId << " m id: " << m.playerId << " x: " << m.posX << " z: " << m.posZ << " attack: " << m.wDown << endl;
+						}
+						else if (p.second->xPos <= m.posX + 15 && p.second->zPos <= m.posZ + 15
+							&& p.second->xPos >= m.posX - 15 && p.second->zPos >= m.posZ - 15 && !p.second->dead && m.type == 4)
+						{
+							m.wDown = true;
 						}
 						else
 							m.wDown = false;

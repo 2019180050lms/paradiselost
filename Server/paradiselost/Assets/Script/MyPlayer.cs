@@ -106,8 +106,6 @@ public class MyPlayer : Player
         fDown = Input.GetButtonDown("Fire1");
         iDown = Input.GetButtonDown("Interaction");
 
-        cDown1 = Input.GetButtonDown("Camera1");
-        cDown2 = Input.GetButtonDown("Camera2");
 
     }
 
@@ -220,7 +218,7 @@ public class MyPlayer : Player
         packet.p_id = PlayerId;
         packet.m_id = m_id;
         _network.Send(packet.Write());
-        Debug.Log("attack test");
+        Debug.Log("player id: " + PlayerId + " monsterid: " + m_id);
     }
 
     public void Interaction()
@@ -277,11 +275,12 @@ public class MyPlayer : Player
         else if (other.tag == "EnemyBullet")
         {
             // 피격 처리
-            BossMissile monsterInfo = other.GetComponent<BossMissile>(); 
+            BossMissile monsterInfo = other.GetComponent<BossMissile>();
             //Debug.Log(monsterInfo.enemyId);  // 공격한 몬스터 객체의 ID 출력
-            Debug.Log(hp);
-            Destroy(other.gameObject);
+            //Debug.Log(hp);
+            Debug.Log("monster id" + monsterInfo.enemyId);
             cs_send_playerdamage(monsterInfo.enemyId);
+            Destroy(other.gameObject);
         }
     }
 

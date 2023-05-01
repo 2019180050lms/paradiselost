@@ -169,84 +169,86 @@ bool ServerPacketHandler::Handle_C_MOVE(PacketSessionRef& session, BYTE* buffer,
 
 	gameSession->_players[0]->playerDir = dir;
 
-	if (isJump)
-	{
-		if (gameSession->_players[0]->yPos > 5)
-			gameSession->_players[0]->isJump = false;
-	}
+	if (gameSession->_players[0]->dead == false) {
+		if (isJump)
+		{
+			if (gameSession->_players[0]->yPos > 5)
+				gameSession->_players[0]->isJump = false;
+		}
 
-	//cout << gameSession->_players[0]->isJump << endl;
+		//cout << gameSession->_players[0]->isJump << endl;
 
-	if (x > 20)
-	{
-		//gameSession->_players[0]->xPos = 19.f;
-		gameSession->_players[0]->xPos = x;
-		gameSession->_players[0]->yPos = y;
-		gameSession->_players[0]->zPos = z;
-		gameSession->_players[0]->wDown = wDown;
-		gameSession->_players[0]->isJump = isJump;
+		if (x > 20)
+		{
+			//gameSession->_players[0]->xPos = 19.f;
+			gameSession->_players[0]->xPos = x;
+			gameSession->_players[0]->yPos = y;
+			gameSession->_players[0]->zPos = z;
+			gameSession->_players[0]->wDown = wDown;
+			gameSession->_players[0]->isJump = isJump;
 
-		auto collisionMove = Make_S_MOVE(id, gameSession->_players[0]->xPos, gameSession->_players[0]->yPos, gameSession->_players[0]->zPos);
+			auto collisionMove = Make_S_MOVE(id, gameSession->_players[0]->xPos, gameSession->_players[0]->yPos, gameSession->_players[0]->zPos);
 
-		//session->Send(collisionMove);
-	}
-	else if (x < -20)
-	{
-		//gameSession->_players[0]->xPos = -19.f;
-		gameSession->_players[0]->xPos = x;
-		gameSession->_players[0]->yPos = y;
-		gameSession->_players[0]->zPos = z;
-		gameSession->_players[0]->wDown = wDown;
-		gameSession->_players[0]->isJump = isJump;
+			//session->Send(collisionMove);
+		}
+		else if (x < -20)
+		{
+			//gameSession->_players[0]->xPos = -19.f;
+			gameSession->_players[0]->xPos = x;
+			gameSession->_players[0]->yPos = y;
+			gameSession->_players[0]->zPos = z;
+			gameSession->_players[0]->wDown = wDown;
+			gameSession->_players[0]->isJump = isJump;
 
-		auto collisionMove = Make_S_MOVE(id, gameSession->_players[0]->xPos, gameSession->_players[0]->yPos, gameSession->_players[0]->zPos);
+			auto collisionMove = Make_S_MOVE(id, gameSession->_players[0]->xPos, gameSession->_players[0]->yPos, gameSession->_players[0]->zPos);
 
-		//session->Send(collisionMove);
-	}
-	else if (z > 20)
-	{
-		//gameSession->_players[0]->zPos = 19.f;
-		gameSession->_players[0]->xPos = x;
-		gameSession->_players[0]->yPos = y;
-		gameSession->_players[0]->zPos = z;
-		gameSession->_players[0]->wDown = wDown;
-		gameSession->_players[0]->isJump = isJump;
+			//session->Send(collisionMove);
+		}
+		else if (z > 20)
+		{
+			//gameSession->_players[0]->zPos = 19.f;
+			gameSession->_players[0]->xPos = x;
+			gameSession->_players[0]->yPos = y;
+			gameSession->_players[0]->zPos = z;
+			gameSession->_players[0]->wDown = wDown;
+			gameSession->_players[0]->isJump = isJump;
 
-		auto collisionMove = Make_S_MOVE(id, gameSession->_players[0]->xPos, gameSession->_players[0]->yPos, gameSession->_players[0]->zPos);
+			auto collisionMove = Make_S_MOVE(id, gameSession->_players[0]->xPos, gameSession->_players[0]->yPos, gameSession->_players[0]->zPos);
 
-		//session->Send(collisionMove);
-	}
-	else if (z < -20)
-	{
-		//gameSession->_players[0]->zPos = -19.f;
-		gameSession->_players[0]->xPos = x;
-		gameSession->_players[0]->yPos = y;
-		gameSession->_players[0]->zPos = z;
-		gameSession->_players[0]->wDown = wDown;
-		gameSession->_players[0]->isJump = isJump;
+			//session->Send(collisionMove);
+		}
+		else if (z < -20)
+		{
+			//gameSession->_players[0]->zPos = -19.f;
+			gameSession->_players[0]->xPos = x;
+			gameSession->_players[0]->yPos = y;
+			gameSession->_players[0]->zPos = z;
+			gameSession->_players[0]->wDown = wDown;
+			gameSession->_players[0]->isJump = isJump;
 
-		auto collisionMove = Make_S_MOVE(id, gameSession->_players[0]->xPos, gameSession->_players[0]->yPos, gameSession->_players[0]->zPos);
+			auto collisionMove = Make_S_MOVE(id, gameSession->_players[0]->xPos, gameSession->_players[0]->yPos, gameSession->_players[0]->zPos);
 
-		//session->Send(collisionMove);
-	}
-	if (y < -13.f)
-	{
-		gameSession->_players[0]->xPos = 19.f;
-		//gameSession->_players[0]->yPos = 1.5f;
-		gameSession->_players[0]->yPos = 2.f;
-		gameSession->_players[0]->zPos = 19.f;
+			//session->Send(collisionMove);
+		}
+		if (y < -13.f)
+		{
+			gameSession->_players[0]->xPos = 19.f;
+			//gameSession->_players[0]->yPos = 1.5f;
+			gameSession->_players[0]->yPos = 2.f;
+			gameSession->_players[0]->zPos = 19.f;
 
-		auto collisionMove = Make_S_MOVE(id, gameSession->_players[0]->xPos, gameSession->_players[0]->yPos, gameSession->_players[0]->zPos);
-		//cout << "ID: " << id << " POS: " << gameSession->_players[0]->xPos << " " << gameSession->_players[0]->yPos << " " << gameSession->_players[0]->zPos << " " << endl;
-		session->Send(collisionMove);
-	}
-	else
-	{
-		gameSession->_players[0]->xPos = x;
-		gameSession->_players[0]->yPos = y;
-		gameSession->_players[0]->zPos = z;
-		gameSession->_players[0]->wDown = wDown;
-		gameSession->_players[0]->isJump = isJump;
+			auto collisionMove = Make_S_MOVE(id, gameSession->_players[0]->xPos, gameSession->_players[0]->yPos, gameSession->_players[0]->zPos);
+			//cout << "ID: " << id << " POS: " << gameSession->_players[0]->xPos << " " << gameSession->_players[0]->yPos << " " << gameSession->_players[0]->zPos << " " << endl;
+			session->Send(collisionMove);
+		}
+		else
+		{
+			gameSession->_players[0]->xPos = x;
+			gameSession->_players[0]->yPos = y;
+			gameSession->_players[0]->zPos = z;
+			gameSession->_players[0]->wDown = wDown;
+			gameSession->_players[0]->isJump = isJump;
+		}
 	}
 	//cout << "ID: " << id << " POS: " << gameSession->_players[0]->xPos << " " << gameSession->_players[0]->yPos << " " << gameSession->_players[0]->zPos << " " << endl;
 
@@ -294,23 +296,43 @@ bool ServerPacketHandler::Handle_C_PlayerAttacked(PacketSessionRef& session, BYT
 	
 	PlayerRef player = gameSession->_players[0];
 
+	cout << "player id: " << p_id << " monster id: " << m_id << endl;
+
 	for (auto& m : GRoom._monsters)
 	{
 		if (m.playerId == m_id)
 		{
-			if (player->xPos <= m.posX + 5 && player->zPos <= m.posZ + 5
-				&& player->xPos >= m.posX - 5 && player->zPos >= m.posZ - 5)
+			if (m.type == MONSTER1)
 			{
-				player->hp -= 10;
+				if (player->xPos <= m.posX + 13 && player->zPos <= m.posZ + 13
+					&& player->xPos >= m.posX - 13 && player->zPos >= m.posZ - 13)
+				{
+					player->hp -= 10;
+					cout << "player id: " << p_id << " monster id: " << m_id << " type: " << m.type << endl;
+				}
+			}
+			else
+			{
+				if (player->xPos <= m.posX + 5 && player->zPos <= m.posZ + 5
+					&& player->xPos >= m.posX - 5 && player->zPos >= m.posZ - 5)
+				{
+					player->hp -= 10;
+					cout << "player id: " << p_id << " monster id: " << m_id << " type: " << m.type << endl;
+				}
 			}
 		}
 	}
 
-	cout << "player id: " << p_id << " monster id: " << m_id << " hp: " << player->hp << endl;
+	if (player->hp > 1)
+	{
+		auto sendBuffer = Make_S_AttackedPlayer(p_id, player->hp);
+		GRoom.BroadCast(sendBuffer);
+	}
+	else if (player->hp < 1)
+	{
+		GRoom.PlayerDead(player);
+	}
 
-	auto sendBuffer = Make_S_AttackedPlayer(p_id, player->hp);
-	GRoom.BroadCast(sendBuffer);
-	
 	return true;
 }
 

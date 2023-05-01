@@ -8,6 +8,7 @@ class Room
 public:
 	void Enter(PlayerRef player);
 	void Leave(PlayerRef player);
+	void PlayerDead(PlayerRef player);
 	void DeadMonster(int32 monsterId);
 	void AttackedMonster(int32 monsterId, uint16 hp);
 	void BroadCast(SendBufferRef sendBuffer);

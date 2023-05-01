@@ -190,6 +190,8 @@ public class Enemy : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         GameObject intantBullet = Instantiate(Resources.Load("EnemyBullet", typeof(GameObject)), bulletPos.position, bulletPos.rotation) as GameObject;
         Rigidbody bulletRigid = intantBullet.GetComponent<Rigidbody>();
+        BossMissile test = intantBullet.AddComponent<BossMissile>();
+        test.enemyId = enemyId;
 
         bulletRigid.velocity = bulletPos.forward * 75;
         Destroy(intantBullet, 3f);
