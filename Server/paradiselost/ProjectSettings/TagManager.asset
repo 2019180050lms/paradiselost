@@ -27,6 +27,7 @@ TagManager:
   - Inven9
   - EnemyMelee
   - EnemyTurret
+  - BossMelee
   layers:
   - Default
   - TransparentFX

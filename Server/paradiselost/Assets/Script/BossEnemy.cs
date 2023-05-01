@@ -172,12 +172,12 @@ public class BossEnemy : MonoBehaviour
         anim.SetBool("isAttack", true);
 
         yield return new WaitForSeconds(0.2f);
-        hitBox.enabled = true;
+        hitBox.meleeArea.enabled = true;
 
         yield return new WaitForSeconds(1f);
-        hitBox.enabled = false;
+        hitBox.meleeArea.enabled = false;
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(3f);
 
         isChase = true;
         isAttack = false;
