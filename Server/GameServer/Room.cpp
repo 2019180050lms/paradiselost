@@ -129,7 +129,7 @@ void Room::CreateMonster(float x, float y, float z)
 		if (i == 0) {
 			l_player.type = (int32)MonsterType::MONSTER2;
 			l_player.posX = x + 19;
-			l_player.posY = y;
+			l_player.posY = y + 2;
 			l_player.posZ = z;
 		}
 		else if (i == 1) {
@@ -298,7 +298,7 @@ void Room::MoveMonster()
 								m.posZ += m_speed;
 							m.wDown = true;
 							bossAttack = 1;
-							cout << "boss attack: " << bossAttack << endl;
+							//cout << "boss attack: " << bossAttack << endl;
 							auto sendBufferM = ServerPacketHandler::Make_S_BroadcastMove(m.playerId,
 								m.Dir,
 								m.hp, m.posX,
@@ -312,7 +312,7 @@ void Room::MoveMonster()
 						{
 							m.wDown = true;
 							bossAttack = 2;
-							cout << "boss attack: " << bossAttack << endl;
+							//cout << "boss attack: " << bossAttack << endl;
 							auto sendBufferM = ServerPacketHandler::Make_S_BroadcastMove(m.playerId,
 								m.Dir,
 								m.hp, m.posX,

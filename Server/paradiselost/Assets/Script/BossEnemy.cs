@@ -98,6 +98,11 @@ public class BossEnemy : MonoBehaviour
 
             Debug.Log("Bullet : " + curHealth);
             StartCoroutine(OnDamage(reactVec));
+
+            C_AttackedMonster attackedPacket = new C_AttackedMonster();
+            attackedPacket.id = enemyId;
+            attackedPacket.hp = (short)curHealth;
+            _network.Send(attackedPacket.Write());
         }
     }
     

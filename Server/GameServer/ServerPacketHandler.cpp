@@ -312,6 +312,23 @@ bool ServerPacketHandler::Handle_C_PlayerAttacked(PacketSessionRef& session, BYT
 					break;
 				}
 			}
+			else if (m.type == BOSS1)
+			{
+				if (player->xPos <= m.posX + 10 && player->zPos <= m.posZ + 10
+					&& player->xPos >= m.posX - 10 && player->zPos >= m.posZ - 10)
+				{
+					player->hp -= 40;
+					cout << "player id: " << p_id << " monster id: " << m_id << " type: " << m.type << endl;
+					break;
+				}
+				else if (player->xPos <= m.posX + 20 && player->zPos <= m.posZ + 20
+					&& player->xPos >= m.posX - 20 && player->zPos >= m.posZ - 20)
+				{
+					player->hp -= 20;
+					cout << "player id: " << p_id << " monster id: " << m_id << " type: " << m.type << endl;
+					break;
+				}
+			}
 			else
 			{
 				if (player->xPos <= m.posX + 5 && player->zPos <= m.posZ + 5
