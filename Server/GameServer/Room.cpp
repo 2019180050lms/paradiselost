@@ -184,9 +184,12 @@ PlayerList Room::CreateBossMonster()
 	l_player.Dir = 0;
 	l_player.type = (int32)BossType::BOSS1;
 	l_player.hp = 1000;   
-	l_player.posX = -660.f;
-	l_player.posY = -2.f;
-	l_player.posZ = 118.f;
+	//l_player.posX = -660.f;
+	l_player.posX = 1.f;
+	//l_player.posY = -2.f;
+	l_player.posY = 2.1f;
+	//l_player.posZ = 118.f;
+	l_player.posZ = 31.f;
 	GRoom._monsters.push_back(l_player);
 
 	return l_player;

@@ -428,6 +428,7 @@ public class PlayerManager
                 GameObject go = Object.Instantiate(obj) as GameObject;
 
                 BossEnemy boss = go.AddComponent<BossEnemy>();
+                boss.enabled = true;
                 boss.enemyId = p.playerId;
                 boss.maxHealth = p.hp;
                 boss.curHealth = p.hp;
@@ -638,8 +639,8 @@ public class PlayerManager
                 }
                 else if (packet.bossAttack == 2)
                 {
-                    _boss.StopCoroutine("MissileShot");
-                    _boss.StartCoroutine("MissileShot");
+                    _boss.StopCoroutine("Attack");
+                    _boss.StartCoroutine("Attack");
                     Debug.Log("Boss Attack2 " + packet.bossAttack);
                     //_boss.transform.LookAt();
                 }

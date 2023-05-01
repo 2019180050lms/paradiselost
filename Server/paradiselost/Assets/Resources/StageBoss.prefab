@@ -2894,7 +2894,6 @@ GameObject:
   - component: {fileID: 7356030827762292910}
   - component: {fileID: 1310720654715737505}
   - component: {fileID: 984533184995346631}
-  - component: {fileID: 4609121855393500650}
   - component: {fileID: 3193042691210398076}
   m_Layer: 0
   m_Name: StageBoss
@@ -2952,41 +2951,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 7, y: 10, z: 8}
   m_Center: {x: 0, y: 5, z: 0}
---- !u!114 &4609121855393500650
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7880753701414519316}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8ae6fe17c768ef40b9a1a652ce94eb2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyType: 0
-  enemyId: 0
-  maxHealth: 1000
-  curHealth: 1000
-  meleeArea: {fileID: 0}
-  hitBox: {fileID: 0}
-  bullet: {fileID: 0}
-  isChase: 0
-  isAttack: 0
-  isDead: 0
-  moveVec2: {x: 0, y: 0, z: 0}
-  posVec: {x: 0, y: 0, z: 0}
-  rigid: {fileID: 0}
-  boxCollider: {fileID: 0}
-  meshs: []
-  nav: {fileID: 0}
-  anim: {fileID: 0}
-  missile: {fileID: 0}
-  missilePortA: {fileID: 0}
-  missilePortB: {fileID: 0}
-  target2: {fileID: 0}
-  target: {fileID: 0}
-  targetPos: {x: 0, y: 0, z: 0}
 --- !u!114 &3193042691210398076
 MonoBehaviour:
   m_ObjectHideFlags: 0
