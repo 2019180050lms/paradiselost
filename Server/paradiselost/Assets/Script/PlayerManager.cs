@@ -49,10 +49,10 @@ public class PlayerManager
                         //leg.transform.position = new Vector3(-5, 5, 3);
 
                         joint.body = Object.Instantiate(joint.po_list[1], myPlayer.transform);
-                        joint.body.transform.position = joint.leg.transform.position + joint.leg.transform.Find("Joint_Leg").transform.localPosition - joint.body.transform.Find("Joint_Leg").transform.localPosition;
+                        joint.body.transform.localPosition = joint.leg.transform.localPosition + joint.leg.transform.Find("Joint_Leg").transform.localPosition - joint.body.transform.Find("Joint_Leg").transform.localPosition;
 
                         joint.head = Object.Instantiate(joint.po_list[0], myPlayer.transform);
-                        joint.head.transform.position = joint.body.transform.position + joint.body.transform.Find("Joint_Head").transform.localPosition - joint.head.transform.Find("Joint_Head").transform.localPosition;
+                        joint.head.transform.position = joint.body.transform.position + joint.body.transform.Find("Joint_Head").transform.position;
 
                         myPlayer.PlayerId = playerId;
                         myPlayer.hp = hp;
@@ -89,10 +89,10 @@ public class PlayerManager
                         //leg.transform.position = new Vector3(-5, 5, 3);
 
                         joint.body = Object.Instantiate(joint.sh_list[1], myPlayer.transform);
-                        joint.body.transform.position = joint.leg.transform.position + joint.leg.transform.Find("Joint_Leg").transform.localPosition - joint.body.transform.Find("Joint_Leg").transform.localPosition;
+                        joint.body.transform.position = joint.leg.transform.position + joint.leg.transform.Find("Joint_Leg").transform.localPosition  - joint.body.transform.Find("Joint_Leg").transform.localPosition;
 
                         joint.head = Object.Instantiate(joint.sh_list[0], myPlayer.transform);
-                        joint.head.transform.position = joint.body.transform.position + joint.body.transform.Find("Joint_Head").transform.localPosition - joint.head.transform.Find("Joint_Head").transform.localPosition;
+                        joint.head.transform.position = joint.body.transform.position + joint.body.transform.Find("Joint_Head").transform.position;
 
                         myPlayer.PlayerId = playerId;
                         //myPlayer.name = p.name;
@@ -134,7 +134,7 @@ public class PlayerManager
                         joint.body.transform.position = joint.leg.transform.position + joint.leg.transform.Find("Joint_Leg").transform.localPosition - joint.body.transform.Find("Joint_Leg").transform.localPosition;
 
                         joint.head = Object.Instantiate(joint.sp_list[0], myPlayer.transform);
-                        joint.head.transform.position = joint.body.transform.position + joint.body.transform.Find("Joint_Head").transform.localPosition - joint.head.transform.Find("Joint_Head").transform.localPosition;
+                        joint.head.transform.position = joint.body.transform.position + joint.body.transform.Find("Joint_Head").transform.position;
 
                         myPlayer.PlayerId = playerId;
                         //myPlayer.name = p.name;
@@ -191,8 +191,7 @@ public class PlayerManager
                         jointP.body.transform.position = jointP.leg.transform.position + jointP.leg.transform.Find("Joint_Leg").transform.localPosition - jointP.body.transform.Find("Joint_Leg").transform.localPosition;
 
                         jointP.head = Object.Instantiate(jointP.po_list[0], player.transform);
-                        jointP.head.transform.position = jointP.body.transform.position + jointP.body.transform.Find("Joint_Head").transform.localPosition - jointP.head.transform.Find("Joint_Head").transform.localPosition;
-
+                        jointP.head.transform.position = jointP.body.transform.position + jointP.body.transform.Find("Joint_Head").transform.position;
                         player.transform.position = new Vector3(pos.x, pos.y, pos.z);
 
                         PlayerText.transform.SetParent(go.transform, false);
@@ -252,7 +251,7 @@ public class PlayerManager
                         jointP.body.transform.position = jointP.leg.transform.position + jointP.leg.transform.Find("Joint_Leg").transform.localPosition - jointP.body.transform.Find("Joint_Leg").transform.localPosition;
 
                         jointP.head = Object.Instantiate(jointP.sh_list[0], player.transform);
-                        jointP.head.transform.position = jointP.body.transform.position + jointP.body.transform.Find("Joint_Head").transform.localPosition - jointP.head.transform.Find("Joint_Head").transform.localPosition;
+                        jointP.head.transform.position = jointP.body.transform.position + jointP.body.transform.Find("Joint_Head").transform.position;
 
                         player.transform.position = new Vector3(pos.x, pos.y, pos.z);
 
@@ -315,7 +314,7 @@ public class PlayerManager
                         jointP.body.transform.position = jointP.leg.transform.position + jointP.leg.transform.Find("Joint_Leg").transform.localPosition - jointP.body.transform.Find("Joint_Leg").transform.localPosition;
 
                         jointP.head = Object.Instantiate(jointP.sp_list[0], player.transform);
-                        jointP.head.transform.position = jointP.body.transform.position + jointP.body.transform.Find("Joint_Head").transform.localPosition - jointP.head.transform.Find("Joint_Head").transform.localPosition;
+                        jointP.head.transform.position = jointP.body.transform.position + jointP.body.transform.Find("Joint_Head").transform.position;
 
                         player.transform.position = new Vector3(pos.x, pos.y, pos.z);
 
@@ -707,7 +706,7 @@ public class PlayerManager
             jointP.body.transform.position = jointP.leg.transform.position + jointP.leg.transform.Find("Joint_Leg").transform.localPosition - jointP.body.transform.Find("Joint_Leg").transform.localPosition;
 
             jointP.head = Object.Instantiate(jointP.po_list[0], player.transform);
-            jointP.head.transform.position = jointP.body.transform.position + jointP.body.transform.Find("Joint_Head").transform.localPosition - jointP.head.transform.Find("Joint_Head").transform.localPosition;
+            jointP.head.transform.position = jointP.body.transform.position + jointP.body.transform.Find("Joint_Head").transform.position;
 
             PlayerText.transform.SetParent(go.transform, false);
             PlayerText playerText = PlayerText.GetComponent<PlayerText>();
@@ -771,7 +770,7 @@ public class PlayerManager
             jointP.body.transform.position = jointP.leg.transform.position + jointP.leg.transform.Find("Joint_Leg").transform.localPosition - jointP.body.transform.Find("Joint_Leg").transform.localPosition;
 
             jointP.head = Object.Instantiate(jointP.sh_list[0], player.transform);
-            jointP.head.transform.position = jointP.body.transform.position + jointP.body.transform.Find("Joint_Head").transform.localPosition - jointP.head.transform.Find("Joint_Head").transform.localPosition;
+            jointP.head.transform.position = jointP.body.transform.position + jointP.body.transform.Find("Joint_Head").transform.position;
 
             PlayerText.transform.SetParent(go.transform, false);
             PlayerText playerText = PlayerText.GetComponent<PlayerText>();
@@ -835,7 +834,7 @@ public class PlayerManager
             jointP.body.transform.position = jointP.leg.transform.position + jointP.leg.transform.Find("Joint_Leg").transform.localPosition - jointP.body.transform.Find("Joint_Leg").transform.localPosition;
 
             jointP.head = Object.Instantiate(jointP.sp_list[0], player.transform);
-            jointP.head.transform.position = jointP.body.transform.position + jointP.body.transform.Find("Joint_Head").transform.localPosition - jointP.head.transform.Find("Joint_Head").transform.localPosition;
+            jointP.head.transform.position = jointP.body.transform.position + jointP.body.transform.Find("Joint_Head").transform.position;
 
             PlayerText.transform.SetParent(go.transform, false);
             PlayerText playerText = PlayerText.GetComponent<PlayerText>();

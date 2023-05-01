@@ -23,7 +23,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -5252816984213320552, guid: 962cad254372db040922e049a27d4159, type: 3}
+  m_Motion: {fileID: -5252816984213320552, guid: dded8b6adbcbf1b4aace55892e9068ef, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -76,7 +76,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 5522812681064789136, guid: 962cad254372db040922e049a27d4159, type: 3}
+  m_Motion: {fileID: 6200578666267062213, guid: dded8b6adbcbf1b4aace55892e9068ef, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -126,7 +126,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 5522812681064789136, guid: 962cad254372db040922e049a27d4159, type: 3}
+  m_Motion: {fileID: 6200578666267062213, guid: dded8b6adbcbf1b4aace55892e9068ef, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -228,7 +228,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 3081457187000982651, guid: 91c15d8f32adee242911a7642f7c29a9, type: 3}
+  m_Motion: {fileID: -3704289112126983070, guid: dded8b6adbcbf1b4aace55892e9068ef, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -373,7 +373,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 5294343359472509647, guid: 962cad254372db040922e049a27d4159, type: 3}
+  m_Motion: {fileID: -3704289112126983070, guid: dded8b6adbcbf1b4aace55892e9068ef, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -410,7 +410,7 @@ AnimatorStateMachine:
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: 540, y: 350, z: 0}
+  m_AnyStatePosition: {x: 520, y: 360, z: 0}
   m_EntryPosition: {x: 180, y: 140, z: 0}
   m_ExitPosition: {x: 520, y: 570, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
@@ -446,7 +446,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: isWalk
+    m_ConditionEvent: isRun
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -5012377802662224039}
@@ -470,8 +470,8 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 2
-    m_ConditionEvent: isWalk
+  - m_ConditionMode: 1
+    m_ConditionEvent: isRun
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -2927834434696519143}

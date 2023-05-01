@@ -30,7 +30,11 @@ public class Joint_Robot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.T)) // 머리
+        body.transform.position = leg.transform.Find("Joint_Leg").transform.position;
+        head.transform.position = body.transform.Find("Joint_Head").transform.position;
+        
+
+        if (Input.GetKeyDown(KeyCode.T)) // 머리
         {
             change_parts = 1;
           
@@ -72,19 +76,19 @@ public class Joint_Robot : MonoBehaviour
                     case 1:
                         Destroy(head);
                         head = Instantiate(po_list[(int)parts.head], transform);
-                        head.transform.position = body.transform.position + body.transform.Find("Joint_Head").transform.localPosition - head.transform.Find("Joint_Head").transform.localPosition;
+                        head.transform.position = body.transform.position + body.transform.Find("Joint_Head").transform.position;
                         // quit_canvas = true;
                         break;
                     case 2:
                         Destroy(head);
                         head = Instantiate(sh_list[(int)parts.head], transform);
-                        head.transform.position = body.transform.position + body.transform.Find("Joint_Head").transform.localPosition - head.transform.Find("Joint_Head").transform.localPosition;
+                        head.transform.position = body.transform.position + body.transform.Find("Joint_Head").transform.position;
                         // quit_canvas = true;
                         break;
                     case 3:
                         Destroy(head);
                         head = Instantiate(sp_list[(int)parts.head], transform);
-                        head.transform.position = body.transform.position + body.transform.Find("Joint_Head").transform.localPosition - head.transform.Find("Joint_Head").transform.localPosition;
+                        head.transform.position = body.transform.position + body.transform.Find("Joint_Head").transform.position;
                         //quit_canvas = true;
                         break;
                     default:
@@ -98,21 +102,21 @@ public class Joint_Robot : MonoBehaviour
                         Destroy(body);
                         body = Instantiate(po_list[(int)parts.body], transform);
                         body.transform.position = leg.transform.position + leg.transform.Find("Joint_Leg").transform.localPosition - body.transform.Find("Joint_Leg").transform.localPosition;
-                        head.transform.position = body.transform.position + body.transform.Find("Joint_Head").transform.localPosition - head.transform.Find("Joint_Head").transform.localPosition;
+                        head.transform.position = body.transform.position + body.transform.Find("Joint_Head").position;
                         // quit_canvas = true;
                         break;
                     case 2:
                         Destroy(body);
                         body = Instantiate(sh_list[(int)parts.body], transform);
                         body.transform.position = leg.transform.position + leg.transform.Find("Joint_Leg").transform.localPosition- body.transform.Find("Joint_Leg").transform.localPosition;
-                        head.transform.position = body.transform.position + body.transform.Find("Joint_Head").transform.localPosition - head.transform.Find("Joint_Head").transform.localPosition;
+                        head.transform.position = body.transform.position + body.transform.Find("Joint_Head").transform.position;
                         //quit_canvas = true;
                         break;
                     case 3:
                         Destroy(body);
                         body = Instantiate(sp_list[(int)parts.body], transform);
                         body.transform.position = leg.transform.position + leg.transform.Find("Joint_Leg").transform.localPosition - body.transform.Find("Joint_Leg").transform.localPosition;
-                        head.transform.position = body.transform.position + body.transform.Find("Joint_Head").transform.localPosition - head.transform.Find("Joint_Head").transform.localPosition;
+                        head.transform.position = body.transform.position + body.transform.Find("Joint_Head").transform.position;
                         // quit_canvas = true;
                         break;
                     default:
@@ -127,7 +131,7 @@ public class Joint_Robot : MonoBehaviour
                         leg = Instantiate(po_list[(int)parts.leg], transform);
                         leg.transform.position = gameObject.transform.position + new Vector3(0, -1f, 0);
                         body.transform.position = leg.transform.position + leg.transform.Find("Joint_Leg").transform.localPosition - body.transform.Find("Joint_Leg").transform.localPosition;
-                        head.transform.position = body.transform.position + body.transform.Find("Joint_Head").transform.localPosition - head.transform.Find("Joint_Head").transform.localPosition;
+                        head.transform.position = body.transform.position + body.transform.Find("Joint_Head").transform.position;
                         // quit_canvas = true;
                         break;
                     case 2:
@@ -135,7 +139,7 @@ public class Joint_Robot : MonoBehaviour
                         leg = Instantiate(sh_list[(int)parts.leg], transform);
                         leg.transform.position = gameObject.transform.position;
                         body.transform.position = leg.transform.position + leg.transform.Find("Joint_Leg").transform.localPosition - body.transform.Find("Joint_Leg").transform.localPosition;
-                        head.transform.position = body.transform.position + body.transform.Find("Joint_Head").transform.localPosition - head.transform.Find("Joint_Head").transform.localPosition;
+                        head.transform.position = body.transform.position + body.transform.Find("Joint_Head").transform.position;
                         //quit_canvas = true;
                         break;
                     case 3:
@@ -143,7 +147,7 @@ public class Joint_Robot : MonoBehaviour
                         leg = Instantiate(sp_list[(int)parts.leg], transform);
                         leg.transform.position = gameObject.transform.position;
                         body.transform.position = leg.transform.position + leg.transform.Find("Joint_Leg").transform.localPosition - body.transform.Find("Joint_Leg").transform.localPosition;
-                        head.transform.position = body.transform.position + body.transform.Find("Joint_Head").transform.localPosition - head.transform.Find("Joint_Head").transform.localPosition;
+                        head.transform.position = body.transform.position + body.transform.Find("Joint_Head").transform.position;
                         //quit_canvas = true;
                         break;
                     default:
