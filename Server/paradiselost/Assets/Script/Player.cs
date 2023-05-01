@@ -53,7 +53,7 @@ public class Player : MonoBehaviour
     public HitBox hitBox;
     public int equipWeaponIndex = -1;
     public float fireDelay;
-    
+    public bool falling = false;
 
     public bool isJumping;
     void Start()
@@ -63,7 +63,8 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        transform.position = Vector3.Lerp(transform.position, posVec, 0.005f);
+        if (!falling)
+            transform.position = Vector3.Lerp(transform.position, posVec, 0.005f);
         Jump(other_jump);
         if (moveVec2 == Vector3.zero)
         {

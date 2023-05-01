@@ -481,6 +481,12 @@ public class PlayerManager
         {
             if (_players.TryGetValue(packet.playerId, out player))
             {
+                if (packet.posX == 19.0f && packet.posY == 2.0f && packet.posZ == 19.0f)
+                {
+                    player.falling = true;
+                    player.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
+                    player.falling = false;
+                }
                 player.posVec = new Vector3(packet.posX, packet.posY, packet.posZ);
                 if (packet.playerDir == 0)
                     player.moveVec2 = new Vector3(0, 0, 0);
