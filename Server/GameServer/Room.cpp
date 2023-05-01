@@ -18,24 +18,10 @@ void Room::Enter(PlayerRef player)
 	cout << "player ID: " << player->playerId << endl;
 
 	// 몬스터 5명 생성 보내기
-	int i = 0;
 	for (auto iter = _monsters.begin(); iter != _monsters.end(); iter++)
 	{
-		l_player.isSelf = false;
-		l_player.playerId = 500 + i;
-		l_player.type = (int32)iter->type;
-		l_player.hp = iter->hp;
-		l_player.posX = iter->posX;
-		l_player.posY = iter->posY;
-		l_player.posZ = iter->posZ;
-		l_player.head = 0;
-		l_player.body = 0;
-		l_player.leg = 0;
-
-		players.push_back(l_player);
-		i++;
+		cout << "create monster: " << iter->posX << " " << iter->posY << " " << iter->posZ << " " << iter->head << " " << iter->body << " " << iter->leg << endl;
 	}
-	i = 0;
 
 	auto sendBufferM = ServerPacketHandler::Make_S_PlayerList(_monsters);
 	_players[player->playerId]->ownerSession->Send(sendBufferM);
@@ -140,14 +126,42 @@ void Room::CreateMonster(float x, float y, float z)
 	{
 		l_player.isSelf = false;
 		l_player.playerId = 500 + i;
-		if (i < 2)
-			l_player.type = (int32)MonsterType::MONSTER1;
-		else if(i == 3)
+		if (i == 0) {
 			l_player.type = (int32)MonsterType::MONSTER2;
-		else if(i == 4)
+			l_player.posX = x + 19;
+			l_player.posY = y;
+			l_player.posZ = z;
+		}
+		else if (i == 1) {
+			l_player.type = (int32)MonsterType::MONSTER2;
+			l_player.posX = x + 10;
+			l_player.posY = y;
+			l_player.posZ = z;
+		}
+		else if (i == 2) {
+			l_player.type = (int32)MonsterType::MONSTER2;
+			l_player.posX = x;
+			l_player.posY = y;
+			l_player.posZ = z + 10;
+		}
+		else if (i == 3) {
+			l_player.type = (int32)MonsterType::MONSTER1;
+			l_player.posX = x;
+			l_player.posY = y;
+			l_player.posZ = z;
+		}
+		else if (i == 4) {
 			l_player.type = (int32)MonsterType::MONSTER3;
+			l_player.posX = x;
+			l_player.posY = y;
+			l_player.posZ = z + 19;
+		}
 		l_player.hp = 100;
-		l_player.posX = x;
+
+
+
+		/*
+		l_player.posX = x + rand() % 10;
 		if (l_player.type == MONSTER2)
 		{
 			l_player.posY = y + 2;
@@ -155,7 +169,8 @@ void Room::CreateMonster(float x, float y, float z)
 		else
 			l_player.posY = y;
 
-		l_player.posZ = z;
+		l_player.posZ = z + rand() % 10;
+		*/
 		GRoom._monsters.push_back(l_player);
 	}
 }
@@ -284,6 +299,13 @@ void Room::MoveMonster()
 							m.wDown = true;
 							bossAttack = 1;
 							cout << "boss attack: " << bossAttack << endl;
+							auto sendBufferM = ServerPacketHandler::Make_S_BroadcastMove(m.playerId,
+								m.Dir,
+								m.hp, m.posX,
+								m.posY, m.posZ,
+								m.wDown, false, bossAttack);
+
+							BroadCast(sendBufferM);
 						}
 						else if (p.second->xPos <= m.posX + 20 && p.second->zPos <= m.posZ + 20
 							&& p.second->xPos >= m.posX - 20 && p.second->zPos >= m.posZ - 20 && !p.second->dead)
@@ -291,11 +313,36 @@ void Room::MoveMonster()
 							m.wDown = true;
 							bossAttack = 2;
 							cout << "boss attack: " << bossAttack << endl;
+							auto sendBufferM = ServerPacketHandler::Make_S_BroadcastMove(m.playerId,
+								m.Dir,
+								m.hp, m.posX,
+								m.posY, m.posZ,
+								m.wDown, false, bossAttack);
+
+							BroadCast(sendBufferM);
 						}
 						else {
 							m.wDown = false;
 							bossAttack = 0;
 						}
+					}
+					else if(m.type == 4)
+					{
+						if (p.second->xPos <= m.posX + 15 && p.second->zPos <= m.posZ + 15
+							&& p.second->xPos >= m.posX - 15 && p.second->zPos >= m.posZ - 15 && !p.second->dead && m.type == 4)
+						{
+							m.wDown = true;
+							cout << " m id: " << m.playerId << " m type: " << m.type << " attack: " << m.wDown << endl;
+							auto sendBufferM = ServerPacketHandler::Make_S_BroadcastMove(m.playerId,
+								m.Dir,
+								m.hp, m.posX,
+								m.posY, m.posZ,
+								m.wDown, false, bossAttack);
+
+							BroadCast(sendBufferM);
+						}
+						else
+							m.wDown = false;
 					}
 					else
 					{
@@ -311,12 +358,14 @@ void Room::MoveMonster()
 							if (p.second->zPos >= m.posZ)
 								m.posZ += m_speed;
 							m.wDown = true;
-							//cout << "p id: " << p.second->playerId << " m id: " << m.playerId << " x: " << m.posX << " z: " << m.posZ << " attack: " << m.wDown << endl;
-						}
-						else if (p.second->xPos <= m.posX + 15 && p.second->zPos <= m.posZ + 15
-							&& p.second->xPos >= m.posX - 15 && p.second->zPos >= m.posZ - 15 && !p.second->dead && m.type == 4)
-						{
-							m.wDown = true;
+							//cout << " m id: " << m.playerId << " m type: " << m.type << " attack: " << m.wDown << endl;
+							auto sendBufferM = ServerPacketHandler::Make_S_BroadcastMove(m.playerId,
+								m.Dir,
+								m.hp, m.posX,
+								m.posY, m.posZ,
+								m.wDown, false, bossAttack);
+
+							BroadCast(sendBufferM);
 						}
 						else
 							m.wDown = false;
@@ -396,15 +445,14 @@ void Room::MoveMonster()
 					m.posZ = m.posZ - (m_speed / 2);
 				}
 				//cout << "m id: " << m.playerId << " m x: " << m.posX << " m z: " << m.posZ << endl;
+				auto sendBufferM = ServerPacketHandler::Make_S_BroadcastMove(m.playerId,
+					m.Dir,
+					m.hp, m.posX,
+					m.posY, m.posZ,
+					m.wDown, false, bossAttack);
+
+				BroadCast(sendBufferM);
 			}
-
-			auto sendBufferM = ServerPacketHandler::Make_S_BroadcastMove(m.playerId,
-				m.Dir,
-				m.hp, m.posX,
-				m.posY, m.posZ,
-				m.wDown, false, bossAttack);
-
-			BroadCast(sendBufferM);
 		}
 	}
 }

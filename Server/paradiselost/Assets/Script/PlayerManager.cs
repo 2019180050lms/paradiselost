@@ -376,10 +376,12 @@ public class PlayerManager
                 Enemy enemy = go.AddComponent<Enemy>();
                 enemy.enabled = true;
                 enemy.enemyId = p.playerId;
+                enemy.enemyType = p.type;
                 enemy.maxHealth = p.hp;
                 enemy.curHealth = p.hp;
-                enemy.transform.position = new Vector3(p.posX, p.posY, p.posZ);
-                enemy.prevVec = new Vector3(p.posX, p.posY, p.posZ);
+                //enemy.transform.position = new Vector3(p.posX, p.posY, p.posZ);
+                enemy.posVec = new Vector3(p.posX, p.posY, p.posZ);
+                Debug.Log("test enemy pos: " + new Vector3(p.posX, p.posY, p.posZ));
                 _enemys.Add(p.playerId, enemy);
 
                 //Debug.Log("Monster 생성");
@@ -393,10 +395,10 @@ public class PlayerManager
                 Enemy enemy = go.AddComponent<Enemy>();
                 enemy.enabled = true;
                 enemy.enemyId = p.playerId;
+                enemy.enemyType = p.type;
                 enemy.maxHealth = p.hp;
                 enemy.curHealth = p.hp;
-                enemy.transform.position = new Vector3(p.posX, p.posY, p.posZ);
-                enemy.prevVec = new Vector3(p.posX, p.posY, p.posZ);
+                enemy.posVec = new Vector3(p.posX, p.posY, p.posZ);
                 _enemys.Add(p.playerId, enemy);
 
                 //Debug.Log("Monster 생성");
@@ -410,10 +412,10 @@ public class PlayerManager
                 Enemy enemy = go.AddComponent<Enemy>();
                 enemy.enabled = true;
                 enemy.enemyId = p.playerId;
+                enemy.enemyType = p.type;
                 enemy.maxHealth = p.hp;
                 enemy.curHealth = p.hp;
-                enemy.transform.position = new Vector3(p.posX, p.posY, p.posZ);
-                enemy.prevVec = new Vector3(p.posX, p.posY, p.posZ);
+                enemy.posVec = new Vector3(p.posX, p.posY, p.posZ);
                 _enemys.Add(p.playerId, enemy);
 
                 //Debug.Log("Monster 생성");
@@ -565,11 +567,15 @@ public class PlayerManager
                 else if (packet.playerDir == 8)
                     enemy.moveVec2 = new Vector3(-(Mathf.Sqrt(0.5f)), 0, -(Mathf.Sqrt(0.5f)));
 
-                enemy.moveVec2 = new Vector3(packet.posX, packet.posY, packet.posZ);
+                if(enemy.enemyType != 4)
+                {
+                    enemy.moveVec2 = new Vector3(packet.posX, packet.posY, packet.posZ);
+                }
 
                 //enemy.transform.position = Vector3.MoveTowards(enemy.transform.position, new Vector3(packet.posX, packet.posY, packet.posZ), 1f);
                 //Debug.Log(enemy.transform.position);
                 //enemy.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
+                
                 enemy.posVec = new Vector3(packet.posX, packet.posY, packet.posZ);
                 //enemy.anim.SetBool("isWalk", enemy.isAttack != false);
                 if (packet.wDown)
@@ -583,7 +589,7 @@ public class PlayerManager
                 {
                     EnemyTurret enemyTurret = GameObject.Find("TargetArea").GetComponent<EnemyTurret>();
                     enemy.transform.LookAt(enemyTurret.targetPos);
-                    Debug.Log(enemyTurret.targetPos);
+                    //Debug.Log(enemyTurret.targetPos);
                 }
             }
             // 보스 처리

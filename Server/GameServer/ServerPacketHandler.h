@@ -38,9 +38,9 @@ struct PlayerList
 	float posX;
 	float posY;
 	float posZ;
-	uint16 head;
-	uint16 body;
-	uint16 leg;
+	uint16 head = 0;
+	uint16 body = 0;
+	uint16 leg = 0;
 	bool wDown;
 	wstring name;
 };

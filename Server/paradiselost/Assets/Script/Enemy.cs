@@ -6,6 +6,7 @@ using UnityEngine.AI;
 public class Enemy : MonoBehaviour
 {
     public int enemyId;
+    public int enemyType;
     public int maxHealth;
     public int curHealth;
     public Transform target;
@@ -22,6 +23,8 @@ public class Enemy : MonoBehaviour
     BoxCollider boxCollider;
     Material mat;
 
+    float timer;
+    int waitingtime;
     NavMeshAgent nav;
     public HitBox hitBox;
     public Animator anim;
@@ -42,6 +45,8 @@ public class Enemy : MonoBehaviour
         hitBox = GetComponent<HitBox>();
         walking = true;
         bulletPos = transform.GetChild(1);
+        timer = 0.0f;
+        waitingtime = 1;
     }
 
     void Awake()
@@ -68,6 +73,7 @@ public class Enemy : MonoBehaviour
     {
         //transform.position = Vector3.Lerp(transform.position, pos, 0.001f);
         transform.position = Vector3.Lerp(transform.position, posVec, 0.005f);
+
         if (transform.tag == "EnemyTurret" && isAttack && count == 0)
         {
             StartCoroutine("Shoot");
