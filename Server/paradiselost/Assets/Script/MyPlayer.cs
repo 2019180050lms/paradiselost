@@ -92,6 +92,17 @@ public class MyPlayer : Player
             }
         }
 
+        if (isShot && bulletCount == 0)
+        {
+            bullet = Object.Instantiate(intantBullet) as GameObject;
+            bullet.transform.position = bulletPos.transform.position;
+            bullet.transform.rotation = bulletPos.rotation;
+            Rigidbody bulletRigid = bullet.GetComponent<Rigidbody>();
+            bulletRigid.velocity = bulletPos.forward * 75;
+            bulletCount--;
+            Destroy(bullet, 3f);
+        }
+
         Debug.Log("camera2 = " + camera2);
 
         testJump = false;
