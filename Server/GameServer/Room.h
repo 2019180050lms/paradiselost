@@ -23,6 +23,9 @@ private:
 public:
 	List<PlayerList> _monsters;
 	short stage = 0;
+
+	float maxXpos[4] = { 1.f, -235.f, 0.f, -660.f };
+	float maxZpos[4] = { 1.f, 27.f, 225.f, 118.f };
 };
 
 extern Room GRoom;

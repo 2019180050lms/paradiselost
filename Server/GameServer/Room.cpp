@@ -179,8 +179,6 @@ PlayerList Room::CreateBossMonster()
 
 void Room::MoveMonster()
 {
-	float maxXpos[4] = {1.f, -235.f, 0.f, -660.f};
-	float maxZpos[4] = {1.f, 27.f, 225.f, 118.f};
 	int bossAttack = 0;
 	if (_monsters.size() == 0)
 	{
@@ -191,6 +189,8 @@ void Room::MoveMonster()
 					&& p.second->xPos >= -120.f - 10.f && p.second->zPos >= 27.f - 7.5f)
 				{
 					CreateMonster(-235.f, 2.5f, 27.f);
+					maxXpos[1] = -235.f;
+					maxZpos[1] = 27.f;
 					auto monster = ServerPacketHandler::Make_S_PlayerList(_monsters);
 					BroadCast(monster);
 					stage += 1;
@@ -200,6 +200,8 @@ void Room::MoveMonster()
 					&& p.second->xPos >= 0.f - 10.f && p.second->zPos >= 125.f - 7.5f)
 				{
 					CreateMonster(0.f, 2.5f, 225.f);
+					maxXpos[1] = 0.f;
+					maxZpos[1] = 225.f;
 					auto monster = ServerPacketHandler::Make_S_PlayerList(_monsters);
 					BroadCast(monster);
 					stage += 1;
@@ -215,15 +217,19 @@ void Room::MoveMonster()
 					&& p.second->xPos >= -120.f - 10.f && p.second->zPos >= 225.f - 7.5f)
 				{
 					CreateMonster(-235.f, 2.5f, 225.f);
+					maxXpos[2] = -235.f;
+					maxZpos[2] = 225.f;
 					auto monster = ServerPacketHandler::Make_S_PlayerList(_monsters);
 					BroadCast(monster);
 					stage += 1;
 					break;
 				}
-				if (p.second->xPos <= -235.f + 10.f && p.second->zPos <= 120.f + 7.5f
+				else if (p.second->xPos <= -235.f + 10.f && p.second->zPos <= 120.f + 7.5f
 					&& p.second->xPos >= -235.f - 10.f && p.second->zPos >= 120.f - 7.5f)
 				{
 					CreateMonster(-235.f, 2.5f, 225.f);
+					maxXpos[2] = -235.f;
+					maxZpos[2] = 225.f;
 					auto monster = ServerPacketHandler::Make_S_PlayerList(_monsters);
 					BroadCast(monster);
 					stage += 1;
@@ -241,6 +247,8 @@ void Room::MoveMonster()
 					List<PlayerList> l_boss;
 					PlayerList boss = CreateBossMonster();
 					l_boss.emplace_back(boss);
+					maxXpos[3] = -660.f;
+					maxZpos[3] = 118.f;
 					auto bossSend = ServerPacketHandler::Make_S_PlayerList(l_boss);
 					BroadCast(bossSend);
 					cout << "send boss " << stage << endl;

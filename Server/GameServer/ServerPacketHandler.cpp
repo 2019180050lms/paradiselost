@@ -187,7 +187,7 @@ bool ServerPacketHandler::Handle_C_MOVE(PacketSessionRef& session, BYTE* buffer,
 			gameSession->_players[0]->wDown = wDown;
 			gameSession->_players[0]->isJump = isJump;
 
-			auto collisionMove = Make_S_MOVE(id, gameSession->_players[0]->xPos, gameSession->_players[0]->yPos, gameSession->_players[0]->zPos);
+			//auto collisionMove = Make_S_MOVE(id, gameSession->_players[0]->xPos, gameSession->_players[0]->yPos, gameSession->_players[0]->zPos);
 
 			//session->Send(collisionMove);
 		}
@@ -200,7 +200,7 @@ bool ServerPacketHandler::Handle_C_MOVE(PacketSessionRef& session, BYTE* buffer,
 			gameSession->_players[0]->wDown = wDown;
 			gameSession->_players[0]->isJump = isJump;
 
-			auto collisionMove = Make_S_MOVE(id, gameSession->_players[0]->xPos, gameSession->_players[0]->yPos, gameSession->_players[0]->zPos);
+			//auto collisionMove = Make_S_MOVE(id, gameSession->_players[0]->xPos, gameSession->_players[0]->yPos, gameSession->_players[0]->zPos);
 
 			//session->Send(collisionMove);
 		}
@@ -213,7 +213,7 @@ bool ServerPacketHandler::Handle_C_MOVE(PacketSessionRef& session, BYTE* buffer,
 			gameSession->_players[0]->wDown = wDown;
 			gameSession->_players[0]->isJump = isJump;
 
-			auto collisionMove = Make_S_MOVE(id, gameSession->_players[0]->xPos, gameSession->_players[0]->yPos, gameSession->_players[0]->zPos);
+			//auto collisionMove = Make_S_MOVE(id, gameSession->_players[0]->xPos, gameSession->_players[0]->yPos, gameSession->_players[0]->zPos);
 
 			//session->Send(collisionMove);
 		}
@@ -226,7 +226,7 @@ bool ServerPacketHandler::Handle_C_MOVE(PacketSessionRef& session, BYTE* buffer,
 			gameSession->_players[0]->wDown = wDown;
 			gameSession->_players[0]->isJump = isJump;
 
-			auto collisionMove = Make_S_MOVE(id, gameSession->_players[0]->xPos, gameSession->_players[0]->yPos, gameSession->_players[0]->zPos);
+			//auto collisionMove = Make_S_MOVE(id, gameSession->_players[0]->xPos, gameSession->_players[0]->yPos, gameSession->_players[0]->zPos);
 
 			//session->Send(collisionMove);
 		}
@@ -304,11 +304,12 @@ bool ServerPacketHandler::Handle_C_PlayerAttacked(PacketSessionRef& session, BYT
 		{
 			if (m.type == MONSTER1)
 			{
-				if (player->xPos <= m.posX + 13 && player->zPos <= m.posZ + 13
-					&& player->xPos >= m.posX - 13 && player->zPos >= m.posZ - 13)
+				if (player->xPos <= m.posX + 15 && player->zPos <= m.posZ + 15
+					&& player->xPos >= m.posX - 15 && player->zPos >= m.posZ - 15)
 				{
 					player->hp -= 10;
 					cout << "player id: " << p_id << " monster id: " << m_id << " type: " << m.type << endl;
+					break;
 				}
 			}
 			else
@@ -318,6 +319,7 @@ bool ServerPacketHandler::Handle_C_PlayerAttacked(PacketSessionRef& session, BYT
 				{
 					player->hp -= 10;
 					cout << "player id: " << p_id << " monster id: " << m_id << " type: " << m.type << endl;
+					break;
 				}
 			}
 		}
@@ -532,7 +534,10 @@ SendBufferRef ServerPacketHandler::Make_S_BroadcastLeave_Game(int32 playerId)
 		int itemNum = rand() % 10;
 		bw << item[itemNum];
 	}
-
+	else
+	{
+		bw << 0;
+	}
 	header->size = bw.WriteSize();
 	header->id = S_BROADCASTLEAVE_GAME;
 
