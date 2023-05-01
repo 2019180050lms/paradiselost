@@ -84,13 +84,14 @@ void Room::DeadMonster(int32 monsterId)
 		if (iter->playerId == monsterId) {
 			WRITE_LOCK;
 			_monsters.erase(iter);
+
+			// 모두에게 알린다.
+			auto sendBuffer = ServerPacketHandler::Make_S_BroadcastLeave_Game(monsterId);
+			cout << "Dead Monster ID: " << monsterId << endl;
+			BroadCast(sendBuffer);
 			break;
 		}
 	}
-	// 모두에게 알린다.
-	auto sendBuffer = ServerPacketHandler::Make_S_BroadcastLeave_Game(monsterId);
-	cout << "Dead Monster ID: " << monsterId << endl;
-	BroadCast(sendBuffer);
 }
 
 void Room::AttackedMonster(int32 monsterId, uint16 hp)
@@ -121,8 +122,7 @@ void Room::BroadCast(SendBufferRef sendBuffer)
 void Room::CreateMonster(float x, float y, float z)
 {
 	PlayerList l_player;
-
-	for (int i = 0; i < MAX_MONSTER; i++)
+	for (int i = 0; i < MAX_MONSTER + stage; i++)
 	{
 		l_player.isSelf = false;
 		l_player.playerId = 500 + i;
@@ -131,33 +131,64 @@ void Room::CreateMonster(float x, float y, float z)
 			l_player.posX = x + 19;
 			l_player.posY = y + 2;
 			l_player.posZ = z;
+			l_player.hp = 200;
 		}
 		else if (i == 1) {
 			l_player.type = (int32)MonsterType::MONSTER2;
 			l_player.posX = x + 10;
 			l_player.posY = y;
 			l_player.posZ = z;
+			l_player.hp = 200;
 		}
 		else if (i == 2) {
 			l_player.type = (int32)MonsterType::MONSTER2;
 			l_player.posX = x;
 			l_player.posY = y;
 			l_player.posZ = z + 10;
+			l_player.hp = 200;
 		}
 		else if (i == 3) {
 			l_player.type = (int32)MonsterType::MONSTER1;
 			l_player.posX = x;
 			l_player.posY = y;
 			l_player.posZ = z;
+			l_player.hp = 500;
 		}
 		else if (i == 4) {
 			l_player.type = (int32)MonsterType::MONSTER3;
 			l_player.posX = x;
 			l_player.posY = y;
 			l_player.posZ = z + 19;
+			l_player.hp = 100;
 		}
-		l_player.hp = 100;
-
+		else if (i == 5) {
+			l_player.type = (int32)MonsterType::MONSTER3;
+			l_player.posX = x;
+			l_player.posY = y;
+			l_player.posZ = z + 19;
+			l_player.hp = 100;
+		}
+		else if (i == 6) {
+			l_player.type = (int32)MonsterType::MONSTER3;
+			l_player.posX = x;
+			l_player.posY = y;
+			l_player.posZ = z + 19;
+			l_player.hp = 100;
+		}
+		else if (i == 7) {
+			l_player.type = (int32)MonsterType::MONSTER2;
+			l_player.posX = x;
+			l_player.posY = y;
+			l_player.posZ = z + 10;
+			l_player.hp = 200;
+		}
+		else if (i == 8) {
+			l_player.type = (int32)MonsterType::MONSTER2;
+			l_player.posX = x;
+			l_player.posY = y;
+			l_player.posZ = z + 10;
+			l_player.hp = 200;
+		}
 
 
 		/*
@@ -184,12 +215,12 @@ PlayerList Room::CreateBossMonster()
 	l_player.Dir = 0;
 	l_player.type = (int32)BossType::BOSS1;
 	l_player.hp = 1000;   
-	//l_player.posX = -660.f;
-	l_player.posX = 1.f;
-	//l_player.posY = -2.f;
-	l_player.posY = 2.1f;
-	//l_player.posZ = 118.f;
-	l_player.posZ = 31.f;
+	l_player.posX = -660.f;
+	//l_player.posX = 1.f;
+	l_player.posY = -2.f;
+	//l_player.posY = 2.1f;
+	l_player.posZ = 118.f;
+	//l_player.posZ = 31.f;
 	GRoom._monsters.push_back(l_player);
 
 	return l_player;
@@ -206,23 +237,23 @@ void Room::MoveMonster()
 				if (p.second->xPos <= -120.f + 10.f && p.second->zPos <= 27.f + 7.5f
 					&& p.second->xPos >= -120.f - 10.f && p.second->zPos >= 27.f - 7.5f)
 				{
+					stage += 1;
 					CreateMonster(-235.f, 2.5f, 27.f);
 					maxXpos[1] = -235.f;
 					maxZpos[1] = 27.f;
 					auto monster = ServerPacketHandler::Make_S_PlayerList(_monsters);
 					BroadCast(monster);
-					stage += 1;
 					break;
 				}
 				else if (p.second->xPos <= 0.f + 10.f && p.second->zPos <= 125.f + 7.5f
 					&& p.second->xPos >= 0.f - 10.f && p.second->zPos >= 125.f - 7.5f)
 				{
+					stage += 1;
 					CreateMonster(0.f, 2.5f, 225.f);
 					maxXpos[1] = 0.f;
 					maxZpos[1] = 225.f;
 					auto monster = ServerPacketHandler::Make_S_PlayerList(_monsters);
 					BroadCast(monster);
-					stage += 1;
 					break;
 				}
 			}
@@ -234,23 +265,23 @@ void Room::MoveMonster()
 				if (p.second->xPos <= -120.f + 10.f && p.second->zPos <= 225.f + 7.5f
 					&& p.second->xPos >= -120.f - 10.f && p.second->zPos >= 225.f - 7.5f)
 				{
+					stage += 1;
 					CreateMonster(-235.f, 2.5f, 225.f);
 					maxXpos[2] = -235.f;
 					maxZpos[2] = 225.f;
 					auto monster = ServerPacketHandler::Make_S_PlayerList(_monsters);
 					BroadCast(monster);
-					stage += 1;
 					break;
 				}
 				else if (p.second->xPos <= -235.f + 10.f && p.second->zPos <= 120.f + 7.5f
 					&& p.second->xPos >= -235.f - 10.f && p.second->zPos >= 120.f - 7.5f)
 				{
+					stage += 1;
 					CreateMonster(-235.f, 2.5f, 225.f);
 					maxXpos[2] = -235.f;
 					maxZpos[2] = 225.f;
 					auto monster = ServerPacketHandler::Make_S_PlayerList(_monsters);
 					BroadCast(monster);
-					stage += 1;
 					break;
 				}
 			}
@@ -262,6 +293,7 @@ void Room::MoveMonster()
 				if (p.second->xPos <= -435.f + 10.f && p.second->zPos <= 118.f + 7.5f
 					&& p.second->xPos >= -435.f - 10.f && p.second->zPos >= 118.f - 7.5f)
 				{
+					stage += 1;
 					List<PlayerList> l_boss;
 					PlayerList boss = CreateBossMonster();
 					l_boss.emplace_back(boss);
@@ -270,7 +302,6 @@ void Room::MoveMonster()
 					auto bossSend = ServerPacketHandler::Make_S_PlayerList(l_boss);
 					BroadCast(bossSend);
 					cout << "send boss " << stage << endl;
-					stage += 1;
 					break;
 				}
 			}

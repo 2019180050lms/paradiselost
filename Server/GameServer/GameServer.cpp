@@ -28,7 +28,6 @@ int main()
 
 	for (int32 i = 0; i < 5; i++)
 	{
-		
 		if (i == 4)
 		{
 			GThreadManager->Launch([=]()
@@ -47,7 +46,6 @@ int main()
 				});
 		}
 	}
-
 	GThreadManager->Join();
 }
 

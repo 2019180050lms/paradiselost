@@ -56,6 +56,8 @@ public class Player : MonoBehaviour
     public bool falling = false;
 
     public bool isJumping;
+    public bool isShot;
+    public int bulletCount = 0;
     void Start()
     {
         isJumping = false;
@@ -70,6 +72,18 @@ public class Player : MonoBehaviour
         {
             anim_Body.SetBool("isRun", false);
             anim_Leg.SetBool("isRun", false);
+        }
+
+        if(isShot && bulletCount == 0)
+        {
+            Debug.Log("총알 발사 생성");
+            bullet = Object.Instantiate(intantBullet) as GameObject;
+            bullet.transform.position = bulletPos.transform.position;
+            bullet.transform.rotation = bulletPos.rotation;
+            Rigidbody bulletRigid = bullet.GetComponent<Rigidbody>();
+            bulletRigid.velocity = bulletPos.forward * 75;
+            bulletCount--;
+            Destroy(bullet, 3f);
         }
         
     }
@@ -202,14 +216,20 @@ public class Player : MonoBehaviour
     IEnumerator Shot()
     {
         // 총알 발사
-        bullet = Object.Instantiate(intantBullet) as GameObject;
-        bullet.transform.position = bulletPos.transform.position;
-        bullet.transform.rotation = bulletPos.rotation;
-        Rigidbody bulletRigid = bullet.GetComponent<Rigidbody>();
-        bulletRigid.velocity = bulletPos.forward * 75;
-        
-        Destroy(bullet, 3f);
-        yield return null;
+        Debug.Log("코루틴 안 공격 테스트");
+        isShot = true;
+
+        yield return new WaitForSeconds(0.15f);
+        isShot = false;
+
+        //bullet = Object.Instantiate(intantBullet) as GameObject;
+        //bullet.transform.position = bulletPos.transform.position;
+        //bullet.transform.rotation = bulletPos.rotation;
+        //Rigidbody bulletRigid = bullet.GetComponent<Rigidbody>();
+        //bulletRigid.velocity = bulletPos.forward * 75;
+        bulletCount++;
+        //Destroy(bullet, 3f);
+        //yield return new WaitForSeconds(2f);
     }
 
     public void DodgeOut()

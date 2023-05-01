@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "Room.h"
 #include "GameSession.h"
+#include <ctime>
 
 void ServerPacketHandler::HandlePacket(PacketSessionRef& session, BYTE* buffer, int32 len)
 {
@@ -549,6 +550,7 @@ SendBufferRef ServerPacketHandler::Make_S_BroadcastLeave_Game(int32 playerId)
 
 	if (playerId > 500)
 	{
+		srand((unsigned int)time(NULL));
 		int itemNum = rand() % 10;
 		bw << item[itemNum];
 	}
