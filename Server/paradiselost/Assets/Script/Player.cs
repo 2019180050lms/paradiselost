@@ -76,6 +76,7 @@ public class Player : MonoBehaviour
 
         if(isShot && bulletCount == 0)
         {
+            Debug.Log("총알 발사 생성");
             bullet = Object.Instantiate(intantBullet) as GameObject;
             bullet.transform.position = bulletPos.transform.position;
             bullet.transform.rotation = bulletPos.rotation;
@@ -215,6 +216,7 @@ public class Player : MonoBehaviour
     IEnumerator Shot()
     {
         // 총알 발사
+        Debug.Log("코루틴 안 공격 테스트");
         isShot = true;
 
         yield return new WaitForSeconds(0.15f);

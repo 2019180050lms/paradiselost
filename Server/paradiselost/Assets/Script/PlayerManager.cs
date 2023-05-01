@@ -296,6 +296,7 @@ public class PlayerManager
                         Object leg = Resources.Load("Sp_Leg_Parts");
 
                         player.PlayerId = playerId;
+                        player.body = 3;
                         //player.name = p.name;
                         //player.transform.position = new Vector3(p.posX, p.posY, p.posZ);
                         Joint_Robot jointP = go.AddComponent<Joint_Robot>();
@@ -341,6 +342,8 @@ public class PlayerManager
                         player.anim_Head = jointP.head.gameObject.transform.GetChild(0).GetComponent<Animator>();
                         player.anim_Body = jointP.body.gameObject.transform.GetChild(0).GetComponent<Animator>();
                         player.anim_Leg = jointP.leg.gameObject.transform.GetChild(0).GetComponent<Animator>();
+                        player.intantBullet = Resources.Load("Bullet");
+                        player.bulletPos = player.transform.GetChild(1);
 
                         _playerParts.Add(playerId, jointP);
                         _players.Add(playerId, player);
@@ -524,8 +527,10 @@ public class PlayerManager
 
                 if (packet.wDown)
                 {
+                    Debug.Log("wDown 공격 테스트");
                     if ((int)player.body == 3)
                     {
+                        Debug.Log("player 코루틴 테스트");
                         player.StopCoroutine("Shot");
                         player.anim_Head.SetTrigger("doSwing");
                         player.anim_Body.SetTrigger("doSwing");
