@@ -639,8 +639,8 @@ public class PlayerManager
                 }
                 else if (packet.bossAttack == 2)
                 {
-                    _boss.StopCoroutine("Attack");
-                    _boss.StartCoroutine("Attack");
+                    _boss.StopCoroutine("MissileShot");
+                    _boss.StartCoroutine("MissileShot");
                     Debug.Log("Boss Attack2 " + packet.bossAttack);
                     //_boss.transform.LookAt();
                 }
