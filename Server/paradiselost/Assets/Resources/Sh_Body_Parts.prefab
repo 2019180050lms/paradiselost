@@ -283,6 +283,10 @@ PrefabInstance:
       value: Shield_Body_Test 1
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 9ac9e9bdd8b30934e9ef4acb05fdb253, type: 3}
+      propertyPath: m_Avatar
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 9ac9e9bdd8b30934e9ef4acb05fdb253, type: 3}
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: add6cb394c8e2314386865072b0be18f, type: 2}
