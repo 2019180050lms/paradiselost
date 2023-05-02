@@ -16,6 +16,7 @@ public class BossEnemy : MonoBehaviour
     public GameObject bullet;
     public bool isChase;
     public bool isAttack;
+    public int bossAttack;
     public bool isDead;
     //test
     public Vector3 moveVec2;
@@ -38,6 +39,8 @@ public class BossEnemy : MonoBehaviour
 
     public Player target;
     public Vector3 targetPos;
+
+    int count = 0;
     void Start()
     {
         _network = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
@@ -71,6 +74,18 @@ public class BossEnemy : MonoBehaviour
      void Update()
     {
         transform.position = Vector3.Lerp(transform.position, posVec, 0.005f);
+
+        if (isAttack && bossAttack == 1 && count == 0)
+        {
+            StartCoroutine("Attack");
+            count++;
+        }
+
+        if (isAttack && bossAttack == 2 && count == 0)
+        {
+            StartCoroutine("MissileShot");
+            count++;
+        }
     }
 
     void OnTriggerEnter(Collider other)
@@ -169,7 +184,8 @@ public class BossEnemy : MonoBehaviour
     {
         isChase = false;
         isAttack = true;
-        anim.SetBool("isAttack", true);
+        //anim.SetBool("isAttack", true);
+        anim.SetTrigger("doAttack");
 
         yield return new WaitForSeconds(0.2f);
         hitBox.meleeArea.enabled = true;
@@ -181,26 +197,33 @@ public class BossEnemy : MonoBehaviour
 
         isChase = true;
         isAttack = false;
-        anim.SetBool("isAttack", false);
+        //anim.SetBool("isAttack", false);
 
     }
 
     IEnumerator MissileShot()
     {
         //anim.SetTrigger("doShot");
-        yield return new WaitForSeconds(0.2f);
+        isAttack = true;
+
+        yield return new WaitForSeconds(0.5f);
         GameObject instantMissileA = Instantiate(Resources.Load("Boss Missile", typeof(GameObject)), missilePortA.position, missilePortA.rotation) as GameObject;
         BossMissile bossMissileA = instantMissileA.GetComponent<BossMissile>();
         bossMissileA.targetPos = targetPos;
         bossMissileA.enemyId = enemyId;
 
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.5f);
         GameObject instantMissileB = Instantiate(Resources.Load("Boss Missile", typeof(GameObject)), missilePortB.position, missilePortB.rotation) as GameObject;
         BossMissile bossMissileB = instantMissileB.GetComponent<BossMissile>();
         bossMissileB.targetPos = targetPos;
 
 
         yield return new WaitForSeconds(2f);
+
+        isAttack = false;
+
+        count--;
+
 
     }
 

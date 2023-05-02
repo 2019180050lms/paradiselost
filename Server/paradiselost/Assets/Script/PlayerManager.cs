@@ -607,6 +607,7 @@ public class PlayerManager
             else if(_boss.enemyId == packet.playerId)
             {
                 _boss.isAttack = packet.wDown;
+                _boss.bossAttack = packet.bossAttack;
                 if (packet.playerDir == 0)
                     _boss.moveVec2 = new Vector3(0, 0, 0);
                 else if (packet.playerDir == 1)
@@ -636,16 +637,16 @@ public class PlayerManager
 
                 if(packet.bossAttack == 1)
                 {
-                    _boss.StopCoroutine("Attack");
-                    _boss.anim.SetTrigger("doAttack");
-                    _boss.StartCoroutine("Attack");
-                    Debug.Log("Boss Attack1 " + packet.bossAttack);
+                    //_boss.StopCoroutine("Attack");
+                    //_boss.anim.SetTrigger("doAttack");
+                    //_boss.StartCoroutine("Attack");
+                    //Debug.Log("Boss Attack1 " + packet.bossAttack);
                 }
                 else if (packet.bossAttack == 2)
                 {
-                    _boss.StopCoroutine("MissileShot");
-                    _boss.StartCoroutine("MissileShot");
-                    Debug.Log("Boss Attack2 " + packet.bossAttack);
+                    //_boss.StopCoroutine("MissileShot");
+                    //_boss.StartCoroutine("MissileShot");
+                    //Debug.Log("Boss Attack2 " + packet.bossAttack);
                     //_boss.transform.LookAt();
                 }
                 //enemy.transform.LookAt(enemy.transform.position + enemy.moveVec2);
