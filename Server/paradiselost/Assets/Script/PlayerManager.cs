@@ -173,7 +173,6 @@ public class PlayerManager
 
                         player.PlayerId = playerId;
                         //player.name = p.name;
-                        //player.transform.position = new Vector3(p.posX, p.posY, p.posZ);
                         Joint_Robot jointP = go.AddComponent<Joint_Robot>();
 
                         jointP.po_list = new GameObject[3];
@@ -193,7 +192,7 @@ public class PlayerManager
                         jointP.head = Object.Instantiate(jointP.po_list[0], player.transform);
                         jointP.head.transform.position = jointP.body.transform.position + jointP.body.transform.Find("Joint_Head").transform.position;
                         player.transform.position = new Vector3(pos.x, pos.y, pos.z);
-
+                        player.posVec = new Vector3(pos.x, pos.y, pos.z);
                         PlayerText.transform.SetParent(go.transform, false);
                         PlayerText playerText = PlayerText.GetComponent<PlayerText>();
 
@@ -233,7 +232,6 @@ public class PlayerManager
 
                         player.PlayerId = playerId;
                         //player.name = p.name;
-                        //player.transform.position = new Vector3(p.posX, p.posY, p.posZ);
                         Joint_Robot jointP = go.AddComponent<Joint_Robot>();
 
                         jointP.po_list = new GameObject[3];
@@ -254,6 +252,7 @@ public class PlayerManager
                         jointP.head.transform.position = jointP.body.transform.position + jointP.body.transform.Find("Joint_Head").transform.position;
 
                         player.transform.position = new Vector3(pos.x, pos.y, pos.z);
+                        player.posVec = new Vector3(pos.x, pos.y, pos.z);
 
                         PlayerText.transform.SetParent(go.transform, false);
                         PlayerText playerText = PlayerText.GetComponent<PlayerText>();
@@ -297,7 +296,6 @@ public class PlayerManager
                         player.PlayerId = playerId;
                         player.body = 3;
                         //player.name = p.name;
-                        //player.transform.position = new Vector3(p.posX, p.posY, p.posZ);
                         Joint_Robot jointP = go.AddComponent<Joint_Robot>();
 
                         jointP.po_list = new GameObject[3];
@@ -318,6 +316,7 @@ public class PlayerManager
                         jointP.head.transform.position = jointP.body.transform.position + jointP.body.transform.Find("Joint_Head").transform.position;
 
                         player.transform.position = new Vector3(pos.x, pos.y, pos.z);
+                        player.posVec = new Vector3(pos.x, pos.y, pos.z);
 
                         PlayerText.transform.SetParent(go.transform, false);
                         PlayerText playerText = PlayerText.GetComponent<PlayerText>();
@@ -370,6 +369,7 @@ public class PlayerManager
             {
                 Vector3 playerPos = new Vector3(p.posX, p.posY, p.posZ);
                 SetCharacter(p.playerId, p.hp, p.type, p.isSelf, playerPos);
+                Debug.Log("test pos: " + p.posX + p.posY + p.posZ);
             }
             else if (p.type == 4)
             {

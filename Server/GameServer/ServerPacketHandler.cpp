@@ -139,7 +139,7 @@ bool ServerPacketHandler::Handle_C_ENTER_GAME(PacketSessionRef& session, BYTE* b
 		gameSession->_players[0]->leg = 3;
 	}
 
-	GRoom.Enter(player);
+	GRoom.Enter(gameSession->_players[playerIndex]);
 
 	cout << "ENTER GAME ID: " << gameSession->_players[playerIndex]->playerId << " "
 		<< gameSession->_players[playerIndex]->head << " " << gameSession->_players[playerIndex]->body <<

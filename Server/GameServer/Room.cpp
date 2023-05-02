@@ -37,9 +37,9 @@ void Room::Enter(PlayerRef player)
 		l_player.playerId = iter->first;
 		l_player.hp = iter->second->hp;
 		l_player.type = (int32)iter->second->type;
-		l_player.posX = 10.f;
-		l_player.posY = 3.f;
-		l_player.posZ = 10.f;
+		l_player.posX = iter->second->xPos;
+		l_player.posY = iter->second->yPos;
+		l_player.posZ = iter->second->zPos;
 		l_player.head = iter->second->head;
 		l_player.body = iter->second->body;
 		l_player.leg = iter->second->leg;
