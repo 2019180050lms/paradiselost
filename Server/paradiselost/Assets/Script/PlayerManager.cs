@@ -172,6 +172,7 @@ public class PlayerManager
                         Object leg = Resources.Load("Po_Leg_Parts");
 
                         player.PlayerId = playerId;
+                        player.hp = hp;
                         //player.name = p.name;
                         Joint_Robot jointP = go.AddComponent<Joint_Robot>();
 
@@ -231,6 +232,7 @@ public class PlayerManager
                         Object leg = Resources.Load("Sh_Leg_Parts");
 
                         player.PlayerId = playerId;
+                        player.hp = hp;
                         //player.name = p.name;
                         Joint_Robot jointP = go.AddComponent<Joint_Robot>();
 
@@ -294,6 +296,7 @@ public class PlayerManager
                         Object leg = Resources.Load("Sp_Leg_Parts");
 
                         player.PlayerId = playerId;
+                        player.hp = hp;
                         player.body = 3;
                         //player.name = p.name;
                         Joint_Robot jointP = go.AddComponent<Joint_Robot>();
