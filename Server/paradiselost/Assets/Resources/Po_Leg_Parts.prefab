@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 6961355763229212407}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5123268439179253612}
@@ -168,6 +168,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: power_englne_robot_leg2
       objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 31ba892962eddc84999a30df9008967e, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 8c76dcd1a0c146d4ba5fd332eeb000d3, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 31ba892962eddc84999a30df9008967e, type: 3}
 --- !u!4 &5123268439179253612 stripped

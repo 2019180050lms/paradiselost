@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 159341056838323444}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3821677964543488776}
@@ -125,6 +125,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: power_englne_robot_body 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 9c85dee49a1948943a19516e6759dc1c, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 5cb9e3c03a893864883fd8ee7f69d0ca, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c85dee49a1948943a19516e6759dc1c, type: 3}
 --- !u!1 &2738443321322648529 stripped

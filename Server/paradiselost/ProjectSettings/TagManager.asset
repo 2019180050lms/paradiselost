@@ -28,6 +28,8 @@ TagManager:
   - EnemyMelee
   - EnemyTurret
   - BossMelee
+  - StageBoss
+  - Bullet
   layers:
   - Default
   - TransparentFX
