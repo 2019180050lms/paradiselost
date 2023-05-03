@@ -40,6 +40,13 @@ public class GameUIManager : MonoBehaviour
 
     public List<Text> ItemTxt = new List<Text>() { };
 
+    public List<Text> otherPlayerHPText = new List<Text>() { };
+
+    public GameObject[] playersUI;
+
+    //public List<RectTransform> otherPlayersHealthGroup = new List<RectTransform>() { };
+    public List<RectTransform> otherPlayersHealthBar = new List<RectTransform>() { };
+
     void Start()
     {
         Invoke("FindMyPlayer", 0.5f);
@@ -64,9 +71,26 @@ public class GameUIManager : MonoBehaviour
         inventory = GameObject.FindGameObjectWithTag("MyPlayer").GetComponent<Inventory>();
         myPlayer = GameObject.FindGameObjectWithTag("MyPlayer").GetComponent<MyPlayer>();
     }
+    public void FindPlayerUI()
+    {
+        playersUI = GameObject.FindGameObjectsWithTag("Player");
+        if(playersUI == null)
+        {
+            for (int i = 0; i < 3; ++i)
+            {
+                playersUI[i].SetActive(false);
+            }
+        }
+        else if(playersUI != null)
+        {
+            for(int i = 0; i < playersUI.Length; ++i)
+            {
+                playersUI[i].SetActive(true);
+            }
+        }
+    }
 
-
-     void Update()
+    void Update()
     {
         playTime += Time.deltaTime;
         //playerHealthTxt.text = MyPlayer.health.ToString();
@@ -86,6 +110,16 @@ public class GameUIManager : MonoBehaviour
         playerHealthTxt.text = myPlayer.hp.ToString() + " /  100";  // 플레이어 체력 표시
 
         playerHealthBar.localScale = new Vector3((float)PlayerManager.Instance._myplayer.hp / 100, 1, 1);
+
+        if (playersUI != null)
+        {
+            for (int i = 0; i < playersUI.Length; ++i)
+            {
+               ushort otherPlayerHP = playersUI[i].GetComponent<Player>().hp;
+                playerHealthTxt.text = otherPlayerHP.ToString() + " /  100";
+                otherPlayersHealthBar[i].localScale = new Vector3(otherPlayerHP / 100, 1, 1);
+            }
+        }
 
         if (inventory.ItemList[0] != null)
         {

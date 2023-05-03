@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerManager
 {
     public MyPlayer _myplayer;
-    Player player = null;
+    public Player player = null;
     Enemy enemy = null;
     public Joint_Robot joint;
     public BossEnemy _boss = null;
@@ -739,9 +739,10 @@ public class PlayerManager
             player.anim_Head = jointP.head.gameObject.transform.GetChild(0).GetComponent<Animator>();
             player.anim_Body = jointP.body.gameObject.transform.GetChild(0).GetComponent<Animator>();
             player.anim_Leg = jointP.leg.gameObject.transform.GetChild(0).GetComponent<Animator>();
-
             _playerParts.Add(packet.playerId, jointP);
             _players.Add(packet.playerId, player);
+
+            GameObject.Find("GameManager").GetComponent<GameUIManager>().FindPlayerUI();
 
             Debug.Log(player.name);
         }
@@ -806,7 +807,7 @@ public class PlayerManager
 
             _playerParts.Add(packet.playerId, jointP);
             _players.Add(packet.playerId, player);
-
+            GameObject.Find("GameManager").GetComponent<GameUIManager>().FindPlayerUI();
             Debug.Log(player.name);
         }
         else if (packet.type == 3)
@@ -872,7 +873,7 @@ public class PlayerManager
 
             _playerParts.Add(packet.playerId, jointP);
             _players.Add(packet.playerId, player);
-
+            GameObject.Find("GameManager").GetComponent<GameUIManager>().FindPlayerUI();
             Debug.Log(player.name);
         }
     }
