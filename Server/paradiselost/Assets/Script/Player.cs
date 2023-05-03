@@ -270,7 +270,7 @@ public class Player : MonoBehaviour
             // 피격 처리
             BossMissile monsterInfo = other.GetComponent<BossMissile>(); // 공격한 몬스터 객체 불러오기
             //Debug.Log(monsterInfo.enemyId);  // 공격한 몬스터 객체의 ID 출력
-            hp -= 20;
+            //hp -= 20;
             Debug.Log(hp);
             Destroy(other.gameObject);
             //cs_send_playerdamage(monsterInfo.enemyId);

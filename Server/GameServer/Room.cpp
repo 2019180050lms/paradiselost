@@ -136,14 +136,14 @@ void Room::CreateMonster(float x, float y, float z)
 		else if (i == 1) {
 			l_player.type = (int32)MonsterType::MONSTER2;
 			l_player.posX = x + 10;
-			l_player.posY = y;
+			l_player.posY = y + 2;
 			l_player.posZ = z;
 			l_player.hp = 200;
 		}
 		else if (i == 2) {
 			l_player.type = (int32)MonsterType::MONSTER2;
 			l_player.posX = x;
-			l_player.posY = y;
+			l_player.posY = y + 2;
 			l_player.posZ = z + 10;
 			l_player.hp = 200;
 		}
@@ -178,14 +178,14 @@ void Room::CreateMonster(float x, float y, float z)
 		else if (i == 7) {
 			l_player.type = (int32)MonsterType::MONSTER2;
 			l_player.posX = x;
-			l_player.posY = y;
+			l_player.posY = y + 2;
 			l_player.posZ = z + 10;
 			l_player.hp = 200;
 		}
 		else if (i == 8) {
 			l_player.type = (int32)MonsterType::MONSTER2;
 			l_player.posX = x;
-			l_player.posY = y;
+			l_player.posY = y + 2;
 			l_player.posZ = z + 10;
 			l_player.hp = 200;
 		}
@@ -217,7 +217,7 @@ PlayerList Room::CreateBossMonster()
 	l_player.hp = 1000;   
 	l_player.posX = -660.f;
 	//l_player.posX = 1.f;
-	l_player.posY = -2.f;
+	l_player.posY = -6.f;
 	//l_player.posY = 2.1f;
 	l_player.posZ = 118.f;
 	//l_player.posZ = 31.f;

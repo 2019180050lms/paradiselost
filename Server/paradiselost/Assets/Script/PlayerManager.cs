@@ -59,6 +59,7 @@ public class PlayerManager
                         //myPlayer.name = name;
                         //Debug.Log(p.hp);
 
+                        myPlayer.transform.tag = "MyPlayer";
                         myPlayer.transform.position = new Vector3(pos.x, pos.y, pos.z);
                         _myplayer = myPlayer;
                         PlayerPtr.transform.SetParent(go.transform, false);
@@ -96,6 +97,7 @@ public class PlayerManager
 
                         myPlayer.PlayerId = playerId;
                         //myPlayer.name = p.name;
+                        myPlayer.transform.tag = "MyPlayer";
                         myPlayer.hp = hp;
                         //Debug.Log(p.hp);
                         myPlayer.transform.position = new Vector3(pos.x, pos.y, pos.z);
@@ -138,6 +140,7 @@ public class PlayerManager
 
                         myPlayer.PlayerId = playerId;
                         //myPlayer.name = p.name;
+                        myPlayer.transform.tag = "MyPlayer";
                         myPlayer.hp = hp;
                         //Debug.Log(p.hp);
                         myPlayer.transform.position = new Vector3(pos.x, pos.y, pos.z);
@@ -373,6 +376,7 @@ public class PlayerManager
                 Vector3 playerPos = new Vector3(p.posX, p.posY, p.posZ);
                 SetCharacter(p.playerId, p.hp, p.type, p.isSelf, playerPos);
                 Debug.Log("test pos: " + p.posX + p.posY + p.posZ);
+                GameObject.Find("Game Manager").GetComponent<GameUIManager>().FindPlayerUI();
             }
             else if (p.type == 4)
             {
@@ -742,7 +746,7 @@ public class PlayerManager
             _playerParts.Add(packet.playerId, jointP);
             _players.Add(packet.playerId, player);
 
-            GameObject.Find("GameManager").GetComponent<GameUIManager>().FindPlayerUI();
+            GameObject.Find("Game Manager").GetComponent<GameUIManager>().FindPlayerUI();
 
             Debug.Log(player.name);
         }
@@ -807,7 +811,7 @@ public class PlayerManager
 
             _playerParts.Add(packet.playerId, jointP);
             _players.Add(packet.playerId, player);
-            GameObject.Find("GameManager").GetComponent<GameUIManager>().FindPlayerUI();
+            GameObject.Find("Game Manager").GetComponent<GameUIManager>().FindPlayerUI();
             Debug.Log(player.name);
         }
         else if (packet.type == 3)
@@ -873,7 +877,7 @@ public class PlayerManager
 
             _playerParts.Add(packet.playerId, jointP);
             _players.Add(packet.playerId, player);
-            GameObject.Find("GameManager").GetComponent<GameUIManager>().FindPlayerUI();
+            GameObject.Find("Game Manager").GetComponent<GameUIManager>().FindPlayerUI();
             Debug.Log(player.name);
         }
     }

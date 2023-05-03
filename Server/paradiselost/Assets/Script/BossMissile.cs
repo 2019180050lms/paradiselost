@@ -27,10 +27,12 @@ public class BossMissile : Bullet
     // Update is called once per frame
     void Update()
     {
-        if (target.PlayerId == 1)
-        {
-            targetPos = target.transform.position;
-        }
+        //if (target.PlayerId == 1)
+        //{
+        //    targetPos = target.transform.position;
+        //}
+
+        targetPos = target.transform.position;
         transform.position = Vector3.Lerp(transform.position, targetPos, 0.005f);
         transform.LookAt(targetPos);
     }

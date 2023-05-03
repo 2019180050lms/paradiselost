@@ -43,7 +43,7 @@ public class GameUIManager : MonoBehaviour
     public List<Text> otherPlayerHPText = new List<Text>() { };
 
     public GameObject[] playersUI;
-
+    public GameObject[] playersUIImages;
     //public List<RectTransform> otherPlayersHealthGroup = new List<RectTransform>() { };
     public List<RectTransform> otherPlayersHealthBar = new List<RectTransform>() { };
 
@@ -74,31 +74,14 @@ public class GameUIManager : MonoBehaviour
     public void FindPlayerUI()
     {
         playersUI = GameObject.FindGameObjectsWithTag("Player");
-        if(playersUI == null)
-        {
-            for (int i = 0; i < 3; ++i)
-            {
-                playersUI[i].SetActive(false);
-            }
-        }
-        else if(playersUI != null)
-        {
-            for(int i = 0; i < playersUI.Length; ++i)
-            {
-                playersUI[i].SetActive(true);
-            }
-        }
     }
 
     void Update()
     {
         playTime += Time.deltaTime;
         //playerHealthTxt.text = MyPlayer.health.ToString();
-
-
     }
 
-    // Update is called once per frame
     void LateUpdate()
     {
 
@@ -115,9 +98,10 @@ public class GameUIManager : MonoBehaviour
         {
             for (int i = 0; i < playersUI.Length; ++i)
             {
-               ushort otherPlayerHP = playersUI[i].GetComponent<Player>().hp;
-                playerHealthTxt.text = otherPlayerHP.ToString() + " /  100";
-                otherPlayersHealthBar[i].localScale = new Vector3(otherPlayerHP / 100, 1, 1);
+                playersUIImages[i].SetActive(true);
+                ushort otherPlayerHP = playersUI[i].GetComponent<Player>().hp;
+                otherPlayerHPText[i].text = otherPlayerHP.ToString() + " /  100";
+                otherPlayersHealthBar[i].localScale = new Vector3((float)otherPlayerHP / 100, 1, 1);
             }
         }
 

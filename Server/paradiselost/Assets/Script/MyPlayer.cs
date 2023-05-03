@@ -32,7 +32,7 @@ public class MyPlayer : Player
         hitBox = GetComponent<HitBox>();
         _network = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
 
-        transform.tag = "MyPlayer";
+        //transform.tag = "MyPlayer";
     }
 
 
@@ -100,7 +100,7 @@ public class MyPlayer : Player
             Destroy(bullet, 3f);
         }
 
-        Debug.Log("camera2 = " + camera2);
+        //Debug.Log("camera2 = " + camera2);
 
         testJump = false;
     }

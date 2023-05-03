@@ -42,7 +42,7 @@ public class Inventory : MonoBehaviour
             InventoryUI.SetActive(false);
             Debug.Log("아이템 창 끄기");
         }
-        Debug.Log(ItemList[0]);
+        //Debug.Log(ItemList[0]);
     }
 
     private void OnTriggerStay(Collider other)

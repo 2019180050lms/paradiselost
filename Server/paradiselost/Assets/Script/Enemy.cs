@@ -173,7 +173,7 @@ public class Enemy : MonoBehaviour
         Debug.Log("몬스터 공격");
         isChase = false;
         isAttack = true;
-        //anim.SetBool("isAttack", true);
+        anim.SetTrigger("doAttack");
 
         yield return new WaitForSeconds(0.2f);
         hitBox.meleeArea.enabled = true;
