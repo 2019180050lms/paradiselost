@@ -272,13 +272,15 @@ bool ServerPacketHandler::Handle_C_MonsterAttack(PacketSessionRef& session, BYTE
 	PacketHeader header;
 	br >> header;
 
-	int32 id;
+	int32 id, playerId;
 	int16 hp;
-	br >> id >> hp;
+	br >> id >> hp >> playerId;
 	if (hp > 1)
-		GRoom.AttackedMonster(id, hp);
+		GRoom.AttackedMonster(id, hp, playerId);
 	else if (hp < 1)
 		GRoom.DeadMonster(id);
+
+	cout << "monster attack player id: " << playerId << endl;
 
 	return true;
 }
@@ -301,7 +303,7 @@ bool ServerPacketHandler::Handle_C_PlayerAttacked(PacketSessionRef& session, BYT
 
 	for (auto& m : GRoom._monsters)
 	{
-		if (m.playerId == m_id)
+		if (m.enmyId == m_id)
 		{
 			if (m.type == MONSTER1)
 			{
@@ -510,6 +512,33 @@ SendBufferRef ServerPacketHandler::Make_S_PlayerList(List<PlayerList> players)
 
 	header->size = bw.WriteSize();
 	header->id = S_PLAYERLIST;
+
+	sendBuffer->Close(bw.WriteSize());
+
+	//cout << "size: " << header->size << endl;
+
+	return sendBuffer;
+}
+
+SendBufferRef ServerPacketHandler::Make_S_EnemyList(List<EnemyObject> enemys)
+{
+	SendBufferRef sendBuffer = GSendBufferManager->Open(4096);
+
+	BufferWriter bw(sendBuffer->Buffer(), sendBuffer->AllocSize());
+
+	PacketHeader* header = bw.Reserve<PacketHeader>();
+
+	bw << (uint16)(enemys.size());
+
+	for (auto& p : enemys)
+	{
+		bw << (int32)p.enmyId << (int32)p.type << (int16)p.hp << (float)p.posX << (float)p.posY << (float)p.posZ << p.isAttack;
+	}
+
+	//cout << sizeof(PlayerList) << endl;
+
+	header->size = bw.WriteSize();
+	header->id = S_ENEMYLIST;
 
 	sendBuffer->Close(bw.WriteSize());
 

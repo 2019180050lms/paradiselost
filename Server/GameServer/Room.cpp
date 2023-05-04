@@ -20,10 +20,10 @@ void Room::Enter(PlayerRef player)
 	// 몬스터 5명 생성 보내기
 	for (auto iter = _monsters.begin(); iter != _monsters.end(); iter++)
 	{
-		cout << "create monster: " << iter->posX << " " << iter->posY << " " << iter->posZ << " " << iter->head << " " << iter->body << " " << iter->leg << endl;
+		cout << "create monster: " << iter->posX << " " << iter->posY << " " << iter->posZ << endl;
 	}
 
-	auto sendBufferM = ServerPacketHandler::Make_S_PlayerList(_monsters);
+	auto sendBufferM = ServerPacketHandler::Make_S_EnemyList(_monsters);
 	_players[player->playerId]->ownerSession->Send(sendBufferM);
 
 	players.clear();
@@ -81,7 +81,7 @@ void Room::DeadMonster(int32 monsterId)
 {
 	for (auto iter = _monsters.begin(); iter != _monsters.end(); iter++)
 	{
-		if (iter->playerId == monsterId) {
+		if (iter->enmyId == monsterId) {
 			WRITE_LOCK;
 			_monsters.erase(iter);
 
@@ -94,15 +94,17 @@ void Room::DeadMonster(int32 monsterId)
 	}
 }
 
-void Room::AttackedMonster(int32 monsterId, uint16 hp)
+void Room::AttackedMonster(int32 monsterId, uint16 hp, int32 targetId)
 {
 	for (auto iter = _monsters.begin(); iter != _monsters.end(); iter++)
 	{
-		if (iter->playerId == monsterId)
+		if (iter->enmyId == monsterId)
 		{
 			iter->hp = hp;
-			auto sendBuffer = ServerPacketHandler::Make_S_AttackedMonster(iter->playerId, iter->hp);
-			cout << "Attacked Monster ID: " << iter->playerId << " hp: " << iter->hp << endl;
+			iter->agro = true;
+			iter->targetId = targetId;
+			auto sendBuffer = ServerPacketHandler::Make_S_AttackedMonster(iter->enmyId, iter->hp);
+			cout << "Attacked Monster ID: " << iter->enmyId << " hp: " << iter->hp << endl;
 			BroadCast(sendBuffer);
 		}
 	}
@@ -121,11 +123,10 @@ void Room::BroadCast(SendBufferRef sendBuffer)
 
 void Room::CreateMonster(float x, float y, float z)
 {
-	PlayerList l_player;
+	EnemyObject l_player;
 	for (int i = 0; i < MAX_MONSTER + stage; i++)
 	{
-		l_player.isSelf = false;
-		l_player.playerId = 500 + i;
+		l_player.enmyId = 500 + i;
 		if (i == 0) {
 			l_player.type = (int32)MonsterType::MONSTER2;
 			l_player.posX = x + 19;
@@ -206,13 +207,12 @@ void Room::CreateMonster(float x, float y, float z)
 	}
 }
 
-PlayerList Room::CreateBossMonster()
+EnemyObject Room::CreateBossMonster()
 {
-	PlayerList l_player;
+	EnemyObject l_player;
 
-	l_player.isSelf = false;
-	l_player.playerId = 1000;
-	l_player.Dir = 0;
+	l_player.enmyId = 1000;
+	l_player.dir = 0;
 	l_player.type = (int32)BossType::BOSS1;
 	l_player.hp = 1000;   
 	l_player.posX = -660.f;
@@ -241,7 +241,7 @@ void Room::MoveMonster()
 					CreateMonster(-235.f, 2.5f, 27.f);
 					maxXpos[1] = -235.f;
 					maxZpos[1] = 27.f;
-					auto monster = ServerPacketHandler::Make_S_PlayerList(_monsters);
+					auto monster = ServerPacketHandler::Make_S_EnemyList(_monsters);
 					BroadCast(monster);
 					break;
 				}
@@ -252,7 +252,7 @@ void Room::MoveMonster()
 					CreateMonster(0.f, 2.5f, 225.f);
 					maxXpos[1] = 0.f;
 					maxZpos[1] = 225.f;
-					auto monster = ServerPacketHandler::Make_S_PlayerList(_monsters);
+					auto monster = ServerPacketHandler::Make_S_EnemyList(_monsters);
 					BroadCast(monster);
 					break;
 				}
@@ -269,7 +269,7 @@ void Room::MoveMonster()
 					CreateMonster(-235.f, 2.5f, 225.f);
 					maxXpos[2] = -235.f;
 					maxZpos[2] = 225.f;
-					auto monster = ServerPacketHandler::Make_S_PlayerList(_monsters);
+					auto monster = ServerPacketHandler::Make_S_EnemyList(_monsters);
 					BroadCast(monster);
 					break;
 				}
@@ -280,7 +280,7 @@ void Room::MoveMonster()
 					CreateMonster(-235.f, 2.5f, 225.f);
 					maxXpos[2] = -235.f;
 					maxZpos[2] = 225.f;
-					auto monster = ServerPacketHandler::Make_S_PlayerList(_monsters);
+					auto monster = ServerPacketHandler::Make_S_EnemyList(_monsters);
 					BroadCast(monster);
 					break;
 				}
@@ -294,12 +294,12 @@ void Room::MoveMonster()
 					&& p.second->xPos >= -435.f - 10.f && p.second->zPos >= 118.f - 7.5f)
 				{
 					stage += 1;
-					List<PlayerList> l_boss;
-					PlayerList boss = CreateBossMonster();
+					List<EnemyObject> l_boss;
+					EnemyObject boss = CreateBossMonster();
 					l_boss.emplace_back(boss);
 					maxXpos[3] = -660.f;
 					maxZpos[3] = 118.f;
-					auto bossSend = ServerPacketHandler::Make_S_PlayerList(l_boss);
+					auto bossSend = ServerPacketHandler::Make_S_EnemyList(l_boss);
 					BroadCast(bossSend);
 					cout << "send boss " << stage << endl;
 					break;
@@ -330,33 +330,33 @@ void Room::MoveMonster()
 								m.posZ -= m_speed;
 							if (p.second->zPos >= m.posZ)
 								m.posZ += m_speed;
-							m.wDown = true;
+							m.isAttack = true;
 							bossAttack = 1;
 							//cout << "boss attack: " << bossAttack << endl;
-							auto sendBufferM = ServerPacketHandler::Make_S_BroadcastMove(m.playerId,
-								m.Dir,
+							auto sendBufferM = ServerPacketHandler::Make_S_BroadcastMove(m.enmyId,
+								m.dir,
 								m.hp, m.posX,
 								m.posY, m.posZ,
-								m.wDown, false, bossAttack);
+								m.isAttack, false, bossAttack);
 
 							BroadCast(sendBufferM);
 						}
 						else if (p.second->xPos <= m.posX + 20 && p.second->zPos <= m.posZ + 20
 							&& p.second->xPos >= m.posX - 20 && p.second->zPos >= m.posZ - 20 && !p.second->dead)
 						{
-							m.wDown = true;
+							m.isAttack = true;
 							bossAttack = 2;
 							//cout << "boss attack: " << bossAttack << endl;
-							auto sendBufferM = ServerPacketHandler::Make_S_BroadcastMove(m.playerId,
-								m.Dir,
+							auto sendBufferM = ServerPacketHandler::Make_S_BroadcastMove(m.enmyId,
+								m.dir,
 								m.hp, m.posX,
 								m.posY, m.posZ,
-								m.wDown, false, bossAttack);
+								m.isAttack, false, bossAttack);
 
 							BroadCast(sendBufferM);
 						}
 						else {
-							m.wDown = false;
+							m.isAttack = false;
 							bossAttack = 0;
 						}
 					}
@@ -365,18 +365,18 @@ void Room::MoveMonster()
 						if (p.second->xPos <= m.posX + 15 && p.second->zPos <= m.posZ + 15
 							&& p.second->xPos >= m.posX - 15 && p.second->zPos >= m.posZ - 15 && !p.second->dead && m.type == 4)
 						{
-							m.wDown = true;
-							cout << " m id: " << m.playerId << " m type: " << m.type << " attack: " << m.wDown << endl;
-							auto sendBufferM = ServerPacketHandler::Make_S_BroadcastMove(m.playerId,
-								m.Dir,
+							m.isAttack = true;
+							cout << " m id: " << m.enmyId << " m type: " << m.type << " attack: " << m.isAttack << endl;
+							auto sendBufferM = ServerPacketHandler::Make_S_BroadcastMove(m.enmyId,
+								m.dir,
 								m.hp, m.posX,
 								m.posY, m.posZ,
-								m.wDown, false, bossAttack);
+								m.isAttack, false, bossAttack);
 
 							BroadCast(sendBufferM);
 						}
 						else
-							m.wDown = false;
+							m.isAttack = false;
 					}
 					else
 					{
@@ -391,23 +391,23 @@ void Room::MoveMonster()
 								m.posZ -= m_speed;
 							if (p.second->zPos >= m.posZ)
 								m.posZ += m_speed;
-							m.wDown = true;
+							m.isAttack = true;
 							//cout << " m id: " << m.playerId << " m type: " << m.type << " attack: " << m.wDown << endl;
-							auto sendBufferM = ServerPacketHandler::Make_S_BroadcastMove(m.playerId,
-								m.Dir,
+							auto sendBufferM = ServerPacketHandler::Make_S_BroadcastMove(m.enmyId,
+								m.dir,
 								m.hp, m.posX,
 								m.posY, m.posZ,
-								m.wDown, false, bossAttack);
+								m.isAttack, false, bossAttack);
 
 							BroadCast(sendBufferM);
 						}
 						else
-							m.wDown = false;
+							m.isAttack = false;
 					}
 				}
 			}
 			uint16 randDir = rand() % 9;
-			if (!m.wDown && m.type != 4)
+			if (!m.isAttack && m.type != 4 && !m.agro)
 			{
 				if (randDir == 0)
 				{
@@ -417,35 +417,35 @@ void Room::MoveMonster()
 				{
 					if (m.posX > maxXpos[stage] + 20)
 						continue;
-					m.Dir = randDir;
+					m.dir = randDir;
 					m.posX = m.posX + m_speed;
 				}
 				else if (randDir == 2)
 				{
 					if (m.posX < maxXpos[stage] - 20)
 						continue;
-					m.Dir = randDir;
+					m.dir = randDir;
 					m.posX = m.posX - m_speed;
 				}
 				else if (randDir == 3)
 				{
 					if (m.posZ > maxZpos[stage] + 20)
 						continue;
-					m.Dir = randDir;
+					m.dir = randDir;
 					m.posZ = m.posZ + m_speed;
 				}
 				else if (randDir == 4)
 				{
 					if (m.posZ < maxZpos[stage] - 20)
 						continue;
-					m.Dir = randDir;
+					m.dir = randDir;
 					m.posZ = m.posZ - m_speed;
 				}
 				else if (randDir == 5)
 				{
 					if (m.posZ > maxZpos[stage] + 20)
 						continue;
-					m.Dir = randDir;
+					m.dir = randDir;
 					m.posX = m.posX + (m_speed / 2);
 					m.posZ = m.posZ + (m_speed / 2);
 				}
@@ -455,7 +455,7 @@ void Room::MoveMonster()
 						continue;
 					else if (m.posZ < maxZpos[stage] - 20)
 						continue;
-					m.Dir = randDir;
+					m.dir = randDir;
 					m.posX = m.posX + (m_speed / 2);
 					m.posZ = m.posZ - (m_speed / 2);
 				}
@@ -474,16 +474,16 @@ void Room::MoveMonster()
 						continue;
 					else if (m.posZ < maxZpos[stage] - 20)
 						continue;
-					m.Dir = randDir;
+					m.dir = randDir;
 					m.posX = m.posX - (m_speed / 2);
 					m.posZ = m.posZ - (m_speed / 2);
 				}
 				//cout << "m id: " << m.playerId << " m x: " << m.posX << " m z: " << m.posZ << endl;
-				auto sendBufferM = ServerPacketHandler::Make_S_BroadcastMove(m.playerId,
-					m.Dir,
+				auto sendBufferM = ServerPacketHandler::Make_S_BroadcastMove(m.enmyId,
+					m.dir,
 					m.hp, m.posX,
 					m.posY, m.posZ,
-					m.wDown, false, bossAttack);
+					m.isAttack, false, bossAttack);
 
 				BroadCast(sendBufferM);
 			}

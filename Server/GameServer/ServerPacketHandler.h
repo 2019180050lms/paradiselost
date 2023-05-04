@@ -24,10 +24,24 @@ enum
 	S_BROADCAST_ITEM = 15,
 	C_ENTER_ITEM = 16,
 	C_PLAYERATTACK = 17,
-	S_PLAYERATTACK = 18
+	S_PLAYERATTACK = 18,
+	S_ENEMYLIST = 19
 };
 
 #pragma pack(push, 1)
+struct EnemyObject
+{
+	int32 enmyId;
+	int32 dir;
+	int32 type;
+	int16 hp;
+	int32 targetId;
+	float posX;
+	float posY;
+	float posZ;
+	bool isAttack;
+	bool agro = false;
+};
 struct PlayerList
 {
 	bool isSelf;
@@ -65,6 +79,7 @@ public:
 	static SendBufferRef Make_S_ENTER_GAME(bool success, int32 type);
 	static SendBufferRef Make_S_MOVE(int32 playerIndex, float x, float y, float z);
 	static SendBufferRef Make_S_PlayerList(List<PlayerList> players);
+	static SendBufferRef Make_S_EnemyList(List<EnemyObject> players);
 	static SendBufferRef Make_S_BroadcastEnter_Game(int32 playerId, int32 type, float posX, float posY, float posZ);
 	static SendBufferRef Make_S_BroadcastLeave_Game(int32 playerId);
 	static SendBufferRef Make_S_BroadcastMove(int32 playerId, int32 playerDir, uint16 hp, float posX, float posY, float posZ, bool wDown, bool isJump, short bossAttack);
