@@ -58,17 +58,21 @@ public class Player : MonoBehaviour
     public bool isJumping;
     public bool isShot;
     public int bulletCount = 0;
+
+
     void Start()
     {
         isJumping = false;
     }
 
+
     void Update()
     {
+        Vector3 velo = Vector3.zero;
         if (!falling)
-            transform.position = Vector3.Lerp(transform.position, posVec, 0.005f);
+            transform.position = Vector3.SmoothDamp(transform.position, posVec, ref velo, 0.03f);
         Jump(other_jump);
-        if (moveVec2 == Vector3.zero)
+        if (transform.position == posVec)
         {
             anim_Body.SetBool("isRun", false);
             anim_Leg.SetBool("isRun", false);
@@ -85,7 +89,7 @@ public class Player : MonoBehaviour
             bulletCount--;
             Destroy(bullet, 3f);
         }
-        
+        //moveVec2 = Vector3.zero;
     }
 
     void Awake()
@@ -185,33 +189,6 @@ public class Player : MonoBehaviour
         */
     }
 
-    //public void Swap()
-    //{
-    //    if (sDown1 && (!hasWeapons[0] || equipWeaponIndex == 0))
-    //        return;
-    //    if (sDown2 && (!hasWeapons[1] || equipWeaponIndex == 1))
-    //        return;
-
-    //    int weaponIndex = -1;
-    //    if (sDown1) weaponIndex = 0;
-    //    if (sDown2) weaponIndex = 1;
-
-    //    if ((sDown1 || sDown2) && !isJump && !isDodge)
-    //    {
-    //        if (equipWeapon != null)
-    //            equipWeapon.gameObject.SetActive(false);
-
-    //        equipWeaponIndex = weaponIndex;
-    //        equipWeapon = weapons[weaponIndex].GetComponent<Weapon>();
-    //        equipWeapon.gameObject.SetActive(true);
-
-    //        anim.SetTrigger("doSwap");
-
-    //        isSwap = true;
-
-    //        Invoke("SwapOut", 0.5f);
-    //    }
-    //}
 
     IEnumerator Shot()
     {

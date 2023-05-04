@@ -100,7 +100,6 @@ public class MyPlayer : Player
             Destroy(bullet, 3f);
         }
 
-        //Debug.Log("camera2 = " + camera2);
 
         testJump = false;
     }
@@ -147,9 +146,6 @@ public class MyPlayer : Player
 
     void LateUpdate()
     {
-        //Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y + 7, transform.position.z - 5);
-        //Debug.Log(xmove);
-       
 
         if (Input.GetMouseButton(1))
         {
@@ -256,21 +252,6 @@ public class MyPlayer : Player
 
     private void OnTriggerEnter(Collider other)
     {
-        /*
-        if(other.tag == "Body_Item")
-        {
-            Destroy(other.gameObject);
-        }
-        else if (other.tag == "Leg_Item")
-        {
-            Destroy(other.gameObject);
-        }
-
-        else if (other.tag == "Head_Item")
-        {
-            Destroy(other.gameObject);
-        }
-        */
         if (other.tag == "EnemyMelee")
         {
             // 피격 처리
