@@ -74,7 +74,7 @@ public class Player : MonoBehaviour
             anim_Leg.SetBool("isRun", false);
         }
 
-        if(isShot && bulletCount == 0)
+        if (isShot && bulletCount == 0)
         {
             Debug.Log("총알 발사 생성");
             bullet = Object.Instantiate(intantBullet) as GameObject;
@@ -85,7 +85,7 @@ public class Player : MonoBehaviour
             bulletCount--;
             Destroy(bullet, 3f);
         }
-        
+        moveVec2 = Vector3.zero;
     }
 
     void Awake()
