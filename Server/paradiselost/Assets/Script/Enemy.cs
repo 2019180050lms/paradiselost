@@ -101,7 +101,8 @@ public class Enemy : MonoBehaviour
             C_AttackedMonster attackedPacket = new C_AttackedMonster();
             attackedPacket.id = enemyId;
             attackedPacket.hp = (short)curHealth;
-            attackedPacket.playerId = 1;
+            attackedPacket.playerId = weapon.ParentId;
+            Debug.Log(weapon.ParentId);
             _network.Send(attackedPacket.Write());
         }
         else if (other.tag == "Bullet")
