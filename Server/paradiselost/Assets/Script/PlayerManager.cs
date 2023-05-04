@@ -378,20 +378,29 @@ public class PlayerManager
                 Debug.Log("test pos: " + p.posX + p.posY + p.posZ);
                 GameObject.Find("Game Manager").GetComponent<GameUIManager>().FindPlayerUI();
             }
-            else if (p.type == 4)
+        }
+    }
+
+    public void EnemyAdd(S_EnemyList packet)
+    {
+        foreach (S_EnemyList.Enemy p in packet.enemys)
+        {
+            //Object obj = Resources.Load("Player");
+            //GameObject go = Object.Instantiate(obj) as GameObject;
+            if (p.type == 4)
             {
                 Object obj = Resources.Load("Monster_turret");
                 GameObject go = Object.Instantiate(obj) as GameObject;
                 Enemy enemy = go.AddComponent<Enemy>();
                 enemy.enabled = true;
-                enemy.enemyId = p.playerId;
+                enemy.enemyId = p.enemyId;
                 enemy.enemyType = p.type;
                 enemy.maxHealth = p.hp;
                 enemy.curHealth = p.hp;
                 //enemy.transform.position = new Vector3(p.posX, p.posY, p.posZ);
                 enemy.posVec = new Vector3(p.posX, p.posY, p.posZ);
                 Debug.Log("test enemy pos: " + new Vector3(p.posX, p.posY, p.posZ));
-                _enemys.Add(p.playerId, enemy);
+                _enemys.Add(p.enemyId, enemy);
 
                 //Debug.Log("Monster 생성");
                 //Debug.Log(enemy.enemyId);
@@ -403,12 +412,12 @@ public class PlayerManager
                 GameObject go = Object.Instantiate(obj) as GameObject;
                 Enemy enemy = go.AddComponent<Enemy>();
                 enemy.enabled = true;
-                enemy.enemyId = p.playerId;
+                enemy.enemyId = p.enemyId;
                 enemy.enemyType = p.type;
                 enemy.maxHealth = p.hp;
                 enemy.curHealth = p.hp;
                 enemy.posVec = new Vector3(p.posX, p.posY, p.posZ);
-                _enemys.Add(p.playerId, enemy);
+                _enemys.Add(p.enemyId, enemy);
 
                 //Debug.Log("Monster 생성");
                 //Debug.Log(enemy.enemyId);
@@ -420,12 +429,12 @@ public class PlayerManager
                 GameObject go = Object.Instantiate(obj) as GameObject;
                 Enemy enemy = go.AddComponent<Enemy>();
                 enemy.enabled = true;
-                enemy.enemyId = p.playerId;
+                enemy.enemyId = p.enemyId;
                 enemy.enemyType = p.type;
                 enemy.maxHealth = p.hp;
                 enemy.curHealth = p.hp;
                 enemy.posVec = new Vector3(p.posX, p.posY, p.posZ);
-                _enemys.Add(p.playerId, enemy);
+                _enemys.Add(p.enemyId, enemy);
 
                 //Debug.Log("Monster 생성");
                 //Debug.Log(enemy.enemyId);
@@ -438,7 +447,7 @@ public class PlayerManager
 
                 BossEnemy boss = go.AddComponent<BossEnemy>();
                 boss.enabled = true;
-                boss.enemyId = p.playerId;
+                boss.enemyId = p.enemyId;
                 boss.maxHealth = p.hp;
                 boss.curHealth = p.hp;
                 boss.transform.position = new Vector3(p.posX, p.posY, p.posZ);
@@ -552,7 +561,7 @@ public class PlayerManager
                         player.StartCoroutine("Swing");
                     }
                 }
-
+                player.moveVec2 = Vector3.zero;
                 player.transform.LookAt(player.transform.position + player.moveVec2);
             }
         }

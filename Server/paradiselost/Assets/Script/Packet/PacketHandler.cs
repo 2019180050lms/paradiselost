@@ -67,7 +67,17 @@ class PacketHandler
 		PlayerManager.Instance.Add(pkt);
 	}
 
-	public static void S_BroadcastMoveHandler(PacketSession session, IPacket packet)
+    public static void S_EnemyListHandler(PacketSession session, IPacket packet)
+    {
+        S_EnemyList pkt = packet as S_EnemyList;
+        ServerSession serverSession = session as ServerSession;
+
+        //Debug.Log("");
+
+        PlayerManager.Instance.EnemyAdd(pkt);
+    }
+
+    public static void S_BroadcastMoveHandler(PacketSession session, IPacket packet)
 	{
 		S_BroadcastMove pkt = packet as S_BroadcastMove;
 		ServerSession serverSession = session as ServerSession;

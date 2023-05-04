@@ -58,13 +58,10 @@ public class Player : MonoBehaviour
     public bool isJumping;
     public bool isShot;
     public int bulletCount = 0;
-
-
     void Start()
     {
         isJumping = false;
     }
-
 
     void Update()
     {
@@ -78,7 +75,7 @@ public class Player : MonoBehaviour
             anim_Leg.SetBool("isRun", false);
         }
 
-        if(isShot && bulletCount == 0)
+        if (isShot && bulletCount == 0)
         {
             Debug.Log("총알 발사 생성");
             bullet = Object.Instantiate(intantBullet) as GameObject;
@@ -86,10 +83,12 @@ public class Player : MonoBehaviour
             bullet.transform.rotation = bulletPos.rotation;
             Rigidbody bulletRigid = bullet.GetComponent<Rigidbody>();
             bulletRigid.velocity = bulletPos.forward * 75;
+            Bullet BulletId = bullet.GetComponent<Bullet>();
+            BulletId.ParentID = PlayerId;
             bulletCount--;
             Destroy(bullet, 3f);
         }
-        //moveVec2 = Vector3.zero;
+        moveVec2 = Vector3.zero;
     }
 
     void Awake()
@@ -189,11 +188,37 @@ public class Player : MonoBehaviour
         */
     }
 
+    //public void Swap()
+    //{
+    //    if (sDown1 && (!hasWeapons[0] || equipWeaponIndex == 0))
+    //        return;
+    //    if (sDown2 && (!hasWeapons[1] || equipWeaponIndex == 1))
+    //        return;
+
+    //    int weaponIndex = -1;
+    //    if (sDown1) weaponIndex = 0;
+    //    if (sDown2) weaponIndex = 1;
+
+    //    if ((sDown1 || sDown2) && !isJump && !isDodge)
+    //    {
+    //        if (equipWeapon != null)
+    //            equipWeapon.gameObject.SetActive(false);
+
+    //        equipWeaponIndex = weaponIndex;
+    //        equipWeapon = weapons[weaponIndex].GetComponent<Weapon>();
+    //        equipWeapon.gameObject.SetActive(true);
+
+    //        anim.SetTrigger("doSwap");
+
+    //        isSwap = true;
+
+    //        Invoke("SwapOut", 0.5f);
+    //    }
+    //}
 
     IEnumerator Shot()
     {
         // 총알 발사
-        Debug.Log("코루틴 안 공격 테스트");
         isShot = true;
 
         yield return new WaitForSeconds(0.15f);

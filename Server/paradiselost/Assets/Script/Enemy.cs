@@ -101,6 +101,8 @@ public class Enemy : MonoBehaviour
             C_AttackedMonster attackedPacket = new C_AttackedMonster();
             attackedPacket.id = enemyId;
             attackedPacket.hp = (short)curHealth;
+            attackedPacket.playerId = weapon.ParentId;
+            Debug.Log(weapon.ParentId);
             _network.Send(attackedPacket.Write());
         }
         else if (other.tag == "Bullet")
@@ -115,6 +117,7 @@ public class Enemy : MonoBehaviour
             C_AttackedMonster attackedPacket = new C_AttackedMonster();
             attackedPacket.id = enemyId;
             attackedPacket.hp = (short)curHealth;
+            attackedPacket.playerId = bullet.ParentID;
             _network.Send(attackedPacket.Write());
             StartCoroutine(OnDamage(reactVec));
         }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public int damage;
-
+    public int ParentID;
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Floor")

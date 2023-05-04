@@ -25,7 +25,8 @@ public enum PacketID
 	S_BROADCAST_ITEM = 15,
 	C_ENTER_ITEM = 16,
 	C_PLAYERATTACK = 17,
-	S_PLAYERATTACK = 18
+	S_PLAYERATTACK = 18,
+	S_ENEMYLIST = 19
 }
 
 public interface IPacket
@@ -589,6 +590,100 @@ public class S_PlayerList : IPacket
 	}
 }
 
+
+public class S_EnemyList : IPacket
+{
+    public class Enemy
+    {
+        public int enemyId;
+        public int type;
+        public ushort hp;
+        public float posX;
+        public float posY;
+        public float posZ;
+		public bool isAttack;
+
+        public void Read(ArraySegment<byte> segment, ref ushort count)
+        {
+            this.enemyId = BitConverter.ToInt32(segment.Array, segment.Offset + count);
+            count += sizeof(int);
+            this.type = BitConverter.ToInt32(segment.Array, segment.Offset + count);
+            count += sizeof(int);
+            this.hp = BitConverter.ToUInt16(segment.Array, segment.Offset + count);
+            count += sizeof(ushort);
+            this.posX = BitConverter.ToSingle(segment.Array, segment.Offset + count);
+            count += sizeof(float);
+            this.posY = BitConverter.ToSingle(segment.Array, segment.Offset + count);
+            count += sizeof(float);
+            this.posZ = BitConverter.ToSingle(segment.Array, segment.Offset + count);
+            count += sizeof(float);
+			this.isAttack = BitConverter.ToBoolean(segment.Array, segment.Offset + count);
+			count += sizeof(bool);
+            //ushort chatLen = BitConverter.ToUInt16(segment.Array, segment.Offset + count);
+            //count += sizeof(ushort);
+            //this.name = Encoding.Unicode.GetString(segment.Array, segment.Offset + count, chatLen);
+            //count += chatLen;
+        }
+
+        public bool Write(ArraySegment<byte> segment, ref ushort count)
+        {
+            bool success = true;
+            Array.Copy(BitConverter.GetBytes(this.enemyId), 0, segment.Array, segment.Offset + count, sizeof(int));
+            count += sizeof(int);
+            Array.Copy(BitConverter.GetBytes(this.type), 0, segment.Array, segment.Offset + count, sizeof(int));
+            count += sizeof(int);
+            Array.Copy(BitConverter.GetBytes(this.hp), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            count += sizeof(ushort);
+            Array.Copy(BitConverter.GetBytes(this.posX), 0, segment.Array, segment.Offset + count, sizeof(float));
+            count += sizeof(float);
+            Array.Copy(BitConverter.GetBytes(this.posY), 0, segment.Array, segment.Offset + count, sizeof(float));
+            count += sizeof(float);
+            Array.Copy(BitConverter.GetBytes(this.posZ), 0, segment.Array, segment.Offset + count, sizeof(float));
+            count += sizeof(float);
+            return success;
+        }
+    }
+    public List<Enemy> enemys = new List<Enemy>();
+
+    public ushort Protocol { get { return (ushort)PacketID.S_ENEMYLIST; } }
+
+    // [packetheader][struct struct struct]
+    public void Read(ArraySegment<byte> segment)
+    {
+        ushort count = 0;
+        count += sizeof(ushort);
+        count += sizeof(ushort);
+        this.enemys.Clear();
+        ushort enemyLen = BitConverter.ToUInt16(segment.Array, segment.Offset + count);
+        count += sizeof(ushort);
+        for (int i = 0; i < enemyLen; i++)
+        {
+            Enemy enemy = new Enemy();
+            enemy.Read(segment, ref count);
+            //Debug.Log("check");
+            enemys.Add(enemy);
+        }
+    }
+
+    public ArraySegment<byte> Write()
+    {
+        ArraySegment<byte> segment = SendBufferHelper.Open(4096);
+        ushort count = 0;
+
+        count += sizeof(ushort);
+        Array.Copy(BitConverter.GetBytes((ushort)PacketID.S_ENEMYLIST), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+        count += sizeof(ushort);
+        Array.Copy(BitConverter.GetBytes((ushort)this.enemys.Count), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+        count += sizeof(ushort);
+        foreach (Enemy enemy in this.enemys)
+            enemy.Write(segment, ref count);
+
+        Array.Copy(BitConverter.GetBytes(count), 0, segment.Array, segment.Offset, sizeof(ushort));
+
+        return SendBufferHelper.Close(count);
+    }
+}
+
 public class S_AttackedMonster : IPacket
 {
     public int id;
@@ -712,6 +807,7 @@ public class C_AttackedMonster : IPacket
 {
     public int id;
     public short hp;
+	public int playerId;
 
     public ushort Protocol { get { return (ushort)PacketID.C_MONSTERATTACK; } }
 
@@ -724,6 +820,8 @@ public class C_AttackedMonster : IPacket
         count += sizeof(int);
         this.hp = BitConverter.ToInt16(segment.Array, segment.Offset + count);
         count += sizeof(short);
+        this.playerId = BitConverter.ToInt32(segment.Array, segment.Offset + count);
+        count += sizeof(int);
     }
 
     public ArraySegment<byte> Write()
@@ -738,6 +836,8 @@ public class C_AttackedMonster : IPacket
         count += sizeof(int);
         Array.Copy(BitConverter.GetBytes(this.hp), 0, segment.Array, segment.Offset + count, sizeof(short));
         count += sizeof(short);
+        Array.Copy(BitConverter.GetBytes(this.playerId), 0, segment.Array, segment.Offset + count, sizeof(int));
+        count += sizeof(int);
 
         Array.Copy(BitConverter.GetBytes(count), 0, segment.Array, segment.Offset, sizeof(ushort));
 

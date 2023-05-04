@@ -17,6 +17,13 @@ public class Weapon : MonoBehaviour
 
     public int maxAmmo;
     public int curAmmo;
+    public int ParentId;
+
+    void Start()
+    {
+        Player ParentPlayer = GetComponentInParent<Player>();
+        ParentId = ParentPlayer.PlayerId;
+    }
     public void Use()
     {
         if(type == Type.Melee)
