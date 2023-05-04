@@ -96,6 +96,8 @@ public class MyPlayer : Player
             bullet.transform.rotation = bulletPos.rotation;
             Rigidbody bulletRigid = bullet.GetComponent<Rigidbody>();
             bulletRigid.velocity = bulletPos.forward * 75;
+            Bullet BulletId = bullet.GetComponent<Bullet>();
+            BulletId.ParentID = PlayerId;
             bulletCount--;
             Destroy(bullet, 3f);
         }

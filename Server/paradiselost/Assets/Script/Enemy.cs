@@ -116,7 +116,7 @@ public class Enemy : MonoBehaviour
             C_AttackedMonster attackedPacket = new C_AttackedMonster();
             attackedPacket.id = enemyId;
             attackedPacket.hp = (short)curHealth;
-            attackedPacket.playerId = 1;
+            attackedPacket.playerId = bullet.ParentID;
             _network.Send(attackedPacket.Write());
             StartCoroutine(OnDamage(reactVec));
         }

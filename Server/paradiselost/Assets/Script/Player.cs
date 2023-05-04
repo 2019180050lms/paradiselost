@@ -65,10 +65,11 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        Vector3 velo = Vector3.zero;
         if (!falling)
-            transform.position = Vector3.Lerp(transform.position, posVec, 0.005f);
+            transform.position = Vector3.SmoothDamp(transform.position, posVec, ref velo, 0.03f);
         Jump(other_jump);
-        if (moveVec2 == Vector3.zero)
+        if (transform.position == posVec)
         {
             anim_Body.SetBool("isRun", false);
             anim_Leg.SetBool("isRun", false);
@@ -82,6 +83,8 @@ public class Player : MonoBehaviour
             bullet.transform.rotation = bulletPos.rotation;
             Rigidbody bulletRigid = bullet.GetComponent<Rigidbody>();
             bulletRigid.velocity = bulletPos.forward * 75;
+            Bullet BulletId = bullet.GetComponent<Bullet>();
+            BulletId.ParentID = PlayerId;
             bulletCount--;
             Destroy(bullet, 3f);
         }
@@ -216,7 +219,6 @@ public class Player : MonoBehaviour
     IEnumerator Shot()
     {
         // 총알 발사
-        Debug.Log("코루틴 안 공격 테스트");
         isShot = true;
 
         yield return new WaitForSeconds(0.15f);
