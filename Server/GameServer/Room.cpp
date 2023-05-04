@@ -487,6 +487,32 @@ void Room::MoveMonster()
 
 				BroadCast(sendBufferM);
 			}
+			else if (!m.isAttack && m.agro)
+			{
+				for (auto& p : _players)
+				{
+					if (m.targetId == p.second->playerId)
+					{
+						if (p.second->xPos <= m.posX)
+							m.posX -= m_speed;
+						if (p.second->xPos >= m.posX)
+							m.posX += m_speed;
+						if (p.second->zPos <= m.posZ)
+							m.posZ -= m_speed;
+						if (p.second->zPos >= m.posZ)
+							m.posZ += m_speed;
+						m.isAttack = true;
+						//cout << " m id: " << m.playerId << " m type: " << m.type << " attack: " << m.wDown << endl;
+						auto sendBufferM = ServerPacketHandler::Make_S_BroadcastMove(m.enmyId,
+							m.dir,
+							m.hp, m.posX,
+							m.posY, m.posZ,
+							m.isAttack, false, bossAttack);
+
+						BroadCast(sendBufferM);
+					}
+				}
+			}
 		}
 	}
 }
