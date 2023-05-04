@@ -149,6 +149,25 @@ public class MyPlayer : Player
     void LateUpdate()
     {
 
+        //Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y + 7, transform.position.z - 5);
+        //Debug.Log(xmove);
+        float delay_body = anim_Body.GetFloat("Delay");
+        
+        if(delay_body > 0)
+        {
+            anim_Body.SetFloat("Delay", delay_body - Time.deltaTime);
+         }
+        
+
+        float delay_leg = anim_Leg.GetFloat("Delay");
+        if(delay_leg > 0)
+        {
+            anim_Leg.SetFloat("Delay", delay_leg - Time.deltaTime);
+        }
+           
+        
+
+
         if (Input.GetMouseButton(1))
         {
             xmove += Input.GetAxis("Mouse X"); // 마우스의 좌우 이동량을 xmove 에 누적합니다.

@@ -14,7 +14,11 @@ void Monster_AI();
 int main()
 {
 	ServerServiceRef service = MakeShared<ServerService>(
+<<<<<<< Updated upstream
 		NetAddress(L"127.0.0.1", 7777),
+=======
+		NetAddress(L"127.0.0.1", 7778),
+>>>>>>> Stashed changes
 		MakeShared<IocpCore>(),
 		MakeShared<GameSession>, // TODO : SessionManager 등
 		100);
