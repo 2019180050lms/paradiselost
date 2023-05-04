@@ -122,16 +122,20 @@ public class Player : MonoBehaviour
         if (isSwap || !isFireReady)
             moveVec2 = Vector3.zero;
 
-        if (wDown)
+        if(anim_Body.GetFloat("Delay") <= 0 && anim_Leg.GetFloat("Delay") <= 0)
         {
-            transform.position += moveVec2 * speed * 0.3f * Time.deltaTime;
-            moveVec = transform.position;
+            if (wDown)
+            {
+                transform.position += moveVec2 * speed * 0.3f * Time.deltaTime;
+                moveVec = transform.position;
+            }
+            else
+            {
+                transform.position += moveVec2 * speed * Time.deltaTime;
+                moveVec = transform.position;
+            }
         }
-        else
-        {
-            transform.position += moveVec2 * speed * Time.deltaTime;
-            moveVec = transform.position;
-        }
+       
 
         //anim.SetBool("isRun", moveVec2 != Vector3.zero);
         //anim.SetBool("isWalk", wDown);

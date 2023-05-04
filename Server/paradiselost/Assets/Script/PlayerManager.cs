@@ -483,6 +483,18 @@ public class PlayerManager
                     _myplayer.anim_Head.SetTrigger("doSwing");
                     _myplayer.anim_Body.SetTrigger("doSwing");
                     _myplayer.anim_Leg.SetTrigger("doSwing");
+                    _myplayer.anim_Body.SetFloat("Delay", 0.6f);
+                    _myplayer.anim_Leg.SetFloat("Delay", 0.6f);
+                    _myplayer.StartCoroutine("Shot");
+                }
+                else if((int)_myplayer.body == 2)
+                {
+                    _myplayer.StopCoroutine("Shot");
+                    _myplayer.anim_Head.SetTrigger("doSwing");
+                    _myplayer.anim_Body.SetTrigger("doSwing");
+                    _myplayer.anim_Leg.SetTrigger("doSwing");
+                    _myplayer.anim_Body.SetFloat("Delay", 3.0f);
+                    _myplayer.anim_Leg.SetFloat("Delay", 3.0f);
                     _myplayer.StartCoroutine("Shot");
                 }
                 else
@@ -548,9 +560,37 @@ public class PlayerManager
                         Debug.Log("player 코루틴 테스트");
                         player.StopCoroutine("Shot");
                         player.anim_Head.SetTrigger("doSwing");
-                        player.anim_Body.SetTrigger("doSwing");
-                        player.anim_Leg.SetTrigger("doSwing");
+                        if(player.anim_Body.GetFloat("Delay") <= 0)
+                        {
+                            player.anim_Body.SetTrigger("doSwing");
+                            player.anim_Body.SetFloat("Delay", 0.6f);
+                        }
+
+                        if(player.anim_Leg.GetFloat("Delay") <= 0)
+                        {
+                            player.anim_Leg.SetTrigger("doSwing");
+                            player.anim_Leg.SetFloat("Delay", 0.6f);
+                        }
+                       
+                       
                         player.StartCoroutine("Shot");
+                    }
+                    else if((int)player.body == 2)
+                    {
+                        if(player.anim_Body.GetFloat("Delay") <= 0)
+                        {
+                            player.anim_Body.SetTrigger("doSwing");
+                            player.anim_Body.SetFloat("Delay", 3.0f);
+                        }
+
+                        if(player.anim_Leg.GetFloat("Delay") <= 0)
+                        {
+                            player.anim_Leg.SetTrigger("doSwing");
+                            player.anim_Leg.SetFloat("Delay", 3.0f);
+                        }
+                        player.anim_Head.SetTrigger("doSwing");
+                       
+                       
                     }
                     else
                     {
