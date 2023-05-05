@@ -203,7 +203,7 @@ public class Enemy : MonoBehaviour
         BossMissile test = intantBullet.AddComponent<BossMissile>();
         test.enemyId = enemyId;
 
-        bulletRigid.velocity = bulletPos.forward * 75;
+        bulletRigid.velocity = bulletPos.forward * 90;
         Destroy(intantBullet, 3f);
         //yield return new WaitForSeconds(1f);
         isAttack = false;
