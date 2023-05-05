@@ -89,7 +89,7 @@ bool ServerPacketHandler::Handle_C_Login(PacketSessionRef& session, BYTE* buffer
 		playerRef->playerDir = 0;
 		playerRef->type = PlayerType::NONE;
 		playerRef->xPos = 19.0f;
-		playerRef->yPos = 2.0f;
+		playerRef->yPos = 1.0f;
 		playerRef->zPos = 19.0f;
 		playerRef->ownerSession = gameSession;
 
@@ -318,15 +318,15 @@ bool ServerPacketHandler::Handle_C_PlayerAttacked(PacketSessionRef& session, BYT
 			else if (m.type == BOSS1)
 			{
 				cout << " m type: " << m.type << endl;
-				if (player->xPos <= m.posX + 10 && player->zPos <= m.posZ + 10
-					&& player->xPos >= m.posX - 10 && player->zPos >= m.posZ - 10)
+				if (player->xPos <= m.posX + 13 && player->zPos <= m.posZ + 13
+					&& player->xPos >= m.posX - 13 && player->zPos >= m.posZ - 13)
 				{
 					player->hp -= 40;
 					cout << "player id: " << p_id << " monster id: " << m_id << " type: " << m.type << endl;
 					break;
 				}
-				else if (player->xPos <= m.posX + 20 && player->zPos <= m.posZ + 20
-					&& player->xPos >= m.posX - 20 && player->zPos >= m.posZ - 20)
+				else if (player->xPos <= m.posX + 25 && player->zPos <= m.posZ + 25
+					&& player->xPos >= m.posX - 25 && player->zPos >= m.posZ - 25)
 				{
 					player->hp -= 20;
 					cout << "player id: " << p_id << " monster id: " << m_id << " type: " << m.type << endl;
@@ -335,8 +335,8 @@ bool ServerPacketHandler::Handle_C_PlayerAttacked(PacketSessionRef& session, BYT
 			}
 			else
 			{
-				if (player->xPos <= m.posX + 5 && player->zPos <= m.posZ + 5
-					&& player->xPos >= m.posX - 5 && player->zPos >= m.posZ - 5)
+				if (player->xPos <= m.posX + 12 && player->zPos <= m.posZ + 12
+					&& player->xPos >= m.posX - 12 && player->zPos >= m.posZ - 12)
 				{
 					player->hp -= 10;
 					cout << "player id: " << p_id << " monster id: " << m_id << " type: " << m.type << endl;

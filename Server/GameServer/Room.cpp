@@ -135,7 +135,7 @@ void Room::CreateMonster(float x, float y, float z, int stage)
 			l_enemy.hp = 150;
 			l_enemy.type = MONSTER2;
 			l_enemy.posX = x;
-			l_enemy.posY = y + 2;
+			l_enemy.posY = y + 1;
 			l_enemy.posZ = z;
 			l_enemy.agro = false;
 			l_enemy.targetId = 0;
@@ -377,18 +377,18 @@ void Room::MoveMonster()
 					else
 					{
 						if (p.second->xPos <= m.posX + 10 && p.second->zPos <= m.posZ + 10
-							&& p.second->xPos >= m.posX - 10 && p.second->zPos >= m.posZ - 10 && !p.second->dead && m.type != 4)
+							&& p.second->xPos >= m.posX - 10 && p.second->zPos >= m.posZ - 10 && !p.second->dead && m.type != 4 && !m.agro)
 						{
-							if (p.second->xPos <= m.posX)
+							if (p.second->xPos - 3 <= m.posX)
 								m.posX -= m_speed;
-							if (p.second->xPos >= m.posX)
+							if (p.second->xPos + 3 >= m.posX)
 								m.posX += m_speed;
-							if (p.second->zPos <= m.posZ)
+							if (p.second->zPos - 3 <= m.posZ)
 								m.posZ -= m_speed;
-							if (p.second->zPos >= m.posZ)
+							if (p.second->zPos + 3 >= m.posZ)
 								m.posZ += m_speed;
 							m.isAttack = true;
-							//cout << " m id: " << m.playerId << " m type: " << m.type << " attack: " << m.wDown << endl;
+							//cout << " m id: " << m.enmyId << " m type: " << m.type << " attack: " << m.isAttack << endl;
 							auto sendBufferM = ServerPacketHandler::Make_S_BroadcastMove(m.enmyId,
 								m.dir,
 								m.hp, m.posX,
@@ -483,7 +483,7 @@ void Room::MoveMonster()
 
 				BroadCast(sendBufferM);
 			}
-			else if (!m.isAttack && m.agro)
+			else if (m.agro)
 			{
 				if (m.type == MONSTER1)
 					continue;
@@ -491,13 +491,13 @@ void Room::MoveMonster()
 				{
 					if (m.targetId == p.second->playerId)
 					{
-						if (p.second->xPos <= m.posX)
+						if (p.second->xPos - 3 <= m.posX)
 							m.posX -= m_speed;
-						if (p.second->xPos >= m.posX)
+						if (p.second->xPos + 3 >= m.posX)
 							m.posX += m_speed;
-						if (p.second->zPos <= m.posZ)
+						if (p.second->zPos - 3 <= m.posZ)
 							m.posZ -= m_speed;
-						if (p.second->zPos >= m.posZ)
+						if (p.second->zPos + 3 >= m.posZ)
 							m.posZ += m_speed;
 						m.isAttack = true;
 						//cout << " m id: " << m.playerId << " m type: " << m.type << " attack: " << m.wDown << endl;
