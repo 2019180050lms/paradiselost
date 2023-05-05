@@ -999,7 +999,9 @@ public class PlayerManager
                     if (items != null)
                     {
                         item = Object.Instantiate(items) as GameObject;
-                        item.transform.position = new Vector3(enemy.transform.position.x, 0f, enemy.transform.position.z);
+                        Rigidbody rigidbody = item.GetComponent<Rigidbody>();
+                        item.transform.position = new Vector3(enemy.transform.position.x, 5f, enemy.transform.position.z);
+                        rigidbody.AddForce(new Vector3(7, 10, 0), ForceMode.Impulse);
                     }
                 }
                 else if(packet.playerId >= 1000)

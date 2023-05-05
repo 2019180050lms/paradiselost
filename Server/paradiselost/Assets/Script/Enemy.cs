@@ -73,7 +73,7 @@ public class Enemy : MonoBehaviour
     {
         Vector3 velo = Vector3.zero;
         //transform.position = Vector3.Lerp(transform.position, pos, 0.001f);
-        transform.position = Vector3.SmoothDamp(transform.position, posVec, ref velo, 0.05f);
+        transform.position = Vector3.SmoothDamp(transform.position, posVec, ref velo, 0.07f);
 
         if (transform.tag == "EnemyTurret" && isAttack && count == 0)
         {
