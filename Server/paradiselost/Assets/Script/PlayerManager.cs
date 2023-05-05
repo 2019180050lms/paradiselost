@@ -56,6 +56,7 @@ public class PlayerManager
 
                         myPlayer.PlayerId = playerId;
                         myPlayer.hp = hp;
+                        myPlayer.body = 1;
                         //myPlayer.name = name;
                         //Debug.Log(p.hp);
 
@@ -99,6 +100,7 @@ public class PlayerManager
                         //myPlayer.name = p.name;
                         myPlayer.transform.tag = "MyPlayer";
                         myPlayer.hp = hp;
+                        myPlayer.body = 2;
                         //Debug.Log(p.hp);
                         myPlayer.transform.position = new Vector3(pos.x, pos.y, pos.z);
                         _myplayer = myPlayer;
@@ -176,6 +178,7 @@ public class PlayerManager
 
                         player.PlayerId = playerId;
                         player.hp = hp;
+                        player.body = 1;
                         //player.name = p.name;
                         Joint_Robot jointP = go.AddComponent<Joint_Robot>();
 
@@ -236,6 +239,7 @@ public class PlayerManager
 
                         player.PlayerId = playerId;
                         player.hp = hp;
+                        player.body = 2;
                         //player.name = p.name;
                         Joint_Robot jointP = go.AddComponent<Joint_Robot>();
 
@@ -601,7 +605,6 @@ public class PlayerManager
                         player.StartCoroutine("Swing");
                     }
                 }
-                player.moveVec2 = Vector3.zero;
                 player.transform.LookAt(player.transform.position + player.moveVec2);
             }
         }
