@@ -307,8 +307,8 @@ bool ServerPacketHandler::Handle_C_PlayerAttacked(PacketSessionRef& session, BYT
 		{
 			if (m.type == MONSTER1)
 			{
-				if (player->xPos <= m.posX + 15 && player->zPos <= m.posZ + 15
-					&& player->xPos >= m.posX - 15 && player->zPos >= m.posZ - 15)
+				if (player->xPos <= m.posX + 30 && player->zPos <= m.posZ + 30
+					&& player->xPos >= m.posX - 30 && player->zPos >= m.posZ - 30)
 				{
 					player->hp -= 10;
 					cout << "player id: " << p_id << " monster id: " << m_id << " type: " << m.type << endl;

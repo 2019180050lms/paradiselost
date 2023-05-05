@@ -121,90 +121,86 @@ void Room::BroadCast(SendBufferRef sendBuffer)
 	}
 }
 
-void Room::CreateMonster(float x, float y, float z)
+void Room::CreateMonster(float x, float y, float z, int stage)
 {
-	EnemyObject l_player;
-	for (int i = 0; i < MAX_MONSTER + stage; i++)
+	EnemyObject l_enemy;
+
+	switch (stage)
 	{
-		l_player.enmyId = 500 + i;
-		if (i == 0) {
-			l_player.type = (int32)MonsterType::MONSTER2;
-			l_player.posX = x + 19;
-			l_player.posY = y + 2;
-			l_player.posZ = z;
-			l_player.hp = 200;
-		}
-		else if (i == 1) {
-			l_player.type = (int32)MonsterType::MONSTER2;
-			l_player.posX = x + 10;
-			l_player.posY = y + 2;
-			l_player.posZ = z;
-			l_player.hp = 200;
-		}
-		else if (i == 2) {
-			l_player.type = (int32)MonsterType::MONSTER2;
-			l_player.posX = x;
-			l_player.posY = y + 2;
-			l_player.posZ = z + 10;
-			l_player.hp = 200;
-		}
-		else if (i == 3) {
-			l_player.type = (int32)MonsterType::MONSTER1;
-			l_player.posX = x;
-			l_player.posY = y;
-			l_player.posZ = z;
-			l_player.hp = 500;
-		}
-		else if (i == 4) {
-			l_player.type = (int32)MonsterType::MONSTER3;
-			l_player.posX = x;
-			l_player.posY = y;
-			l_player.posZ = z + 19;
-			l_player.hp = 100;
-		}
-		else if (i == 5) {
-			l_player.type = (int32)MonsterType::MONSTER3;
-			l_player.posX = x;
-			l_player.posY = y;
-			l_player.posZ = z + 19;
-			l_player.hp = 100;
-		}
-		else if (i == 6) {
-			l_player.type = (int32)MonsterType::MONSTER3;
-			l_player.posX = x;
-			l_player.posY = y;
-			l_player.posZ = z + 19;
-			l_player.hp = 100;
-		}
-		else if (i == 7) {
-			l_player.type = (int32)MonsterType::MONSTER2;
-			l_player.posX = x;
-			l_player.posY = y + 2;
-			l_player.posZ = z + 10;
-			l_player.hp = 200;
-		}
-		else if (i == 8) {
-			l_player.type = (int32)MonsterType::MONSTER2;
-			l_player.posX = x;
-			l_player.posY = y + 2;
-			l_player.posZ = z + 10;
-			l_player.hp = 200;
-		}
-
-
-		/*
-		l_player.posX = x + rand() % 10;
-		if (l_player.type == MONSTER2)
+	case 0: 
+	{
+		for (int i = 0; i < 5; i++)
 		{
-			l_player.posY = y + 2;
+			l_enemy.enmyId = 500 + i;
+			l_enemy.hp = 150;
+			l_enemy.type = MONSTER2;
+			l_enemy.posX = x;
+			l_enemy.posY = y + 2;
+			l_enemy.posZ = z;
+			l_enemy.agro = false;
+			l_enemy.targetId = 0;
+			l_enemy.isAttack = false;
+			l_enemy.dir = 0;
+			GRoom._monsters.push_back(l_enemy);
 		}
-		else
-			l_player.posY = y;
-
-		l_player.posZ = z + rand() % 10;
-		*/
-		GRoom._monsters.push_back(l_player);
+		break;
 	}
+	case 1: {
+		for (int i = 0; i < 2; i++)
+		{
+			l_enemy.enmyId = 500 + i;
+			l_enemy.hp = 500;
+			l_enemy.type = MONSTER1;
+			if (i == 0)
+				l_enemy.posX = x + 10;
+			else if (i == 1)
+				l_enemy.posX = x - 10;
+			l_enemy.posY = y;
+			l_enemy.posZ = z;
+			l_enemy.agro = false;
+			l_enemy.targetId = 0;
+			l_enemy.isAttack = false;
+			l_enemy.dir = 0;
+			GRoom._monsters.push_back(l_enemy);
+		}
+		break;
+	}
+	case 2: {
+		for (int i = 0; i < 6; i++)
+		{
+			l_enemy.enmyId = 500 + i;
+			l_enemy.hp = 200;
+			if (i % 2 == 0)
+				l_enemy.type = MONSTER2;
+			else
+				l_enemy.type = MONSTER3;
+			l_enemy.posX = x;
+			l_enemy.posY = y;
+			l_enemy.posZ = z;
+			l_enemy.agro = false;
+			l_enemy.targetId = 0;
+			l_enemy.isAttack = false;
+			l_enemy.dir = 0;
+			GRoom._monsters.push_back(l_enemy);
+		}
+		break;
+	}
+	default:
+		break;
+	}
+
+
+		  /*
+		  l_player.posX = x + rand() % 10;
+		  if (l_player.type == MONSTER2)
+		  {
+			  l_player.posY = y + 2;
+		  }
+		  else
+			  l_player.posY = y;
+
+		  l_player.posZ = z + rand() % 10;
+		  */
 }
 
 EnemyObject Room::CreateBossMonster()
@@ -238,7 +234,7 @@ void Room::MoveMonster()
 					&& p.second->xPos >= -120.f - 10.f && p.second->zPos >= 27.f - 7.5f)
 				{
 					stage += 1;
-					CreateMonster(-235.f, 2.5f, 27.f);
+					CreateMonster(-235.f, 2.5f, 27.f, stage);
 					maxXpos[1] = -235.f;
 					maxZpos[1] = 27.f;
 					auto monster = ServerPacketHandler::Make_S_EnemyList(_monsters);
@@ -249,7 +245,7 @@ void Room::MoveMonster()
 					&& p.second->xPos >= 0.f - 10.f && p.second->zPos >= 125.f - 7.5f)
 				{
 					stage += 1;
-					CreateMonster(0.f, 2.5f, 225.f);
+					CreateMonster(0.f, 2.5f, 225.f, stage);
 					maxXpos[1] = 0.f;
 					maxZpos[1] = 225.f;
 					auto monster = ServerPacketHandler::Make_S_EnemyList(_monsters);
@@ -266,7 +262,7 @@ void Room::MoveMonster()
 					&& p.second->xPos >= -120.f - 10.f && p.second->zPos >= 225.f - 7.5f)
 				{
 					stage += 1;
-					CreateMonster(-235.f, 2.5f, 225.f);
+					CreateMonster(-235.f, 2.5f, 225.f, stage);
 					maxXpos[2] = -235.f;
 					maxZpos[2] = 225.f;
 					auto monster = ServerPacketHandler::Make_S_EnemyList(_monsters);
@@ -277,7 +273,7 @@ void Room::MoveMonster()
 					&& p.second->xPos >= -235.f - 10.f && p.second->zPos >= 120.f - 7.5f)
 				{
 					stage += 1;
-					CreateMonster(-235.f, 2.5f, 225.f);
+					CreateMonster(-235.f, 2.5f, 225.f, stage);
 					maxXpos[2] = -235.f;
 					maxZpos[2] = 225.f;
 					auto monster = ServerPacketHandler::Make_S_EnemyList(_monsters);
@@ -362,8 +358,8 @@ void Room::MoveMonster()
 					}
 					else if(m.type == 4)
 					{
-						if (p.second->xPos <= m.posX + 15 && p.second->zPos <= m.posZ + 15
-							&& p.second->xPos >= m.posX - 15 && p.second->zPos >= m.posZ - 15 && !p.second->dead && m.type == 4)
+						if (p.second->xPos <= m.posX + 30 && p.second->zPos <= m.posZ + 30
+							&& p.second->xPos >= m.posX - 30 && p.second->zPos >= m.posZ - 30 && !p.second->dead && m.type == 4)
 						{
 							m.isAttack = true;
 							cout << " m id: " << m.enmyId << " m type: " << m.type << " attack: " << m.isAttack << endl;

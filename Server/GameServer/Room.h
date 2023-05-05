@@ -12,7 +12,7 @@ public:
 	void DeadMonster(int32 monsterId);
 	void AttackedMonster(int32 monsterId, uint16 hp, int32 targetId);
 	void BroadCast(SendBufferRef sendBuffer);
-	void CreateMonster(float x, float y, float z);
+	void CreateMonster(float x, float y, float z, int stage);
 	EnemyObject CreateBossMonster();
 	void MoveMonster();
 

@@ -14,11 +14,7 @@ void Monster_AI();
 int main()
 {
 	ServerServiceRef service = MakeShared<ServerService>(
-<<<<<<< Updated upstream
-		NetAddress(L"127.0.0.1", 7777),
-=======
-		NetAddress(L"127.0.0.1", 7778),
->>>>>>> Stashed changes
+		NetAddress(L"192.168.0.29", 7777),
 		MakeShared<IocpCore>(),
 		MakeShared<GameSession>, // TODO : SessionManager 등
 		100);
@@ -28,7 +24,7 @@ int main()
 	// 몬스터 생성
 	//GRoom.CreateBossMonster();
 	//cout << "send boss " << stage << endl;
-	GRoom.CreateMonster(1.f, 2.1f, 31.f);
+	GRoom.CreateMonster(1.f, 2.1f, 31.f, 0);
 
 	for (int32 i = 0; i < 5; i++)
 	{
