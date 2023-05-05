@@ -489,6 +489,8 @@ void Room::MoveMonster()
 			}
 			else if (!m.isAttack && m.agro)
 			{
+				if (m.type == MONSTER1)
+					continue;
 				for (auto& p : _players)
 				{
 					if (m.targetId == p.second->playerId)
