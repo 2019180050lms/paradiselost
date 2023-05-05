@@ -1037,6 +1037,8 @@ public class PlayerManager
                 }
                 _myplayer.anim_Head = joint.head.gameObject.transform.GetChild(0).GetComponent<Animator>();
                 _myplayer.head = packet.itemType;
+                //_myplayer.ps.Play();
+                _myplayer.ps.Emit(100);
             }
             else if (packet.charactorType == 2)
             {
@@ -1057,6 +1059,8 @@ public class PlayerManager
                 }
                 _myplayer.anim_Body = joint.body.gameObject.transform.GetChild(0).GetComponent<Animator>();
                 _myplayer.body = packet.itemType;
+                //_myplayer.ps.Play();
+                _myplayer.ps.Emit(100);
             }
             else if (packet.charactorType == 3)
             {
@@ -1077,6 +1081,8 @@ public class PlayerManager
                 }
                 _myplayer.anim_Leg = joint.leg.gameObject.transform.GetChild(0).GetComponent<Animator>();
                 _myplayer.leg = packet.itemType;
+                //_myplayer.ps.Play();
+                _myplayer.ps.Emit(100);
             }
         }
         else if (_players.TryGetValue(packet.playerId, out player))
@@ -1103,6 +1109,7 @@ public class PlayerManager
                     }
                     player.anim_Head = c_p_parts.head.gameObject.transform.GetChild(0).GetComponent<Animator>();
                     player.head = packet.itemType;
+                    player.ps.Emit(100);
                 }
                 else if (packet.charactorType == 2)
                 {
@@ -1123,6 +1130,7 @@ public class PlayerManager
                     }
                     player.anim_Body = c_p_parts.body.gameObject.transform.GetChild(0).GetComponent<Animator>();
                     player.body = packet.itemType;
+                    player.ps.Emit(100);
                 }
                 else if (packet.charactorType == 3)
                 {
@@ -1143,6 +1151,7 @@ public class PlayerManager
                     }
                     player.anim_Leg = c_p_parts.leg.gameObject.transform.GetChild(0).GetComponent<Animator>();
                     player.leg = packet.itemType;
+                    player.ps.Emit(100);
                 }
             }
         }

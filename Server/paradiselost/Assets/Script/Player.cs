@@ -51,6 +51,7 @@ public class Player : MonoBehaviour
     public GameObject nearObject;
     public Weapon equipWeapon;
     public HitBox hitBox;
+    public ParticleSystem ps;
     public int equipWeaponIndex = -1;
     public float fireDelay;
     public bool falling = false;
@@ -95,7 +96,11 @@ public class Player : MonoBehaviour
     {
         rigid = GetComponent<Rigidbody>();
         anim = GetComponentInChildren<Animator>();
+        ps = GetComponent<ParticleSystem>();
 
+        //ps.Play();
+        //ps.Emit(100);
+        //ps.Stop();
     }
     
 
