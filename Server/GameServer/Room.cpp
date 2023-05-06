@@ -170,13 +170,18 @@ void Room::CreateMonster(float x, float y, float z, int stage)
 		{
 			l_enemy.enmyId = 500 + i;
 			l_enemy.hp = 200;
-			if (i % 2 == 0)
+			if (i % 2 == 0) {
 				l_enemy.type = MONSTER2;
-			else
+				l_enemy.posX = x;
+				l_enemy.posY = y;
+				l_enemy.posZ = z;
+			}
+			else {
 				l_enemy.type = MONSTER3;
-			l_enemy.posX = x;
-			l_enemy.posY = y;
-			l_enemy.posZ = z;
+				l_enemy.posX = x;
+				l_enemy.posY = y - 1.7f;
+				l_enemy.posZ = z;
+			}
 			l_enemy.agro = false;
 			l_enemy.targetId = 0;
 			l_enemy.isAttack = false;
