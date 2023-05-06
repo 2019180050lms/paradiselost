@@ -103,6 +103,7 @@ public class PlayerManager
                         myPlayer.body = 2;
                         //Debug.Log(p.hp);
                         myPlayer.transform.position = new Vector3(pos.x, pos.y, pos.z);
+                        Debug.Log("pos in: " + pos.x + " " + pos.y + " " + pos.z);
                         _myplayer = myPlayer;
                         PlayerPtr.transform.SetParent(go.transform, false);
                         myPlayer.anim_Head = joint.head.gameObject.transform.GetChild(0).GetComponent<Animator>();
@@ -146,6 +147,7 @@ public class PlayerManager
                         myPlayer.hp = hp;
                         //Debug.Log(p.hp);
                         myPlayer.transform.position = new Vector3(pos.x, pos.y, pos.z);
+                        Debug.Log("pos in: " + pos.x + " " + pos.y + " " + pos.z);
                         _myplayer = myPlayer;
                         PlayerPtr.transform.SetParent(go.transform, false);
                         myPlayer.anim_Head = joint.head.gameObject.transform.GetChild(0).GetComponent<Animator>();
@@ -404,7 +406,7 @@ public class PlayerManager
                 enemy.ps = go.GetComponentInChildren<ParticleSystem>();
                 //enemy.transform.position = new Vector3(p.posX, p.posY, p.posZ);
                 enemy.posVec = new Vector3(p.posX, p.posY, p.posZ);
-                Debug.Log("test enemy pos: " + new Vector3(p.posX, p.posY, p.posZ));
+                //Debug.Log("test enemy pos: " + new Vector3(p.posX, p.posY, p.posZ));
                 _enemys.Add(p.enemyId, enemy);
 
                 //Debug.Log("Monster 생성");
