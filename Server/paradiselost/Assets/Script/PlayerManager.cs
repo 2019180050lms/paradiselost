@@ -404,6 +404,7 @@ public class PlayerManager
                 enemy.maxHealth = p.hp;
                 enemy.curHealth = p.hp;
                 enemy.ps = go.GetComponentInChildren<ParticleSystem>();
+
                 //enemy.transform.position = new Vector3(p.posX, p.posY, p.posZ);
                 enemy.posVec = new Vector3(p.posX, p.posY, p.posZ);
                 //Debug.Log("test enemy pos: " + new Vector3(p.posX, p.posY, p.posZ));
@@ -665,10 +666,6 @@ public class PlayerManager
                     _boss.moveVec2 = new Vector3(-(Mathf.Sqrt(0.5f)), 0, -(Mathf.Sqrt(0.5f)));
 
                 _boss.moveVec2 = new Vector3(packet.posX, packet.posY, packet.posZ);
-
-                //enemy.transform.position = Vector3.MoveTowards(enemy.transform.position, new Vector3(packet.posX, packet.posY, packet.posZ), 1f);
-                //Debug.Log(enemy.transform.position);
-                //enemy.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
                 _boss.posVec = new Vector3(packet.posX, packet.posY, packet.posZ);
                 //_boss.anim.SetBool("isWalk", _boss.isAttack != false);
 
@@ -687,11 +684,13 @@ public class PlayerManager
                     //_boss.transform.LookAt();
                 }
                 //enemy.transform.LookAt(enemy.transform.position + enemy.moveVec2);
+                Debug.Log("StageBoss Move");
+                _boss.transform.LookAt(_boss.posVec);
                 if (enemy.tag == "StageBoss")
                 {
-                    EnemyTurret enemyTurret = GameObject.Find("TargetArea").GetComponent<EnemyTurret>();
-                    _boss.transform.LookAt(enemyTurret.targetPos);
-                    //Debug.Log(enemyTurret.targetPos);
+                    //EnemyTurret enemyTurret = GameObject.Find("TargetArea").GetComponent<EnemyTurret>();
+                    
+                    Debug.Log("StageBoss LookAt");
                 }
             }
         }
