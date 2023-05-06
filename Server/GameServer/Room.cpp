@@ -337,8 +337,8 @@ void Room::MoveMonster()
 
 							BroadCast(sendBufferM);
 						}
-						else if (p.second->xPos <= m.posX + 20 && p.second->zPos <= m.posZ + 20
-							&& p.second->xPos >= m.posX - 20 && p.second->zPos >= m.posZ - 20 && !p.second->dead && !m.agro)
+						else if (p.second->xPos <= m.posX + 50 && p.second->zPos <= m.posZ + 50
+							&& p.second->xPos >= m.posX - 50 && p.second->zPos >= m.posZ - 50 && !p.second->dead && !m.agro)
 						{
 							m.isAttack = true;
 							bossAttack = 2;
@@ -500,7 +500,13 @@ void Room::MoveMonster()
 						if (p.second->zPos + 3 >= m.posZ)
 							m.posZ += m_speed;
 						m.isAttack = true;
-						bossAttack = rand() % 2;
+						if (p.second->xPos <= m.posX + 50 && p.second->zPos <= m.posZ + 50
+							&& p.second->xPos >= m.posX - 50 && p.second->zPos >= m.posZ - 50 && !p.second->dead && !m.agro)
+						{
+							bossAttack = 2;
+						}
+						else
+							bossAttack = 1;
 						cout << " m id: " << m.enmyId << " m type: " << m.type << " target id: " << m.targetId << endl;
 						auto sendBufferM = ServerPacketHandler::Make_S_BroadcastMove(m.enmyId,
 							m.dir,
