@@ -199,6 +199,7 @@ public class BossEnemy : MonoBehaviour
 
         isChase = true;
         isAttack = false;
+        count--;
         //anim.SetBool("isAttack", false);
 
     }
