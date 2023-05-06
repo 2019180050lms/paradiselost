@@ -82,6 +82,7 @@ public class Player : MonoBehaviour
         delay_body = 0f;
         delay_leg = 0f;
         isJumping = false;
+        hp = 100;
     }
 
 

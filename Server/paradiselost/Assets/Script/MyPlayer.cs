@@ -45,22 +45,6 @@ public class MyPlayer : Player
     // Update is called once per frame
     void Update()
     {
-        if(delay_body > 0f)
-        {
-            delay_body -= Time.deltaTime;
-           
-        }
-
-        if(delay_leg > 0f)
-        {
-            delay_leg -= Time.deltaTime;
-        }
-
-        anim_Body.SetFloat("Delay", delay_body);
-        anim_Leg.SetFloat("Delay", delay_leg);
-
-        GetInput();
-        Interaction();
         if (Input.GetButtonDown("Camera1"))
         {
             if (camera1 == true)
@@ -76,6 +60,7 @@ public class MyPlayer : Player
         }
         if (Input.GetButtonDown("Camera2"))
         {
+            Debug.Log("press2");
             if (camera2 == true)
             {
                 camera1 = false;
@@ -86,7 +71,26 @@ public class MyPlayer : Player
                 camera2 = true;
                 camera1 = false;
             }
+            Debug.Log(camera2);
         }
+
+        if (delay_body > 0f)
+        {
+            delay_body -= Time.deltaTime;
+           
+        }
+
+        if(delay_leg > 0f)
+        {
+            delay_leg -= Time.deltaTime;
+        }
+
+        anim_Body.SetFloat("Delay", delay_body);
+        anim_Leg.SetFloat("Delay", delay_leg);
+
+        GetInput();
+        Interaction();
+        
 
         frontDown = Input.GetKey(KeyCode.W);
         leftDown = Input.GetKey(KeyCode.A);
@@ -175,9 +179,30 @@ public class MyPlayer : Player
 
     void LateUpdate()
     {
+        Camera.main.transform.rotation = Quaternion.Euler(ymove, xmove, 0); // 이동량에 따라 카메라의 바라보는 방향을 조정합니다.
+        Vector3 reverseDistance = new Vector3(0.0f, 0.0f, distance); // 이동량에 따른 Z 축방향의 벡터를 구합니다.
 
+        if (camera1)
+            Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y + 5, transform.position.z) - Camera.main.transform.rotation * reverseDistance; // 플레이어의 위치에서 카메라가 바라보는 방향에 벡터값을 적용한 상대 좌표를 차감합니다.
+        else if (camera2)
+        {
+            Player[] playerOb = GameObject.FindGameObjectWithTag("Player").GetComponents<Player>();
+            Debug.Log(playerOb);
+            Camera.main.transform.position = new Vector3(playerOb[0].transform.position.x, playerOb[0].transform.position.y + 5, playerOb[0].transform.position.z) - Camera.main.transform.rotation * reverseDistance;
+        }
         //Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y + 7, transform.position.z - 5);
         //Debug.Log(xmove);
+        if (Input.GetMouseButton(1))
+        {
+            xmove += Input.GetAxis("Mouse X"); // 마우스의 좌우 이동량을 xmove 에 누적합니다.
+            ymove -= Input.GetAxis("Mouse Y"); // 마우스의 상하 이동량을 ymove 에 누적합니다.
+
+            if (xmove > 360)
+                xmove = 0;
+            else if (xmove < -360)
+                xmove = 0;
+        }
+
         float delay_body = anim_Body.GetFloat("Delay");
         
         if(delay_body > 0)
@@ -195,27 +220,10 @@ public class MyPlayer : Player
         
 
 
-        if (Input.GetMouseButton(1))
-        {
-            xmove += Input.GetAxis("Mouse X"); // 마우스의 좌우 이동량을 xmove 에 누적합니다.
-            ymove -= Input.GetAxis("Mouse Y"); // 마우스의 상하 이동량을 ymove 에 누적합니다.
+        
+        
 
-            if (xmove > 360)
-                xmove = 0;
-            else if (xmove < -360)
-                xmove = 0;
-        }
-        Camera.main.transform.rotation = Quaternion.Euler(ymove, xmove, 0); // 이동량에 따라 카메라의 바라보는 방향을 조정합니다.
-        Vector3 reverseDistance = new Vector3(0.0f, 0.0f, distance); // 이동량에 따른 Z 축방향의 벡터를 구합니다.
-
-        if(camera1)
-            Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y + 5, transform.position.z) - Camera.main.transform.rotation * reverseDistance; // 플레이어의 위치에서 카메라가 바라보는 방향에 벡터값을 적용한 상대 좌표를 차감합니다.
-        else if(camera2)
-        {
-            Player[] playerOb = GameObject.FindGameObjectWithTag("Player").GetComponents<Player>();
-            Debug.Log(playerOb);
-            Camera.main.transform.position = new Vector3(playerOb[0].transform.position.x, playerOb[0].transform.position.y + 5, playerOb[0].transform.position.z) - Camera.main.transform.rotation * reverseDistance;
-        }
+        
 
     }
 
