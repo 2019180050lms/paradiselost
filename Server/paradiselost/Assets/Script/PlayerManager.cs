@@ -972,7 +972,8 @@ public class PlayerManager
                 Player player = null;
                 if (_players.TryGetValue(packet.playerId, out player))
                 {
-                    GameObject.Destroy(player.gameObject);
+                    player.hp = 0;
+                    GameObject.Destroy(player.gameObject, 1f);
                     _players.Remove(packet.playerId);
                     _playerParts.Remove(packet.playerId);
                 }
