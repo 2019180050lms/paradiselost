@@ -480,32 +480,47 @@ public class PlayerManager
             //_myplayer.transform.position = movePos;
 
             //Debug.Log(packet.hp);
-
-            _myplayer.anim_Head.SetBool("isRun", _myplayer.moveVec != Vector3.zero);
-            _myplayer.anim_Body.SetBool("isRun", _myplayer.moveVec != Vector3.zero);
-            _myplayer.anim_Leg.SetBool("isRun", _myplayer.moveVec != Vector3.zero);
+            
+            if(_myplayer.delay_body <=0f && _myplayer.delay_leg <= 0f)
+            {
+                _myplayer.anim_Head.SetBool("isRun", _myplayer.moveVec != Vector3.zero);
+                _myplayer.anim_Body.SetBool("isRun", _myplayer.moveVec != Vector3.zero);
+                _myplayer.anim_Leg.SetBool("isRun", _myplayer.moveVec != Vector3.zero);
+            }
+            
 
             if (packet.wDown)
             {
                 if((int)_myplayer.body == 3)
                 {
                     _myplayer.StopCoroutine("Shot");
-                    _myplayer.anim_Head.SetTrigger("doSwing");
                     _myplayer.anim_Body.SetTrigger("doSwing");
-                    _myplayer.anim_Leg.SetTrigger("doSwing");
                     _myplayer.delay_body = 0.6f;
+                    
+                    
+                    _myplayer.anim_Head.SetTrigger("doSwing");
+                    _myplayer.anim_Leg.SetTrigger("doSwing");
                     _myplayer.delay_leg = 0.6f;
+                    
+                    
+                    
                     _myplayer.StartCoroutine("Shot");
                 }
                 else if((int)_myplayer.body == 2)
                 {
-                    _myplayer.StopCoroutine("Shot");
+                   
+                    if (!_myplayer.anim_Body.GetCurrentAnimatorStateInfo(0).IsName("Swing"))
+                    {
+                        _myplayer.anim_Body.SetTrigger("doSwing");
+                        _myplayer.delay_body = 1.2f;
+                    }
                     _myplayer.anim_Head.SetTrigger("doSwing");
-                    _myplayer.anim_Body.SetTrigger("doSwing");
-                    _myplayer.anim_Leg.SetTrigger("doSwing");
-                    _myplayer.delay_body = 3.0f;
-                    _myplayer.delay_leg = 3.0f;
-                    _myplayer.StartCoroutine("Shot");
+
+                    if (!_myplayer.anim_Leg.GetCurrentAnimatorStateInfo(0).IsName("Swing"))
+                    {
+                        _myplayer.anim_Leg.SetTrigger("doSwing");
+                        _myplayer.delay_leg = 1.2f;
+                    }
                 }
                 else
                 {
@@ -558,9 +573,14 @@ public class PlayerManager
                 //Debug.Log(player.moveVec);
 
                 //player.anim.SetBool("isRun", player.moveVec2 != Vector3.zero);
-                player.anim_Head.SetBool("isRun", player.moveVec2 != Vector3.zero);
-                player.anim_Body.SetBool("isRun", player.moveVec2 != Vector3.zero);
-                player.anim_Leg.SetBool("isRun", player.moveVec2 != Vector3.zero);
+                if(player.delay_body <=0f && player.delay_leg <= 0f)
+                {
+                    player.anim_Head.SetBool("isRun", player.moveVec2 != Vector3.zero);
+                    player.anim_Body.SetBool("isRun", player.moveVec2 != Vector3.zero);
+                    player.anim_Leg.SetBool("isRun", player.moveVec2 != Vector3.zero);
+                }
+
+                
 
                 if (packet.wDown)
                 {
@@ -569,11 +589,36 @@ public class PlayerManager
                     {
                         Debug.Log("player 코루틴 테스트");
                         player.StopCoroutine("Shot");
-                        player.anim_Head.SetTrigger("doSwing");
+
+
+                        
                         player.anim_Body.SetTrigger("doSwing");
+                        player.delay_body = 0.6f;
+                        
+                     
+                        player.anim_Head.SetTrigger("doSwing");
+
+                       
                         player.anim_Leg.SetTrigger("doSwing");
+                        player.delay_leg = 0.6f;
+                        
                        
                         player.StartCoroutine("Shot");
+                    }
+                    else if((int)player.body == 2)
+                    {
+                        if (!player.anim_Body.GetCurrentAnimatorStateInfo(0).IsName("Swing"))
+                        {
+                            player.anim_Body.SetTrigger("doSwing");
+                            player.delay_body = 1.2f;
+                        }
+                        player.anim_Head.SetTrigger("doSwing");
+
+                        if (!player.anim_Leg.GetCurrentAnimatorStateInfo(0).IsName("Swing"))
+                        {
+                            player.anim_Leg.SetTrigger("doSwing");
+                            player.delay_leg = 1.2f;
+                        }
                     }
                     else
                     {

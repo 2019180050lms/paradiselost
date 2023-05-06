@@ -62,13 +62,41 @@ public class Player : MonoBehaviour
     public bool isShot;
     public int bulletCount = 0;
 
+
+    [HideInInspector]
+    public float delay_body;
+    public float delay_leg;
+    void Awake()
+    {
+        rigid = GetComponent<Rigidbody>();
+        anim = GetComponentInChildren<Animator>();
+        ps = GetComponent<ParticleSystem>();
+        gunParticle = GetComponentInChildren<ParticleSystem>();
+        bulletPos = transform.GetChild(0);
+        //ps.Play();
+        //ps.Emit(100);
+        //ps.Stop();
+    }
     void Start()
     {
+        delay_body = 0f;
+        delay_leg = 0f;
         isJumping = false;
+    }
+
+
+    void Delay_Update()
+    {
+        delay_body -= Time.deltaTime;
+        delay_leg -= Time.deltaTime;
+
+        anim_Body.SetFloat("Delay", delay_body);
+        anim_Leg.SetFloat("Delay", delay_leg);
     }
 
     void Update()
     {
+        Delay_Update();
         Vector3 velo = Vector3.zero;
         if (!falling)
             transform.position = Vector3.SmoothDamp(transform.position, posVec, ref velo, 0.03f);
@@ -96,17 +124,10 @@ public class Player : MonoBehaviour
         moveVec2 = Vector3.zero;
     }
 
-    void Awake()
-    {
-        rigid = GetComponent<Rigidbody>();
-        anim = GetComponentInChildren<Animator>();
-        ps = GetComponent<ParticleSystem>();
-        gunParticle = GetComponentInChildren<ParticleSystem>();
-        bulletPos = transform.GetChild(0);
-        //ps.Play();
-        //ps.Emit(100);
-        //ps.Stop();
-    }
+
+    
+
+
     
 
     
@@ -118,8 +139,12 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
+        
         FreezeRotation();
     }
+
+    
+
 
     public void Move()
     {
@@ -132,7 +157,7 @@ public class Player : MonoBehaviour
         if (isSwap || !isFireReady)
             moveVec2 = Vector3.zero;
 
-        if(anim_Body.GetFloat("Delay") <= 0 && anim_Leg.GetFloat("Delay") <= 0)
+        if(delay_body <= 0 && delay_leg <= 0)
         {
             if (wDown)
             {
@@ -232,6 +257,8 @@ public class Player : MonoBehaviour
 
     IEnumerator Shot()
     {
+        delay_body = 0.6f;
+        delay_leg = 0.6f;
         // 총알 발사
         isShot = true;
 

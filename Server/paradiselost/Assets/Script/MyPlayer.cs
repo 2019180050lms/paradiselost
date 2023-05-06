@@ -45,8 +45,19 @@ public class MyPlayer : Player
     // Update is called once per frame
     void Update()
     {
-        delay_leg = anim_Leg.GetFloat("Delay");
-        delay_body = anim_Body.GetFloat("Delay");
+        if(delay_body > 0f)
+        {
+            delay_body -= Time.deltaTime;
+           
+        }
+
+        if(delay_leg > 0f)
+        {
+            delay_leg -= Time.deltaTime;
+        }
+
+        anim_Body.SetFloat("Delay", delay_body);
+        anim_Leg.SetFloat("Delay", delay_leg);
 
         GetInput();
         Interaction();
