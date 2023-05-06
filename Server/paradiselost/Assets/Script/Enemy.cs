@@ -94,7 +94,7 @@ public class Enemy : MonoBehaviour
         if(other.tag == "Melee")
         {
             //Debug.Log(" �浹 " );
-           Weapon weapon = other.GetComponent<Weapon>();
+            Weapon weapon = other.GetComponent<Weapon>();
             curHealth -= weapon.damage;
             Vector3 reactVec = transform.position - other.transform.position;
            // Debug.Log("Melee : " + curHealth);

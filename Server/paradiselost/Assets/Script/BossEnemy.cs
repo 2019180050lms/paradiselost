@@ -51,7 +51,7 @@ public class BossEnemy : MonoBehaviour
     {
         rigid = GetComponent<Rigidbody>();
         boxCollider = GetComponent<BoxCollider>();
-        meshs = GetComponentsInChildren<MeshRenderer>();  // MaterialÀº MesgRenderer¸¦ ÅëÇØ °¡Á®¿È
+        meshs = GetComponentsInChildren<MeshRenderer>();  // Materialï¿½ï¿½ MesgRendererï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         nav = GetComponent<NavMeshAgent>();
         anim = GetComponentInChildren<Animator>();
 
@@ -92,7 +92,7 @@ public class BossEnemy : MonoBehaviour
     {
         if(other.tag == "Melee")
         {
-            //Debug.Log(" Ãæµ¹ " );
+            //Debug.Log(" ï¿½æµ¹ " );
             Weapon weapon = other.GetComponent<Weapon>();
             curHealth -= weapon.damage;
             Vector3 reactVec = transform.position - other.transform.position;
@@ -102,6 +102,7 @@ public class BossEnemy : MonoBehaviour
             C_AttackedMonster attackedPacket = new C_AttackedMonster();
             attackedPacket.id = enemyId;
             attackedPacket.hp = (short)curHealth;
+            attackedPacket.playerId = weapon.ParentId;
             _network.Send(attackedPacket.Write());
         }
         else if (other.tag == "Bullet")
@@ -117,6 +118,7 @@ public class BossEnemy : MonoBehaviour
             C_AttackedMonster attackedPacket = new C_AttackedMonster();
             attackedPacket.id = enemyId;
             attackedPacket.hp = (short)curHealth;
+            attackedPacket.playerId = bullet.ParentID;
             _network.Send(attackedPacket.Write());
         }
     }
@@ -140,10 +142,10 @@ public class BossEnemy : MonoBehaviour
             gameObject.layer = 7;
             isDead = true;
             isChase = false;
-            //nav.enabled = false;  // »ç¸Á ¸ð¼Ç ±¸ÇöÇÏ±â À§ÇØ ºñÈ°¼ºÈ­
+            //nav.enabled = false;  // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È°ï¿½ï¿½È­
             //anim.SetTrigger("doDie");
 
-            // »ç¸Á½Ã ³Ë¹é
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë¹ï¿½
             reactVec = reactVec.normalized;
             reactVec += Vector3.up;
             rigid.AddForce(reactVec * 5, ForceMode.Impulse);
@@ -154,7 +156,7 @@ public class BossEnemy : MonoBehaviour
         }
     }
 
-    void FreezVelocity() // È¸Àü ¹ö±× ÇØ°á
+    void FreezVelocity() // È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ø°ï¿½
     {
         if (isChase)
         {
