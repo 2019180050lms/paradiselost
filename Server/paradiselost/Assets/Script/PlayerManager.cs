@@ -508,11 +508,12 @@ public class PlayerManager
                 }
                 else if((int)_myplayer.body == 2)
                 {
-                   
+                    _myplayer.StopCoroutine("Swing");
+                    _myplayer.StartCoroutine("Swing");
                     if (!_myplayer.anim_Body.GetCurrentAnimatorStateInfo(0).IsName("Swing"))
                     {
                         _myplayer.anim_Body.SetTrigger("doSwing");
-                        _myplayer.delay_body = 1.2f;
+                        _myplayer.delay_body = 0.3f;
                     }
                     _myplayer.anim_Head.SetTrigger("doSwing");
 
@@ -590,27 +591,24 @@ public class PlayerManager
                         Debug.Log("player 코루틴 테스트");
                         player.StopCoroutine("Shot");
 
-
-                        
                         player.anim_Body.SetTrigger("doSwing");
                         player.delay_body = 0.6f;
-                        
-                     
+
                         player.anim_Head.SetTrigger("doSwing");
 
-                       
                         player.anim_Leg.SetTrigger("doSwing");
                         player.delay_leg = 0.6f;
                         
-                       
                         player.StartCoroutine("Shot");
                     }
                     else if((int)player.body == 2)
                     {
+                        player.StopCoroutine("Swing");
+                        player.StartCoroutine("Swing");
                         if (!player.anim_Body.GetCurrentAnimatorStateInfo(0).IsName("Swing"))
                         {
                             player.anim_Body.SetTrigger("doSwing");
-                            player.delay_body = 1.2f;
+                            player.delay_body = 0.3f;
                         }
                         player.anim_Head.SetTrigger("doSwing");
 
