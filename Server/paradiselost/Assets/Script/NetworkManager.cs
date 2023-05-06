@@ -21,7 +21,7 @@ public class NetworkManager : MonoBehaviour
 		IPHostEntry ipHost = Dns.GetHostEntry(host);
 		//IPAddress ipAddr = IPAddress.Parse("127.0.0.1");
 
-		IPAddress ipAddr = IPAddress.Parse("27.119.175.22");
+		IPAddress ipAddr = IPAddress.Parse("127.0.0.1");
 		//IPAddress ipAddr = IPAddress.Parse("122.153.121.138");
 
 		IPEndPoint endPoint = new IPEndPoint(ipAddr, 7777);
