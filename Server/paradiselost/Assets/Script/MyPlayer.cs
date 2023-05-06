@@ -23,11 +23,17 @@ public class MyPlayer : Player
     bool isBorder;
     public bool hasHeadItem = false;
 
+    [HideInInspector]
+    public float delay_body;
+    public float delay_leg;
+
     bool camera1 = true;
     bool camera2 = false;
 
     void Start()
     {
+        delay_body = 0.0f;
+        delay_leg = 0.0f;
         StartCoroutine("CoSendPacket");
         hitBox = GetComponent<HitBox>();
         _network = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
@@ -39,6 +45,9 @@ public class MyPlayer : Player
     // Update is called once per frame
     void Update()
     {
+        delay_leg = anim_Leg.GetFloat("Delay");
+        delay_body = anim_Body.GetFloat("Delay");
+
         GetInput();
         Interaction();
         if (Input.GetButtonDown("Camera1"))
@@ -78,8 +87,14 @@ public class MyPlayer : Player
             anim_Leg.SetBool("isRun", false);
         }
 
-        MoveControl();
-        Jump(testJump);
+        if(delay_body <= 0 && delay_leg <= 0)
+        {
+            MoveControl();
+            Jump(testJump);
+        }
+
+        
+        
 
         
         if (isBorder)

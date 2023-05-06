@@ -18,6 +18,7 @@ public class CameraCon : MonoBehaviour
     void Start()
     {
         animator = characterBody.GetComponent<Animator>();
+        
     }
 
     // Update is called once per frame
