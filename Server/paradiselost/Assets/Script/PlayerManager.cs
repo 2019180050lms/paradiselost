@@ -401,6 +401,7 @@ public class PlayerManager
                 enemy.enemyType = p.type;
                 enemy.maxHealth = p.hp;
                 enemy.curHealth = p.hp;
+                enemy.ps = go.GetComponentInChildren<ParticleSystem>();
                 //enemy.transform.position = new Vector3(p.posX, p.posY, p.posZ);
                 enemy.posVec = new Vector3(p.posX, p.posY, p.posZ);
                 Debug.Log("test enemy pos: " + new Vector3(p.posX, p.posY, p.posZ));
@@ -420,6 +421,7 @@ public class PlayerManager
                 enemy.enemyType = p.type;
                 enemy.maxHealth = p.hp;
                 enemy.curHealth = p.hp;
+                enemy.ps = go.GetComponentInChildren<ParticleSystem>();
                 enemy.posVec = new Vector3(p.posX, p.posY, p.posZ);
                 _enemys.Add(p.enemyId, enemy);
 
@@ -437,6 +439,7 @@ public class PlayerManager
                 enemy.enemyType = p.type;
                 enemy.maxHealth = p.hp;
                 enemy.curHealth = p.hp;
+                enemy.ps = go.GetComponentInChildren<ParticleSystem>();
                 enemy.posVec = new Vector3(p.posX, p.posY, p.posZ);
                 _enemys.Add(p.enemyId, enemy);
 
@@ -997,7 +1000,8 @@ public class PlayerManager
                 Debug.Log("itemNum: " + packet.itemNum);
                 if(_enemys.TryGetValue(packet.playerId, out enemy))
                 {
-                    GameObject.Destroy(enemy.gameObject);
+                    enemy.ps.Play();
+                    GameObject.Destroy(enemy.gameObject, 0.6f);
                     _enemys.Remove(packet.playerId);
                     if (items != null)
                     {

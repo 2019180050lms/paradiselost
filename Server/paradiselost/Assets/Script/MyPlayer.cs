@@ -31,7 +31,7 @@ public class MyPlayer : Player
         StartCoroutine("CoSendPacket");
         hitBox = GetComponent<HitBox>();
         _network = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
-
+        bulletPos = transform.GetChild(0);
         //transform.tag = "MyPlayer";
     }
 
@@ -93,9 +93,10 @@ public class MyPlayer : Player
         {
             bullet = Object.Instantiate(intantBullet) as GameObject;
             bullet.transform.position = bulletPos.transform.position;
+            gunParticle.Play();
             bullet.transform.rotation = bulletPos.rotation;
             Rigidbody bulletRigid = bullet.GetComponent<Rigidbody>();
-            bulletRigid.velocity = bulletPos.forward * 75;
+            bulletRigid.velocity = bulletPos.forward * 120;
             Bullet BulletId = bullet.GetComponent<Bullet>();
             BulletId.ParentID = PlayerId;
             bulletCount--;

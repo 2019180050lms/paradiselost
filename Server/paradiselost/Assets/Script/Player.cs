@@ -52,6 +52,8 @@ public class Player : MonoBehaviour
     public Weapon equipWeapon;
     public HitBox hitBox;
     public ParticleSystem ps;
+    public ParticleSystem gunParticle;
+
     public int equipWeaponIndex = -1;
     public float fireDelay;
     public bool falling = false;
@@ -59,6 +61,7 @@ public class Player : MonoBehaviour
     public bool isJumping;
     public bool isShot;
     public int bulletCount = 0;
+
     void Start()
     {
         isJumping = false;
@@ -80,10 +83,11 @@ public class Player : MonoBehaviour
         {
             Debug.Log("총알 발사 생성");
             bullet = Object.Instantiate(intantBullet) as GameObject;
+            gunParticle.Play();
             bullet.transform.position = bulletPos.transform.position;
             bullet.transform.rotation = bulletPos.rotation;
             Rigidbody bulletRigid = bullet.GetComponent<Rigidbody>();
-            bulletRigid.velocity = bulletPos.forward * 75;
+            bulletRigid.velocity = bulletPos.forward * 120;
             Bullet BulletId = bullet.GetComponent<Bullet>();
             BulletId.ParentID = PlayerId;
             bulletCount--;
@@ -97,7 +101,8 @@ public class Player : MonoBehaviour
         rigid = GetComponent<Rigidbody>();
         anim = GetComponentInChildren<Animator>();
         ps = GetComponent<ParticleSystem>();
-
+        gunParticle = GetComponentInChildren<ParticleSystem>();
+        bulletPos = transform.GetChild(0);
         //ps.Play();
         //ps.Emit(100);
         //ps.Stop();

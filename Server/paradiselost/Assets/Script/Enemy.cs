@@ -33,7 +33,7 @@ public class Enemy : MonoBehaviour
 
     NetworkManager _network;
 
-
+    public ParticleSystem ps;
     public bool walking;
 
 
@@ -43,6 +43,7 @@ public class Enemy : MonoBehaviour
     {
         _network = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
         hitBox = GetComponent<HitBox>();
+        ps = GetComponentInChildren<ParticleSystem>();
         walking = true;
         bulletPos = transform.GetChild(1);
         timer = 0.0f;
@@ -102,18 +103,18 @@ public class Enemy : MonoBehaviour
             attackedPacket.id = enemyId;
             attackedPacket.hp = (short)curHealth;
             attackedPacket.playerId = weapon.ParentId;
-            Debug.Log(weapon.ParentId);
             _network.Send(attackedPacket.Write());
         }
         else if (other.tag == "Bullet")
         {
             Bullet bullet = other.GetComponent<Bullet>();
             curHealth -= bullet.damage;
+            
             Vector3 reactVec = transform.position - other.transform.position;
             Destroy(other.gameObject);
+            
             if (curHealth < 1)
                 curHealth = 0;
-            Debug.Log("Bullet : " + curHealth);
             C_AttackedMonster attackedPacket = new C_AttackedMonster();
             attackedPacket.id = enemyId;
             attackedPacket.hp = (short)curHealth;
