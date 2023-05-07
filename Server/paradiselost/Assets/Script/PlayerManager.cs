@@ -24,8 +24,6 @@ public class PlayerManager
         {
             Object obj = Resources.Load("Player_t1");
             GameObject go = Object.Instantiate(obj) as GameObject;
-            Object obj2 = Resources.Load("PlayerPtr");
-            GameObject PlayerPtr = Object.Instantiate(obj2) as GameObject;
             switch (playerType)
             {
                 case 1:
@@ -63,7 +61,6 @@ public class PlayerManager
                         myPlayer.transform.tag = "MyPlayer";
                         myPlayer.transform.position = new Vector3(pos.x, pos.y, pos.z);
                         _myplayer = myPlayer;
-                        PlayerPtr.transform.SetParent(go.transform, false);
                         myPlayer.anim_Head = joint.head.gameObject.transform.GetChild(0).GetComponent<Animator>();
                         myPlayer.anim_Body = joint.body.gameObject.transform.GetChild(0).GetComponent<Animator>();
                         myPlayer.anim_Leg = joint.leg.gameObject.transform.GetChild(0).GetComponent<Animator>();
@@ -105,7 +102,6 @@ public class PlayerManager
                         myPlayer.transform.position = new Vector3(pos.x, pos.y, pos.z);
                         Debug.Log("pos in: " + pos.x + " " + pos.y + " " + pos.z);
                         _myplayer = myPlayer;
-                        PlayerPtr.transform.SetParent(go.transform, false);
                         myPlayer.anim_Head = joint.head.gameObject.transform.GetChild(0).GetComponent<Animator>();
                         myPlayer.anim_Body = joint.body.gameObject.transform.GetChild(0).GetComponent<Animator>();
                         myPlayer.anim_Leg = joint.leg.gameObject.transform.GetChild(0).GetComponent<Animator>();
@@ -149,7 +145,6 @@ public class PlayerManager
                         myPlayer.transform.position = new Vector3(pos.x, pos.y, pos.z);
                         Debug.Log("pos in: " + pos.x + " " + pos.y + " " + pos.z);
                         _myplayer = myPlayer;
-                        PlayerPtr.transform.SetParent(go.transform, false);
                         myPlayer.anim_Head = joint.head.gameObject.transform.GetChild(0).GetComponent<Animator>();
                         myPlayer.anim_Body = joint.body.gameObject.transform.GetChild(0).GetComponent<Animator>();
                         myPlayer.anim_Leg = joint.leg.gameObject.transform.GetChild(0).GetComponent<Animator>();
