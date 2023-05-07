@@ -94,6 +94,12 @@ public class GameUIManager : MonoBehaviour
 
         playerHealthBar.localScale = new Vector3((float)PlayerManager.Instance._myplayer.hp / 100, 1, 1);
 
+        if(boss != null)
+        {
+            Debug.Log("boss != null");
+            bossHealthBar.localScale = new Vector3((float)PlayerManager.Instance._boss.curHealth / boss.maxHealth, 1, 1);
+        }
+
         if (playersUI != null)
         {
             for (int i = 0; i < playersUI.Length; ++i)
@@ -119,12 +125,12 @@ public class GameUIManager : MonoBehaviour
         }
        
 
-        bossHealthBar.localScale = new Vector3((float)PlayerManager.Instance._boss.curHealth / boss.maxHealth, 1, 1);
+        
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player" || other.gameObject.tag == "MyPlayer")
         {
             Debug.Log("Enter BossRoom");
             FindBossHp();
