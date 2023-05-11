@@ -904,14 +904,14 @@ public class PlayerManager
         }
         else if (packet.type == 3)
         {
-            Object obj = Resources.Load("Player_t1");
+            Object obj = Resources.Load("playertest");
             GameObject go = Object.Instantiate(obj) as GameObject;
             Object obj3 = Resources.Load("PlayerText");
             GameObject PlayerText = Object.Instantiate(obj3) as GameObject;
 
-            Object head = Resources.Load("Sp_Head_Parts");
-            Object body = Resources.Load("Sp_Body_Parts");
-            Object leg = Resources.Load("Sp_Leg_Parts");
+            //Object head = Resources.Load("Sp_Head_Parts");
+            //Object body = Resources.Load("Sp_Body_Parts");
+            //Object leg = Resources.Load("Sp_Leg_Parts");
 
 
             Player player = go.AddComponent<Player>();
@@ -919,24 +919,25 @@ public class PlayerManager
 
             player.PlayerId = packet.playerId;
             player.body = 3;
-            Joint_Robot jointP = go.AddComponent<Joint_Robot>();
+            player.anim = player.GetComponent<Animator>();
+            //Joint_Robot jointP = go.AddComponent<Joint_Robot>();
 
-            jointP.po_list = new GameObject[3];
-            jointP.sh_list = new GameObject[3];
-            jointP.sp_list = new GameObject[3];
+            //jointP.po_list = new GameObject[3];
+            //jointP.sh_list = new GameObject[3];
+            //jointP.sp_list = new GameObject[3];
 
-            jointP.sp_list[0] = head as GameObject;
-            jointP.sp_list[1] = body as GameObject;
-            jointP.sp_list[2] = leg as GameObject;
+            //jointP.sp_list[0] = head as GameObject;
+            //jointP.sp_list[1] = body as GameObject;
+            //jointP.sp_list[2] = leg as GameObject;
 
-            jointP.leg = Object.Instantiate(jointP.sp_list[2], player.transform);
-            jointP.leg.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z);
+            //jointP.leg = Object.Instantiate(jointP.sp_list[2], player.transform);
+            //jointP.leg.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z);
 
-            jointP.body = Object.Instantiate(jointP.sp_list[1], player.transform);
-            jointP.body.transform.position = jointP.leg.transform.position + jointP.leg.transform.Find("Joint_Leg").transform.localPosition - jointP.body.transform.Find("Joint_Leg").transform.localPosition;
+            //jointP.body = Object.Instantiate(jointP.sp_list[1], player.transform);
+            //jointP.body.transform.position = jointP.leg.transform.position + jointP.leg.transform.Find("Joint_Leg").transform.localPosition - jointP.body.transform.Find("Joint_Leg").transform.localPosition;
 
-            jointP.head = Object.Instantiate(jointP.sp_list[0], player.transform);
-            jointP.head.transform.position = jointP.body.transform.position + jointP.body.transform.Find("Joint_Head").transform.position;
+            //jointP.head = Object.Instantiate(jointP.sp_list[0], player.transform);
+            //jointP.head.transform.position = jointP.body.transform.position + jointP.body.transform.Find("Joint_Head").transform.position;
 
             PlayerText.transform.SetParent(go.transform, false);
             PlayerText playerText = PlayerText.GetComponent<PlayerText>();
@@ -957,13 +958,13 @@ public class PlayerManager
                     break;
             }
 
-            player.anim_Head = jointP.head.gameObject.transform.GetChild(0).GetComponent<Animator>();
-            player.anim_Body = jointP.body.gameObject.transform.GetChild(0).GetComponent<Animator>();
-            player.anim_Leg = jointP.leg.gameObject.transform.GetChild(0).GetComponent<Animator>();
-            player.intantBullet = Resources.Load("Bullet");
-            player.bulletPos = player.transform.GetChild(1);
+            //player.anim_Head = jointP.head.gameObject.transform.GetChild(0).GetComponent<Animator>();
+            //player.anim_Body = jointP.body.gameObject.transform.GetChild(0).GetComponent<Animator>();
+            //player.anim_Leg = jointP.leg.gameObject.transform.GetChild(0).GetComponent<Animator>();
+            //player.intantBullet = Resources.Load("Bullet");
+            //player.bulletPos = player.transform.GetChild(1);
 
-            _playerParts.Add(packet.playerId, jointP);
+            //_playerParts.Add(packet.playerId, jointP);
             _players.Add(packet.playerId, player);
             GameObject.Find("Game Manager").GetComponent<GameUIManager>().FindPlayerUI();
             Debug.Log(player.name);
