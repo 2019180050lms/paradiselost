@@ -19,7 +19,7 @@ public class NetworkManager : MonoBehaviour
 		// DNS (Domain Name System)
 		string host = Dns.GetHostName();
 		IPHostEntry ipHost = Dns.GetHostEntry(host);
-		IPAddress ipAddr = IPAddress.Parse("122.153.121.138");
+		IPAddress ipAddr = IPAddress.Parse("192.168.219.100");
 
 		//IPAddress ipAddr = IPAddress.Parse("27.119.175.22");
 		//IPAddress ipAddr = IPAddress.Parse("122.153.121.138");
