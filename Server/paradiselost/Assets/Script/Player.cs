@@ -69,7 +69,8 @@ public class Player : MonoBehaviour
     void Awake()
     {
         rigid = GetComponent<Rigidbody>();
-        anim = GetComponentInChildren<Animator>();
+        //anim = GetComponentInChildren<Animator>();
+        anim = GetComponent<Animator>();
         ps = GetComponent<ParticleSystem>();
         gunParticle = GetComponentInChildren<ParticleSystem>();
         bulletPos = transform.GetChild(0);

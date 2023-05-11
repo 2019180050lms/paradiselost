@@ -112,6 +112,20 @@ public class PlayerManager
                     }
                 case 3:
                     {
+                        Object obj2 = Resources.Load("playertest");
+                        GameObject go2 = Object.Instantiate(obj2) as GameObject;
+
+                        MyPlayer myPlayer = go2.AddComponent<MyPlayer>();
+                        myPlayer.PlayerId = playerId;
+                        //myPlayer.name = p.name;
+                        myPlayer.transform.tag = "MyPlayer";
+                        myPlayer.hp = hp;
+                        myPlayer.body = 2;
+                        //Debug.Log(p.hp);
+                        myPlayer.transform.position = new Vector3(pos.x, pos.y, pos.z);
+                        Debug.Log("pos in: " + pos.x + " " + pos.y + " " + pos.z);
+                        _myplayer = myPlayer;
+                        /*
                         MyPlayer myPlayer = go.AddComponent<MyPlayer>();
                         Object head = Resources.Load("Sp_Head_Parts");
                         Object body = Resources.Load("Sp_Body_Parts");
@@ -151,6 +165,7 @@ public class PlayerManager
                         myPlayer.intantBullet =Resources.Load("Bullet");
                         myPlayer.bulletPos = myPlayer.transform.GetChild(1);
                         Debug.Log(myPlayer.name);
+                        */
                         break;
                     }
                 default:
@@ -160,8 +175,9 @@ public class PlayerManager
         }
         else
         {
-            Object obj = Resources.Load("Player_t1");
-            GameObject go = Object.Instantiate(obj) as GameObject;
+            //Object obj = Resources.Load("Player_t1");
+            Object obj2 = Resources.Load("playertest");
+            GameObject go = Object.Instantiate(obj2) as GameObject;
             Object obj3 = Resources.Load("PlayerText");
             GameObject PlayerText = Object.Instantiate(obj3) as GameObject;
             switch (playerType)
@@ -295,14 +311,15 @@ public class PlayerManager
                 case 3:
                     {
                         Player player = go.AddComponent<Player>();
-                        Object head = Resources.Load("Sp_Head_Parts");
-                        Object body = Resources.Load("Sp_Body_Parts");
-                        Object leg = Resources.Load("Sp_Leg_Parts");
+                        //Object head = Resources.Load("Sp_Head_Parts");
+                        //Object body = Resources.Load("Sp_Body_Parts");
+                        //Object leg = Resources.Load("Sp_Leg_Parts");
 
                         player.PlayerId = playerId;
                         player.hp = hp;
                         player.body = 3;
                         //player.name = p.name;
+                        /*
                         Joint_Robot jointP = go.AddComponent<Joint_Robot>();
 
                         jointP.po_list = new GameObject[3];
@@ -321,7 +338,7 @@ public class PlayerManager
 
                         jointP.head = Object.Instantiate(jointP.sp_list[0], player.transform);
                         jointP.head.transform.position = jointP.body.transform.position + jointP.body.transform.Find("Joint_Head").transform.position;
-
+                        */
                         player.transform.position = new Vector3(pos.x, pos.y, pos.z);
                         player.posVec = new Vector3(pos.x, pos.y, pos.z);
 
@@ -344,13 +361,15 @@ public class PlayerManager
                                 break;
                         }
 
+                        player.anim = player.GetComponent<Animator>();
+                        /*
                         player.anim_Head = jointP.head.gameObject.transform.GetChild(0).GetComponent<Animator>();
                         player.anim_Body = jointP.body.gameObject.transform.GetChild(0).GetComponent<Animator>();
                         player.anim_Leg = jointP.leg.gameObject.transform.GetChild(0).GetComponent<Animator>();
                         player.intantBullet = Resources.Load("Bullet");
                         player.bulletPos = player.transform.GetChild(1);
-
-                        _playerParts.Add(playerId, jointP);
+                        */
+                        //_playerParts.Add(playerId, jointP);
                         _players.Add(playerId, player);
 
                         Debug.Log(player.name);
@@ -478,9 +497,10 @@ public class PlayerManager
             
             if(_myplayer.delay_body <=0f && _myplayer.delay_leg <= 0f)
             {
-                _myplayer.anim_Head.SetBool("isRun", _myplayer.moveVec != Vector3.zero);
-                _myplayer.anim_Body.SetBool("isRun", _myplayer.moveVec != Vector3.zero);
-                _myplayer.anim_Leg.SetBool("isRun", _myplayer.moveVec != Vector3.zero);
+                //_myplayer.anim_Head.SetBool("isRun", _myplayer.moveVec != Vector3.zero);
+                //_myplayer.anim_Body.SetBool("isRun", _myplayer.moveVec != Vector3.zero);
+                //_myplayer.anim_Leg.SetBool("isRun", _myplayer.moveVec != Vector3.zero);
+                _myplayer.anim.SetBool("isRun", _myplayer.moveVec != Vector3.zero);
             }
             
 
@@ -571,9 +591,10 @@ public class PlayerManager
                 //player.anim.SetBool("isRun", player.moveVec2 != Vector3.zero);
                 if(player.delay_body <=0f && player.delay_leg <= 0f)
                 {
-                    player.anim_Head.SetBool("isRun", player.moveVec2 != Vector3.zero);
-                    player.anim_Body.SetBool("isRun", player.moveVec2 != Vector3.zero);
-                    player.anim_Leg.SetBool("isRun", player.moveVec2 != Vector3.zero);
+                    player.anim.SetBool("isRun", player.moveVec2 != Vector3.zero);
+                    //player.anim_Head.SetBool("isRun", player.moveVec2 != Vector3.zero);
+                    //player.anim_Body.SetBool("isRun", player.moveVec2 != Vector3.zero);
+                    //player.anim_Leg.SetBool("isRun", player.moveVec2 != Vector3.zero);
                 }
 
                 
@@ -954,9 +975,11 @@ public class PlayerManager
         if(_myplayer.PlayerId == packet.playerId)
         {
             //GameObject.Destroy(_myplayer.gameObject);
+            /*
             GameObject.Destroy(joint.head);
             GameObject.Destroy(joint.body);
             GameObject.Destroy(joint.leg);
+            */
             _myplayer.hp = 0;
             Debug.Log("사망 처리 테스트");
         }

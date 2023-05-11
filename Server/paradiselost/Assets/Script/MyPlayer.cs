@@ -74,6 +74,7 @@ public class MyPlayer : Player
             Debug.Log(camera2);
         }
 
+        /*
         if (delay_body > 0f)
         {
             delay_body -= Time.deltaTime;
@@ -87,7 +88,7 @@ public class MyPlayer : Player
 
         anim_Body.SetFloat("Delay", delay_body);
         anim_Leg.SetFloat("Delay", delay_leg);
-
+        */
         GetInput();
         Interaction();
         
@@ -96,22 +97,28 @@ public class MyPlayer : Player
         leftDown = Input.GetKey(KeyCode.A);
         rightDown = Input.GetKey(KeyCode.D);
         backDown = Input.GetKey(KeyCode.S);
+
         if (moveVec == Vector3.zero)
         {
-            anim_Body.SetBool("isRun", false);
-            anim_Leg.SetBool("isRun", false);
+            //anim_Body.SetBool("isRun", false);
+            //anim_Leg.SetBool("isRun", false);
+            anim.SetBool("isRun", false);
+            anim.SetBool("isRun", false);
         }
 
-        if(delay_body <= 0 && delay_leg <= 0)
+        MoveControl();
+        Jump(testJump);
+
+        if (delay_body <= 0 && delay_leg <= 0)
         {
-            MoveControl();
-            Jump(testJump);
+            //MoveControl();
+            //Jump(testJump);
         }
 
         
         
 
-        
+        /*
         if (isBorder)
         {
             moveVec = Vector3.zero;
@@ -132,7 +139,7 @@ public class MyPlayer : Player
             bulletCount--;
             Destroy(bullet, 3f);
         }
-
+        */
 
         testJump = false;
     }
@@ -183,7 +190,7 @@ public class MyPlayer : Player
         Vector3 reverseDistance = new Vector3(0.0f, 0.0f, distance); // 이동량에 따른 Z 축방향의 벡터를 구합니다.
 
         if (camera1)
-            Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y + 5, transform.position.z) - Camera.main.transform.rotation * reverseDistance; // 플레이어의 위치에서 카메라가 바라보는 방향에 벡터값을 적용한 상대 좌표를 차감합니다.
+            Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y + 6, transform.position.z) - Camera.main.transform.rotation * reverseDistance; // 플레이어의 위치에서 카메라가 바라보는 방향에 벡터값을 적용한 상대 좌표를 차감합니다.
         else if (camera2)
         {
             Player[] playerOb = GameObject.FindGameObjectWithTag("Player").GetComponents<Player>();
@@ -246,7 +253,7 @@ public class MyPlayer : Player
 
     void FreezeRotation() // 회전 버그 해결
     {
-        rigid.angularVelocity = Vector3.zero;
+        //rigid.angularVelocity = Vector3.zero;
     }
 
 
