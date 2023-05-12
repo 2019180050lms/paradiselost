@@ -98,7 +98,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        Delay_Update();
+        //Delay_Update();
         Vector3 velo = Vector3.zero;
         if (!falling)
             transform.position = Vector3.SmoothDamp(transform.position, posVec, ref velo, 0.03f);

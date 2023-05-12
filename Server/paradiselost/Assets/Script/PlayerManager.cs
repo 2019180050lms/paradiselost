@@ -22,7 +22,7 @@ public class PlayerManager
     {
         if (isSelf)
         {
-            Object obj = Resources.Load("Player_t1");
+            Object obj = Resources.Load("Player_t2");
             GameObject go = Object.Instantiate(obj) as GameObject;
             switch (playerType)
             {
@@ -112,10 +112,7 @@ public class PlayerManager
                     }
                 case 3:
                     {
-                        Object obj2 = Resources.Load("playertest");
-                        GameObject go2 = Object.Instantiate(obj2) as GameObject;
-
-                        MyPlayer myPlayer = go2.AddComponent<MyPlayer>();
+                        MyPlayer myPlayer = go.AddComponent<MyPlayer>();
                         myPlayer.PlayerId = playerId;
                         //myPlayer.name = p.name;
                         myPlayer.transform.tag = "MyPlayer";
@@ -125,6 +122,29 @@ public class PlayerManager
                         myPlayer.transform.position = new Vector3(pos.x, pos.y, pos.z);
                         Debug.Log("pos in: " + pos.x + " " + pos.y + " " + pos.z);
                         _myplayer = myPlayer;
+
+                        Object body = Resources.Load("test/test1");
+                        Object l_arm = Resources.Load("test/test2");
+                        Object r_arm = Resources.Load("test/test3");
+
+                        joint = go.AddComponent<Joint_Robot>();
+                        joint.po_list = new GameObject[3];
+                        joint.sh_list = new GameObject[3];
+                        joint.sp_list = new GameObject[3];
+
+                        joint.sp_list[0] = body as GameObject;
+                        joint.sp_list[1] = l_arm as GameObject;
+                        joint.sp_list[2] = r_arm as GameObject;
+
+                        joint.leg = Object.Instantiate(joint.sp_list[0], myPlayer.transform);
+                        joint.leg.transform.position = new Vector3(myPlayer.transform.position.x, myPlayer.transform.position.y, myPlayer.transform.position.z);
+
+                        joint.body = Object.Instantiate(joint.sp_list[1], myPlayer.transform);
+                        //joint.body.transform.position = joint.leg.transform.position + joint.leg.transform.Find("Joint_Leg").transform.localPosition - joint.body.transform.Find("Joint_Leg").transform.localPosition;
+
+                        joint.head = Object.Instantiate(joint.sp_list[2], myPlayer.transform);
+                        //joint.head.transform.position = joint.body.transform.position + joint.body.transform.Find("Joint_Head").transform.position;
+
                         /*
                         MyPlayer myPlayer = go.AddComponent<MyPlayer>();
                         Object head = Resources.Load("Sp_Head_Parts");
