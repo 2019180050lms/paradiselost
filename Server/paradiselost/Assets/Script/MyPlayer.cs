@@ -15,6 +15,7 @@ public class MyPlayer : Player
     public static int maxHealth = 100;
     public bool jDown;
     public bool testJump;
+    public bool A_dontMove = false;
 
     bool frontDown;
     bool leftDown;
@@ -106,6 +107,11 @@ public class MyPlayer : Player
             anim.SetBool("isRun", false);
         }
 
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Swing"))
+            A_dontMove = true;
+        else if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Swing"))
+            A_dontMove = false;
+
         MoveControl();
         Jump(testJump);
 
@@ -161,27 +167,30 @@ public class MyPlayer : Player
         moveVec = new Vector3(hAxis, 0, vAxis).normalized;
         CameraMove();
 
-        if (dir == 0)
-            moveVec2 = new Vector3(0, 0, 0);
-        else if (dir == 1)
-            moveVec2 = new Vector3(1, 0, 0);
-        else if (dir == 2)
-            moveVec2 = new Vector3(-1, 0, 0);
-        else if (dir == 3)
-            moveVec2 = new Vector3(0, 0, 1);
-        else if (dir == 4)
-            moveVec2 = new Vector3(0, 0, -1);
-        else if (dir == 5)
-            moveVec2 = new Vector3(Mathf.Sqrt(0.5f), 0, Mathf.Sqrt(0.5f));
-        else if (dir == 6)
-            moveVec2 = new Vector3(Mathf.Sqrt(0.5f), 0, -(Mathf.Sqrt(0.5f)));
-        else if (dir == 7)
-            moveVec2 = new Vector3(-(Mathf.Sqrt(0.5f)), 0, Mathf.Sqrt(0.5f));
-        else if (dir == 8)
-            moveVec2 = new Vector3(-(Mathf.Sqrt(0.5f)), 0, -(Mathf.Sqrt(0.5f)));
+        if (A_dontMove == false)
+        {
+            if (dir == 0)
+                moveVec2 = new Vector3(0, 0, 0);
+            else if (dir == 1)
+                moveVec2 = new Vector3(1, 0, 0);
+            else if (dir == 2)
+                moveVec2 = new Vector3(-1, 0, 0);
+            else if (dir == 3)
+                moveVec2 = new Vector3(0, 0, 1);
+            else if (dir == 4)
+                moveVec2 = new Vector3(0, 0, -1);
+            else if (dir == 5)
+                moveVec2 = new Vector3(Mathf.Sqrt(0.5f), 0, Mathf.Sqrt(0.5f));
+            else if (dir == 6)
+                moveVec2 = new Vector3(Mathf.Sqrt(0.5f), 0, -(Mathf.Sqrt(0.5f)));
+            else if (dir == 7)
+                moveVec2 = new Vector3(-(Mathf.Sqrt(0.5f)), 0, Mathf.Sqrt(0.5f));
+            else if (dir == 8)
+                moveVec2 = new Vector3(-(Mathf.Sqrt(0.5f)), 0, -(Mathf.Sqrt(0.5f)));
 
-        transform.position += moveVec2 * speed * Time.deltaTime;
-        transform.LookAt(transform.position + moveVec2);
+            transform.position += moveVec2 * speed * Time.deltaTime;
+            transform.LookAt(transform.position + moveVec2);
+        }
     }
 
     void LateUpdate()
@@ -190,7 +199,7 @@ public class MyPlayer : Player
         Vector3 reverseDistance = new Vector3(0.0f, 0.0f, distance); // 이동량에 따른 Z 축방향의 벡터를 구합니다.
 
         if (camera1)
-            Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y + 6, transform.position.z) - Camera.main.transform.rotation * reverseDistance; // 플레이어의 위치에서 카메라가 바라보는 방향에 벡터값을 적용한 상대 좌표를 차감합니다.
+            Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y + 5, transform.position.z) - Camera.main.transform.rotation * reverseDistance; // 플레이어의 위치에서 카메라가 바라보는 방향에 벡터값을 적용한 상대 좌표를 차감합니다.
         else if (camera2)
         {
             Player[] playerOb = GameObject.FindGameObjectWithTag("Player").GetComponents<Player>();
@@ -210,6 +219,7 @@ public class MyPlayer : Player
                 xmove = 0;
         }
 
+        /*
         float delay_body = anim_Body.GetFloat("Delay");
         
         if(delay_body > 0)
@@ -218,12 +228,12 @@ public class MyPlayer : Player
          }
         
 
-        float delay_leg = anim_Leg.GetFloat("Delay");
+        //float delay_leg = anim_Leg.GetFloat("Delay");
         if(delay_leg > 0)
         {
             anim_Leg.SetFloat("Delay", delay_leg - Time.deltaTime);
         }
-           
+        */
         
 
 

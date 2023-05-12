@@ -264,7 +264,7 @@ public class Player : MonoBehaviour
         // 총알 발사
         isShot = true;
 
-        yield return new WaitForSeconds(0.15f);
+        yield return new WaitForSeconds(1f);
         isShot = false;
 
         //bullet = Object.Instantiate(intantBullet) as GameObject;

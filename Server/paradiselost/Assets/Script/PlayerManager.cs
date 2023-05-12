@@ -22,7 +22,7 @@ public class PlayerManager
     {
         if (isSelf)
         {
-            Object obj = Resources.Load("Player_t2");
+            Object obj = Resources.Load("test/test");
             GameObject go = Object.Instantiate(obj) as GameObject;
             switch (playerType)
             {
@@ -117,33 +117,11 @@ public class PlayerManager
                         //myPlayer.name = p.name;
                         myPlayer.transform.tag = "MyPlayer";
                         myPlayer.hp = hp;
-                        myPlayer.body = 2;
+                        myPlayer.body = 3;
                         //Debug.Log(p.hp);
                         myPlayer.transform.position = new Vector3(pos.x, pos.y, pos.z);
                         Debug.Log("pos in: " + pos.x + " " + pos.y + " " + pos.z);
                         _myplayer = myPlayer;
-
-                        Object body = Resources.Load("test/test1");
-                        Object l_arm = Resources.Load("test/test2");
-                        Object r_arm = Resources.Load("test/test3");
-
-                        joint = go.AddComponent<Joint_Robot>();
-                        joint.po_list = new GameObject[3];
-                        joint.sh_list = new GameObject[3];
-                        joint.sp_list = new GameObject[3];
-
-                        joint.sp_list[0] = body as GameObject;
-                        joint.sp_list[1] = l_arm as GameObject;
-                        joint.sp_list[2] = r_arm as GameObject;
-
-                        joint.leg = Object.Instantiate(joint.sp_list[0], myPlayer.transform);
-                        joint.leg.transform.position = new Vector3(myPlayer.transform.position.x, myPlayer.transform.position.y, myPlayer.transform.position.z);
-
-                        joint.body = Object.Instantiate(joint.sp_list[1], myPlayer.transform);
-                        //joint.body.transform.position = joint.leg.transform.position + joint.leg.transform.Find("Joint_Leg").transform.localPosition - joint.body.transform.Find("Joint_Leg").transform.localPosition;
-
-                        joint.head = Object.Instantiate(joint.sp_list[2], myPlayer.transform);
-                        //joint.head.transform.position = joint.body.transform.position + joint.body.transform.Find("Joint_Head").transform.position;
 
                         /*
                         MyPlayer myPlayer = go.AddComponent<MyPlayer>();
@@ -196,7 +174,7 @@ public class PlayerManager
         else
         {
             //Object obj = Resources.Load("Player_t1");
-            Object obj2 = Resources.Load("playertest");
+            Object obj2 = Resources.Load("test/test");
             GameObject go = Object.Instantiate(obj2) as GameObject;
             Object obj3 = Resources.Load("PlayerText");
             GameObject PlayerText = Object.Instantiate(obj3) as GameObject;
@@ -528,18 +506,21 @@ public class PlayerManager
             {
                 if((int)_myplayer.body == 3)
                 {
-                    _myplayer.StopCoroutine("Shot");
-                    _myplayer.anim_Body.SetTrigger("doSwing");
-                    _myplayer.delay_body = 0.6f;
-                    
-                    
-                    _myplayer.anim_Head.SetTrigger("doSwing");
-                    _myplayer.anim_Leg.SetTrigger("doSwing");
-                    _myplayer.delay_leg = 0.6f;
-                    
-                    
-                    
-                    _myplayer.StartCoroutine("Shot");
+                    //_myplayer.StopCoroutine("Shot");
+                    //_myplayer.anim.SetTrigger("doSwing");
+                    //_myplayer.delay_body = 0.6f;
+
+
+                    //_myplayer.anim.SetTrigger("doSwing");
+                    //_myplayer.anim.SetTrigger("doSwing");
+                    //_myplayer.delay_leg = 0.6f;
+                    if (!_myplayer.anim.GetCurrentAnimatorStateInfo(0).IsName("Swing"))
+                    {
+                        _myplayer.anim.SetTrigger("doSwing");
+                    }
+
+
+                    //_myplayer.StartCoroutine("Shot");
                 }
                 else if((int)_myplayer.body == 2)
                 {
@@ -621,21 +602,12 @@ public class PlayerManager
 
                 if (packet.wDown)
                 {
-                    Debug.Log("wDown 공격 테스트");
                     if ((int)player.body == 3)
                     {
-                        Debug.Log("player 코루틴 테스트");
-                        player.StopCoroutine("Shot");
-
-                        player.anim_Body.SetTrigger("doSwing");
-                        player.delay_body = 0.6f;
-
-                        player.anim_Head.SetTrigger("doSwing");
-
-                        player.anim_Leg.SetTrigger("doSwing");
-                        player.delay_leg = 0.6f;
-                        
-                        player.StartCoroutine("Shot");
+                        if (!player.anim.GetCurrentAnimatorStateInfo(0).IsName("Swing"))
+                        {
+                            player.anim.SetTrigger("doSwing");
+                        }
                     }
                     else if((int)player.body == 2)
                     {
@@ -924,7 +896,7 @@ public class PlayerManager
         }
         else if (packet.type == 3)
         {
-            Object obj = Resources.Load("playertest");
+            Object obj = Resources.Load("test/test");
             GameObject go = Object.Instantiate(obj) as GameObject;
             Object obj3 = Resources.Load("PlayerText");
             GameObject PlayerText = Object.Instantiate(obj3) as GameObject;
