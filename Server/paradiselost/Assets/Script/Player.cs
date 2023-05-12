@@ -87,18 +87,18 @@ public class Player : MonoBehaviour
     }
 
 
-    void Delay_Update()
-    {
-        delay_body -= Time.deltaTime;
-        delay_leg -= Time.deltaTime;
+    //void Delay_Update()
+    //{
+    //    delay_body -= Time.deltaTime;
+    //    delay_leg -= Time.deltaTime;
 
-        anim_Body.SetFloat("Delay", delay_body);
-        anim_Leg.SetFloat("Delay", delay_leg);
-    }
+    //    anim_Body.SetFloat("Delay", delay_body);
+    //    anim_Leg.SetFloat("Delay", delay_leg);
+    //}
 
     void Update()
     {
-        Delay_Update();
+        //Delay_Update();
         Vector3 velo = Vector3.zero;
         if (!falling)
             transform.position = Vector3.SmoothDamp(transform.position, posVec, ref velo, 0.03f);

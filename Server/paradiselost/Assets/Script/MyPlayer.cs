@@ -253,7 +253,7 @@ public class MyPlayer : Player
 
     void FreezeRotation() // 회전 버그 해결
     {
-        //rigid.angularVelocity = Vector3.zero;
+        rigid.angularVelocity = Vector3.zero;
     }
 
 
