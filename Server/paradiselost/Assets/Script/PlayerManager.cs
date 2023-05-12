@@ -428,7 +428,7 @@ public class PlayerManager
             }
             else if (p.type == 5)
             {
-                Object obj = Resources.Load("Monster_Dog");
+                Object obj = Resources.Load("Monster/Robot1");
                 GameObject go = Object.Instantiate(obj) as GameObject;
                 Enemy enemy = go.AddComponent<Enemy>();
                 enemy.enabled = true;

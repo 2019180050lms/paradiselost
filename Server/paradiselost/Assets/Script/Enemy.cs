@@ -52,10 +52,11 @@ public class Enemy : MonoBehaviour
 
     void Awake()
     {
-        anim = GetComponentInChildren<Animator>();
+        //anim = GetComponentInChildren<Animator>();
+        anim = GetComponent<Animator>();
         rigid = GetComponent<Rigidbody>();
         boxCollider = GetComponent<BoxCollider>();
-        mat = GetComponentInChildren<MeshRenderer>().material;  // Material�� MesgRenderer�� ���� ������
+        //mat = GetComponentInChildren<MeshRenderer>().material;  // Material�� MesgRenderer�� ���� ������
                                                                 //nav = GetComponent<NavMeshAgent>();
 
         
@@ -181,10 +182,10 @@ public class Enemy : MonoBehaviour
         anim.SetTrigger("doAttack");
 
         yield return new WaitForSeconds(0.2f);
-        hitBox.meleeArea.enabled = true;
+        //hitBox.meleeArea.enabled = true;
 
         yield return new WaitForSeconds(0.5f);
-        hitBox.meleeArea.enabled = false;
+        //hitBox.meleeArea.enabled = false;
 
         yield return new WaitForSeconds(3f); // 몬스터 공격속도
 

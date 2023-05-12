@@ -105,8 +105,8 @@ public class Player : MonoBehaviour
         Jump(other_jump);
         if (transform.position == posVec)
         {
-            anim_Body.SetBool("isRun", false);
-            anim_Leg.SetBool("isRun", false);
+            anim.SetBool("isRun", false);
+            //anim_Leg.SetBool("isRun", false);
         }
 
         if (isShot && bulletCount == 0)

@@ -24,7 +24,7 @@ int main()
 	// 몬스터 생성
 	//GRoom.CreateBossMonster();
 	//cout << "send boss " << stage << endl;
-	GRoom.CreateMonster(1.f, 2.1f, 31.f, 0);
+	GRoom.CreateMonster(1.f, 0.f, 31.f, 0);
 
 	for (int32 i = 0; i < 5; i++)
 	{
