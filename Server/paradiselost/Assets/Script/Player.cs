@@ -195,7 +195,7 @@ public class Player : MonoBehaviour
             else
                 return;
             //.SetBool("isJump", true);
-            //anim.SetTrigger("doJump");
+            anim.SetTrigger("doJump");
         }
     }
 
