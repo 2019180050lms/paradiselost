@@ -509,13 +509,15 @@ public class PlayerManager
                     //_myplayer.StopCoroutine("Shot");
                     //_myplayer.anim.SetTrigger("doSwing");
                     //_myplayer.delay_body = 0.6f;
-
+                    
 
                     //_myplayer.anim.SetTrigger("doSwing");
                     //_myplayer.anim.SetTrigger("doSwing");
                     //_myplayer.delay_leg = 0.6f;
                     if (!_myplayer.anim.GetCurrentAnimatorStateInfo(0).IsName("Swing"))
                     {
+                        _myplayer.StopCoroutine("Swing");
+                        _myplayer.StartCoroutine("Swing");
                         _myplayer.anim.SetTrigger("doSwing");
                     }
 
@@ -1075,11 +1077,18 @@ public class PlayerManager
             {
                 switch (packet.itemType)
                 {
+
                     case 0:
+                        _myplayer.equipWeapon = _myplayer.weapons[1].GetComponent<Weapon>();
+                        _myplayer.equipWeapon.gameObject.SetActive(false);
+
                         _myplayer.equipWeapon = _myplayer.weapons[0].GetComponent<Weapon>();
                         _myplayer.equipWeapon.gameObject.SetActive(true);
                         break;
                     case 1:
+                        _myplayer.equipWeapon = _myplayer.weapons[0].GetComponent<Weapon>();
+                        _myplayer.equipWeapon.gameObject.SetActive(false);
+
                         _myplayer.equipWeapon = _myplayer.weapons[1].GetComponent<Weapon>();
                         _myplayer.equipWeapon.gameObject.SetActive(true);
                         break;
@@ -1110,9 +1119,6 @@ public class PlayerManager
         }
         else if (_players.TryGetValue(packet.playerId, out player))
         {
-            if (_playerParts.TryGetValue(packet.playerId, out c_p_parts))
-            {
-                c_p_parts.change_parts = packet.charactorType;
                 if (packet.charactorType == 1)
                 {
                     switch (packet.itemType)
@@ -1138,13 +1144,21 @@ public class PlayerManager
                 {
                     switch (packet.itemType)
                     {
-                        case 1:
-                            c_p_parts.po_list[1] = Resources.Load("Po_Body_Parts") as GameObject;
-                            c_p_parts.SwitchParts(packet.itemType);
+                        case 0:
+                            player.equipWeapon = player.weapons[1].GetComponent<Weapon>();
+                            player.equipWeapon.gameObject.SetActive(false);
+
+                            player.hasWeapons[packet.itemType] = true;
+                            player.equipWeapon = player.weapons[0].GetComponent<Weapon>();
+                            player.equipWeapon.gameObject.SetActive(true);
                             break;
-                        case 2:
-                            c_p_parts.sh_list[1] = Resources.Load("Sh_Body_Parts") as GameObject;
-                            c_p_parts.SwitchParts(packet.itemType);
+                        case 1:
+                            player.equipWeapon = player.weapons[0].GetComponent<Weapon>();
+                            player.equipWeapon.gameObject.SetActive(false);
+
+                            player.hasWeapons[packet.itemType] = true;
+                            player.equipWeapon = player.weapons[1].GetComponent<Weapon>();
+                            player.equipWeapon.gameObject.SetActive(true);
                             break;
                         case 3:
                             c_p_parts.sp_list[1] = Resources.Load("Sp_Body_Parts") as GameObject;
@@ -1176,7 +1190,7 @@ public class PlayerManager
                     player.leg = packet.itemType;
                     player.ps.Emit(100);
                 }
-            }
+            
         }
     }
 

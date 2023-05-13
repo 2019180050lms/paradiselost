@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
 
     public float speed = 15.0f;
     public List<GameObject> weapons = new List<GameObject>() { };
-    public bool[] hasWeapons = new bool[1];
+    public bool[] hasWeapons = new bool[2];
     public Transform bulletPos;
     public GameObject bullet;
     public Object intantBullet;
@@ -87,6 +87,11 @@ public class Player : MonoBehaviour
         isJumping = false;
         hp = 100;
         weapons.Add(GameObject.Find("Weapon Hammer"));
+        weapons.Add(GameObject.Find("Weapon Rifle"));
+        weapons[0].SetActive(false);
+        weapons[1].SetActive(false);
+
+        equipWeaponIndex = 2;
     }
 
 
@@ -131,21 +136,20 @@ public class Player : MonoBehaviour
 
 
 
-    void Interaction()
-    {
-        Debug.Log("idown");
-        if (iDown && nearObject != null && !isJump && !isDodge)
-        {
-            if (nearObject.tag == "Weapon")
-            {
-                ItemParts item = nearObject.GetComponent<ItemParts>();
-                int weaponIndex = item.value;
-                hasWeapons[weaponIndex] = true;
+    //void Interaction()
+    //{
+    //    if (iDown && nearObject != null && !isJump && !isDodge)
+    //    {
+    //        if (nearObject.tag == "Weapon")
+    //        {
+    //            ItemParts item = nearObject.GetComponent<ItemParts>();
+    //            int weaponIndex = item.value;
+    //            hasWeapons[weaponIndex] = true;
 
-                //Destroy(nearObject);
-            }
-        }
-    }
+    //            //Destroy(nearObject);
+    //        }
+    //    }
+    //}
 
     void FreezeRotation() // 회전 버그 해결
     {

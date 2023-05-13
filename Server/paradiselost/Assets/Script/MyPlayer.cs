@@ -294,6 +294,7 @@ public class MyPlayer : Player
 
     IEnumerator Swing()
     {
+        Debug.Log("SWing");
         yield return new WaitForSeconds(0.1f); // 0.1초 대기
         //meleeArea.enabled = true;
         hitBox.meleeArea.enabled = true;

@@ -88,17 +88,19 @@ public class Inventory : MonoBehaviour
                         {
                             ItemList[i] = Resources.Load<ItemParts>("Items/Weapon_Hammer_Item");
                             gameUIManager.ItemTxt[i].text = "HAMMER";
+                            Destroy(other.gameObject);
                             break;
                         }
                         else if(obj.value == 1)
                         {
                             ItemList[i] = Resources.Load<ItemParts>("Items/Weapon_Rifle_Item");
                             gameUIManager.ItemTxt[i].text = "RIFLE";
+                            Destroy(other.gameObject);
                             break;
                         }
                     }
                 }
-                Destroy(other.gameObject);
+                
             }
             else if (other.tag == "Body_Item")
             {
