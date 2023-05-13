@@ -1053,72 +1053,59 @@ public class PlayerManager
     {
         if(packet.playerId == _myplayer.PlayerId)
         {
-            joint.change_parts = packet.charactorType;
             if (packet.charactorType == 1)
-            {
-                switch(packet.itemType)
-                {
-                    case 1:
-                        joint.po_list[0] = Resources.Load("Po_Head_Parts") as GameObject;
-                        joint.SwitchParts(packet.itemType);
-                        break;
-                    case 2:
-                        joint.sh_list[0] = Resources.Load("Sh_Head_Parts") as GameObject;
-                        joint.SwitchParts(packet.itemType);
-                        break;
-                    case 3:
-                        joint.sp_list[0] = Resources.Load("Sp_Head_Parts") as GameObject;
-                        joint.SwitchParts(packet.itemType);
-                        break;
-                }
-                _myplayer.anim_Head = joint.head.gameObject.transform.GetChild(0).GetComponent<Animator>();
-                _myplayer.head = packet.itemType;
-                //_myplayer.ps.Play();
-                _myplayer.ps.Emit(100);
-            }
-            else if (packet.charactorType == 2)
             {
                 switch (packet.itemType)
                 {
                     case 1:
-                        joint.po_list[1] = Resources.Load("Po_Body_Parts") as GameObject;
+                        joint.po_list[0] = Resources.Load("Weapon Hammer") as GameObject;
                         joint.SwitchParts(packet.itemType);
                         break;
                     case 2:
-                        joint.sh_list[1] = Resources.Load("Sh_Body_Parts") as GameObject;
+                        joint.sh_list[0] = Resources.Load("Weapon Hammer") as GameObject;
                         joint.SwitchParts(packet.itemType);
                         break;
                     case 3:
-                        joint.sp_list[1] = Resources.Load("Sp_Body_Parts") as GameObject;
+                        joint.sp_list[0] = Resources.Load("Weapon Hammer") as GameObject;
                         joint.SwitchParts(packet.itemType);
                         break;
                 }
-                _myplayer.anim_Body = joint.body.gameObject.transform.GetChild(0).GetComponent<Animator>();
-                _myplayer.body = packet.itemType;
-                //_myplayer.ps.Play();
-                _myplayer.ps.Emit(100);
+            }
+            else if (packet.charactorType == 2)  // 무기
+            {
+                switch (packet.itemType)
+                {
+                    case 0:
+                        _myplayer.equipWeapon = _myplayer.weapons[0].GetComponent<Weapon>();
+                        _myplayer.equipWeapon.gameObject.SetActive(true);
+                        break;
+                    case 1:
+                        _myplayer.equipWeapon = _myplayer.weapons[1].GetComponent<Weapon>();
+                        _myplayer.equipWeapon.gameObject.SetActive(true);
+                        break;
+                    case 3:
+                        joint.sp_list[1] = Resources.Load("Weapon Hammer") as GameObject;
+                        joint.SwitchParts(packet.itemType);
+                        break;
+                }
             }
             else if (packet.charactorType == 3)
             {
                 switch (packet.itemType)
                 {
                     case 1:
-                        joint.po_list[2] = Resources.Load("Po_Leg_Parts") as GameObject;
+                        joint.po_list[2] = Resources.Load("Weapon Hammer") as GameObject;
                         joint.SwitchParts(packet.itemType);
                         break;
                     case 2:
-                        joint.sh_list[2] = Resources.Load("Sh_Leg_Parts") as GameObject;
+                        joint.sh_list[2] = Resources.Load("Weapon Hammer") as GameObject;
                         joint.SwitchParts(packet.itemType);
                         break;
                     case 3:
-                        joint.sp_list[2] = Resources.Load("Sp_Leg_Parts") as GameObject;
+                        joint.sp_list[2] = Resources.Load("Weapon Hammer") as GameObject;
                         joint.SwitchParts(packet.itemType);
                         break;
                 }
-                _myplayer.anim_Leg = joint.leg.gameObject.transform.GetChild(0).GetComponent<Animator>();
-                _myplayer.leg = packet.itemType;
-                //_myplayer.ps.Play();
-                _myplayer.ps.Emit(100);
             }
         }
         else if (_players.TryGetValue(packet.playerId, out player))
@@ -1130,13 +1117,13 @@ public class PlayerManager
                 {
                     switch (packet.itemType)
                     {
-                        case 1:
-                            c_p_parts.po_list[0] = Resources.Load("Po_Head_Parts") as GameObject;
-                            c_p_parts.SwitchParts(packet.itemType);
+                        case 0:
+                            player.equipWeapon = player.weapons[0].GetComponent<Weapon>();
+                            player.equipWeapon.gameObject.SetActive(true);
                             break;
-                        case 2:
-                            c_p_parts.sh_list[0] = Resources.Load("Sh_Head_Parts") as GameObject;
-                            c_p_parts.SwitchParts(packet.itemType);
+                        case 1:
+                            player.equipWeapon = player.weapons[1].GetComponent<Weapon>();
+                            player.equipWeapon.gameObject.SetActive(true);
                             break;
                         case 3:
                             c_p_parts.sp_list[0] = Resources.Load("Sp_Head_Parts") as GameObject;
@@ -1147,7 +1134,7 @@ public class PlayerManager
                     player.head = packet.itemType;
                     player.ps.Emit(100);
                 }
-                else if (packet.charactorType == 2)
+                else if (packet.charactorType == 2) // 무기
                 {
                     switch (packet.itemType)
                     {

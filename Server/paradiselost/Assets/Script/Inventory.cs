@@ -52,7 +52,6 @@ public class Inventory : MonoBehaviour
             if (other.tag == "Head_Item")
             {
                 ItemParts obj = other.GetComponent<ItemParts>();
-
                 for (int i = 0; i < 9; ++i)
                 {
                     if (ItemList[i] == null)
@@ -77,6 +76,29 @@ public class Inventory : MonoBehaviour
                 }
                 Destroy(other.gameObject);
                 PlayerManager.Instance.item = null;
+            }
+            else if (other.tag == "Weapon")
+            {
+                ItemParts obj = other.GetComponent<ItemParts>();
+                for (int i = 0; i < 9; ++i)
+                {
+                    if (ItemList[i] == null)
+                    {
+                        if(obj.value == 0)
+                        {
+                            ItemList[i] = Resources.Load<ItemParts>("Items/Weapon_Hammer_Item");
+                            gameUIManager.ItemTxt[i].text = "HAMMER";
+                            break;
+                        }
+                        else if(obj.value == 1)
+                        {
+                            ItemList[i] = Resources.Load<ItemParts>("Items/Weapon_Rifle_Item");
+                            gameUIManager.ItemTxt[i].text = "RIFLE";
+                            break;
+                        }
+                    }
+                }
+                Destroy(other.gameObject);
             }
             else if (other.tag == "Body_Item")
             {

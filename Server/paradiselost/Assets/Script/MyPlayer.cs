@@ -40,6 +40,11 @@ public class MyPlayer : Player
         _network = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
         bulletPos = transform.GetChild(0);
         //transform.tag = "MyPlayer";
+        weapons.Add(GameObject.Find("Weapon Hammer"));
+        weapons.Add(GameObject.Find("Weapon Rifle"));
+        weapons[0].SetActive(false);
+        weapons[1].SetActive(false);
+        equipWeaponIndex = 2;
     }
 
 
@@ -91,7 +96,6 @@ public class MyPlayer : Player
         anim_Leg.SetFloat("Delay", delay_leg);
         */
         GetInput();
-        Interaction();
         
 
         frontDown = Input.GetKey(KeyCode.W);
@@ -236,18 +240,8 @@ public class MyPlayer : Player
         */
         
 
-
-        
-        
-
-        
-
     }
 
-    void CameraSet()
-    {
-
-    }
 
     void StopToWall() // 관통 버그 해결
     {
@@ -298,16 +292,6 @@ public class MyPlayer : Player
         Debug.Log("player id: " + PlayerId + " monsterid: " + m_id);
     }
 
-    public void Interaction()
-    {
-        if (iDown && nearObject != null && !isJump && !isDodge)
-        {
-            if (nearObject.tag == "Weapon")
-            {
-                //Destroy(nearObject);
-            }
-        }
-    }
     IEnumerator Swing()
     {
         yield return new WaitForSeconds(0.1f); // 0.1초 대기
@@ -321,6 +305,13 @@ public class MyPlayer : Player
 
         yield return new WaitForSeconds(0.3f);
         //trailEffect.enabled = false;
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.tag == "Weapon")
+            nearObject = other.gameObject;
+        // Debug.Log(nearObject.name);
     }
 
     private void OnTriggerEnter(Collider other)

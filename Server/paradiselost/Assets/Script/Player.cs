@@ -7,8 +7,8 @@ public class Player : MonoBehaviour
     public int PlayerId { get; set; }
 
     public float speed = 15.0f;
-    public GameObject[] weapons;
-    public bool[] hasWeapons;
+    public List<GameObject> weapons = new List<GameObject>() { };
+    public bool[] hasWeapons = new bool[1];
     public Transform bulletPos;
     public GameObject bullet;
     public Object intantBullet;
@@ -74,6 +74,8 @@ public class Player : MonoBehaviour
         ps = GetComponent<ParticleSystem>();
         gunParticle = GetComponentInChildren<ParticleSystem>();
         bulletPos = transform.GetChild(0);
+
+        
         //ps.Play();
         //ps.Emit(100);
         //ps.Stop();
@@ -84,6 +86,7 @@ public class Player : MonoBehaviour
         delay_leg = 0f;
         isJumping = false;
         hp = 100;
+        weapons.Add(GameObject.Find("Weapon Hammer"));
     }
 
 
@@ -127,12 +130,22 @@ public class Player : MonoBehaviour
     }
 
 
-    
 
+    void Interaction()
+    {
+        Debug.Log("idown");
+        if (iDown && nearObject != null && !isJump && !isDodge)
+        {
+            if (nearObject.tag == "Weapon")
+            {
+                ItemParts item = nearObject.GetComponent<ItemParts>();
+                int weaponIndex = item.value;
+                hasWeapons[weaponIndex] = true;
 
-    
-
-    
+                //Destroy(nearObject);
+            }
+        }
+    }
 
     void FreezeRotation() // 회전 버그 해결
     {
@@ -298,7 +311,7 @@ public class Player : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         if (other.tag == "Weapon")
-            nearObject = null;
+            nearObject = other.gameObject;
     }
 
     private void OnTriggerEnter(Collider other)

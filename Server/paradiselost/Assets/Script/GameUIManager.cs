@@ -209,12 +209,22 @@ public class GameUIManager : MonoBehaviour
             inventory.ItemList[index] = null;
             ItemTxt[index].text = " ";
         }
-
-        for (int i = 0; i < 9; ++i) // 인벤 정렬
+        else if(inventory.ItemList[index].tag == "Weapon")
         {
-          if (inventory.ItemList[i] == null)
-                ItemImg[i].color = new Color(1, 1, 1, 0);
+            C_Send_Item(2, (ushort)inventory.ItemList[index].value);
+            myPlayer.hasWeapons[inventory.ItemList[index].value] = true;
+            //myPlayer.equipWeapon = myPlayer.weapons[0].GetComponent<Weapon>();
+            //myPlayer.equipWeapon.gameObject.SetActive(true);
+            ItemImg[index].color = new Color(1, 1, 1, 0);
+            inventory.ItemList[index] = null;
+            ItemTxt[index].text = " ";
         }
+
+        //for (int i = 0; i < 9; ++i) // 인벤 정렬
+        //{
+        //  if (inventory.ItemList[i] == null)
+        //        ItemImg[i].color = new Color(1, 1, 1, 0);
+        //}
 
     }
 }

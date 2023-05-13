@@ -6,6 +6,7 @@ public class ItemParts : Joint_Robot
 {
 
     public bool hasItem;
+    public int value;
     // Start is called before the first frame update
     void Start()
     {
