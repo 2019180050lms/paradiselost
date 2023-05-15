@@ -323,6 +323,7 @@ public class MyPlayer : Player
             Enemy monsterInfo = other.GetComponentInParent<Enemy>(); // 공격한 몬스터 객체 불러오기
             //Debug.Log(monsterInfo.enemyId);  // 공격한 몬스터 객체의 ID 출력
             //hp -= 20;
+            anim.SetTrigger("doDamaged");
             cs_send_playerdamage(monsterInfo.enemyId);
         }
 
