@@ -126,16 +126,12 @@ public class MyPlayer : Player
         }
 
         
-        
-
-        /*
         if (isBorder)
         {
             moveVec = Vector3.zero;
         }
 
         
-
         if (isShot && bulletCount == 0)
         {
             bullet = Object.Instantiate(intantBullet) as GameObject;
@@ -149,8 +145,8 @@ public class MyPlayer : Player
             bulletCount--;
             Destroy(bullet, 3f);
         }
-        */
 
+        Debug.Log(bulletCount);
         testJump = false;
     }
 
@@ -294,7 +290,6 @@ public class MyPlayer : Player
 
     IEnumerator Swing()
     {
-        Debug.Log("SWing");
         yield return new WaitForSeconds(0.1f); // 0.1초 대기
         //meleeArea.enabled = true;
         hitBox.meleeArea.enabled = true;

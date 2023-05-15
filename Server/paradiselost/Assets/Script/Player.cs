@@ -132,6 +132,8 @@ public class Player : MonoBehaviour
             Destroy(bullet, 3f);
         }
         moveVec2 = Vector3.zero;
+
+
     }
 
 
@@ -276,20 +278,22 @@ public class Player : MonoBehaviour
 
     IEnumerator Shot()
     {
-        delay_body = 0.6f;
-        delay_leg = 0.6f;
+        Debug.Log("Shot 코루틴");
         // 총알 발사
         isShot = true;
-
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.15f);
         isShot = false;
+        //yield return new WaitForSeconds(1f);
+        bulletCount++;
 
+        if (bulletCount > 1)
+            bulletCount = 0;
         //bullet = Object.Instantiate(intantBullet) as GameObject;
         //bullet.transform.position = bulletPos.transform.position;
         //bullet.transform.rotation = bulletPos.rotation;
         //Rigidbody bulletRigid = bullet.GetComponent<Rigidbody>();
         //bulletRigid.velocity = bulletPos.forward * 75;
-        bulletCount++;
+        
         //Destroy(bullet, 3f);
         //yield return new WaitForSeconds(2f);
     }

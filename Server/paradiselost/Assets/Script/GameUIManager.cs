@@ -212,6 +212,8 @@ public class GameUIManager : MonoBehaviour
         else if(inventory.ItemList[index].tag == "Weapon")
         {
             C_Send_Item(2, (ushort)inventory.ItemList[index].value);
+            myPlayer.hasWeapons[0] = false;
+            myPlayer.hasWeapons[1] = false;
             myPlayer.hasWeapons[inventory.ItemList[index].value] = true;
             //myPlayer.equipWeapon = myPlayer.weapons[0].GetComponent<Weapon>();
             //myPlayer.equipWeapon.gameObject.SetActive(true);

@@ -119,6 +119,7 @@ public class PlayerManager
                         myPlayer.hp = hp;
                         myPlayer.body = 3;
                         //Debug.Log(p.hp);
+                        myPlayer.intantBullet = Resources.Load("Bullet");
                         myPlayer.transform.position = new Vector3(pos.x, pos.y, pos.z);
                         Debug.Log("pos in: " + pos.x + " " + pos.y + " " + pos.z);
                         _myplayer = myPlayer;
@@ -360,6 +361,8 @@ public class PlayerManager
                         }
 
                         player.anim = player.GetComponent<Animator>();
+                        player.intantBullet = Resources.Load("Bullet");
+
                         /*
                         player.anim_Head = jointP.head.gameObject.transform.GetChild(0).GetComponent<Animator>();
                         player.anim_Body = jointP.body.gameObject.transform.GetChild(0).GetComponent<Animator>();
@@ -370,7 +373,6 @@ public class PlayerManager
                         //_playerParts.Add(playerId, jointP);
                         _players.Add(playerId, player);
 
-                        Debug.Log(player.name);
                         break;
                     }
                 default:
@@ -514,6 +516,12 @@ public class PlayerManager
                     //_myplayer.anim.SetTrigger("doSwing");
                     //_myplayer.anim.SetTrigger("doSwing");
                     //_myplayer.delay_leg = 0.6f;
+                    if(_myplayer.hasWeapons[1])
+                    {
+                        _myplayer.StartCoroutine("Shot");
+                        _myplayer.anim.SetTrigger("doAim");
+                    }
+
                     if (!_myplayer.anim.GetCurrentAnimatorStateInfo(0).IsName("Swing"))
                     {
                         _myplayer.StopCoroutine("Swing");
@@ -606,6 +614,12 @@ public class PlayerManager
                 {
                     if ((int)player.body == 3)
                     {
+                        if(player.hasWeapons[1])
+                        {
+                            player.StartCoroutine("Shot");
+                            player.anim.SetTrigger("doAim");
+                        }
+
                         if (!player.anim.GetCurrentAnimatorStateInfo(0).IsName("Swing"))
                         {
                             player.anim.SetTrigger("doSwing");
@@ -1147,6 +1161,8 @@ public class PlayerManager
                         case 0:
                             player.equipWeapon = player.weapons[1].GetComponent<Weapon>();
                             player.equipWeapon.gameObject.SetActive(false);
+                            player.hasWeapons[1] = false;
+                       
 
                             player.hasWeapons[packet.itemType] = true;
                             player.equipWeapon = player.weapons[0].GetComponent<Weapon>();
@@ -1155,6 +1171,7 @@ public class PlayerManager
                         case 1:
                             player.equipWeapon = player.weapons[0].GetComponent<Weapon>();
                             player.equipWeapon.gameObject.SetActive(false);
+                            player.hasWeapons[0] = false;
 
                             player.hasWeapons[packet.itemType] = true;
                             player.equipWeapon = player.weapons[1].GetComponent<Weapon>();
