@@ -808,6 +808,7 @@ public class C_AttackedMonster : IPacket
     public int id;
     public short hp;
 	public int playerId;
+	public bool hitEnemy;
 
     public ushort Protocol { get { return (ushort)PacketID.C_MONSTERATTACK; } }
 
@@ -822,7 +823,9 @@ public class C_AttackedMonster : IPacket
         count += sizeof(short);
         this.playerId = BitConverter.ToInt32(segment.Array, segment.Offset + count);
         count += sizeof(int);
-    }
+		this.hitEnemy = BitConverter.ToBoolean(segment.Array, segment.Offset + count);
+		count += sizeof(bool);
+	}
 
     public ArraySegment<byte> Write()
     {
@@ -838,8 +841,10 @@ public class C_AttackedMonster : IPacket
         count += sizeof(short);
         Array.Copy(BitConverter.GetBytes(this.playerId), 0, segment.Array, segment.Offset + count, sizeof(int));
         count += sizeof(int);
+		Array.Copy(BitConverter.GetBytes(this.hitEnemy), 0, segment.Array, segment.Offset + count, sizeof(bool));
+		count += sizeof(bool);
 
-        Array.Copy(BitConverter.GetBytes(count), 0, segment.Array, segment.Offset, sizeof(ushort));
+		Array.Copy(BitConverter.GetBytes(count), 0, segment.Array, segment.Offset, sizeof(ushort));
 
         return SendBufferHelper.Close(count);
     }

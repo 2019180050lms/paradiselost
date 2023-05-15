@@ -94,17 +94,18 @@ void Room::DeadMonster(int32 monsterId)
 	}
 }
 
-void Room::AttackedMonster(int32 monsterId, uint16 hp, int32 targetId)
+void Room::AttackedMonster(int32 monsterId, uint16 hp, int32 targetId, bool hitEnemy)
 {
 	for (auto iter = _monsters.begin(); iter != _monsters.end(); iter++)
 	{
 		if (iter->enmyId == monsterId)
 		{
 			iter->hp = hp;
+			iter->hitEnemy = hitEnemy;
 			iter->agro = true;
 			iter->targetId = targetId;
 			auto sendBuffer = ServerPacketHandler::Make_S_AttackedMonster(iter->enmyId, iter->hp);
-			cout << "Attacked Monster ID: " << iter->enmyId << " hp: " << iter->hp << endl;
+			cout << "Attacked Monster ID: " << iter->enmyId << " hp: " << iter->hp << " hitEnemy: " << hitEnemy << endl;
 			BroadCast(sendBuffer);
 		}
 	}
@@ -321,7 +322,7 @@ void Room::MoveMonster()
 					if (m.type == (int)BOSS1)
 					{
 						if (p.second->xPos <= m.posX + 10 && p.second->zPos <= m.posZ + 10
-							&& p.second->xPos >= m.posX - 10 && p.second->zPos >= m.posZ - 10 && !p.second->dead && !m.agro)
+							&& p.second->xPos >= m.posX - 10 && p.second->zPos >= m.posZ - 10 && !p.second->dead && !m.agro && !m.hitEnemy)
 						{
 							if (p.second->xPos <= m.posX)
 								m.posX -= m_speed;
@@ -343,7 +344,7 @@ void Room::MoveMonster()
 							BroadCast(sendBufferM);
 						}
 						else if (p.second->xPos <= m.posX + 50 && p.second->zPos <= m.posZ + 50
-							&& p.second->xPos >= m.posX - 50 && p.second->zPos >= m.posZ - 50 && !p.second->dead && !m.agro)
+							&& p.second->xPos >= m.posX - 50 && p.second->zPos >= m.posZ - 50 && !p.second->dead && !m.agro && !m.hitEnemy)
 						{
 							m.isAttack = true;
 							bossAttack = 2;
@@ -382,7 +383,7 @@ void Room::MoveMonster()
 					else
 					{
 						if (p.second->xPos <= m.posX + 10 && p.second->zPos <= m.posZ + 10
-							&& p.second->xPos >= m.posX - 10 && p.second->zPos >= m.posZ - 10 && !p.second->dead && m.type != 4 && !m.agro)
+							&& p.second->xPos >= m.posX - 10 && p.second->zPos >= m.posZ - 10 && !p.second->dead && m.type != 4 && !m.agro && !m.hitEnemy)
 						{
 							if (p.second->xPos - 3 <= m.posX)
 								m.posX -= m_speed;
@@ -408,7 +409,7 @@ void Room::MoveMonster()
 				}
 			}
 			uint16 randDir = rand() % 9;
-			if (!m.isAttack && m.type != 4 && !m.agro)
+			if (!m.isAttack && m.type != 4 && !m.agro && !m.hitEnemy)
 			{
 				if (randDir == 0)
 				{
@@ -488,7 +489,7 @@ void Room::MoveMonster()
 
 				BroadCast(sendBufferM);
 			}
-			else if (m.agro)
+			else if (m.agro && !m.hitEnemy)
 			{
 				if (m.type == MONSTER1)
 					continue;

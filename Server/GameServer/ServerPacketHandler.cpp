@@ -274,9 +274,10 @@ bool ServerPacketHandler::Handle_C_MonsterAttack(PacketSessionRef& session, BYTE
 
 	int32 id, playerId;
 	int16 hp;
-	br >> id >> hp >> playerId;
+	bool hitEnemy;
+	br >> id >> hp >> playerId >> hitEnemy;
 	if (hp > 1)
-		GRoom.AttackedMonster(id, hp, playerId);
+		GRoom.AttackedMonster(id, hp, playerId, hitEnemy);
 	else if (hp < 1)
 		GRoom.DeadMonster(id);
 

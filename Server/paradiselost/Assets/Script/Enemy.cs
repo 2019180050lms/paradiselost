@@ -12,6 +12,7 @@ public class Enemy : MonoBehaviour
     public Transform target;
     public bool isChase;
     public bool isAttack;
+    public bool hitEnemy = false;
 
     public Vector3 prevVec;
     public Vector3 moveVec2;
@@ -87,6 +88,10 @@ public class Enemy : MonoBehaviour
             StartCoroutine("Attack");
             count++;
         }
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("doAttack"))
+            hitEnemy = true;
+        else if (!anim.GetCurrentAnimatorStateInfo(0).IsName("doAttack"))
+            hitEnemy = false;
 
     }
 
@@ -104,6 +109,7 @@ public class Enemy : MonoBehaviour
             attackedPacket.id = enemyId;
             attackedPacket.hp = (short)curHealth;
             attackedPacket.playerId = weapon.ParentId;
+            attackedPacket.hitEnemy = hitEnemy;
             _network.Send(attackedPacket.Write());
         }
         else if (other.tag == "Bullet")
@@ -120,6 +126,7 @@ public class Enemy : MonoBehaviour
             attackedPacket.id = enemyId;
             attackedPacket.hp = (short)curHealth;
             attackedPacket.playerId = bullet.ParentID;
+            attackedPacket.hitEnemy = hitEnemy;
             _network.Send(attackedPacket.Write());
             StartCoroutine(OnDamage(reactVec));
         }

@@ -41,6 +41,7 @@ struct EnemyObject
 	float posZ;
 	bool isAttack;
 	bool agro = false;
+	bool hitEnemy = false;
 };
 struct PlayerList
 {
