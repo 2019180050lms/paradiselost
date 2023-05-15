@@ -1213,9 +1213,12 @@ public class PlayerManager
     public void AttackedMonster(S_AttackedMonster packet)
     {
         Enemy enemy = null;
+
+        
         if (_enemys.TryGetValue(packet.id, out enemy))
         {
             enemy.curHealth = packet.hp;
+            enemy.anim.SetTrigger("doDamaged");
         }
         else if(packet.id >= 1000)
         {
@@ -1226,12 +1229,15 @@ public class PlayerManager
 
     public void AttackedPlayer(S_AttackedPlayer packet)
     {
+        
+
         if(_myplayer.PlayerId == packet.p_id)
         {
             _myplayer.hp = packet.hp;
         }
         else if(_players.TryGetValue(packet.p_id, out player))
         {
+            player.anim.SetTrigger("doDamaged");
             player.hp = packet.hp;
         }
 
