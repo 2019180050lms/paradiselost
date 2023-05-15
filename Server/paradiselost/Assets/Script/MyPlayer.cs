@@ -16,6 +16,7 @@ public class MyPlayer : Player
     public bool jDown;
     public bool testJump;
     public bool A_dontMove = false;
+    public bool donShoot = false;
 
     bool frontDown;
     bool leftDown;
@@ -115,6 +116,10 @@ public class MyPlayer : Player
             A_dontMove = true;
         else if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Swing"))
             A_dontMove = false;
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Run_Aim"))
+            donShoot = true;
+        else if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Run_Aim"))
+            donShoot = false;
 
         MoveControl();
         Jump(testJump);
@@ -132,7 +137,7 @@ public class MyPlayer : Player
         }
 
         
-        if (isShot && bulletCount == 0)
+        if (isShot && bulletCount == 0 && !donShoot)
         {
             bullet = Object.Instantiate(intantBullet) as GameObject;
             bullet.transform.position = bulletPos.transform.position;

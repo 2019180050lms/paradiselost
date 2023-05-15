@@ -511,24 +511,23 @@ public class PlayerManager
                     //_myplayer.StopCoroutine("Shot");
                     //_myplayer.anim.SetTrigger("doSwing");
                     //_myplayer.delay_body = 0.6f;
-                    
+
 
                     //_myplayer.anim.SetTrigger("doSwing");
                     //_myplayer.anim.SetTrigger("doSwing");
                     //_myplayer.delay_leg = 0.6f;
-                    if(_myplayer.hasWeapons[1])
+                    if (_myplayer.hasWeapons[1] && !_myplayer.anim.GetCurrentAnimatorStateInfo(0).IsName("Run_Aim"))
                     {
                         _myplayer.StartCoroutine("Shot");
                         _myplayer.anim.SetTrigger("doAim");
                     }
 
-                    if (!_myplayer.anim.GetCurrentAnimatorStateInfo(0).IsName("Swing"))
+                    if (!_myplayer.anim.GetCurrentAnimatorStateInfo(0).IsName("Swing") && _myplayer.hasWeapons[1] == false)
                     {
                         _myplayer.StopCoroutine("Swing");
                         _myplayer.StartCoroutine("Swing");
                         _myplayer.anim.SetTrigger("doSwing");
                     }
-
 
                     //_myplayer.StartCoroutine("Shot");
                 }
