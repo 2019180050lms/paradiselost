@@ -361,7 +361,7 @@ public class PlayerManager
                         }
 
                         player.anim = player.GetComponent<Animator>();
-                        player.intantBullet = Resources.Load("Bullet");
+                        player.intantBullet = Resources.Load("Bullet") as Object;
 
                         /*
                         player.anim_Head = jointP.head.gameObject.transform.GetChild(0).GetComponent<Animator>();
@@ -965,7 +965,7 @@ public class PlayerManager
                     playerText.playerText.text = "Player 4";
                     break;
             }
-
+            player.intantBullet = Resources.Load("Bullet") as Object;
             //player.anim_Head = jointP.head.gameObject.transform.GetChild(0).GetComponent<Animator>();
             //player.anim_Body = jointP.body.gameObject.transform.GetChild(0).GetComponent<Animator>();
             //player.anim_Leg = jointP.leg.gameObject.transform.GetChild(0).GetComponent<Animator>();
