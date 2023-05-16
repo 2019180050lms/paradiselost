@@ -105,7 +105,7 @@ public class GameUIManager : MonoBehaviour
             for (int i = 0; i < playersUI.Length; ++i)
             {
                 playersUIImages[i].SetActive(true);
-                ushort otherPlayerHP = playersUI[i].GetComponent<Player>().hp;
+                short otherPlayerHP = playersUI[i].GetComponent<Player>().hp;
                 otherPlayerHPText[i].text = otherPlayerHP.ToString() + " /  100";
                 otherPlayersHealthBar[i].localScale = new Vector3((float)otherPlayerHP / 100, 1, 1);
             }

@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
 
     //public string name;
 
-    public ushort hp;
+    public short hp;
     public int dir = 0;
     public float hAxis;
     public float vAxis;

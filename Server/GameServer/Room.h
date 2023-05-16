@@ -10,7 +10,7 @@ public:
 	void Leave(PlayerRef player);
 	void PlayerDead(PlayerRef player);
 	void DeadMonster(int32 monsterId);
-	void AttackedMonster(int32 monsterId, uint16 hp, int32 targetId);
+	void AttackedMonster(int32 monsterId, uint16 hp, int32 targetId, bool hitEnemy);
 	void BroadCast(SendBufferRef sendBuffer);
 	void CreateMonster(float x, float y, float z, int stage);
 	EnemyObject CreateBossMonster();
