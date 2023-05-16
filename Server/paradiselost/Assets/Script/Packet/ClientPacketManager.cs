@@ -25,7 +25,7 @@ class PacketManager
 		_makeFunc.Add((ushort)PacketID.S_ENTER_GAME, MakePacket<S_ENTER_GAME>);
 		_handler.Add((ushort)PacketID.S_ENTER_GAME, PacketHandler.S_EnterGame);
 
-		_makeFunc.Add((ushort)PacketID.S_PLAYERLIST, MakePacket<S_PlayerList>);
+		_makeFunc.Add((ushort)PacketID.S_PLAYERLIST, MakePacket<S_ENTER_PLAYER>);
 		_handler.Add((ushort)PacketID.S_PLAYERLIST, PacketHandler.S_PlayerListHandler);
 
         _makeFunc.Add((ushort)PacketID.S_ENEMYLIST, MakePacket<S_EnemyList>);

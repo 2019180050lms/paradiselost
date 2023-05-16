@@ -59,7 +59,7 @@ class PacketHandler
 
 	public static void S_PlayerListHandler(PacketSession session, IPacket packet)
 	{
-		S_PlayerList pkt = packet as S_PlayerList;
+		S_ENTER_PLAYER pkt = packet as S_ENTER_PLAYER;
 		ServerSession serverSession = session as ServerSession;
 
 		//Debug.Log("");
@@ -128,8 +128,6 @@ class PacketHandler
 
 		PlayerManager.Instance.ItemManager(pkt);
 
-		Debug.Log("아이템 먹은 플레이어" + pkt.playerId);
-		Debug.Log("캐릭터 타입: " + pkt.charactorType);
-		Debug.Log("아이템 타입: " + pkt.itemType);
+		Debug.Log("아이템 먹은 플레이어 " + pkt.playerId + " 아이템 타입: " + pkt.charactorType + " 아이템 값: " + pkt.itemType);
 	}
 }
