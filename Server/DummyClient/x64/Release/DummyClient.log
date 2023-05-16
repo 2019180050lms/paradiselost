@@ -1,7 +1,0 @@
-﻿  pch.cpp
-  ClientPacketHandler.cpp
-C:\Users\GIGABYTE\OneDrive - 한국산업기술대학교\바탕 화면\공부\졸작\paradiselost\Server\DummyClient\ClientPacketHandler.cpp(56,58): warning C4267: '인수': 'size_t'에서 'uint32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  DummyClient.cpp
-C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppCommon.targets(1096,5): error MSB6006: "link.exe"이(가) 종료되었습니다(코드: 1257).
-LINK : fatal error C1047: 개체 또는 라이브러리 파일 'C:\Users\GIGABYTE\OneDrive - 한국산업기술대학교\바탕 화면\공부\졸작\paradiselost\Server\Libraries\Release\ServerCore.lib'이(가) 다른 개체(예: 'x64\Release\ClientPacketHandler.obj')와 다른 버전의 컴파일러에서 만들어졌습니다. 같은 컴파일러를 사용하여 모든 개체 및 라이브러리를 다시 빌드하세요.
-LINK : fatal error LNK1257: 코드를 생성하지 못했습니다.
