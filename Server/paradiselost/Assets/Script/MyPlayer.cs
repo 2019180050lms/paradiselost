@@ -121,7 +121,8 @@ public class MyPlayer : Player
         else if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Run_Aim"))
             donShoot = false;
 
-        MoveControl();
+        if (!donShoot)
+            MoveControl();
         Jump(testJump);
 
         if (delay_body <= 0 && delay_leg <= 0)

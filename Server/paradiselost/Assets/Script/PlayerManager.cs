@@ -293,8 +293,11 @@ public class PlayerManager
                     {
                         if(player.hasWeapons[1])
                         {
-                            player.StartCoroutine("Shot");
-                            player.anim.SetTrigger("doAim");
+                            if (!player.anim.GetCurrentAnimatorStateInfo(0).IsName("doAim"))
+                            {
+                                player.StartCoroutine("Shot");
+                                player.anim.SetTrigger("doAim");
+                            }
                         }
 
                         if (!player.anim.GetCurrentAnimatorStateInfo(0).IsName("Swing"))
