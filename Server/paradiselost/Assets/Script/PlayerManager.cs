@@ -122,47 +122,6 @@ public class PlayerManager
                     Debug.Log("pos in: " + pos.x + " " + pos.y + " " + pos.z);
                     _myplayer = myPlayer;
                     Debug.Log("test p_id: " + _myplayer.PlayerId);
-                    /*
-                    MyPlayer myPlayer = go.AddComponent<MyPlayer>();
-                    Object head = Resources.Load("Sp_Head_Parts");
-                    Object body = Resources.Load("Sp_Body_Parts");
-                    Object leg = Resources.Load("Sp_Leg_Parts");
-
-                    myPlayer.body = 3;
-
-                    joint = go.AddComponent<Joint_Robot>();
-                    joint.po_list = new GameObject[3];
-                    joint.sh_list = new GameObject[3];
-                    joint.sp_list = new GameObject[3];
-
-                    joint.sp_list[0] = head as GameObject;
-                    joint.sp_list[1] = body as GameObject;
-                    joint.sp_list[2] = leg as GameObject;
-
-                    joint.leg = Object.Instantiate(joint.sp_list[2], myPlayer.transform);
-                    joint.leg.transform.position = new Vector3(myPlayer.transform.position.x, myPlayer.transform.position.y, myPlayer.transform.position.z);
-
-                    joint.body = Object.Instantiate(joint.sp_list[1], myPlayer.transform);
-                    joint.body.transform.position = joint.leg.transform.position + joint.leg.transform.Find("Joint_Leg").transform.localPosition - joint.body.transform.Find("Joint_Leg").transform.localPosition;
-
-                    joint.head = Object.Instantiate(joint.sp_list[0], myPlayer.transform);
-                    joint.head.transform.position = joint.body.transform.position + joint.body.transform.Find("Joint_Head").transform.position;
-
-                    myPlayer.PlayerId = playerId;
-                    //myPlayer.name = p.name;
-                    myPlayer.transform.tag = "MyPlayer";
-                    myPlayer.hp = hp;
-                    //Debug.Log(p.hp);
-                    myPlayer.transform.position = new Vector3(pos.x, pos.y, pos.z);
-                    Debug.Log("pos in: " + pos.x + " " + pos.y + " " + pos.z);
-                    _myplayer = myPlayer;
-                    myPlayer.anim_Head = joint.head.gameObject.transform.GetChild(0).GetComponent<Animator>();
-                    myPlayer.anim_Body = joint.body.gameObject.transform.GetChild(0).GetComponent<Animator>();
-                    myPlayer.anim_Leg = joint.leg.gameObject.transform.GetChild(0).GetComponent<Animator>();
-                    myPlayer.intantBullet =Resources.Load("Bullet");
-                    myPlayer.bulletPos = myPlayer.transform.GetChild(1);
-                    Debug.Log(myPlayer.name);
-                    */
                     break;
                 }
             default:
@@ -418,7 +377,8 @@ public class PlayerManager
                     //enemy.anim.SetTrigger("doAttack");
                 }
                 //enemy.transform.LookAt(enemy.transform.position + enemy.moveVec2);
-                enemy.transform.LookAt(enemy.posVec);
+                enemy.rotVec = enemy.posVec - enemy.transform.position;
+                //enemy.transform.LookAt(enemy.posVec);
                 if(enemy.tag == "EnemyTurret" )
                 {
                     EnemyTurret enemyTurret = GameObject.Find("TargetArea").GetComponent<EnemyTurret>();
@@ -635,9 +595,6 @@ public class PlayerManager
             Object obj3 = Resources.Load("PlayerText");
             GameObject PlayerText = Object.Instantiate(obj3) as GameObject;
 
-            //Object head = Resources.Load("Sp_Head_Parts");
-            //Object body = Resources.Load("Sp_Body_Parts");
-            //Object leg = Resources.Load("Sp_Leg_Parts");
 
 
             Player player = go.AddComponent<Player>();
@@ -646,56 +603,8 @@ public class PlayerManager
             player.PlayerId = packet.playerId;
             player.body = 3;
             player.anim = player.GetComponent<Animator>();
-            player.weapons.Add(GameObject.Find("Weapon Hammer"));
-            player.weapons.Add(GameObject.Find("Weapon Rifle"));
-            player.weapons[0].SetActive(false);
-            player.weapons[1].SetActive(false);
             player.equipWeaponIndex = 2;
-            //Joint_Robot jointP = go.AddComponent<Joint_Robot>();
-
-            //jointP.po_list = new GameObject[3];
-            //jointP.sh_list = new GameObject[3];
-            //jointP.sp_list = new GameObject[3];
-
-            //jointP.sp_list[0] = head as GameObject;
-            //jointP.sp_list[1] = body as GameObject;
-            //jointP.sp_list[2] = leg as GameObject;
-
-            //jointP.leg = Object.Instantiate(jointP.sp_list[2], player.transform);
-            //jointP.leg.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z);
-
-            //jointP.body = Object.Instantiate(jointP.sp_list[1], player.transform);
-            //jointP.body.transform.position = jointP.leg.transform.position + jointP.leg.transform.Find("Joint_Leg").transform.localPosition - jointP.body.transform.Find("Joint_Leg").transform.localPosition;
-
-            //jointP.head = Object.Instantiate(jointP.sp_list[0], player.transform);
-            //jointP.head.transform.position = jointP.body.transform.position + jointP.body.transform.Find("Joint_Head").transform.position;
-
-
-            // TODO head_item, leg_item
-            switch(packet.weapon_item)
-            {
-                case -1:
-                    break;
-                case 0:
-                    player.equipWeapon = player.weapons[1].GetComponent<Weapon>();
-                    player.equipWeapon.gameObject.SetActive(false);
-                    player.hasWeapons[1] = false;
-
-                    player.hasWeapons[packet.weapon_item] = true;
-                    player.equipWeapon = player.weapons[0].GetComponent<Weapon>();
-                    player.equipWeapon.gameObject.SetActive(true);
-                    break;
-                case 1:
-                    player.equipWeapon = player.weapons[0].GetComponent<Weapon>();
-                    player.equipWeapon.gameObject.SetActive(false);
-                    player.hasWeapons[0] = false;
-
-                    player.hasWeapons[packet.weapon_item] = true;
-                    player.equipWeapon = player.weapons[1].GetComponent<Weapon>();
-                    player.equipWeapon.gameObject.SetActive(true);
-                    Debug.Log("weapon_item: " + packet.weapon_item);
-                    break;
-            }
+            
 
             PlayerText.transform.SetParent(go.transform, false);
             PlayerText playerText = PlayerText.GetComponent<PlayerText>();
@@ -715,11 +624,6 @@ public class PlayerManager
                     break;
             }
             player.intantBullet = Resources.Load("Bullet") as Object;
-            //player.anim_Head = jointP.head.gameObject.transform.GetChild(0).GetComponent<Animator>();
-            //player.anim_Body = jointP.body.gameObject.transform.GetChild(0).GetComponent<Animator>();
-            //player.anim_Leg = jointP.leg.gameObject.transform.GetChild(0).GetComponent<Animator>();
-            //player.intantBullet = Resources.Load("Bullet");
-            //player.bulletPos = player.transform.GetChild(1);
 
             //_playerParts.Add(packet.playerId, jointP);
             Debug.Log("test o_id: " + player.PlayerId);
@@ -739,14 +643,9 @@ public class PlayerManager
             enemy.curHealth = packet.hp;
             enemy.ps = go.GetComponentInChildren<ParticleSystem>();
 
-            //enemy.transform.position = new Vector3(p.posX, p.posY, p.posZ);
             enemy.posVec = new Vector3(packet.posX, packet.posY, packet.posZ);
-            //Debug.Log("test enemy pos: " + new Vector3(p.posX, p.posY, p.posZ));
             _enemys.Add(packet.playerId, enemy);
 
-            //Debug.Log("Monster 생성");
-            //Debug.Log(enemy.enemyId);
-            //Debug.Log(enemy.maxHealth);
         }
         else if (packet.type == 5)
         {
@@ -763,8 +662,6 @@ public class PlayerManager
             _enemys.Add(packet.playerId, enemy);
 
             Debug.Log("Monster 생성");
-            //Debug.Log(enemy.enemyId);
-            //Debug.Log(enemy.maxHealth);
         }
         else if (packet.type == 6)
         {
@@ -780,9 +677,6 @@ public class PlayerManager
             enemy.posVec = new Vector3(packet.posX, packet.posY, packet.posZ);
             _enemys.Add(packet.playerId, enemy);
 
-            //Debug.Log("Monster 생성");
-            //Debug.Log(enemy.enemyId);
-            //Debug.Log(enemy.maxHealth);
         }
         else if (packet.type == 7)
         {
@@ -805,12 +699,6 @@ public class PlayerManager
     {
         if(_myplayer.PlayerId == packet.playerId)
         {
-            //GameObject.Destroy(_myplayer.gameObject);
-            /*
-            GameObject.Destroy(joint.head);
-            GameObject.Destroy(joint.body);
-            GameObject.Destroy(joint.leg);
-            */
             _myplayer.hp = 0;
             Debug.Log("사망 처리 테스트");
         }
@@ -824,7 +712,6 @@ public class PlayerManager
                     player.hp = 0;
                     GameObject.Destroy(player.gameObject, 1f);
                     _players.Remove(packet.playerId);
-                    //_playerParts.Remove(packet.playerId);
                 }
             }
             else

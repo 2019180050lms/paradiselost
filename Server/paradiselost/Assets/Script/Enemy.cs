@@ -17,6 +17,8 @@ public class Enemy : MonoBehaviour
     public Vector3 prevVec;
     public Vector3 moveVec2;
     public Vector3 posVec;
+    public Vector3 rotVec;
+
 
     public BoxCollider meleeArea;
 
@@ -76,8 +78,8 @@ public class Enemy : MonoBehaviour
     {
         Vector3 velo = Vector3.zero;
         //transform.position = Vector3.Lerp(transform.position, pos, 0.001f);
-        transform.position = Vector3.SmoothDamp(transform.position, posVec, ref velo, 0.07f);
-
+        transform.position = Vector3.SmoothDamp(transform.position, posVec, ref velo, 0.1f);
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(rotVec), Time.deltaTime * 2f);
         if (transform.tag == "EnemyTurret" && isAttack && count == 0)
         {
             StartCoroutine("Shoot");
