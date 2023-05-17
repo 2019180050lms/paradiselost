@@ -215,7 +215,7 @@ void SESSION::send_move_packet(int c_id)
 	p.isJump = clients[c_id].isJump;
 	//p.move_time = clients[c_id].last_move_time;
 	do_send(&p);
-	//cout << "send move: " << p.id << ", " << p.dir << endl;
+	//cout << "send move: " << p.id << ", " << p.isAttack << endl;
 }
 
 void SESSION::send_add_player_packet(int c_id)
@@ -356,7 +356,6 @@ void process_packet(int c_id, char* packet)
 		CS_MONSTER_ATTACKED_PACKET* p = reinterpret_cast<CS_MONSTER_ATTACKED_PACKET*>(packet);
 		clients[p->id]._hp = p->hp;
 		clients[p->id].targetId = p->playerId;
-		clients[p->id].isAttack = true;
 		if (clients[p->id]._hp < 1)
 			disconnect(p->id);
 		else {
@@ -382,6 +381,7 @@ void process_packet(int c_id, char* packet)
 						cpl._vl.unlock();
 						clients[pl].send_attacked_monster(p->id);
 					}
+					cpl._vl.unlock();
 				}
 			}
 		}
@@ -460,7 +460,7 @@ void disconnect(int c_id)
 	clients[c_id]._state = ST_FREE;
 }
 
-void do_delay_disable(int n_id);
+void do_delay_disable(int n_id, int c_id);
 
 void worker_thread(HANDLE h_iocp)
 {
@@ -545,24 +545,27 @@ void worker_thread(HANDLE h_iocp)
 				if (clients[i]._state != ST_INGAME)  continue;
 				if (false == can_see(i, key)) continue;
 				deactivate = false;
-				if (!clients[key].isAttack)
+				if (!clients[key].isAttack && clients[key].targetId < 0) {
 					do_random_move(static_cast<int>(key));
-				else if (clients[key].isAttack && !clients[key]._delay_attack)
+				}
+				if (!clients[key].isAttack && clients[key].targetId >= 0) {
 					do_player_attack(static_cast<int>(key), clients[key].targetId);
-				else if (clients[key].isAttack && clients[key]._delay_attack)
-					do_delay_disable(static_cast<int>(key));
+				}
+				else if (clients[key].isAttack) {
+					do_delay_disable(static_cast<int>(key), clients[key].targetId);
+				}
 
 				break;
 			}
 
-			if (false == deactivate && !clients[key].isAttack) {
+			if (false == deactivate && !clients[key].isAttack && clients[key].targetId < 0) {
 				add_timer(key, chrono::system_clock::now() + 500ms, EV_RANDOM_MOVE);
 			}
-			else if (false == deactivate && clients[key].isAttack && !clients[key]._delay_attack) {
-				add_timer(key, chrono::system_clock::now() + 1s, EV_RANDOM_MOVE);
+			else if (false == deactivate && !clients[key].isAttack && clients[key].targetId >= 0) {
+				add_timer(key, chrono::system_clock::now() + 500ms, EV_RANDOM_MOVE);
 			}
-			else if (false == deactivate && clients[key].isAttack && clients[key]._delay_attack) {
-				add_timer(key, chrono::system_clock::now() + 300ms, EV_RANDOM_MOVE);
+			else if (false == deactivate && clients[key].isAttack) {
+				add_timer(key, chrono::system_clock::now() + 500ms, EV_RANDOM_MOVE);
 			}
 			break;
 		}
@@ -655,9 +658,6 @@ void do_random_move(int c_id)
 
 void do_player_attack(int n_id, int c_id)
 {
-	if (clients[n_id]._delay_attack)
-		return;
-
 	unordered_set<int> view_list;
 	for (auto& cl : clients) {
 		if (cl._id >= MAX_USER) break;
@@ -667,29 +667,35 @@ void do_player_attack(int n_id, int c_id)
 			view_list.insert(cl._id);
 	}
 
-	if (clients[n_id].x + 4.f < clients[c_id].x && clients[n_id].x - 4.f > clients[c_id].x)
-		if (clients[n_id].z + 4.f < clients[c_id].z && clients[n_id].z - 4.f > clients[c_id].z) {
+	if (clients[n_id].x + 5.f >= clients[c_id].x && clients[n_id].x - 5.f <= clients[c_id].x) {
+		if (clients[n_id].z + 5.f >= clients[c_id].z && clients[n_id].z - 5.f <= clients[c_id].z) {
 			clients[n_id].isAttack = true;
-			clients[n_id]._delay_attack = true;
+			cout << "n_id: " << n_id << ", " << clients[n_id].isAttack << endl;
 		}
-
-	if (clients[n_id].x > clients[c_id].x + 30.f || clients[n_id].x < clients[c_id].x - 30.f)
-		if (clients[n_id].z > clients[c_id].z + 30.f || clients[n_id].z < clients[c_id].z - 30.f)
+	}
+	else if (clients[n_id].x + 30.f < clients[c_id].x && clients[n_id].x - 30.f > clients[c_id].x) {
+		if (clients[n_id].z + 30.f < clients[c_id].z && clients[n_id].z - 30.f > clients[c_id].z) {
 			clients[n_id].isAttack = false;
+			clients[n_id].targetId = -1;
+		}
+	}
+	else {
+		clients[n_id].isAttack = false;
+	}
 
-	if (!clients[n_id]._delay_attack) {
+	if (!clients[n_id].isAttack) {
 		if (clients[n_id].x < clients[c_id].x) {
-			clients[n_id].x += 2.f;
+			clients[n_id].x += 4.f;
 		}
 		else if (clients[n_id].x > clients[c_id].x) {
-			clients[n_id].x -= 2.f;
+			clients[n_id].x -= 4.f;
 		}
 
 		if (clients[n_id].z < clients[c_id].z) {
-			clients[n_id].z += 2.f;
+			clients[n_id].z += 4.f;
 		}
 		else if (clients[n_id].z > clients[c_id].z) {
-			clients[n_id].z -= 2.f;
+			clients[n_id].z -= 4.f;
 		}
 	}
 
@@ -720,9 +726,60 @@ void do_player_attack(int n_id, int c_id)
 	}
 }
 
-void do_delay_disable(int n_id)
+void do_delay_disable(int n_id, int c_id)
 {
-	clients[n_id]._delay_attack = false;
+	unordered_set<int> view_list;
+	for (auto& cl : clients) {
+		if (cl._id >= MAX_USER) break;
+		if (cl._state != ST_INGAME) continue;
+		if (cl._id == n_id) continue;
+		if (can_see(n_id, cl._id))
+			view_list.insert(cl._id);
+	}
+
+	if (clients[n_id].x + 5.f >= clients[c_id].x && clients[n_id].x - 5.f <= clients[c_id].x) {
+		if (clients[n_id].z + 5.f >= clients[c_id].z && clients[n_id].z - 5.f <= clients[c_id].z) {
+			clients[n_id].isAttack = true;
+			cout << "n_id: " << n_id << ", " << clients[n_id].isAttack << endl;
+		}
+	}
+	else if (clients[n_id].x + 30.f < clients[c_id].x && clients[n_id].x - 30.f > clients[c_id].x) {
+		if (clients[n_id].z + 30.f < clients[c_id].z && clients[n_id].z - 30.f > clients[c_id].z) {
+			clients[n_id].isAttack = false;
+			clients[n_id].targetId = -1;
+		}
+	}
+	else {
+		clients[n_id].isAttack = false;
+	}
+
+	
+
+	unordered_set<int> near_list;
+
+	//cout << "player id: " << c_id << ", pos(" << clients[c_id].x << ", " << clients[c_id].y << ", " << clients[c_id].z << endl;
+	//cout << "monster id: " << n_id << ", pos(" << clients[n_id].x << ", " << clients[n_id].y << ", " << clients[n_id].z << endl;
+
+	for (auto& cl : clients) {
+		if (cl._id >= MAX_USER) break;
+		if (cl._state != ST_INGAME) continue;
+		if (cl._id == n_id) continue;
+		if (can_see(n_id, cl._id))
+			near_list.insert(cl._id);
+	}
+
+	for (auto& pl : near_list) {
+		auto& cpl = clients[pl];
+		{
+			cpl._vl.lock();
+			if (clients[pl]._view_list.count(n_id) && clients[pl]._state == ST_INGAME) {
+				cpl._vl.unlock();
+				clients[pl].send_move_packet(n_id);
+			}
+			else
+				cpl._vl.unlock();
+		}
+	}
 }
 
 void do_timer(HANDLE h_iocp)
