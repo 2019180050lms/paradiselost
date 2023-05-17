@@ -109,9 +109,9 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.9339623, g: 0.06513478, b: 0.039649326, a: 0.29411766}
-      key1: {r: 0.6320754, g: 0.030925872, b: 0, a: 0.13725491}
-      key2: {r: 0.8396226, g: 0, b: 0.030676233, a: 0}
+      key0: {r: 1, g: 0.030701756, b: 0, a: 0.29411766}
+      key1: {r: 1, g: 0.049689442, b: 0, a: 0.13725491}
+      key2: {r: 1, g: 0.07510978, b: 0, a: 0}
       key3: {r: 0.990566, g: 0.96354884, b: 0.18222679, a: 0}
       key4: {r: 0.990566, g: 0.96354884, b: 0.18222679, a: 0}
       key5: {r: 0.990566, g: 0.96354884, b: 0.18222679, a: 0}
@@ -247,15 +247,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 32229c95e1aa3f7459af64aff3f449a3, type: 3}
       propertyPath: m_LocalScale.x
-      value: 7
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 32229c95e1aa3f7459af64aff3f449a3, type: 3}
       propertyPath: m_LocalScale.y
-      value: 7
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 32229c95e1aa3f7459af64aff3f449a3, type: 3}
       propertyPath: m_LocalScale.z
-      value: 7
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 32229c95e1aa3f7459af64aff3f449a3, type: 3}
       propertyPath: m_LocalPosition.x

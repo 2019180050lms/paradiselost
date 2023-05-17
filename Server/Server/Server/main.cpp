@@ -672,8 +672,9 @@ void do_player_attack(int n_id, int c_id)
 			clients[n_id].isAttack = true;
 			clients[n_id]._delay_attack = true;
 		}
-	if (clients[n_id].x > clients[c_id].x + 7.f || clients[n_id].x < clients[c_id].x - 7.f)
-		if (clients[n_id].z > clients[c_id].z + 7.f || clients[n_id].z < clients[c_id].z - 7.f)
+
+	if (clients[n_id].x > clients[c_id].x + 30.f || clients[n_id].x < clients[c_id].x - 30.f)
+		if (clients[n_id].z > clients[c_id].z + 30.f || clients[n_id].z < clients[c_id].z - 30.f)
 			clients[n_id].isAttack = false;
 
 	if (!clients[n_id]._delay_attack) {

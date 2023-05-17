@@ -86,14 +86,14 @@ public class Inventory : MonoBehaviour
                     {
                         if(obj.value == 0)
                         {
-                            ItemList[i] = Resources.Load<ItemParts>("Items/Weapon_Hammer_Item");
-                            gameUIManager.ItemTxt[i].text = "HAMMER";
+                            ItemList[i] = Resources.Load<ItemParts>("Items/Weapon Sword Item");
+                            gameUIManager.ItemTxt[i].text = "SWORD";
                             Destroy(other.gameObject);
                             break;
                         }
                         else if(obj.value == 1)
                         {
-                            ItemList[i] = Resources.Load<ItemParts>("Items/Weapon_Rifle_Item");
+                            ItemList[i] = Resources.Load<ItemParts>("Items/Weapon Rifle Item");
                             gameUIManager.ItemTxt[i].text = "RIFLE";
                             Destroy(other.gameObject);
                             break;
