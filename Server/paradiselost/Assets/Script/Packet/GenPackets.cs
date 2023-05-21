@@ -26,7 +26,8 @@ public enum PacketID
 	C_ENTER_ITEM = 16,
 	C_PLAYERATTACK = 17,
 	S_PLAYERATTACK = 18,
-	S_ENEMYLIST = 19
+	S_ENEMYLIST = 19,
+	S_BOSSATTACK = 20
 }
 
 public interface IPacket
@@ -815,6 +816,43 @@ public class S_AttackedMonster : IPacket
         Array.Copy(BitConverter.GetBytes(this.id), 0, segment.Array, segment.Offset + count, sizeof(int));
         count += sizeof(int);
         Array.Copy(BitConverter.GetBytes(this.hp), 0, segment.Array, segment.Offset + count, sizeof(short));
+        count += sizeof(short);
+
+        Array.Copy(BitConverter.GetBytes(count), 0, segment.Array, segment.Offset, sizeof(ushort));
+
+        return SendBufferHelper.Close(count);
+    }
+}
+
+public class S_BOSS_Attack : IPacket
+{
+    public int targetid;
+	public short bossAttack;
+
+    public ushort Protocol { get { return (ushort)PacketID.S_BOSSATTACK; } }
+
+    public void Read(ArraySegment<byte> segment)
+    {
+        ushort count = 0;
+        count += sizeof(ushort);
+        count += sizeof(ushort);
+        this.targetid = BitConverter.ToInt32(segment.Array, segment.Offset + count);
+        count += sizeof(int);
+        this.bossAttack = BitConverter.ToInt16(segment.Array, segment.Offset + count);
+        count += sizeof(short);
+    }
+
+    public ArraySegment<byte> Write()
+    {
+        ArraySegment<byte> segment = SendBufferHelper.Open(4096);
+        ushort count = 0;
+
+        count += sizeof(ushort);
+        Array.Copy(BitConverter.GetBytes((ushort)PacketID.S_BOSSATTACK), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+        count += sizeof(ushort);
+        Array.Copy(BitConverter.GetBytes(this.targetid), 0, segment.Array, segment.Offset + count, sizeof(int));
+        count += sizeof(int);
+        Array.Copy(BitConverter.GetBytes(this.bossAttack), 0, segment.Array, segment.Offset + count, sizeof(short));
         count += sizeof(short);
 
         Array.Copy(BitConverter.GetBytes(count), 0, segment.Array, segment.Offset, sizeof(ushort));

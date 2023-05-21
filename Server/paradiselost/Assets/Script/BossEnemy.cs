@@ -73,7 +73,7 @@ public class BossEnemy : MonoBehaviour
     }
      void Update()
     {
-        transform.position = Vector3.Lerp(transform.position, posVec, 0.005f);
+        //transform.position = Vector3.Lerp(transform.position, posVec, 0.005f);
 
         if (isAttack && bossAttack == 1 && count == 0)
         {
