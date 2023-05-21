@@ -123,23 +123,7 @@ public:
 	}
 	void send_move_packet(int c_id);
 	void send_add_player_packet(int c_id);
-	void send_remove_player_packet(int c_id)
-	{
-		_vl.lock();
-		if (_view_list.count(c_id))
-			_view_list.erase(c_id);
-		else {
-			_vl.unlock();
-			return;
-		}
-		_vl.unlock();
-		SC_REMOVE_PLAYER_PACKET p;
-		p.id = c_id;
-		p.size = sizeof(p);
-		p.itemNum = 0;
-		p.type = SC_REMOVE_PLAYER;
-		do_send(&p);
-	}
+	void send_remove_player_packet(int c_id);
 	void send_item_info(int c_id, int itemType, int itemValue)
 	{
 		SC_ITEM_INFO_PACKET p;
@@ -219,6 +203,27 @@ void SESSION::send_move_packet(int c_id)
 	//p.move_time = clients[c_id].last_move_time;
 	do_send(&p);
 	//cout << "send move: " << p.id << ", " << p.isAttack << endl;
+}
+
+void SESSION::send_remove_player_packet(int c_id)
+{
+	_vl.lock();
+	if (_view_list.count(c_id))
+		_view_list.erase(c_id);
+	else {
+		_vl.unlock();
+		return;
+	}
+	_vl.unlock();
+	SC_REMOVE_PLAYER_PACKET p;
+	p.id = c_id;
+	p.size = sizeof(p);
+	if (clients[c_id]._type > 3)
+		p.itemNum = rand() % 2;
+	else
+		p.itemNum = 0;
+	p.type = SC_REMOVE_PLAYER;
+	do_send(&p);
 }
 
 void SESSION::send_add_player_packet(int c_id)
