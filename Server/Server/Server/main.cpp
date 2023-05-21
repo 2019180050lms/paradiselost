@@ -477,9 +477,11 @@ void disconnect(int c_id)
 			}
 			if (pl._id == c_id) continue;
 			pl.send_remove_player_packet(c_id);
+			cout << "boss pl: " << p_id << ", " << c_id << endl;
 		}
 	}
-	closesocket(clients[c_id]._socket);
+	if (c_id < MAX_USER)
+		closesocket(clients[c_id]._socket);
 
 	lock_guard<mutex> ll(clients[c_id]._s_lock);
 	clients[c_id]._state = ST_FREE;
