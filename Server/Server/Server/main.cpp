@@ -381,7 +381,8 @@ void process_packet(int c_id, char* packet)
 						cpl._vl.unlock();
 						clients[pl].send_attacked_monster(p->id);
 					}
-					cpl._vl.unlock();
+					else
+						cpl._vl.unlock();
 				}
 			}
 		}
@@ -668,7 +669,15 @@ void do_player_attack(int n_id, int c_id)
 	}
 
 	if (clients[n_id].x + 5.f >= clients[c_id].x && clients[n_id].x - 5.f <= clients[c_id].x) {
+		if (clients[n_id].x + 5.f >= clients[c_id].x)
+			clients[n_id]._dir = 1;
+		else if (clients[n_id].x - 5.f <= clients[c_id].x)
+			clients[n_id]._dir = 2;
 		if (clients[n_id].z + 5.f >= clients[c_id].z && clients[n_id].z - 5.f <= clients[c_id].z) {
+			if (clients[n_id].z + 5.f >= clients[c_id].z)
+				clients[n_id]._dir = 3;
+			else if (clients[n_id].z - 5.f <= clients[c_id].z)
+				clients[n_id]._dir = 4;
 			clients[n_id].isAttack = true;
 			cout << "n_id: " << n_id << ", " << clients[n_id].isAttack << endl;
 		}
