@@ -53,6 +53,7 @@ public class Player : MonoBehaviour
     public HitBox hitBox;
     public ParticleSystem ps;
     public ParticleSystem gunParticle;
+    public TrailRenderer trailEffect;
 
     public int equipWeaponIndex = -1;
     public float fireDelay;
@@ -62,6 +63,11 @@ public class Player : MonoBehaviour
     public bool isShot;
     public int bulletCount = 0;
 
+    // 사운드
+    public SoundManager soundManager;
+    public AudioSource audioSource;
+    public AudioSource audioSourceRun;
+    public AudioSource audioSourceBgm;
 
     [HideInInspector]
     public float delay_body;
@@ -74,8 +80,9 @@ public class Player : MonoBehaviour
         ps = GetComponent<ParticleSystem>();
         gunParticle = GetComponentInChildren<ParticleSystem>();
         bulletPos = transform.GetChild(0);
-
-        
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSourceRun = gameObject.AddComponent<AudioSource>();
+        audioSourceBgm = gameObject.AddComponent<AudioSource>();
         //ps.Play();
         //ps.Emit(100);
         //ps.Stop();

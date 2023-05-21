@@ -38,8 +38,20 @@ public class MyPlayer : Player
         delay_leg = 0.0f;
         StartCoroutine("CoSendPacket");
         hitBox = GetComponent<HitBox>();
+        soundManager = GetComponent<SoundManager>();
+
+        // 사운드
+        audioSourceRun.clip = soundManager.runningSfx;
+        audioSourceRun.loop = true;
+        audioSourceRun.Play();
+
+        audioSourceBgm.clip = soundManager.Bgm;
+        audioSourceBgm.loop = true;
+        audioSourceBgm.Play();
+
         _network = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
         bulletPos = transform.GetChild(0);
+        trailEffect = GameObject.Find("trailEffect").GetComponent<TrailRenderer>();
         //transform.tag = "MyPlayer";
         weapons.Add(GameObject.Find("Weapon Hammer"));
         weapons.Add(GameObject.Find("Weapon Rifle"));
@@ -52,6 +64,8 @@ public class MyPlayer : Player
     // Update is called once per frame
     void Update()
     {
+
+
         if (Input.GetButtonDown("Camera1"))
         {
             if (camera1 == true)
@@ -81,23 +95,10 @@ public class MyPlayer : Player
             Debug.Log(camera2);
         }
 
-        /*
-        if (delay_body > 0f)
-        {
-            delay_body -= Time.deltaTime;
-           
-        }
-
-        if(delay_leg > 0f)
-        {
-            delay_leg -= Time.deltaTime;
-        }
-
-        anim_Body.SetFloat("Delay", delay_body);
-        anim_Leg.SetFloat("Delay", delay_leg);
-        */
-        GetInput();
         
+        GetInput();
+
+        audioSourceRun.mute = false;
 
         frontDown = Input.GetKey(KeyCode.W);
         leftDown = Input.GetKey(KeyCode.A);
@@ -110,6 +111,7 @@ public class MyPlayer : Player
             //anim_Leg.SetBool("isRun", false);
             anim.SetBool("isRun", false);
             anim.SetBool("isRun", false);
+            audioSourceRun.mute = true;
         }
 
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("Swing"))
@@ -131,7 +133,9 @@ public class MyPlayer : Player
             //Jump(testJump);
         }
 
-        
+        if(isJumping || A_dontMove)
+            audioSourceRun.mute = true;
+
         if (isBorder)
         {
             moveVec = Vector3.zero;
@@ -143,6 +147,8 @@ public class MyPlayer : Player
             bullet = Object.Instantiate(intantBullet) as GameObject;
             bullet.transform.position = bulletPos.transform.position;
             gunParticle.Play();
+            audioSource.clip = soundManager.shootSfx;
+            audioSource.Play();
             bullet.transform.rotation = bulletPos.rotation;
             Rigidbody bulletRigid = bullet.GetComponent<Rigidbody>();
             bulletRigid.velocity = bulletPos.forward * 120;
@@ -296,17 +302,23 @@ public class MyPlayer : Player
 
     IEnumerator Swing()
     {
+        audioSource.clip = soundManager.slashSfx;
+        
         yield return new WaitForSeconds(0.1f); // 0.1초 대기
         //meleeArea.enabled = true;
         hitBox.meleeArea.enabled = true;
-        //trailEffect.enabled = true;
-
-        yield return new WaitForSeconds(0.7f);
-        //meleeArea.enabled = false;
-        hitBox.meleeArea.enabled = false;
+        trailEffect.enabled = true;
 
         yield return new WaitForSeconds(0.3f);
-        //trailEffect.enabled = false;
+        audioSource.Play();
+
+        yield return new WaitForSeconds(0.4f);
+        //meleeArea.enabled = false;
+        hitBox.meleeArea.enabled = false;
+        trailEffect.enabled = false;
+
+        yield return new WaitForSeconds(0.3f);
+        
     }
 
     private void OnTriggerStay(Collider other)

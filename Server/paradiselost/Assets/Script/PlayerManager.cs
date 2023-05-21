@@ -757,6 +757,9 @@ public class PlayerManager
                 Debug.Log("itemNum: " + packet.itemNum);
                 if(_enemys.TryGetValue(packet.playerId, out enemy))
                 {
+                    SoundManager soundManager = enemy.GetComponent<SoundManager>();
+                    enemy.audioSource.clip = soundManager.monsterDieSfx;
+                    enemy.audioSource.Play();
                     enemy.ps.Play();
                     GameObject.Destroy(enemy.gameObject, 0.6f);
                     _enemys.Remove(packet.playerId);

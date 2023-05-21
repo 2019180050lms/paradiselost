@@ -33,7 +33,8 @@ public class Enemy : MonoBehaviour
     public Animator anim;
     public Transform bulletPos;
     public GameObject bullet;
-
+    public GameObject hitEffect;
+    
     NetworkManager _network;
 
     public ParticleSystem ps;
@@ -42,11 +43,20 @@ public class Enemy : MonoBehaviour
 
     int count = 0;
 
+    public SoundManager soundManager;
+    public AudioSource audioSource;
+
     private void Start()
     {
         _network = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
         hitBox = GetComponent<HitBox>();
         ps = GetComponentInChildren<ParticleSystem>();
+        // 사운드
+        audioSource = gameObject.AddComponent<AudioSource>();
+        soundManager = GetComponent<SoundManager>();
+
+        hitEffect = GameObject.Find("hitEffect");
+        hitEffect.SetActive(false);
         walking = true;
         bulletPos = transform.GetChild(1);
         timer = 0.0f;
@@ -137,27 +147,10 @@ public class Enemy : MonoBehaviour
 
     IEnumerator OnDamage(Vector3 reactVec)
     {
-        mat.color = Color.red;
         yield return new WaitForSeconds(0.1f);
-
-        if (curHealth > 0)
-        {
-            mat.color = Color.white;
-        }
-        else
-        {
-            mat.color = Color.gray;
-            gameObject.layer = 7;
-            isChase = false;
-            nav.enabled = false;  
-            anim.SetTrigger("doDie");
-
-            reactVec = reactVec.normalized;
-            reactVec += Vector3.up;
-            rigid.AddForce(reactVec * 5, ForceMode.Impulse);
-
-            //Destroy(gameObject, 2);
-        }
+        hitEffect.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+        hitEffect.SetActive(false);
     }
 
     void FreezVelocity() 

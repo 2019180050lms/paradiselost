@@ -579,7 +579,7 @@ void InitializeNPC()
 	for (int i = MAX_USER; i < MAX_USER + MAX_NPC; ++i) {
 		clients[i]._hp = 500;
 		clients[i].x = 1.f;
-		clients[i].y = 1.f;
+		clients[i].y = 0.2;
 		clients[i].z = 1.f + z;
 		clients[i]._id = i;
 		clients[i]._type = 5;
