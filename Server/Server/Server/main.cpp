@@ -577,27 +577,33 @@ void worker_thread(HANDLE h_iocp)
 				if (clients[i]._state != ST_INGAME)  continue;
 				if (false == can_see(i, key)) continue;
 				deactivate = false;
-				if (!clients[key].isAttack && clients[key].targetId < 0) {
+				if (!clients[key].isAttack && clients[key].targetId < 0 && clients[key].bossAttack < 0) {
 					do_random_move(static_cast<int>(key));
 				}
-				if (!clients[key].isAttack && clients[key].targetId >= 0) {
+				if (!clients[key].isAttack && clients[key].targetId >= 0 && clients[key].bossAttack < 0) {
 					do_player_attack(static_cast<int>(key), clients[key].targetId);
 				}
-				else if (clients[key].isAttack) {
+				else if (clients[key].isAttack && clients[key].bossAttack < 0) {
 					do_delay_disable(static_cast<int>(key), clients[key].targetId);
+				}
+				else if (clients[key].bossAttack >= 0) {
+					do_player_attack(static_cast<int>(key), clients[key].targetId);
 				}
 
 				break;
 			}
 
-			if (false == deactivate && !clients[key].isAttack && clients[key].targetId < 0) {
+			if (false == deactivate && !clients[key].isAttack && clients[key].targetId < 0 && clients[key].bossAttack < 0) {
 				add_timer(key, chrono::system_clock::now() + 500ms, EV_RANDOM_MOVE);
 			}
-			else if (false == deactivate && !clients[key].isAttack && clients[key].targetId >= 0) {
+			else if (false == deactivate && !clients[key].isAttack && clients[key].targetId >= 0 && clients[key].bossAttack < 0) {
 				add_timer(key, chrono::system_clock::now() + 500ms, EV_RANDOM_MOVE);
 			}
-			else if (false == deactivate && clients[key].isAttack) {
+			else if (false == deactivate && clients[key].isAttack && clients[key].bossAttack < 0) {
 				add_timer(key, chrono::system_clock::now() + 500ms, EV_RANDOM_MOVE);
+			}
+			else if (false == deactivate && clients[key].bossAttack >= 0) {
+				add_timer(key, chrono::system_clock::now() + 2s, EV_RANDOM_MOVE);
 			}
 			break;
 		}
