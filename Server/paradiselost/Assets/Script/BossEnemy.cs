@@ -40,11 +40,14 @@ public class BossEnemy : MonoBehaviour
     public Player target;
     public Vector3 targetPos;
 
+    public ParticleSystem ShootEffect;
+
     int count = 0;
     void Start()
     {
         _network = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
         hitBox = GetComponent<HitBox>();
+        ShootEffect = GetComponentInChildren<ParticleSystem>();
     }
 
     void Awake()
@@ -52,8 +55,7 @@ public class BossEnemy : MonoBehaviour
         rigid = GetComponent<Rigidbody>();
         boxCollider = GetComponent<BoxCollider>();
         meshs = GetComponentsInChildren<MeshRenderer>();  // Material�� MesgRenderer�� ���� ������
-        nav = GetComponent<NavMeshAgent>();
-        anim = GetComponentInChildren<Animator>();
+        anim = GetComponent<Animator>();
 
         missilePortA = transform.GetChild(2);
         missilePortB = transform.GetChild(3);
@@ -98,7 +100,7 @@ public class BossEnemy : MonoBehaviour
             Vector3 reactVec = transform.position - other.transform.position;
             //Debug.Log("Melee : " + curHealth);
             StartCoroutine(OnDamage(reactVec));
-
+            anim.SetTrigger("doDamaged");
             C_AttackedMonster attackedPacket = new C_AttackedMonster();
             attackedPacket.id = enemyId;
             attackedPacket.hp = (short)curHealth;
@@ -111,7 +113,7 @@ public class BossEnemy : MonoBehaviour
             curHealth -= bullet.damage;
             Vector3 reactVec = transform.position - other.transform.position;
             Destroy(other.gameObject);
-
+            anim.SetTrigger("doDamaged");
             Debug.Log("Bullet : " + curHealth);
             StartCoroutine(OnDamage(reactVec));
 
@@ -187,15 +189,15 @@ public class BossEnemy : MonoBehaviour
         isChase = false;
         isAttack = true;
         //anim.SetBool("isAttack", true);
-        anim.SetTrigger("doAttack");
-
-        yield return new WaitForSeconds(0.7f);
+        //anim.SetTrigger("doAttack");
+        Debug.Log("Attack 코루틴");
+        yield return new WaitForSeconds(0.2f);
         hitBox.meleeArea.enabled = true;
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.7f);
         hitBox.meleeArea.enabled = false;
 
-        yield return new WaitForSeconds(3f);
+        //yield return new WaitForSeconds(1f);
 
         isChase = true;
         isAttack = false;
@@ -204,24 +206,15 @@ public class BossEnemy : MonoBehaviour
 
     }
 
-    IEnumerator MissileShot()
+    IEnumerator Shot()
     {
         //anim.SetTrigger("doShot");
         isAttack = true;
-
+        //ShootEffect.Play();
         yield return new WaitForSeconds(0.5f);
-        GameObject instantMissileA = Instantiate(Resources.Load("Boss Missile", typeof(GameObject)), missilePortA.position, missilePortA.rotation) as GameObject;
-        BossMissile bossMissileA = instantMissileA.GetComponent<BossMissile>();
-        bossMissileA.targetPos = targetPos;
-        bossMissileA.enemyId = enemyId;
-
-        yield return new WaitForSeconds(0.5f);
-        GameObject instantMissileB = Instantiate(Resources.Load("Boss Missile", typeof(GameObject)), missilePortB.position, missilePortB.rotation) as GameObject;
-        BossMissile bossMissileB = instantMissileB.GetComponent<BossMissile>();
-        bossMissileB.targetPos = targetPos;
-
-
-        yield return new WaitForSeconds(2f);
+        ShootEffect.Emit(100);
+        
+        yield return new WaitForSeconds(1f);
 
         isAttack = false;
 

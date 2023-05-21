@@ -25,7 +25,7 @@ public class Door : MonoBehaviour
         Debug.Log(findEnemy);
         Debug.Log(findEnemy2);
 
-        if (findEnemy == null || findEnemy2 == null)
+        if (findEnemy == null && findEnemy2 == null)
         {
             Destroy(gameObject);
         }

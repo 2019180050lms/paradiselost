@@ -723,32 +723,11 @@ public class PlayerManager
                 Object items = null;
                 switch (packet.itemNum)
                 {
+                    case 0:
+                        items = Resources.Load("Items/Weapon Rifle Item");
+                        break;
                     case 1:
-                        items = Resources.Load("Items/Po_Body_Item");
-                        break;
-                    case 2:
-                        items = Resources.Load("Items/Po_Head_Item");
-                        break;
-                    case 3:
-                        items = Resources.Load("Items/Po_Leg_Item");
-                        break;
-                    case 4:
-                        items = Resources.Load("Items/Sh_Body_Item");
-                        break;
-                    case 5:
-                        items = Resources.Load("Items/Sh_Head_Item");
-                        break;
-                    case 6:
-                        items = Resources.Load("Items/Sh_Leg_Item");
-                        break;
-                    case 7:
-                        items = Resources.Load("Items/Sp_Body_Item");
-                        break;
-                    case 8:
-                        items = Resources.Load("Items/Sp_Head_Item");
-                        break;
-                    case 9:
-                        items = Resources.Load("Items/Sp_Leg_Item");
+                        items = Resources.Load("Items/Weapon Sword Item");
                         break;
                     default:
                         items = null;
@@ -773,6 +752,7 @@ public class PlayerManager
                 }
                 else if(packet.playerId == 503)
                 {
+                    _boss.anim.SetTrigger("doDie");
                     GameObject.Destroy(_boss.gameObject, 2);
                     _boss = null;
                 }
@@ -949,6 +929,16 @@ public class PlayerManager
     {
 
         Debug.Log("타겟 아이디: " + packet.targetid + " 보스 공격" + packet.bossAttack);
+        if( packet.bossAttack == 1)
+        {
+            _boss.StartCoroutine("Attack");
+            _boss.anim.SetTrigger("doAttack");
+        }
+        else if (packet.bossAttack == 0)
+        {
+            _boss.StartCoroutine("Shot");
+            _boss.anim.SetTrigger("doRangeAttack");
+        }
 
     }
 

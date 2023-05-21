@@ -328,6 +328,12 @@ public class MyPlayer : Player
         // Debug.Log(nearObject.name);
     }
 
+    private void OnParticleCollision(GameObject other)
+    {
+        anim.SetTrigger("doDamaged");
+        Debug.Log("파티클 ");
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "EnemyMelee")
@@ -345,6 +351,7 @@ public class MyPlayer : Player
             BossEnemy monsterInfo2 = other.GetComponentInParent<BossEnemy>(); // 공격한 몬스터 객체 불러오기
             //Debug.Log(monsterInfo.enemyId);  // 공격한 몬스터 객체의 ID 출력
             //hp -= 20;
+            anim.SetTrigger("doDamaged");
             Debug.Log("Test boss id: " + monsterInfo2.enemyId);
             cs_send_playerdamage(monsterInfo2.enemyId);
         }
@@ -355,7 +362,7 @@ public class MyPlayer : Player
             BossMissile monsterInfo = other.GetComponent<BossMissile>();
             //Debug.Log(monsterInfo.enemyId);  // 공격한 몬스터 객체의 ID 출력
             //Debug.Log(hp);
-            Debug.Log("monster id" + monsterInfo.enemyId);
+            Debug.Log("원거리공격맞음");
             cs_send_playerdamage(monsterInfo.enemyId);
             Destroy(other.gameObject);
         }
