@@ -1,4 +1,4 @@
-constexpr int PORT_NUM = 7778;
+constexpr int PORT_NUM = 7777;
 constexpr int BUF_SIZE = 8192;
 constexpr int NAME_SIZE = 20;
 
@@ -21,6 +21,7 @@ constexpr char SC_REMOVE_PLAYER = 9;
 constexpr char SC_MOVE_PLAYER = 10;
 constexpr char SC_ATTACKED_MONSTER = 14;
 constexpr char SC_ITEM_INFO = 15;
+constexpr char SC_BOSS_ATTACK = 20;
 //constexpr char SC_ITEM_INFO = 
 
 #pragma pack (push, 1)
@@ -117,6 +118,13 @@ struct SC_ATTACKED_MONSTER_PACKET {
 	unsigned short type;
 	int id;
 	short hp;
+};
+
+struct SC_BOSS_ATTACK_PACKET {
+	unsigned short size;
+	unsigned short type;
+	int playerid;
+	short bossAttack;
 };
 
 struct SC_ITEM_INFO_PACKET {

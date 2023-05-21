@@ -15,7 +15,7 @@
 using namespace std;
 
 constexpr int VIEW_RANGE = 100;
-constexpr int MAX_NPC = 3;
+constexpr int MAX_NPC = 4;
 
 enum COMP_TYPE { OP_CONNECT, OP_DISCONNECT, OP_ACCEPT, OP_RECV, OP_SEND, OP_NPC_AI };
 class OVER_EXP {
@@ -59,6 +59,7 @@ public:
 	short _hp;
 	float	x, y, z;
 	bool isAttack, isJump;
+	short bossAttack;
 	int targetId;
 	char	_name[NAME_SIZE];
 	int		_prev_remain;
@@ -76,6 +77,7 @@ public:
 		_state = ST_FREE;
 		_prev_remain = 0;
 		targetId = -1;
+		bossAttack = -1;
 	}
 
 	~SESSION() {}
@@ -150,6 +152,7 @@ public:
 		cout << "item p_id: " << p.id << ", " << p.itemType << ", " << p.itemValue << endl;
 	}
 	void send_attacked_monster(int c_id);
+	void send_boss_attack(int c_id);
 };
 
 array<SESSION, MAX_USER + MAX_NPC> clients;
@@ -250,6 +253,16 @@ void SESSION::send_attacked_monster(int c_id)
 	do_send(&p);
 }
 
+void SESSION::send_boss_attack(int c_id)
+{
+	SC_BOSS_ATTACK_PACKET p;
+	p.size = sizeof(p);
+	p.type = SC_BOSS_ATTACK;
+	p.playerid = clients[c_id].targetId;
+	p.bossAttack = clients[c_id].bossAttack;
+	do_send(&p);
+}
+
 int get_new_client_id()
 {
 	for (int i = 0; i < MAX_USER; ++i) {
@@ -262,6 +275,8 @@ int get_new_client_id()
 
 void disconnect(int c_id);
 void do_player_attack(int n_id, int c_id);
+bool do_add_boss();
+void add_boss();
 
 void process_packet(int c_id, char* packet)
 {
@@ -339,6 +354,7 @@ void process_packet(int c_id, char* packet)
 
 			if (old_vlist.count(pl) == 0) {
 				clients[c_id].send_add_player_packet(pl);
+					cout << "pl: " << pl << endl;
 				if (false == is_pc(pl))
 					wakeup_npc(pl);
 			}
@@ -356,8 +372,11 @@ void process_packet(int c_id, char* packet)
 		CS_MONSTER_ATTACKED_PACKET* p = reinterpret_cast<CS_MONSTER_ATTACKED_PACKET*>(packet);
 		clients[p->id]._hp = p->hp;
 		clients[p->id].targetId = p->playerId;
-		if (clients[p->id]._hp < 1)
+		if (clients[p->id]._hp < 1) {
 			disconnect(p->id);
+			if (do_add_boss())
+				add_boss();
+		}
 		else {
 			//wakeup_npc(p->id);
 			clients[c_id].send_attacked_monster(p->id);
@@ -381,7 +400,8 @@ void process_packet(int c_id, char* packet)
 						cpl._vl.unlock();
 						clients[pl].send_attacked_monster(p->id);
 					}
-					cpl._vl.unlock();
+					else
+						cpl._vl.unlock();
 				}
 			}
 		}
@@ -458,6 +478,18 @@ void disconnect(int c_id)
 
 	lock_guard<mutex> ll(clients[c_id]._s_lock);
 	clients[c_id]._state = ST_FREE;
+}
+
+bool do_add_boss()
+{
+	int dead_monster = 0;
+	for (int i = MAX_USER; i < MAX_USER + MAX_NPC; ++i) {
+		if (clients[i]._state == ST_FREE) dead_monster++;
+	}
+	if (dead_monster == MAX_NPC)
+		return true;
+	else
+		return false;
 }
 
 void do_delay_disable(int n_id, int c_id);
@@ -576,8 +608,8 @@ void worker_thread(HANDLE h_iocp)
 void InitializeNPC()
 {
 	float z = 0.f;
-	for (int i = MAX_USER; i < MAX_USER + MAX_NPC; ++i) {
-		clients[i]._hp = 500;
+	for (int i = MAX_USER; i < MAX_USER + MAX_NPC - 1; ++i) {
+		clients[i]._hp = 100;
 		clients[i].x = 1.f;
 		clients[i].y = 0.2;
 		clients[i].z = 1.f + z;
@@ -585,12 +617,29 @@ void InitializeNPC()
 		clients[i]._type = 5;
 		clients[i]._socket = NULL;
 		clients[i].targetId = -1;
+		clients[i].bossAttack = -1;
 		sprintf_s(clients[i]._name, "N%d", i);
 		clients[i]._state = ST_INGAME;
 		z += 10.f;
 	}
 	z = 0;
 	//cout << "complete" << endl;
+}
+
+void add_boss()
+{
+	clients[MAX_USER + MAX_NPC - 1]._id = MAX_USER + MAX_NPC - 1;
+	clients[MAX_USER + MAX_NPC - 1]._type = 7;
+	clients[MAX_USER + MAX_NPC - 1]._hp = 1000;
+	clients[MAX_USER + MAX_NPC - 1].x = 1.f;
+	clients[MAX_USER + MAX_NPC - 1].y = 0.2;
+	clients[MAX_USER + MAX_NPC - 1].z = 170.f;
+	clients[MAX_USER + MAX_NPC - 1]._dir = 4;
+	clients[MAX_USER + MAX_NPC - 1]._socket = NULL;
+	clients[MAX_USER + MAX_NPC - 1].targetId = -1;
+	clients[MAX_USER + MAX_NPC - 1].bossAttack = -1;
+	sprintf_s(clients[MAX_USER + MAX_NPC - 1]._name, "N%d", MAX_USER + MAX_NPC - 1);
+	clients[MAX_USER + MAX_NPC - 1]._state = ST_INGAME;
 }
 
 void do_random_move(int c_id)
@@ -604,26 +653,27 @@ void do_random_move(int c_id)
 			view_list.insert(cl._id);
 	}
 
-	float x = clients[c_id].x;
-	float y = clients[c_id].y;
-	float z = clients[c_id].z;
-	int dir = rand() % 9;
-	switch (dir) {
-	case 0: if (z > 0) z -= 3.f; break;
-	case 1: if (z < W_HEIGHT - 1) z += 3.f; break;
-	case 2: if (x > 0) x -= 3.f; break;
-	case 3: if (x < W_WIDTH - 1) x += 3.f; break;
-	case 4: if (x < W_WIDTH && z < W_HEIGHT) { x += 1.5; z += 1.5; } break;
-	case 5: if (x > 0 && z < W_HEIGHT) { x -= 1.5; z += 1.5; } break;
-	case 6: if (x < W_WIDTH && z > 0) { x += 1.5; z -= 1.5; } break;
-	case 7: if (x > 0 && z > 0) { x -= 1.5; z -= 1.5; } break;
-	case 8: break;
+	if (clients[c_id]._type != 7) {
+		float x = clients[c_id].x;
+		float y = clients[c_id].y;
+		float z = clients[c_id].z;
+		int dir = rand() % 9;
+		switch (dir) {
+		case 0: if (z > 0) z -= 3.f; break;
+		case 1: if (z < W_HEIGHT - 1) z += 3.f; break;
+		case 2: if (x > 0) x -= 3.f; break;
+		case 3: if (x < W_WIDTH - 1) x += 3.f; break;
+		case 4: if (x < W_WIDTH && z < W_HEIGHT) { x += 1.5; z += 1.5; } break;
+		case 5: if (x > 0 && z < W_HEIGHT) { x -= 1.5; z += 1.5; } break;
+		case 6: if (x < W_WIDTH && z > 0) { x += 1.5; z -= 1.5; } break;
+		case 7: if (x > 0 && z > 0) { x -= 1.5; z -= 1.5; } break;
+		case 8: break;
+		}
+		clients[c_id].x = x;
+		clients[c_id].y = y;
+		clients[c_id].z = z;
+		clients[c_id]._dir = dir;
 	}
-	clients[c_id].x = x;
-	clients[c_id].y = y;
-	clients[c_id].z = z;
-	clients[c_id]._dir = dir;
-
 	unordered_set<int> near_list;
 
 	for (auto& cl : clients) {
@@ -640,12 +690,19 @@ void do_random_move(int c_id)
 			cpl._vl.lock();
 			if (clients[pl]._view_list.count(c_id) && clients[pl]._state == ST_INGAME) {
 				cpl._vl.unlock();
-				clients[pl].send_move_packet(c_id);
+				if (clients[c_id]._type != 7)
+					clients[pl].send_move_packet(c_id);
+				else {
+					clients[c_id].bossAttack = rand() % 2;
+					clients[c_id].targetId = 0;
+					clients[pl].send_boss_attack(c_id);
+				}
 			}
 			else {
 				cpl._vl.unlock();
-				if (clients[c_id]._state != ST_FREE)
+				if (clients[c_id]._state != ST_FREE) {
 					clients[pl].send_add_player_packet(c_id);
+				}
 			}
 		}
 	}
@@ -667,38 +724,39 @@ void do_player_attack(int n_id, int c_id)
 			view_list.insert(cl._id);
 	}
 
-	if (clients[n_id].x + 5.f >= clients[c_id].x && clients[n_id].x - 5.f <= clients[c_id].x) {
-		if (clients[n_id].z + 5.f >= clients[c_id].z && clients[n_id].z - 5.f <= clients[c_id].z) {
-			clients[n_id].isAttack = true;
-			cout << "n_id: " << n_id << ", " << clients[n_id].isAttack << endl;
+	if (clients[n_id]._type != 7) {
+		if (clients[n_id].x + 5.f >= clients[c_id].x && clients[n_id].x - 5.f <= clients[c_id].x) {
+			if (clients[n_id].z + 5.f >= clients[c_id].z && clients[n_id].z - 5.f <= clients[c_id].z) {
+				clients[n_id].isAttack = true;
+				//cout << "n_id: " << n_id << ", " << clients[n_id].isAttack << endl;
+			}
 		}
-	}
-	else if (clients[n_id].x + 30.f < clients[c_id].x && clients[n_id].x - 30.f > clients[c_id].x) {
-		if (clients[n_id].z + 30.f < clients[c_id].z && clients[n_id].z - 30.f > clients[c_id].z) {
+		else if (clients[n_id].x + 30.f < clients[c_id].x && clients[n_id].x - 30.f > clients[c_id].x) {
+			if (clients[n_id].z + 30.f < clients[c_id].z && clients[n_id].z - 30.f > clients[c_id].z) {
+				clients[n_id].isAttack = false;
+				clients[n_id].targetId = -1;
+			}
+		}
+		else {
 			clients[n_id].isAttack = false;
-			clients[n_id].targetId = -1;
-		}
-	}
-	else {
-		clients[n_id].isAttack = false;
-	}
-
-	if (!clients[n_id].isAttack) {
-		if (clients[n_id].x < clients[c_id].x) {
-			clients[n_id].x += 4.f;
-		}
-		else if (clients[n_id].x > clients[c_id].x) {
-			clients[n_id].x -= 4.f;
 		}
 
-		if (clients[n_id].z < clients[c_id].z) {
-			clients[n_id].z += 4.f;
-		}
-		else if (clients[n_id].z > clients[c_id].z) {
-			clients[n_id].z -= 4.f;
+		if (!clients[n_id].isAttack) {
+			if (clients[n_id].x < clients[c_id].x) {
+				clients[n_id].x += 4.f;
+			}
+			else if (clients[n_id].x > clients[c_id].x) {
+				clients[n_id].x -= 4.f;
+			}
+
+			if (clients[n_id].z < clients[c_id].z) {
+				clients[n_id].z += 4.f;
+			}
+			else if (clients[n_id].z > clients[c_id].z) {
+				clients[n_id].z -= 4.f;
+			}
 		}
 	}
-
 	unordered_set<int> near_list;
 
 	//cout << "player id: " << c_id << ", pos(" << clients[c_id].x << ", " << clients[c_id].y << ", " << clients[c_id].z << endl;
@@ -718,12 +776,22 @@ void do_player_attack(int n_id, int c_id)
 			cpl._vl.lock();
 			if (clients[pl]._view_list.count(n_id) && clients[pl]._state == ST_INGAME) {
 				cpl._vl.unlock();
-				clients[pl].send_move_packet(n_id);
+				if (clients[n_id]._type != 7)
+					clients[pl].send_move_packet(n_id);
+				else {
+					clients[n_id].bossAttack = rand() % 2;
+					clients[n_id].targetId = c_id;
+					clients[pl].send_boss_attack(n_id);
+				}
 			}
 			else
 				cpl._vl.unlock();
 		}
 	}
+	for (auto& pl : view_list)
+		if (0 == near_list.count(pl)) {
+			clients[pl].send_remove_player_packet(n_id);
+		}
 }
 
 void do_delay_disable(int n_id, int c_id)
@@ -736,23 +804,23 @@ void do_delay_disable(int n_id, int c_id)
 		if (can_see(n_id, cl._id))
 			view_list.insert(cl._id);
 	}
-
-	if (clients[n_id].x + 5.f >= clients[c_id].x && clients[n_id].x - 5.f <= clients[c_id].x) {
-		if (clients[n_id].z + 5.f >= clients[c_id].z && clients[n_id].z - 5.f <= clients[c_id].z) {
-			clients[n_id].isAttack = true;
-			cout << "n_id: " << n_id << ", " << clients[n_id].isAttack << endl;
+	if (clients[n_id]._type != 7) {
+		if (clients[n_id].x + 5.f >= clients[c_id].x && clients[n_id].x - 5.f <= clients[c_id].x) {
+			if (clients[n_id].z + 5.f >= clients[c_id].z && clients[n_id].z - 5.f <= clients[c_id].z) {
+				clients[n_id].isAttack = true;
+				//cout << "n_id: " << n_id << ", " << clients[n_id].isAttack << endl;
+			}
 		}
-	}
-	else if (clients[n_id].x + 30.f < clients[c_id].x && clients[n_id].x - 30.f > clients[c_id].x) {
-		if (clients[n_id].z + 30.f < clients[c_id].z && clients[n_id].z - 30.f > clients[c_id].z) {
+		else if (clients[n_id].x + 30.f < clients[c_id].x && clients[n_id].x - 30.f > clients[c_id].x) {
+			if (clients[n_id].z + 30.f < clients[c_id].z && clients[n_id].z - 30.f > clients[c_id].z) {
+				clients[n_id].isAttack = false;
+				clients[n_id].targetId = -1;
+			}
+		}
+		else {
 			clients[n_id].isAttack = false;
-			clients[n_id].targetId = -1;
 		}
 	}
-	else {
-		clients[n_id].isAttack = false;
-	}
-
 	
 
 	unordered_set<int> near_list;
@@ -774,12 +842,22 @@ void do_delay_disable(int n_id, int c_id)
 			cpl._vl.lock();
 			if (clients[pl]._view_list.count(n_id) && clients[pl]._state == ST_INGAME) {
 				cpl._vl.unlock();
-				clients[pl].send_move_packet(n_id);
+				if (clients[n_id]._type != 7)
+					clients[pl].send_move_packet(n_id);
+				else {
+					clients[n_id].bossAttack = rand() % 2;
+					clients[n_id].targetId = c_id;
+					clients[pl].send_boss_attack(n_id);
+				}
 			}
 			else
 				cpl._vl.unlock();
 		}
 	}
+	for (auto& pl : view_list)
+		if (0 == near_list.count(pl)) {
+			clients[pl].send_remove_player_packet(n_id);
+		}
 }
 
 void do_timer(HANDLE h_iocp)
