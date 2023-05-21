@@ -24,11 +24,11 @@ public class Door : MonoBehaviour
         findEnemy2 = GameObject.FindWithTag("EnemyTurret");
         Debug.Log(findEnemy);
         Debug.Log(findEnemy2);
-        anim.SetBool("Open", findEnemy == null && findEnemy2 == null);
-        anim.SetBool("Close", findEnemy != null || findEnemy2 != null);
 
-        if (findEnemy == null && findEnemy2 == null)
-            boxCollider.enabled = false;
+        if (findEnemy == null || findEnemy2 == null)
+        {
+            Destroy(gameObject);
+        }
         else
             boxCollider.enabled = true;
        

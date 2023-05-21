@@ -683,7 +683,7 @@ public class PlayerManager
         }
         else if (packet.type == 7)
         {
-            Object obj = Resources.Load("StageBoss");
+            Object obj = Resources.Load("Monster/BossTest");
             GameObject go = Object.Instantiate(obj) as GameObject;
 
             BossEnemy boss = go.AddComponent<BossEnemy>();
@@ -771,7 +771,7 @@ public class PlayerManager
                         rigidbody.AddForce(new Vector3(7, 10, 0), ForceMode.Impulse);
                     }
                 }
-                else if(packet.playerId >= 1000)
+                else if(packet.playerId == 503)
                 {
                     GameObject.Destroy(_boss.gameObject, 2);
                     _boss = null;
@@ -943,6 +943,13 @@ public class PlayerManager
             _boss.curHealth = packet.hp;
             Debug.Log("보스 피격" + _boss.curHealth);
         }
+    }
+
+    public void BossAttack(S_BOSS_Attack packet)
+    {
+
+        Debug.Log("타겟 아이디: " + packet.targetid + " 보스 공격" + packet.bossAttack);
+
     }
 
     public void AttackedPlayer(S_AttackedPlayer packet)
