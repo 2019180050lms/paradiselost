@@ -93,7 +93,15 @@ class PacketHandler
         PlayerManager.Instance.AttackedMonster(pkt);
     }
 
-	public static void S_AttackedPlayerHandler(PacketSession session, IPacket packet)
+    public static void S_BossAttackedHandler(PacketSession session, IPacket packet)
+    {
+        S_BOSS_Attack pkt = packet as S_BOSS_Attack;
+        ServerSession serverSession = session as ServerSession;
+
+        PlayerManager.Instance.BossAttack(pkt);
+    }
+
+    public static void S_AttackedPlayerHandler(PacketSession session, IPacket packet)
 	{
 		S_AttackedPlayer pkt = packet as S_AttackedPlayer;
 		ServerSession serverSession = session as ServerSession;
