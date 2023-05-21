@@ -62,7 +62,7 @@ public class GameUIManager : MonoBehaviour
 
     void FindBossHp()
     {
-        boss = GameObject.Find("StageBoss(Clone)").GetComponent<BossEnemy>();
+        boss = GameObject.Find("BossTest(Clone)").GetComponent<BossEnemy>();
     }
 
     void FindMyPlayer()
