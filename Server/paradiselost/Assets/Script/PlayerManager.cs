@@ -741,6 +741,7 @@ public class PlayerManager
                     enemy.audioSource.Play();
                     enemy.ps.Play();
                     GameObject.Destroy(enemy.gameObject, 0.6f);
+                    Debug.Log("dead monster test");
                     _enemys.Remove(packet.playerId);
                     if (items != null)
                     {
@@ -750,10 +751,12 @@ public class PlayerManager
                         rigidbody.AddForce(new Vector3(7, 10, 0), ForceMode.Impulse);
                     }
                 }
-                else if(packet.playerId == 503)
+                else if(packet.playerId == _boss.enemyId)
                 {
                     _boss.anim.SetTrigger("doDie");
                     GameObject.Destroy(_boss.gameObject, 2);
+
+                    Debug.Log("dead boss monster test");
                     _boss = null;
                 }
             }
@@ -918,7 +921,7 @@ public class PlayerManager
             enemy.curHealth = packet.hp;
             enemy.anim.SetTrigger("doDamaged");
         }
-        else if(packet.id >= 1000)
+        else if(packet.id >= 503)
         {
             _boss.curHealth = packet.hp;
             Debug.Log("보스 피격" + _boss.curHealth);

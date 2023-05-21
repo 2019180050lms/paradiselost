@@ -88,6 +88,11 @@ public class BossEnemy : MonoBehaviour
             StartCoroutine("MissileShot");
             count++;
         }
+        if (curHealth < 1)
+        {
+            anim.SetTrigger("doDie");
+            Destroy(gameObject, 1f);
+        }
     }
 
     void OnTriggerEnter(Collider other)
