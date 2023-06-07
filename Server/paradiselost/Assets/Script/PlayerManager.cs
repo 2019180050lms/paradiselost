@@ -329,117 +329,114 @@ public class PlayerManager
                 {
                     Debug.Log("다른 player wDown ");
                     Debug.Log(player.currentTime);
-                    if ((int)player.body == 3)        // 플레이어 좌클릭
+                    //player.StopCoroutine("timer");
+                    if (player.hasWeapons[1] && !player.anim.GetCurrentAnimatorStateInfo(0).IsName("Run_Aim"))
                     {
-                        //player.StopCoroutine("timer");
-                        if (player.hasWeapons[1] && !player.anim.GetCurrentAnimatorStateInfo(0).IsName("Run_Aim"))
+                        player.StartCoroutine("Shot");
+                        player.anim.SetTrigger("doAim");
+                    }
+
+                    else if (!player.hasWeapons[0] && !player.hasWeapons[1] && player.currentTime == 0)
+                    {
+                        player.StopCoroutine("Punch");
+                        player.StartCoroutine("Punch");
+
+                        player.StopCoroutine("timer");
+                        player.StartCoroutine("timer");
+
+                        player.anim.SetTrigger("doPunch");
+                    }
+
+                    else if (!player.hasWeapons[0] && !player.hasWeapons[1] && player.currentTime > 0f && player.currentTime < 1.0f)
+                    {
+                        player.anim.SetTrigger("doPunch2");
+                        player.StopCoroutine("Punch");
+                        player.StartCoroutine("Punch");
+                        player.currentTime = 0;
+
+                    }
+
+                    else if (player.currentTime == 0.0f)
+                    {
+                        Debug.Log("currenttime 0 ");
+                        Debug.Log("swing1 ");
+                        player.StopCoroutine("Swing");
+                        player.StartCoroutine("Swing");
+
+                        player.StopCoroutine("timer");
+                        player.StartCoroutine("timer");
+
+                        player.anim.SetTrigger("doSwing");
+                    }
+
+                    //else if (player.currentTime == 0)
+                    //{
+                    //    Debug.Log("currenttime 0 ");
+                    //    if ( player.hasWeapons[0]) // !_myplayer.anim.GetCurrentAnimatorStateInfo(0).IsName("Swing") &&
+                    //    {
+                    //        Debug.Log("swing1 ");
+                    //        player.StopCoroutine("Swing");
+                    //        player.StartCoroutine("Swing");
+
+                    //        player.StopCoroutine("timer");
+                    //        player.StartCoroutine("timer");
+
+                    //        player.anim.SetTrigger("doSwing");
+                    //    }
+                    //}
+
+                    else if (player.hasWeapons[0] && player.currentTime > 0f && player.currentTime < 1.0f && player.atkCombo == 0)
+                    {
+                        Debug.Log("swing2");
+                        player.anim.SetTrigger("doSwing2");
+                        player.StopCoroutine("Swing");
+                        player.StartCoroutine("Swing");
+                        player.StartCoroutine("timer");
+                        player.atkCombo = 1;
+                        player.currentTime = 0;
+                    }
+
+                    else if (player.hasWeapons[0] && player.currentTime > 0f && player.currentTime < 1.0f && player.atkCombo == 1)
+                    {
+                        Debug.Log("swing3");
+                        player.anim.SetTrigger("doSwing3");
+                        player.StopCoroutine("Swing");
+                        player.StartCoroutine("Swing");
+                        player.atkCombo = 0;
+                        player.currentTime = 0;
+                    }
+
+                    else if (player.hasWeapons[0] && player.currentTime > 2)
+                    {
+                        player.StopCoroutine("timer");
+                        player.currentTime = 0;
+                    }
+
+
+                    else if ((int)player.body == 2)
+                    {
+                        player.StopCoroutine("Swing");
+                        player.StartCoroutine("Swing");
+                        if (!player.anim_Body.GetCurrentAnimatorStateInfo(0).IsName("Swing"))
                         {
-                            player.StartCoroutine("Shot");
-                            player.anim.SetTrigger("doAim");
-                        }
-
-                        else if (!player.hasWeapons[0] && !player.hasWeapons[1] && player.currentTime == 0)
-                        {
-                            player.StopCoroutine("Punch");
-                            player.StartCoroutine("Punch");
-
-                            player.StopCoroutine("timer");
-                            player.StartCoroutine("timer");
-
-                            player.anim.SetTrigger("doPunch");
-                        }
-
-                        else if (!player.hasWeapons[0] && !player.hasWeapons[1] && player.currentTime > 0f && player.currentTime < 1.0f)
-                        {
-                            player.anim.SetTrigger("doPunch2");
-                            player.StopCoroutine("Punch");
-                            player.StartCoroutine("Punch");
-                            player.currentTime = 0;
-
-                        }
-
-                        else if (player.currentTime < 1.0f && player.hasWeapons[0])
-                        {
-                            Debug.Log("currenttime 0 ");
-                            Debug.Log("swing1 ");
-                            player.StopCoroutine("Swing");
-                            player.StartCoroutine("Swing");
-
-                            player.StopCoroutine("timer");
-                            player.StartCoroutine("timer");
-
-                            player.anim.SetTrigger("doSwing");
-                        }
-
-                        //else if (player.currentTime == 0)
-                        //{
-                        //    Debug.Log("currenttime 0 ");
-                        //    if ( player.hasWeapons[0]) // !_myplayer.anim.GetCurrentAnimatorStateInfo(0).IsName("Swing") &&
-                        //    {
-                        //        Debug.Log("swing1 ");
-                        //        player.StopCoroutine("Swing");
-                        //        player.StartCoroutine("Swing");
-
-                        //        player.StopCoroutine("timer");
-                        //        player.StartCoroutine("timer");
-
-                        //        player.anim.SetTrigger("doSwing");
-                        //    }
-                        //}
-
-                        else if (player.hasWeapons[0] && player.currentTime > 0f && player.currentTime < 1.0f && player.atkCombo == 0)
-                        {
-                            Debug.Log("swing2");
-                            player.anim.SetTrigger("doSwing2");
-                            player.StopCoroutine("Swing");
-                            player.StartCoroutine("Swing");
-                            player.StartCoroutine("timer");
-                            player.atkCombo = 1;
-                            player.currentTime = 0;
-                        }
-
-                        else if ( player.hasWeapons[0] && player.currentTime > 0f && player.currentTime < 1.0f && player.atkCombo == 1)
-                        {
-                            Debug.Log("swing3");
-                            player.anim.SetTrigger("doSwing3");
-                            player.StopCoroutine("Swing");
-                            player.StartCoroutine("Swing");
-                            player.atkCombo = 0;
-                            player.currentTime = 0;
-                        }
-
-                        else if (player.hasWeapons[0] && player.currentTime > 2)
-                        {
-                            player.StopCoroutine("timer");
-                            player.currentTime = 0;
-                        }
-
-
-                        else if ((int)player.body == 2)
-                        {
-                            player.StopCoroutine("Swing");
-                            player.StartCoroutine("Swing");
-                            if (!player.anim_Body.GetCurrentAnimatorStateInfo(0).IsName("Swing"))
-                            {
-                                player.anim_Body.SetTrigger("doSwing");
-                                player.delay_body = 0.3f;
-                            }
-                            player.anim_Head.SetTrigger("doSwing");
-
-                            if (!player.anim_Leg.GetCurrentAnimatorStateInfo(0).IsName("Swing"))
-                            {
-                                player.anim_Leg.SetTrigger("doSwing");
-                                player.delay_leg = 1.2f;
-                            }
-                        }
-                        else
-                        {
-                            player.StopCoroutine("Swing");
-                            player.anim_Head.SetTrigger("doSwing");
                             player.anim_Body.SetTrigger("doSwing");
-                            player.anim_Leg.SetTrigger("doSwing");
-                            player.StartCoroutine("Swing");
+                            player.delay_body = 0.3f;
                         }
+                        player.anim_Head.SetTrigger("doSwing");
+
+                        if (!player.anim_Leg.GetCurrentAnimatorStateInfo(0).IsName("Swing"))
+                        {
+                            player.anim_Leg.SetTrigger("doSwing");
+                            player.delay_leg = 1.2f;
+                        }
+                    }
+                    else
+                    {
+                        player.StopCoroutine("Swing");
+                        player.anim_Head.SetTrigger("doSwing");
+                        player.anim_Body.SetTrigger("doSwing");
+                        player.anim_Leg.SetTrigger("doSwing");
+                        player.StartCoroutine("Swing");
                     }
                 }
                 player.transform.LookAt(player.transform.position + player.moveVec2);
@@ -944,81 +941,81 @@ public class PlayerManager
         else if (_players.TryGetValue(packet.playerId, out player))
         {
             Debug.Log("test item packet: " + packet.playerId + ", " + packet.charactorType + ", " + packet.itemType);
-                if (packet.charactorType == 1)
+            if (packet.charactorType == 1)
+            {
+                switch (packet.itemType)
                 {
-                    switch (packet.itemType)
-                    {
-                        case 0:
-                            player.equipWeapon = player.weapons[0].GetComponent<Weapon>();
-                            player.equipWeapon.gameObject.SetActive(true);
-                            break;
-                        case 1:
-                            player.equipWeapon = player.weapons[1].GetComponent<Weapon>();
-                            player.equipWeapon.gameObject.SetActive(true);
-                            break;
-                        case 3:
-                            c_p_parts.sp_list[0] = Resources.Load("Sp_Head_Parts") as GameObject;
-                            c_p_parts.SwitchParts(packet.itemType);
-                            break;
-                    }
-                    player.anim_Head = c_p_parts.head.gameObject.transform.GetChild(0).GetComponent<Animator>();
-                    player.head = packet.itemType;
-                    player.ps.Emit(100);
+                    case 0:
+                        player.equipWeapon = player.weapons[0].GetComponent<Weapon>();
+                        player.equipWeapon.gameObject.SetActive(true);
+                        break;
+                    case 1:
+                        player.equipWeapon = player.weapons[1].GetComponent<Weapon>();
+                        player.equipWeapon.gameObject.SetActive(true);
+                        break;
+                    case 3:
+                        c_p_parts.sp_list[0] = Resources.Load("Sp_Head_Parts") as GameObject;
+                        c_p_parts.SwitchParts(packet.itemType);
+                        break;
                 }
-                else if (packet.charactorType == 2) // 무기
+                player.anim_Head = c_p_parts.head.gameObject.transform.GetChild(0).GetComponent<Animator>();
+                player.head = packet.itemType;
+                player.ps.Emit(100);
+            }
+            else if (packet.charactorType == 2) // 무기
+            {
+                switch (packet.itemType)
                 {
-                    switch (packet.itemType)
-                    {
-                        case 0:
-                            player.equipWeapon = player.weapons[1].GetComponent<Weapon>();
-                            player.equipWeapon.gameObject.SetActive(false);
-                            player.hasWeapons[1] = false;
-                       
+                    case 0:
+                        player.equipWeapon = player.weapons[1].GetComponent<Weapon>();
+                        player.equipWeapon.gameObject.SetActive(false);
+                        player.hasWeapons[1] = false;
 
-                            player.hasWeapons[packet.itemType] = true;
-                            player.equipWeapon = player.weapons[0].GetComponent<Weapon>();
-                            player.equipWeapon.gameObject.SetActive(true);
-                            break;
-                        case 1:
-                            player.equipWeapon = player.weapons[0].GetComponent<Weapon>();
-                            player.equipWeapon.gameObject.SetActive(false);
-                            player.hasWeapons[0] = false;
 
-                            player.hasWeapons[packet.itemType] = true;
-                            player.equipWeapon = player.weapons[1].GetComponent<Weapon>();
-                            player.equipWeapon.gameObject.SetActive(true);
-                            break;
-                        case 3:
-                            c_p_parts.sp_list[1] = Resources.Load("Sp_Body_Parts") as GameObject;
-                            c_p_parts.SwitchParts(packet.itemType);
-                            break;
-                    }
-                    //player.anim_Body = c_p_parts.body.gameObject.transform.GetChild(0).GetComponent<Animator>();
-                    player.body = packet.itemType;
-                    //player.ps.Emit(100);
+                        player.hasWeapons[packet.itemType] = true;
+                        player.equipWeapon = player.weapons[0].GetComponent<Weapon>();
+                        player.equipWeapon.gameObject.SetActive(true);
+                        player.body = 3;
+                        break;
+                    case 1:
+                        player.equipWeapon = player.weapons[0].GetComponent<Weapon>();
+                        player.equipWeapon.gameObject.SetActive(false);
+                        player.hasWeapons[0] = false;
+
+                        player.hasWeapons[packet.itemType] = true;
+                        player.equipWeapon = player.weapons[1].GetComponent<Weapon>();
+                        player.equipWeapon.gameObject.SetActive(true);
+                        break;
+                    case 3:
+                        c_p_parts.sp_list[1] = Resources.Load("Sp_Body_Parts") as GameObject;
+                        c_p_parts.SwitchParts(packet.itemType);
+                        break;
                 }
-                else if (packet.charactorType == 3)
+                //player.anim_Body = c_p_parts.body.gameObject.transform.GetChild(0).GetComponent<Animator>();
+                player.body = packet.itemType;
+                //player.ps.Emit(100);
+            }
+            else if (packet.charactorType == 3)
+            {
+                switch (packet.itemType)
                 {
-                    switch (packet.itemType)
-                    {
-                        case 1:
-                            c_p_parts.po_list[2] = Resources.Load("Po_Leg_Parts") as GameObject;
-                            c_p_parts.SwitchParts(packet.itemType);
-                            break;
-                        case 2:
-                            c_p_parts.sh_list[2] = Resources.Load("Sh_Leg_Parts") as GameObject;
-                            c_p_parts.SwitchParts(packet.itemType);
-                            break;
-                        case 3:
-                            c_p_parts.sp_list[2] = Resources.Load("Sp_Leg_Parts") as GameObject;
-                            c_p_parts.SwitchParts(packet.itemType);
-                            break;
-                    }
-                    player.anim_Leg = c_p_parts.leg.gameObject.transform.GetChild(0).GetComponent<Animator>();
-                    player.leg = packet.itemType;
-                    player.ps.Emit(100);
+                    case 1:
+                        c_p_parts.po_list[2] = Resources.Load("Po_Leg_Parts") as GameObject;
+                        c_p_parts.SwitchParts(packet.itemType);
+                        break;
+                    case 2:
+                        c_p_parts.sh_list[2] = Resources.Load("Sh_Leg_Parts") as GameObject;
+                        c_p_parts.SwitchParts(packet.itemType);
+                        break;
+                    case 3:
+                        c_p_parts.sp_list[2] = Resources.Load("Sp_Leg_Parts") as GameObject;
+                        c_p_parts.SwitchParts(packet.itemType);
+                        break;
                 }
-            
+                player.anim_Leg = c_p_parts.leg.gameObject.transform.GetChild(0).GetComponent<Animator>();
+                player.leg = packet.itemType;
+                player.ps.Emit(100);
+            }
         }
     }
 
