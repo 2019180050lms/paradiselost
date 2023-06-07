@@ -173,7 +173,6 @@ public class MyPlayer : Player
 
         testJump = false;
 
-        Debug.Log(currentTime);
     }
 
     void GetInput()
@@ -312,41 +311,11 @@ public class MyPlayer : Player
         Debug.Log("player id: " + PlayerId + " monsterid: " + m_id);
     }
 
-    
 
-    public IEnumerator Swing()
-    {
-        audioSource.clip = soundManager.slashSfx;
-        //if(currentTime == 0)
-        //{
-        //    anim.SetTrigger("doSwing");
-        //    StartCoroutine("timer");
-        //}
-        //else if (currentTime > 0)
-        //{
-        //    anim.SetBool("isCombo2", true);
-        //    StopCoroutine("timer");
-        //    currentTime = 0;
-        //}
-        
-
-        yield return new WaitForSeconds(0.1f); // 0.1초 대기
-        //meleeArea.enabled = true;
-        hitBox.meleeArea.enabled = true;
-        trailEffect.enabled = true;
-
-        yield return new WaitForSeconds(0.3f);
-        audioSource.Play();
-
-        yield return new WaitForSeconds(0.4f);
-        //meleeArea.enabled = false;
-        hitBox.meleeArea.enabled = false;
-        trailEffect.enabled = false;
-        StopCoroutine("timer");
-        currentTime = 0;
-    }
 
     
+
+
     private void OnTriggerStay(Collider other)
     {
         if (other.tag == "Weapon")

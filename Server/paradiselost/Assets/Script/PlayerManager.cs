@@ -20,8 +20,8 @@ public class PlayerManager
 
     void SetCharacter(int playerId, short hp, int playerType, Vector3 pos)
     {
-            Object obj = Resources.Load("test/test");
-            GameObject go = Object.Instantiate(obj) as GameObject;
+        Object obj = Resources.Load("test/test");
+        GameObject go = Object.Instantiate(obj) as GameObject;
         switch (playerType)
         {
             case 1:
@@ -62,7 +62,7 @@ public class PlayerManager
                     myPlayer.anim_Head = joint.head.gameObject.transform.GetChild(0).GetComponent<Animator>();
                     myPlayer.anim_Body = joint.body.gameObject.transform.GetChild(0).GetComponent<Animator>();
                     myPlayer.anim_Leg = joint.leg.gameObject.transform.GetChild(0).GetComponent<Animator>();
-                    
+
                     Debug.Log(myPlayer.name);
                     break;
                 }
@@ -149,7 +149,7 @@ public class PlayerManager
         {
             //Object obj = Resources.Load("Player");
             //GameObject go = Object.Instantiate(obj) as GameObject;
-            
+
         }
     }
 
@@ -165,19 +165,19 @@ public class PlayerManager
             //_myplayer.transform.position = movePos;
 
             //Debug.Log(packet.hp);
-            
-            if(_myplayer.delay_body <=0f && _myplayer.delay_leg <= 0f)
+
+            if (_myplayer.delay_body <= 0f && _myplayer.delay_leg <= 0f)
             {
                 //_myplayer.anim_Head.SetBool("isRun", _myplayer.moveVec != Vector3.zero);
                 //_myplayer.anim_Body.SetBool("isRun", _myplayer.moveVec != Vector3.zero);
                 //_myplayer.anim_Leg.SetBool("isRun", _myplayer.moveVec != Vector3.zero);
                 _myplayer.anim.SetBool("isRun", _myplayer.moveVec != Vector3.zero);
             }
-            
+
 
             if (packet.wDown)
             {
-                if((int)_myplayer.body == 3)        // 플레이어 좌클릭
+                if ((int)_myplayer.body == 3)        // 플레이어 좌클릭
                 {
                     _myplayer.StopCoroutine("timer");
                     if (_myplayer.hasWeapons[1] && !_myplayer.anim.GetCurrentAnimatorStateInfo(0).IsName("Run_Aim"))
@@ -186,7 +186,7 @@ public class PlayerManager
                         _myplayer.anim.SetTrigger("doAim");
                     }
 
-                    if(!_myplayer.hasWeapons[0] && !_myplayer.hasWeapons[1] && _myplayer.currentTime == 0)
+                    if (!_myplayer.hasWeapons[0] && !_myplayer.hasWeapons[1] && _myplayer.currentTime == 0)
                     {
                         _myplayer.StopCoroutine("Punch");
                         _myplayer.StartCoroutine("Punch");
@@ -197,7 +197,7 @@ public class PlayerManager
                         _myplayer.anim.SetTrigger("doPunch");
                     }
 
-                    else if(!_myplayer.hasWeapons[0] && !_myplayer.hasWeapons[1] && _myplayer.currentTime > 0f && _myplayer.currentTime < 1.0f)
+                    else if (!_myplayer.hasWeapons[0] && !_myplayer.hasWeapons[1] && _myplayer.currentTime > 0f && _myplayer.currentTime < 1.0f)
                     {
                         _myplayer.anim.SetTrigger("doPunch2");
                         _myplayer.StopCoroutine("Punch");
@@ -229,7 +229,7 @@ public class PlayerManager
                         _myplayer.currentTime = 0;
                     }
 
-                    else if (!_myplayer.anim.GetCurrentAnimatorStateInfo(0).IsName("swing3") && _myplayer.hasWeapons[0] && _myplayer.currentTime > 0f && _myplayer.currentTime < 1.0f && _myplayer.atkCombo == 1) 
+                    else if (!_myplayer.anim.GetCurrentAnimatorStateInfo(0).IsName("swing3") && _myplayer.hasWeapons[0] && _myplayer.currentTime > 0f && _myplayer.currentTime < 1.0f && _myplayer.atkCombo == 1)
                     {
                         _myplayer.anim.SetTrigger("doSwing3");
                         _myplayer.StopCoroutine("Swing");
@@ -238,7 +238,7 @@ public class PlayerManager
                         _myplayer.currentTime = 0;
                     }
 
-                    else if(_myplayer.hasWeapons[0] && _myplayer.currentTime > 2)
+                    else if (_myplayer.hasWeapons[0] && _myplayer.currentTime > 2)
                     {
                         _myplayer.StopCoroutine("timer");
                         _myplayer.currentTime = 0;
@@ -247,7 +247,7 @@ public class PlayerManager
 
 
                 }
-                else if((int)_myplayer.body == 2)
+                else if ((int)_myplayer.body == 2)
                 {
                     _myplayer.StopCoroutine("Swing");
                     _myplayer.StartCoroutine("Swing");
@@ -315,7 +315,7 @@ public class PlayerManager
                 //Debug.Log(player.moveVec);
 
                 //player.anim.SetBool("isRun", player.moveVec2 != Vector3.zero);
-                if(player.delay_body <=0f && player.delay_leg <= 0f)
+                if (player.delay_body <= 0f && player.delay_leg <= 0f)
                 {
                     player.anim.SetBool("isRun", player.moveVec2 != Vector3.zero);
                     //player.anim_Head.SetBool("isRun", player.moveVec2 != Vector3.zero);
@@ -323,20 +323,22 @@ public class PlayerManager
                     //player.anim_Leg.SetBool("isRun", player.moveVec2 != Vector3.zero);
                 }
 
-                
+
 
                 if (packet.wDown)
                 {
+                    Debug.Log("다른 player wDown ");
+                    Debug.Log(player.currentTime);
                     if ((int)player.body == 3)        // 플레이어 좌클릭
                     {
-                        player.StopCoroutine("timer");
+                        //player.StopCoroutine("timer");
                         if (player.hasWeapons[1] && !player.anim.GetCurrentAnimatorStateInfo(0).IsName("Run_Aim"))
                         {
                             player.StartCoroutine("Shot");
                             player.anim.SetTrigger("doAim");
                         }
 
-                        if (!player.hasWeapons[0] && !player.hasWeapons[1] && player.currentTime == 0)
+                        else if (!player.hasWeapons[0] && !player.hasWeapons[1] && player.currentTime == 0)
                         {
                             player.StopCoroutine("Punch");
                             player.StartCoroutine("Punch");
@@ -356,21 +358,38 @@ public class PlayerManager
 
                         }
 
-                        if (player.currentTime == 0)
+                        else if (player.currentTime < 1.0f && player.hasWeapons[0])
                         {
-                            if (!player.anim.GetCurrentAnimatorStateInfo(0).IsName("Swing") && player.hasWeapons[0]) // !_myplayer.anim.GetCurrentAnimatorStateInfo(0).IsName("Swing") &&
-                            {
-                                player.StopCoroutine("Swing");
-                                player.StartCoroutine("Swing");
+                            Debug.Log("currenttime 0 ");
+                            Debug.Log("swing1 ");
+                            player.StopCoroutine("Swing");
+                            player.StartCoroutine("Swing");
 
-                                player.StopCoroutine("timer");
-                                player.StartCoroutine("timer");
+                            player.StopCoroutine("timer");
+                            player.StartCoroutine("timer");
 
-                                player.anim.SetTrigger("doSwing");
-                            }
+                            player.anim.SetTrigger("doSwing");
                         }
-                        else if (!player.anim.GetCurrentAnimatorStateInfo(0).IsName("swing2") && player.hasWeapons[0] && player.currentTime > 0f && player.currentTime < 1.0f && player.atkCombo == 0)
+
+                        //else if (player.currentTime == 0)
+                        //{
+                        //    Debug.Log("currenttime 0 ");
+                        //    if ( player.hasWeapons[0]) // !_myplayer.anim.GetCurrentAnimatorStateInfo(0).IsName("Swing") &&
+                        //    {
+                        //        Debug.Log("swing1 ");
+                        //        player.StopCoroutine("Swing");
+                        //        player.StartCoroutine("Swing");
+
+                        //        player.StopCoroutine("timer");
+                        //        player.StartCoroutine("timer");
+
+                        //        player.anim.SetTrigger("doSwing");
+                        //    }
+                        //}
+
+                        else if (player.hasWeapons[0] && player.currentTime > 0f && player.currentTime < 1.0f && player.atkCombo == 0)
                         {
+                            Debug.Log("swing2");
                             player.anim.SetTrigger("doSwing2");
                             player.StopCoroutine("Swing");
                             player.StartCoroutine("Swing");
@@ -379,8 +398,9 @@ public class PlayerManager
                             player.currentTime = 0;
                         }
 
-                        else if (!player.anim.GetCurrentAnimatorStateInfo(0).IsName("swing3") && player.hasWeapons[0] && player.currentTime > 0f && player.currentTime < 1.0f && player.atkCombo == 1)
+                        else if ( player.hasWeapons[0] && player.currentTime > 0f && player.currentTime < 1.0f && player.atkCombo == 1)
                         {
+                            Debug.Log("swing3");
                             player.anim.SetTrigger("doSwing3");
                             player.StopCoroutine("Swing");
                             player.StartCoroutine("Swing");
@@ -388,7 +408,7 @@ public class PlayerManager
                             player.currentTime = 0;
                         }
 
-                        else if (_myplayer.hasWeapons[0] && _myplayer.currentTime > 2)
+                        else if (player.hasWeapons[0] && player.currentTime > 2)
                         {
                             player.StopCoroutine("timer");
                             player.currentTime = 0;
@@ -396,143 +416,144 @@ public class PlayerManager
 
 
                         else if ((int)player.body == 2)
-                    {
-                        player.StopCoroutine("Swing");
-                        player.StartCoroutine("Swing");
-                        if (!player.anim_Body.GetCurrentAnimatorStateInfo(0).IsName("Swing"))
                         {
-                            player.anim_Body.SetTrigger("doSwing");
-                            player.delay_body = 0.3f;
-                        }
-                        player.anim_Head.SetTrigger("doSwing");
+                            player.StopCoroutine("Swing");
+                            player.StartCoroutine("Swing");
+                            if (!player.anim_Body.GetCurrentAnimatorStateInfo(0).IsName("Swing"))
+                            {
+                                player.anim_Body.SetTrigger("doSwing");
+                                player.delay_body = 0.3f;
+                            }
+                            player.anim_Head.SetTrigger("doSwing");
 
-                        if (!player.anim_Leg.GetCurrentAnimatorStateInfo(0).IsName("Swing"))
-                        {
-                            player.anim_Leg.SetTrigger("doSwing");
-                            player.delay_leg = 1.2f;
+                            if (!player.anim_Leg.GetCurrentAnimatorStateInfo(0).IsName("Swing"))
+                            {
+                                player.anim_Leg.SetTrigger("doSwing");
+                                player.delay_leg = 1.2f;
+                            }
                         }
-                    }
-                    else
-                    {
-                        player.StopCoroutine("Swing");
-                        player.anim_Head.SetTrigger("doSwing");
-                        player.anim_Body.SetTrigger("doSwing");
-                        player.anim_Leg.SetTrigger("doSwing");
-                        player.StartCoroutine("Swing");
+                        else
+                        {
+                            player.StopCoroutine("Swing");
+                            player.anim_Head.SetTrigger("doSwing");
+                            player.anim_Body.SetTrigger("doSwing");
+                            player.anim_Leg.SetTrigger("doSwing");
+                            player.StartCoroutine("Swing");
+                        }
                     }
                 }
                 player.transform.LookAt(player.transform.position + player.moveVec2);
             }
-        }
-        else
-        {
-            // 몬스터 움직임
-            if (_enemys.TryGetValue(packet.playerId, out enemy))
+            else
             {
-                //moveVec = new Vector3(packet.posX, packet.posY, packet.posZ).normalized;
-                //enemy.transform.position += moveVec * 1f * 0.3f * Time.deltaTime;
-                //moveVec = enemy.transform.position;
-
-                enemy.isAttack = packet.wDown;
-                if (packet.playerDir == 0)
-                    enemy.moveVec2 = new Vector3(0, 0, 0);
-                else if (packet.playerDir == 1)
-                    enemy.moveVec2 = new Vector3(1, 0, 0);
-                else if (packet.playerDir == 2)
-                    enemy.moveVec2 = new Vector3(-1, 0, 0);
-                else if (packet.playerDir == 3)
-                    enemy.moveVec2 = new Vector3(0, 0, 1);
-                else if (packet.playerDir == 4)
-                    enemy.moveVec2 = new Vector3(0, 0, -1);
-                else if (packet.playerDir == 5)
-                    enemy.moveVec2 = new Vector3(Mathf.Sqrt(0.5f), 0, Mathf.Sqrt(0.5f));
-                else if (packet.playerDir == 6)
-                    enemy.moveVec2 = new Vector3(Mathf.Sqrt(0.5f), 0, -(Mathf.Sqrt(0.5f)));
-                else if (packet.playerDir == 7)
-                    enemy.moveVec2 = new Vector3(-(Mathf.Sqrt(0.5f)), 0, Mathf.Sqrt(0.5f));
-                else if (packet.playerDir == 8)
-                    enemy.moveVec2 = new Vector3(-(Mathf.Sqrt(0.5f)), 0, -(Mathf.Sqrt(0.5f)));
-
-                if(enemy.enemyType != 4)
+                // 몬스터 움직임
+                if (_enemys.TryGetValue(packet.playerId, out enemy))
                 {
-                    enemy.moveVec2 = new Vector3(packet.posX, packet.posY, packet.posZ);
+                    //moveVec = new Vector3(packet.posX, packet.posY, packet.posZ).normalized;
+                    //enemy.transform.position += moveVec * 1f * 0.3f * Time.deltaTime;
+                    //moveVec = enemy.transform.position;
+
+                    enemy.isAttack = packet.wDown;
+                    if (packet.playerDir == 0)
+                        enemy.moveVec2 = new Vector3(0, 0, 0);
+                    else if (packet.playerDir == 1)
+                        enemy.moveVec2 = new Vector3(1, 0, 0);
+                    else if (packet.playerDir == 2)
+                        enemy.moveVec2 = new Vector3(-1, 0, 0);
+                    else if (packet.playerDir == 3)
+                        enemy.moveVec2 = new Vector3(0, 0, 1);
+                    else if (packet.playerDir == 4)
+                        enemy.moveVec2 = new Vector3(0, 0, -1);
+                    else if (packet.playerDir == 5)
+                        enemy.moveVec2 = new Vector3(Mathf.Sqrt(0.5f), 0, Mathf.Sqrt(0.5f));
+                    else if (packet.playerDir == 6)
+                        enemy.moveVec2 = new Vector3(Mathf.Sqrt(0.5f), 0, -(Mathf.Sqrt(0.5f)));
+                    else if (packet.playerDir == 7)
+                        enemy.moveVec2 = new Vector3(-(Mathf.Sqrt(0.5f)), 0, Mathf.Sqrt(0.5f));
+                    else if (packet.playerDir == 8)
+                        enemy.moveVec2 = new Vector3(-(Mathf.Sqrt(0.5f)), 0, -(Mathf.Sqrt(0.5f)));
+
+                    if (enemy.enemyType != 4)
+                    {
+                        enemy.moveVec2 = new Vector3(packet.posX, packet.posY, packet.posZ);
+                    }
+
+                    //enemy.transform.position = Vector3.MoveTowards(enemy.transform.position, new Vector3(packet.posX, packet.posY, packet.posZ), 1f);
+                    //Debug.Log(enemy.transform.position);
+                    //enemy.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
+
+                    enemy.posVec = new Vector3(packet.posX, packet.posY, packet.posZ);
+                    //enemy.anim.SetBool("isWalk", enemy.isAttack != false);
+                    if (packet.wDown)
+                    {
+                        //enemy.StartCoroutine("Shoot");
+                        //enemy.anim.SetTrigger("doAttack");
+                    }
+                    //enemy.transform.LookAt(enemy.transform.position + enemy.moveVec2);
+                    enemy.rotVec = enemy.posVec - enemy.transform.position;
+                    //enemy.transform.LookAt(enemy.posVec);
+                    if (enemy.tag == "EnemyTurret")
+                    {
+                        EnemyTurret enemyTurret = GameObject.Find("TargetArea").GetComponent<EnemyTurret>();
+                        enemy.transform.LookAt(enemyTurret.targetPos);
+                        //Debug.Log(enemyTurret.targetPos);
+                    }
                 }
+                // 보스 처리
+                else if (_boss.enemyId == packet.playerId)
+                {
+                    _boss.isAttack = packet.wDown;
+                    _boss.bossAttack = packet.bossAttack;
+                    if (packet.playerDir == 0)
+                        _boss.moveVec2 = new Vector3(0, 0, 0);
+                    else if (packet.playerDir == 1)
+                        _boss.moveVec2 = new Vector3(1, 0, 0);
+                    else if (packet.playerDir == 2)
+                        _boss.moveVec2 = new Vector3(-1, 0, 0);
+                    else if (packet.playerDir == 3)
+                        _boss.moveVec2 = new Vector3(0, 0, 1);
+                    else if (packet.playerDir == 4)
+                        _boss.moveVec2 = new Vector3(0, 0, -1);
+                    else if (packet.playerDir == 5)
+                        _boss.moveVec2 = new Vector3(Mathf.Sqrt(0.5f), 0, Mathf.Sqrt(0.5f));
+                    else if (packet.playerDir == 6)
+                        _boss.moveVec2 = new Vector3(Mathf.Sqrt(0.5f), 0, -(Mathf.Sqrt(0.5f)));
+                    else if (packet.playerDir == 7)
+                        _boss.moveVec2 = new Vector3(-(Mathf.Sqrt(0.5f)), 0, Mathf.Sqrt(0.5f));
+                    else if (packet.playerDir == 8)
+                        _boss.moveVec2 = new Vector3(-(Mathf.Sqrt(0.5f)), 0, -(Mathf.Sqrt(0.5f)));
 
-                //enemy.transform.position = Vector3.MoveTowards(enemy.transform.position, new Vector3(packet.posX, packet.posY, packet.posZ), 1f);
-                //Debug.Log(enemy.transform.position);
-                //enemy.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
-                
-                enemy.posVec = new Vector3(packet.posX, packet.posY, packet.posZ);
-                //enemy.anim.SetBool("isWalk", enemy.isAttack != false);
-                if (packet.wDown)
-                {
-                    //enemy.StartCoroutine("Shoot");
-                    //enemy.anim.SetTrigger("doAttack");
-                }
-                //enemy.transform.LookAt(enemy.transform.position + enemy.moveVec2);
-                enemy.rotVec = enemy.posVec - enemy.transform.position;
-                //enemy.transform.LookAt(enemy.posVec);
-                if(enemy.tag == "EnemyTurret" )
-                {
-                    EnemyTurret enemyTurret = GameObject.Find("TargetArea").GetComponent<EnemyTurret>();
-                    enemy.transform.LookAt(enemyTurret.targetPos);
-                    //Debug.Log(enemyTurret.targetPos);
+                    _boss.moveVec2 = new Vector3(packet.posX, packet.posY, packet.posZ);
+                    _boss.posVec = new Vector3(packet.posX, packet.posY, packet.posZ);
+                    //_boss.anim.SetBool("isWalk", _boss.isAttack != false);
+
+                    if (packet.bossAttack == 1)
+                    {
+                        //_boss.StopCoroutine("Attack");
+                        //_boss.anim.SetTrigger("doAttack");
+                        //_boss.StartCoroutine("Attack");
+                        //Debug.Log("Boss Attack1 " + packet.bossAttack);
+                    }
+                    else if (packet.bossAttack == 2)
+                    {
+                        //_boss.StopCoroutine("MissileShot");
+                        //_boss.StartCoroutine("MissileShot");
+                        //Debug.Log("Boss Attack2 " + packet.bossAttack);
+                        //_boss.transform.LookAt();
+                    }
+                    //enemy.transform.LookAt(enemy.transform.position + enemy.moveVec2);
+                    Debug.Log("StageBoss Move");
+                    _boss.transform.LookAt(_boss.posVec);
+                    if (enemy.tag == "StageBoss")
+                    {
+                        //EnemyTurret enemyTurret = GameObject.Find("TargetArea").GetComponent<EnemyTurret>();
+
+                        Debug.Log("StageBoss LookAt");
+                    }
                 }
             }
-            // 보스 처리
-            else if(_boss.enemyId == packet.playerId)
-            {
-                _boss.isAttack = packet.wDown;
-                _boss.bossAttack = packet.bossAttack;
-                if (packet.playerDir == 0)
-                    _boss.moveVec2 = new Vector3(0, 0, 0);
-                else if (packet.playerDir == 1)
-                    _boss.moveVec2 = new Vector3(1, 0, 0);
-                else if (packet.playerDir == 2)
-                    _boss.moveVec2 = new Vector3(-1, 0, 0);
-                else if (packet.playerDir == 3)
-                    _boss.moveVec2 = new Vector3(0, 0, 1);
-                else if (packet.playerDir == 4)
-                    _boss.moveVec2 = new Vector3(0, 0, -1);
-                else if (packet.playerDir == 5)
-                    _boss.moveVec2 = new Vector3(Mathf.Sqrt(0.5f), 0, Mathf.Sqrt(0.5f));
-                else if (packet.playerDir == 6)
-                    _boss.moveVec2 = new Vector3(Mathf.Sqrt(0.5f), 0, -(Mathf.Sqrt(0.5f)));
-                else if (packet.playerDir == 7)
-                    _boss.moveVec2 = new Vector3(-(Mathf.Sqrt(0.5f)), 0, Mathf.Sqrt(0.5f));
-                else if (packet.playerDir == 8)
-                    _boss.moveVec2 = new Vector3(-(Mathf.Sqrt(0.5f)), 0, -(Mathf.Sqrt(0.5f)));
-
-                _boss.moveVec2 = new Vector3(packet.posX, packet.posY, packet.posZ);
-                _boss.posVec = new Vector3(packet.posX, packet.posY, packet.posZ);
-                //_boss.anim.SetBool("isWalk", _boss.isAttack != false);
-
-                if(packet.bossAttack == 1)
-                {
-                    //_boss.StopCoroutine("Attack");
-                    //_boss.anim.SetTrigger("doAttack");
-                    //_boss.StartCoroutine("Attack");
-                    //Debug.Log("Boss Attack1 " + packet.bossAttack);
-                }
-                else if (packet.bossAttack == 2)
-                {
-                    //_boss.StopCoroutine("MissileShot");
-                    //_boss.StartCoroutine("MissileShot");
-                    //Debug.Log("Boss Attack2 " + packet.bossAttack);
-                    //_boss.transform.LookAt();
-                }
-                //enemy.transform.LookAt(enemy.transform.position + enemy.moveVec2);
-                Debug.Log("StageBoss Move");
-                _boss.transform.LookAt(_boss.posVec);
-                if (enemy.tag == "StageBoss")
-                {
-                    //EnemyTurret enemyTurret = GameObject.Find("TargetArea").GetComponent<EnemyTurret>();
-                    
-                    Debug.Log("StageBoss LookAt");
-                }
-            }
         }
-    }
+    } 
 
     public void CollisionMove(S_Move packet)
     {
@@ -972,9 +993,9 @@ public class PlayerManager
                             c_p_parts.SwitchParts(packet.itemType);
                             break;
                     }
-                    player.anim_Body = c_p_parts.body.gameObject.transform.GetChild(0).GetComponent<Animator>();
+                    //player.anim_Body = c_p_parts.body.gameObject.transform.GetChild(0).GetComponent<Animator>();
                     player.body = packet.itemType;
-                    player.ps.Emit(100);
+                    //player.ps.Emit(100);
                 }
                 else if (packet.charactorType == 3)
                 {

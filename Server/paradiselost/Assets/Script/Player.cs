@@ -253,17 +253,37 @@ public class Player : MonoBehaviour
 
         yield return new WaitForSeconds(0.1f); // 0.1초 대기
         //meleeArea.enabled = true;
-        hitBox.meleeArea.enabled = true;
+        //hitBox.meleeArea.enabled = true;
 
         yield return new WaitForSeconds(0.3f);
 
         yield return new WaitForSeconds(0.4f);
         //meleeArea.enabled = false;
-        hitBox.meleeArea.enabled = false;
+        //hitBox.meleeArea.enabled = false;
         StopCoroutine("timer");
         currentTime = 0;
     }
 
+    public IEnumerator Swing()
+    {
+        audioSource.clip = soundManager.slashSfx;
+
+
+        yield return new WaitForSeconds(0.1f); // 0.1초 대기
+        //meleeArea.enabled = true;
+        hitBox.meleeArea.enabled = true;
+        trailEffect.enabled = true;
+
+        yield return new WaitForSeconds(0.3f);
+        audioSource.Play();
+
+        yield return new WaitForSeconds(0.4f);
+        //meleeArea.enabled = false;
+        hitBox.meleeArea.enabled = false;
+        trailEffect.enabled = false;
+        StopCoroutine("timer");
+        currentTime = 0;
+    }
 
     IEnumerator Shot()
     {
