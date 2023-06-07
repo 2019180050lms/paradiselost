@@ -177,30 +177,75 @@ public class PlayerManager
 
             if (packet.wDown)
             {
-                if((int)_myplayer.body == 3)
+                if((int)_myplayer.body == 3)        // 플레이어 좌클릭
                 {
-                    //_myplayer.StopCoroutine("Shot");
-                    //_myplayer.anim.SetTrigger("doSwing");
-                    //_myplayer.delay_body = 0.6f;
-
-
-                    //_myplayer.anim.SetTrigger("doSwing");
-                    //_myplayer.anim.SetTrigger("doSwing");
-                    //_myplayer.delay_leg = 0.6f;
+                    _myplayer.StopCoroutine("timer");
                     if (_myplayer.hasWeapons[1] && !_myplayer.anim.GetCurrentAnimatorStateInfo(0).IsName("Run_Aim"))
                     {
                         _myplayer.StartCoroutine("Shot");
                         _myplayer.anim.SetTrigger("doAim");
                     }
 
-                    if (!_myplayer.anim.GetCurrentAnimatorStateInfo(0).IsName("Swing") && _myplayer.hasWeapons[1] == false)
+                    if(!_myplayer.hasWeapons[0] && !_myplayer.hasWeapons[1] && _myplayer.currentTime == 0)
                     {
-                        _myplayer.StopCoroutine("Swing");
-                        _myplayer.StartCoroutine("Swing");
-                        _myplayer.anim.SetTrigger("doSwing");
+                        _myplayer.StopCoroutine("Punch");
+                        _myplayer.StartCoroutine("Punch");
+
+                        _myplayer.StopCoroutine("timer");
+                        _myplayer.StartCoroutine("timer");
+
+                        _myplayer.anim.SetTrigger("doPunch");
                     }
 
-                    //_myplayer.StartCoroutine("Shot");
+                    else if(!_myplayer.hasWeapons[0] && !_myplayer.hasWeapons[1] && _myplayer.currentTime > 0f && _myplayer.currentTime < 1.0f)
+                    {
+                        _myplayer.anim.SetTrigger("doPunch2");
+                        _myplayer.StopCoroutine("Punch");
+                        _myplayer.StartCoroutine("Punch");
+                        _myplayer.currentTime = 0;
+
+                    }
+
+                    if (_myplayer.currentTime == 0)
+                    {
+                        if (!_myplayer.anim.GetCurrentAnimatorStateInfo(0).IsName("Swing") && _myplayer.hasWeapons[0]) // !_myplayer.anim.GetCurrentAnimatorStateInfo(0).IsName("Swing") &&
+                        {
+                            _myplayer.StopCoroutine("Swing");
+                            _myplayer.StartCoroutine("Swing");
+
+                            _myplayer.StopCoroutine("timer");
+                            _myplayer.StartCoroutine("timer");
+
+                            _myplayer.anim.SetTrigger("doSwing");
+                        }
+                    }
+                    else if (!_myplayer.anim.GetCurrentAnimatorStateInfo(0).IsName("swing2") && _myplayer.hasWeapons[0] && _myplayer.currentTime > 0f && _myplayer.currentTime < 1.0f && _myplayer.atkCombo == 0)
+                    {
+                        _myplayer.anim.SetTrigger("doSwing2");
+                        _myplayer.StopCoroutine("Swing");
+                        _myplayer.StartCoroutine("Swing");
+                        _myplayer.StartCoroutine("timer");
+                        _myplayer.atkCombo = 1;
+                        _myplayer.currentTime = 0;
+                    }
+
+                    else if (!_myplayer.anim.GetCurrentAnimatorStateInfo(0).IsName("swing3") && _myplayer.hasWeapons[0] && _myplayer.currentTime > 0f && _myplayer.currentTime < 1.0f && _myplayer.atkCombo == 1) 
+                    {
+                        _myplayer.anim.SetTrigger("doSwing3");
+                        _myplayer.StopCoroutine("Swing");
+                        _myplayer.StartCoroutine("Swing");
+                        _myplayer.atkCombo = 0;
+                        _myplayer.currentTime = 0;
+                    }
+
+                    else if(_myplayer.hasWeapons[0] && _myplayer.currentTime > 2)
+                    {
+                        _myplayer.StopCoroutine("timer");
+                        _myplayer.currentTime = 0;
+                    }
+
+
+
                 }
                 else if((int)_myplayer.body == 2)
                 {
@@ -282,23 +327,75 @@ public class PlayerManager
 
                 if (packet.wDown)
                 {
-                    if ((int)player.body == 3)
+                    if ((int)player.body == 3)        // 플레이어 좌클릭
                     {
-                        if(player.hasWeapons[1])
+                        player.StopCoroutine("timer");
+                        if (player.hasWeapons[1] && !player.anim.GetCurrentAnimatorStateInfo(0).IsName("Run_Aim"))
                         {
-                            if (!player.anim.GetCurrentAnimatorStateInfo(0).IsName("doAim"))
-                            {
-                                player.StartCoroutine("Shot");
-                                player.anim.SetTrigger("doAim");
-                            }
+                            player.StartCoroutine("Shot");
+                            player.anim.SetTrigger("doAim");
                         }
 
-                        if (!player.anim.GetCurrentAnimatorStateInfo(0).IsName("Swing"))
+                        if (!player.hasWeapons[0] && !player.hasWeapons[1] && player.currentTime == 0)
                         {
-                            player.anim.SetTrigger("doSwing");
+                            player.StopCoroutine("Punch");
+                            player.StartCoroutine("Punch");
+
+                            player.StopCoroutine("timer");
+                            player.StartCoroutine("timer");
+
+                            player.anim.SetTrigger("doPunch");
                         }
-                    }
-                    else if((int)player.body == 2)
+
+                        else if (!player.hasWeapons[0] && !player.hasWeapons[1] && player.currentTime > 0f && player.currentTime < 1.0f)
+                        {
+                            player.anim.SetTrigger("doPunch2");
+                            player.StopCoroutine("Punch");
+                            player.StartCoroutine("Punch");
+                            player.currentTime = 0;
+
+                        }
+
+                        if (player.currentTime == 0)
+                        {
+                            if (!player.anim.GetCurrentAnimatorStateInfo(0).IsName("Swing") && player.hasWeapons[0]) // !_myplayer.anim.GetCurrentAnimatorStateInfo(0).IsName("Swing") &&
+                            {
+                                player.StopCoroutine("Swing");
+                                player.StartCoroutine("Swing");
+
+                                player.StopCoroutine("timer");
+                                player.StartCoroutine("timer");
+
+                                player.anim.SetTrigger("doSwing");
+                            }
+                        }
+                        else if (!player.anim.GetCurrentAnimatorStateInfo(0).IsName("swing2") && player.hasWeapons[0] && player.currentTime > 0f && player.currentTime < 1.0f && player.atkCombo == 0)
+                        {
+                            player.anim.SetTrigger("doSwing2");
+                            player.StopCoroutine("Swing");
+                            player.StartCoroutine("Swing");
+                            player.StartCoroutine("timer");
+                            player.atkCombo = 1;
+                            player.currentTime = 0;
+                        }
+
+                        else if (!player.anim.GetCurrentAnimatorStateInfo(0).IsName("swing3") && player.hasWeapons[0] && player.currentTime > 0f && player.currentTime < 1.0f && player.atkCombo == 1)
+                        {
+                            player.anim.SetTrigger("doSwing3");
+                            player.StopCoroutine("Swing");
+                            player.StartCoroutine("Swing");
+                            player.atkCombo = 0;
+                            player.currentTime = 0;
+                        }
+
+                        else if (_myplayer.hasWeapons[0] && _myplayer.currentTime > 2)
+                        {
+                            player.StopCoroutine("timer");
+                            player.currentTime = 0;
+                        }
+
+
+                        else if ((int)player.body == 2)
                     {
                         player.StopCoroutine("Swing");
                         player.StartCoroutine("Swing");

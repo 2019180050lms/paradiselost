@@ -22,8 +22,6 @@ public class Door : MonoBehaviour
     {
         findEnemy = GameObject.FindWithTag("Enemy");
         findEnemy2 = GameObject.FindWithTag("EnemyTurret");
-        Debug.Log(findEnemy);
-        Debug.Log(findEnemy2);
 
         if (findEnemy == null && findEnemy2 == null)
         {

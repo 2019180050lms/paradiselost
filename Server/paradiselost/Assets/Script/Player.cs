@@ -63,6 +63,10 @@ public class Player : MonoBehaviour
     public bool isShot;
     public int bulletCount = 0;
 
+    public int atkCombo = 0;
+    public float currentTime;
+    public float maxTime;
+
     // 사운드
     public SoundManager soundManager;
     public AudioSource audioSource;
@@ -145,21 +149,6 @@ public class Player : MonoBehaviour
 
 
 
-    //void Interaction()
-    //{
-    //    if (iDown && nearObject != null && !isJump && !isDodge)
-    //    {
-    //        if (nearObject.tag == "Weapon")
-    //        {
-    //            ItemParts item = nearObject.GetComponent<ItemParts>();
-    //            int weaponIndex = item.value;
-    //            hasWeapons[weaponIndex] = true;
-
-    //            //Destroy(nearObject);
-    //        }
-    //    }
-    //}
-
     void FreezeRotation() // 회전 버그 해결
     {
         rigid.angularVelocity = Vector3.zero;
@@ -216,7 +205,7 @@ public class Player : MonoBehaviour
             if (!isJumping)
             {
                 isJumping = true;
-                rigid.AddForce(Vector3.up * speed, ForceMode.Impulse);
+                rigid.AddForce(Vector3.up * speed * 0.7f, ForceMode.Impulse);
             }
             else
                 return;
@@ -242,46 +231,39 @@ public class Player : MonoBehaviour
     }
     public void Dodge()
     {
-        /*
-        if (jDown && moveVec != Vector3.zero && !isJump && !isDodge && !isSwap)
-        {
-            dodgeVec = moveVec;
-            speed *= 2;
-            anim.SetTrigger("doDodge");
-            isDodge = true;
-
-            Invoke("DodgeOut", 0.5f);
-        }
-        */
     }
 
-    //public void Swap()
-    //{
-    //    if (sDown1 && (!hasWeapons[0] || equipWeaponIndex == 0))
-    //        return;
-    //    if (sDown2 && (!hasWeapons[1] || equipWeaponIndex == 1))
-    //        return;
+    public IEnumerator timer()
+    {
+        currentTime = 0;
+        maxTime = 5;
+        while (currentTime < maxTime)
+        {
+            currentTime = currentTime + Time.deltaTime;
+            //Debug.Log(currentTime);
+            yield return null;
+        }
 
-    //    int weaponIndex = -1;
-    //    if (sDown1) weaponIndex = 0;
-    //    if (sDown2) weaponIndex = 1;
+        currentTime = 0;
+        //anim.SetBool("isCombo2", false);
+    }
 
-    //    if ((sDown1 || sDown2) && !isJump && !isDodge)
-    //    {
-    //        if (equipWeapon != null)
-    //            equipWeapon.gameObject.SetActive(false);
+    public IEnumerator Punch()
+    {
 
-    //        equipWeaponIndex = weaponIndex;
-    //        equipWeapon = weapons[weaponIndex].GetComponent<Weapon>();
-    //        equipWeapon.gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.1f); // 0.1초 대기
+        //meleeArea.enabled = true;
+        hitBox.meleeArea.enabled = true;
 
-    //        anim.SetTrigger("doSwap");
+        yield return new WaitForSeconds(0.3f);
 
-    //        isSwap = true;
+        yield return new WaitForSeconds(0.4f);
+        //meleeArea.enabled = false;
+        hitBox.meleeArea.enabled = false;
+        StopCoroutine("timer");
+        currentTime = 0;
+    }
 
-    //        Invoke("SwapOut", 0.5f);
-    //    }
-    //}
 
     IEnumerator Shot()
     {
