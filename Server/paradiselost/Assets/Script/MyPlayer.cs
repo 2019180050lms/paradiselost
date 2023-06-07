@@ -32,6 +32,12 @@ public class MyPlayer : Player
     bool camera1 = true;
     bool camera2 = false;
 
+    
+    // 카메라
+    [SerializeField] [Range(0.01f, 0.1f)] float shakeRange = 0.05f;
+    [SerializeField] [Range(0.1f, 1f)] float duration = 0.5f;
+    Vector3 cameraPos;
+    bool isDamaging;
     void Start()
     {
         delay_body = 0.0f;
@@ -58,14 +64,13 @@ public class MyPlayer : Player
         weapons[0].SetActive(false);
         weapons[1].SetActive(false);
         equipWeaponIndex = 2;
+
     }
 
 
     // Update is called once per frame
     void Update()
     {
-
-
         if (Input.GetButtonDown("Camera1"))
         {
             if (camera1 == true)
@@ -118,6 +123,14 @@ public class MyPlayer : Player
             A_dontMove = true;
         else if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Swing"))
             A_dontMove = false;
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("swing2"))
+            A_dontMove = true;
+        else if (!anim.GetCurrentAnimatorStateInfo(0).IsName("swing2"))
+            A_dontMove = false;
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("swing3"))
+            A_dontMove = true;
+        else if (!anim.GetCurrentAnimatorStateInfo(0).IsName("swing3"))
+            A_dontMove = false;
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("Run_Aim"))
             donShoot = true;
         else if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Run_Aim"))
@@ -158,8 +171,9 @@ public class MyPlayer : Player
             Destroy(bullet, 3f);
         }
 
-        Debug.Log(bulletCount);
         testJump = false;
+
+        Debug.Log(currentTime);
     }
 
     void GetInput()
@@ -209,7 +223,7 @@ public class MyPlayer : Player
     {
         Camera.main.transform.rotation = Quaternion.Euler(ymove, xmove, 0); // 이동량에 따라 카메라의 바라보는 방향을 조정합니다.
         Vector3 reverseDistance = new Vector3(0.0f, 0.0f, distance); // 이동량에 따른 Z 축방향의 벡터를 구합니다.
-
+        
         if (camera1)
             Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y + 5, transform.position.z) - Camera.main.transform.rotation * reverseDistance; // 플레이어의 위치에서 카메라가 바라보는 방향에 벡터값을 적용한 상대 좌표를 차감합니다.
         else if (camera2)
@@ -218,8 +232,10 @@ public class MyPlayer : Player
             Debug.Log(playerOb);
             Camera.main.transform.position = new Vector3(playerOb[0].transform.position.x, playerOb[0].transform.position.y + 5, playerOb[0].transform.position.z) - Camera.main.transform.rotation * reverseDistance;
         }
-        //Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y + 7, transform.position.z - 5);
-        //Debug.Log(xmove);
+        if (isDamaging)
+            StartShake();
+        Debug.Log(isDamaging);
+        isDamaging = false;
         if (Input.GetMouseButton(1))
         {
             xmove += Input.GetAxis("Mouse X"); // 마우스의 좌우 이동량을 xmove 에 누적합니다.
@@ -231,25 +247,21 @@ public class MyPlayer : Player
                 xmove = 0;
         }
 
-        /*
-        float delay_body = anim_Body.GetFloat("Delay");
-        
-        if(delay_body > 0)
-        {
-            anim_Body.SetFloat("Delay", delay_body - Time.deltaTime);
-         }
-        
-
-        //float delay_leg = anim_Leg.GetFloat("Delay");
-        if(delay_leg > 0)
-        {
-            anim_Leg.SetFloat("Delay", delay_leg - Time.deltaTime);
-        }
-        */
         
 
     }
 
+    void StartShake()
+    {
+        Debug.Log("startShake");
+        float cameraPosX = Random.value * shakeRange * 2 - shakeRange;
+        float cameraPosY = Random.value * shakeRange * 2 - shakeRange;
+        Vector3 cameraPos = Camera.main.transform.position;
+        cameraPos.x += cameraPosX;
+        cameraPos.y += cameraPosY;
+        Camera.main.transform.position = cameraPos;
+
+    }
 
     void StopToWall() // 관통 버그 해결
     {
@@ -300,10 +312,24 @@ public class MyPlayer : Player
         Debug.Log("player id: " + PlayerId + " monsterid: " + m_id);
     }
 
-    IEnumerator Swing()
+    
+
+    public IEnumerator Swing()
     {
         audioSource.clip = soundManager.slashSfx;
+        //if(currentTime == 0)
+        //{
+        //    anim.SetTrigger("doSwing");
+        //    StartCoroutine("timer");
+        //}
+        //else if (currentTime > 0)
+        //{
+        //    anim.SetBool("isCombo2", true);
+        //    StopCoroutine("timer");
+        //    currentTime = 0;
+        //}
         
+
         yield return new WaitForSeconds(0.1f); // 0.1초 대기
         //meleeArea.enabled = true;
         hitBox.meleeArea.enabled = true;
@@ -316,16 +342,20 @@ public class MyPlayer : Player
         //meleeArea.enabled = false;
         hitBox.meleeArea.enabled = false;
         trailEffect.enabled = false;
-
-        yield return new WaitForSeconds(0.3f);
-        
+        StopCoroutine("timer");
+        currentTime = 0;
     }
 
+    
     private void OnTriggerStay(Collider other)
     {
         if (other.tag == "Weapon")
             nearObject = other.gameObject;
         // Debug.Log(nearObject.name);
+        else if (other.tag == "EnemyMelee")
+        {
+            isDamaging = true;
+        }
     }
 
     private void OnParticleCollision(GameObject other)
@@ -342,6 +372,7 @@ public class MyPlayer : Player
             Enemy monsterInfo = other.GetComponentInParent<Enemy>(); // 공격한 몬스터 객체 불러오기
             //Debug.Log(monsterInfo.enemyId);  // 공격한 몬스터 객체의 ID 출력
             //hp -= 20;
+            cameraPos = Camera.main.transform.position;
             anim.SetTrigger("doDamaged");
             cs_send_playerdamage(monsterInfo.enemyId);
         }
