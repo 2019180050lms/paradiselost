@@ -130,7 +130,17 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\lauxlib.h" />
+    <ClInclude Include="include\lua.h" />
+    <ClInclude Include="include\luaconf.h" />
+    <ClInclude Include="include\lualib.h" />
     <ClInclude Include="protocol.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="lua54.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="npc.lua" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

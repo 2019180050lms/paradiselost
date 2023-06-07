@@ -81,6 +81,8 @@ struct SC_LOGIN_INFO_PACKET {
 	int c_type;
 	short hp;
 	float	x, y, z;
+	short	name_size;
+	char	name[NAME_SIZE];
 };
 
 struct SC_ADD_PLAYER_PACKET {
@@ -91,7 +93,8 @@ struct SC_ADD_PLAYER_PACKET {
 	short hp;
 	float x, y, z;
 	short head_item, weapon_item, leg_item;
-	//char	name[NAME_SIZE];
+	short	name_size;
+	char	name[NAME_SIZE];
 };
 
 struct SC_REMOVE_PLAYER_PACKET {

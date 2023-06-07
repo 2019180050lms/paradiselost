@@ -10,8 +10,11 @@
 #include <queue>
 #include "protocol.h"
 
+#include "include/lua.hpp"
+
 #pragma comment(lib, "WS2_32.lib")
 #pragma comment(lib, "MSWSock.lib")
+#pragma comment(lib, "lua54.lib")
 using namespace std;
 
 constexpr int VIEW_RANGE = 100;
@@ -66,6 +69,8 @@ public:
 	unordered_set <int> _view_list;
 	mutex	_vl;
 	int		last_move_time;
+	lua_State* _L;
+	mutex _ll;
 public:
 	SESSION()
 	{
@@ -113,13 +118,15 @@ public:
 		p.size = sizeof(SC_LOGIN_INFO_PACKET);
 		p.type = SC_ADD_PLAYER;
 		p.id = _id;
+		strcpy_s(p.name, _name);
+		p.name_size = sizeof(_name);
 		p.c_type = _type;
 		p.hp = 100;
 		p.x = x;
 		p.y = y;
 		p.z = z;
 		do_send(&p);
-		//cout << "send enter game: " << p.id << ", " << p.c_type << ", ";
+		cout << "send enter game: " << p.name << endl;
 	}
 	void send_move_packet(int c_id);
 	void send_add_player_packet(int c_id);
@@ -232,7 +239,8 @@ void SESSION::send_add_player_packet(int c_id)
 	add_packet.id = c_id;
 	add_packet.c_type = clients[c_id]._type;
 	add_packet.hp = clients[c_id]._hp;
-	//strcpy_s(add_packet.name, clients[c_id]._name);
+	strcpy_s(add_packet.name, clients[c_id]._name);
+	add_packet.size = sizeof(clients[c_id]._name);
 	add_packet.size = sizeof(add_packet);
 	add_packet.type = SC_ENTER_PLAYER;
 	add_packet.x = clients[c_id].x;
@@ -245,7 +253,9 @@ void SESSION::send_add_player_packet(int c_id)
 	_view_list.insert(c_id);
 	_vl.unlock();
 	do_send(&add_packet);
-	cout << "add player send: " << add_packet.id << ", " << add_packet.c_type << ", " << add_packet.weapon_item << endl;
+	//cout << "add player send: " << add_packet.id << ", " << add_packet.c_type << ", " << add_packet.weapon_item << endl;
+
+	cout << "send enter game: " << add_packet.name << endl;
 }
 
 void SESSION::send_attacked_monster(int c_id)
@@ -288,7 +298,7 @@ void process_packet(int c_id, char* packet)
 	switch (packet[2]) {
 	case CS_LOGIN: {
 		CS_LOGIN_PACKET* p = reinterpret_cast<CS_LOGIN_PACKET*>(packet);
-		strcpy_s(clients[c_id]._name, p->name);
+		strcpy_s(clients[c_id]._name, "test"); //p->name);
 		clients[c_id].send_login_info_packet();
 		break;
 	}
@@ -618,8 +628,49 @@ void worker_thread(HANDLE h_iocp)
 	}
 }
 
+int API_get_x(lua_State* L)
+{
+	int user_id =
+		(int)lua_tointeger(L, -1);
+	lua_pop(L, 2);
+	int x = clients[user_id].x;
+	lua_pushnumber(L, x);
+	return 1;
+}
+
+int API_add_timer(lua_State* L)
+{
+	int user_id = (int)lua_tointeger(L, -1);
+	lua_pop(L, 2);
+	//add_timer(user_id, chrono::system_clock::now() + 3s, EV_BYE);
+	return 1;
+}
+
+int API_get_y(lua_State* L)
+{
+	int user_id =
+		(int)lua_tointeger(L, -1);
+	lua_pop(L, 2);
+	int y = clients[user_id].y;
+	lua_pushnumber(L, y);
+	return 1;
+}
+
+int API_SendMessage(lua_State* L)
+{
+	int my_id = (int)lua_tointeger(L, -3);
+	int user_id = (int)lua_tointeger(L, -2);
+	char* mess = (char*)lua_tostring(L, -1);
+
+	lua_pop(L, 4);
+
+	//clients[user_id].send_chat_packet(my_id, mess);
+	return 0;
+}
+
 void InitializeNPC()
 {
+	cout << "NPC intialize begin.\n";
 	float z = 0.f;
 	for (int i = MAX_USER; i < MAX_USER + MAX_NPC - 1; ++i) {
 		clients[i]._hp = 100;
@@ -634,9 +685,24 @@ void InitializeNPC()
 		sprintf_s(clients[i]._name, "N%d", i);
 		clients[i]._state = ST_INGAME;
 		z += 10.f;
+
+		auto L = clients[i]._L = luaL_newstate();
+		luaL_openlibs(L);
+		luaL_loadfile(L, "npc.lua");
+		lua_pcall(L, 0, 0, 0);
+
+		lua_getglobal(L, "set_uid");
+		lua_pushnumber(L, i);
+		lua_pcall(L, 1, 0, 0);
+		// lua_pop(L, 1);// eliminate set_uid from stack after call
+
+		lua_register(L, "API_SendMessage", API_SendMessage);
+		lua_register(L, "API_get_x", API_get_x);
+		lua_register(L, "API_get_y", API_get_y);
+		lua_register(L, "API_add_timer", API_add_timer);
 	}
 	z = 0;
-	//cout << "complete" << endl;
+	cout << "NPC initialize end.\n";
 }
 
 void add_boss()

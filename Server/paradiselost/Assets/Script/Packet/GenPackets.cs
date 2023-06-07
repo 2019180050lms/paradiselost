@@ -228,6 +228,7 @@ public class S_ENTER_PLAYER : IPacket
 	public int type;
 	public short hp;
 	public float x, y, z;
+	public string name;
 
 	public ushort Protocol { get { return (ushort)PacketID.S_PLAYERLIST; } }
 
@@ -248,6 +249,10 @@ public class S_ENTER_PLAYER : IPacket
 		count += sizeof(float);
 		this.z = BitConverter.ToSingle(segment.Array, segment.Offset + count);
 		count += sizeof(float);
+		ushort chatLen = BitConverter.ToUInt16(segment.Array, segment.Offset + count);
+		count += sizeof(ushort);
+		this.name = Encoding.Unicode.GetString(segment.Array, segment.Offset + count, chatLen);
+		count += chatLen;
 	}
 
 	public ArraySegment<byte> Write()

@@ -133,19 +133,12 @@ public class PlayerManager
 
     public void Add(S_ENTER_PLAYER packet)
     {
-        /*
-        foreach (S_PlayerList.Player p in packet.players)
-        {
-            //Object obj = Resources.Load("Player");
-            //GameObject go = Object.Instantiate(obj) as GameObject;
-            
-        }
-        */
         if (packet.type <= 3)
         {
             Vector3 playerPos = new Vector3(packet.x, packet.y, packet.z);
             SetCharacter(packet.id, packet.hp, packet.type, playerPos);
             Debug.Log("test pos: " + packet.x + packet.y + packet.z);
+            Debug.Log("test name: " + packet.name);
             GameObject.Find("Game Manager").GetComponent<GameUIManager>().FindPlayerUI();
         }
     }
