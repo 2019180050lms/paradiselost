@@ -25,6 +25,7 @@ public class Inventory : MonoBehaviour
     {
         InventoryUI = GameObject.FindGameObjectWithTag("InventoryUI");
         gameUIManager = GameObject.Find("Game Manager").GetComponent<GameUIManager>();
+        InventoryUI.SetActive(false);
         //weapon1Img = Image.
     }
     void Update()

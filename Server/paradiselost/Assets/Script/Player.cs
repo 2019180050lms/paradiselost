@@ -73,6 +73,9 @@ public class Player : MonoBehaviour
     public AudioSource audioSourceRun;
     public AudioSource audioSourceBgm;
 
+    // 퀘스트
+    public int questInt = 0;
+
     [HideInInspector]
     public float delay_body;
     public float delay_leg;
