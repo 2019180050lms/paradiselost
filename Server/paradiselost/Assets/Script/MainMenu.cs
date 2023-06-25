@@ -36,7 +36,7 @@ public class MainMenu : MonoBehaviour
 
     public void OnClickNewGame()  // 로그인 버튼
     {
-        playerID = playerIDInput.text;
+        playerID = playerIDInput.text + '\0';
 
         char[] player_ID = playerID.ToCharArray();
 

@@ -140,6 +140,25 @@ public class PlayerManager
             Debug.Log("test pos: " + packet.x + packet.y + packet.z);
             Debug.Log("test name: " + packet.name);
             GameObject.Find("Game Manager").GetComponent<GameUIManager>().FindPlayerUI();
+            /*
+            switch (packet.weapon)
+            {
+                case 0:
+                    _myplayer.equipWeapon = _myplayer.weapons[1].GetComponent<Weapon>();
+                    _myplayer.equipWeapon.gameObject.SetActive(false);
+
+                    _myplayer.equipWeapon = _myplayer.weapons[0].GetComponent<Weapon>();
+                    _myplayer.equipWeapon.gameObject.SetActive(true);
+                    break;
+                case 1:
+                    _myplayer.equipWeapon = _myplayer.weapons[0].GetComponent<Weapon>();
+                    _myplayer.equipWeapon.gameObject.SetActive(false);
+
+                    _myplayer.equipWeapon = _myplayer.weapons[1].GetComponent<Weapon>();
+                    _myplayer.equipWeapon.gameObject.SetActive(true);
+                    break;
+            }
+            */
         }
     }
 
@@ -609,6 +628,8 @@ public class PlayerManager
             PlayerText.transform.SetParent(go.transform, false);
             PlayerText playerText = PlayerText.GetComponent<PlayerText>();
 
+            playerText.playerText.text = packet.name;
+            /*
             switch (packet.playerId % 4)
             {
                 case 1:
@@ -624,6 +645,7 @@ public class PlayerManager
                     playerText.playerText.text = "Player 4";
                     break;
             }
+            */
 
             player.anim_Head = jointP.head.gameObject.transform.GetChild(0).GetComponent<Animator>();
             player.anim_Body = jointP.body.gameObject.transform.GetChild(0).GetComponent<Animator>();
@@ -719,6 +741,8 @@ public class PlayerManager
 
             PlayerText.transform.SetParent(go.transform, false);
             PlayerText playerText = PlayerText.GetComponent<PlayerText>();
+            playerText.playerText.text = packet.name;
+            /*
             switch (packet.playerId % 4)
             {
                 case 1:
@@ -734,6 +758,7 @@ public class PlayerManager
                     playerText.playerText.text = "Player 4";
                     break;
             }
+            */
             player.intantBullet = Resources.Load("Bullet") as Object;
 
             //_playerParts.Add(packet.playerId, jointP);

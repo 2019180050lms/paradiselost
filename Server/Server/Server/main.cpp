@@ -11,6 +11,7 @@
 #include "protocol.h"
 
 #include "include/lua.hpp"
+#include "DB.h"
 
 #pragma comment(lib, "WS2_32.lib")
 #pragma comment(lib, "MSWSock.lib")
@@ -58,13 +59,14 @@ public:
 	int _type;
 	int _dir;
 	SOCKET _socket;
-	short head_item, weapon_item, leg_item;
+	int head_item, weapon_item, leg_item;
+	int exp, level;
 	short _hp;
 	float	x, y, z;
 	bool isAttack, isJump;
 	short bossAttack;
 	int targetId;
-	char	_name[NAME_SIZE];
+	WCHAR	_name[NAME_SIZE];
 	int		_prev_remain;
 	unordered_set <int> _view_list;
 	mutex	_vl;
@@ -118,15 +120,14 @@ public:
 		p.size = sizeof(SC_LOGIN_INFO_PACKET);
 		p.type = SC_ADD_PLAYER;
 		p.id = _id;
-		strcpy_s(p.name, _name);
-		p.name_size = sizeof(_name);
+		wcscpy_s(p.name, _name);
 		p.c_type = _type;
+		p.weapon = weapon_item;
 		p.hp = 100;
 		p.x = x;
 		p.y = y;
 		p.z = z;
 		do_send(&p);
-		cout << "send enter game: " << p.name << endl;
 	}
 	void send_move_packet(int c_id);
 	void send_add_player_packet(int c_id);
@@ -147,6 +148,8 @@ public:
 };
 
 array<SESSION, MAX_USER + MAX_NPC> clients;
+DB db;
+mutex _db_l;
 
 SOCKET g_s_socket, g_c_socket;
 OVER_EXP g_a_over;
@@ -239,7 +242,7 @@ void SESSION::send_add_player_packet(int c_id)
 	add_packet.id = c_id;
 	add_packet.c_type = clients[c_id]._type;
 	add_packet.hp = clients[c_id]._hp;
-	strcpy_s(add_packet.name, clients[c_id]._name);
+	wcscpy_s(add_packet.name, clients[c_id]._name);
 	add_packet.size = sizeof(clients[c_id]._name);
 	add_packet.size = sizeof(add_packet);
 	add_packet.type = SC_ENTER_PLAYER;
@@ -253,9 +256,9 @@ void SESSION::send_add_player_packet(int c_id)
 	_view_list.insert(c_id);
 	_vl.unlock();
 	do_send(&add_packet);
-	//cout << "add player send: " << add_packet.id << ", " << add_packet.c_type << ", " << add_packet.weapon_item << endl;
+	cout << "add player send: " << add_packet.id << ", " << add_packet.c_type << ", " << add_packet.weapon_item << endl;
 
-	cout << "send enter game: " << add_packet.name << endl;
+	//cout << "send enter game: " << add_packet.name << endl;
 }
 
 void SESSION::send_attacked_monster(int c_id)
@@ -298,7 +301,35 @@ void process_packet(int c_id, char* packet)
 	switch (packet[2]) {
 	case CS_LOGIN: {
 		CS_LOGIN_PACKET* p = reinterpret_cast<CS_LOGIN_PACKET*>(packet);
-		strcpy_s(clients[c_id]._name, "test"); //p->name);
+		wcscpy_s(clients[c_id]._name, p->name);
+		_db_l.lock();
+		bool check = db.check_user_id(clients[c_id]._name);
+		_db_l.unlock();
+		if (check == false) {
+			{
+				lock_guard<mutex> ll{ clients[c_id]._s_lock };
+				clients[c_id].x = 1.f;
+				clients[c_id].y = 1.f;
+				clients[c_id].z = 1.f;
+				clients[c_id]._state = ST_INGAME;
+			}
+			clients[c_id].exp = 0;
+			clients[c_id].level = 1;
+			clients[c_id].weapon_item = 0;
+			_db_l.lock();
+			db.add_user_data(clients[c_id]._name, clients[c_id]._name, &clients[c_id].x, &clients[c_id].y, &clients[c_id].z, &clients[c_id].exp, &clients[c_id].level, &clients[c_id].weapon_item);
+			_db_l.unlock();
+		}
+		else {
+			{
+				lock_guard<mutex> ll{ clients[c_id]._s_lock };
+				clients[c_id]._state = ST_INGAME;
+			}
+			_db_l.lock();
+			db.get_user_data(clients[c_id]._name, clients[c_id]._name, &clients[c_id].x, &clients[c_id].y, &clients[c_id].z, &clients[c_id].exp, &clients[c_id].level, &clients[c_id].weapon_item);
+			_db_l.unlock();
+			//cout << clients[c_id].x << ", " << clients[c_id].y << ", " << clients[c_id].z << endl;
+		}
 		clients[c_id].send_login_info_packet();
 		break;
 	}
@@ -306,13 +337,6 @@ void process_packet(int c_id, char* packet)
 		CS_ENTER_GAME_PACKET* p = reinterpret_cast<CS_ENTER_GAME_PACKET*>(packet);
 		clients[c_id]._type = p->c_type;
 		//cout << "client send: " << p->size << ", " << p->c_type << ", " << p->playerindex << endl;
-		{
-			lock_guard<mutex> ll{ clients[c_id]._s_lock };
-			clients[c_id].x = 1.f;
-			clients[c_id].y = 1.f;
-			clients[c_id].z = 1.f;
-			clients[c_id]._state = ST_INGAME;
-		}
 		clients[c_id].send_enter_game_packet();
 		//cout << "enter game send: " << endl;
 		for (auto& pl : clients) {
@@ -369,7 +393,7 @@ void process_packet(int c_id, char* packet)
 
 			if (old_vlist.count(pl) == 0) {
 				clients[c_id].send_add_player_packet(pl);
-					cout << "pl: " << pl << endl;
+					//cout << "pl: " << pl << endl;
 				if (false == is_pc(pl))
 					wakeup_npc(pl);
 			}
@@ -440,7 +464,7 @@ void process_packet(int c_id, char* packet)
 			break;
 		}
 		clients[c_id].send_item_info(c_id, p->itemType, clients[c_id].weapon_item);
-		cout << "c_id: " << c_id << ", " << clients[c_id].weapon_item << endl;
+		//cout << "c_id: " << c_id << ", " << clients[c_id].weapon_item << endl;
 		unordered_set<int> near_list;
 		clients[c_id]._vl.lock();
 		unordered_set<int> old_vlist = clients[c_id]._view_list;
@@ -459,7 +483,7 @@ void process_packet(int c_id, char* packet)
 				if (clients[pl]._view_list.count(c_id)) {
 					cpl._vl.unlock();
 					clients[pl].send_item_info(c_id, p->itemType, p->itemValue);
-					cout << "pl id: " << pl << endl;
+					//cout << "pl id: " << pl << endl;
 				}
 				else {
 					cpl._vl.unlock();
@@ -487,11 +511,15 @@ void disconnect(int c_id)
 			}
 			if (pl._id == c_id) continue;
 			pl.send_remove_player_packet(c_id);
-			cout << "boss pl: " << p_id << ", " << c_id << endl;
+			//cout << "boss pl: " << p_id << ", " << c_id << endl;
 		}
 	}
-	if (c_id < MAX_USER)
+	if (c_id < MAX_USER) {
 		closesocket(clients[c_id]._socket);
+		_db_l.lock();
+		db.update_user_data(clients[c_id]._name, clients[c_id]._name, &clients[c_id].x, &clients[c_id].y, &clients[c_id].z, &clients[c_id].exp, &clients[c_id].level, &clients[c_id].weapon_item);
+		_db_l.unlock();
+	}
 
 	lock_guard<mutex> ll(clients[c_id]._s_lock);
 	clients[c_id]._state = ST_FREE;
@@ -591,39 +619,37 @@ void worker_thread(HANDLE h_iocp)
 		{
 			bool deactivate = true;
 			for (int i = 0; i < MAX_USER; ++i) {
-				if (clients[i]._state != ST_INGAME)  continue;
-				if (false == can_see(i, key)) continue;
-				deactivate = false;
+				if (clients[i]._state != ST_INGAME) continue;
+				if (can_see(i, key)) {
+					deactivate = true;
+					break;
+				}
+			}
+
+			if (true == deactivate) {
 				if (!clients[key].isAttack && clients[key].targetId < 0 && clients[key].bossAttack < 0) {
 					do_random_move(static_cast<int>(key));
+					add_timer(key, chrono::system_clock::now() + 500ms, EV_RANDOM_MOVE);
 				}
-				if (!clients[key].isAttack && clients[key].targetId >= 0 && clients[key].bossAttack < 0) {
+				else if (!clients[key].isAttack && clients[key].targetId >= 0 && clients[key].bossAttack < 0) {
 					do_player_attack(static_cast<int>(key), clients[key].targetId);
+					add_timer(key, chrono::system_clock::now() + 500ms, EV_RANDOM_MOVE);
 				}
 				else if (clients[key].isAttack && clients[key].bossAttack < 0) {
 					do_delay_disable(static_cast<int>(key), clients[key].targetId);
+					add_timer(key, chrono::system_clock::now() + 500ms, EV_RANDOM_MOVE);
 				}
 				else if (clients[key].bossAttack >= 0) {
 					do_player_attack(static_cast<int>(key), clients[key].targetId);
+					add_timer(key, chrono::system_clock::now() + 2s, EV_RANDOM_MOVE);
 				}
-
-				break;
 			}
-
-			if (false == deactivate && !clients[key].isAttack && clients[key].targetId < 0 && clients[key].bossAttack < 0) {
-				add_timer(key, chrono::system_clock::now() + 500ms, EV_RANDOM_MOVE);
-			}
-			else if (false == deactivate && !clients[key].isAttack && clients[key].targetId >= 0 && clients[key].bossAttack < 0) {
-				add_timer(key, chrono::system_clock::now() + 500ms, EV_RANDOM_MOVE);
-			}
-			else if (false == deactivate && clients[key].isAttack && clients[key].bossAttack < 0) {
-				add_timer(key, chrono::system_clock::now() + 500ms, EV_RANDOM_MOVE);
-			}
-			else if (false == deactivate && clients[key].bossAttack >= 0) {
-				add_timer(key, chrono::system_clock::now() + 2s, EV_RANDOM_MOVE);
-			}
+			else
+				cout << "deactivate = false" << endl;
 			break;
 		}
+		default:
+			break;
 		}
 	}
 }
@@ -682,7 +708,7 @@ void InitializeNPC()
 		clients[i]._socket = NULL;
 		clients[i].targetId = -1;
 		clients[i].bossAttack = -1;
-		sprintf_s(clients[i]._name, "N%d", i);
+		wprintf_s(clients[i]._name, "N%d", i);
 		clients[i]._state = ST_INGAME;
 		z += 10.f;
 
@@ -717,7 +743,7 @@ void add_boss()
 	clients[MAX_USER + MAX_NPC - 1]._socket = NULL;
 	clients[MAX_USER + MAX_NPC - 1].targetId = -1;
 	clients[MAX_USER + MAX_NPC - 1].bossAttack = -1;
-	sprintf_s(clients[MAX_USER + MAX_NPC - 1]._name, "N%d", MAX_USER + MAX_NPC - 1);
+	wprintf_s(clients[MAX_USER + MAX_NPC - 1]._name, "N%d", MAX_USER + MAX_NPC - 1);
 	clients[MAX_USER + MAX_NPC - 1]._state = ST_INGAME;
 }
 
@@ -967,6 +993,7 @@ int main()
 	HANDLE h_iocp;
 
 	InitializeNPC();
+	db.DBConnect();
 
 	WSADATA WSAData;
 	WSAStartup(MAKEWORD(2, 2), &WSAData);
