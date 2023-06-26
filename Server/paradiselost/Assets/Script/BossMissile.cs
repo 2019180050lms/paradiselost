@@ -20,7 +20,7 @@ public class BossMissile : Bullet
     {
         //nav = GetComponent<NavMeshAgent>();
         //nav.enabled = false;
-        target = GameObject.Find("Player_t1(Clone)").GetComponent<Player>();
+        target = GameObject.Find("test(Clone)").GetComponent<Player>();
         
     }
 

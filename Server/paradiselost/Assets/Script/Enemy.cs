@@ -51,6 +51,7 @@ public class Enemy : MonoBehaviour
         _network = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
         hitBox = GetComponent<HitBox>();
         ps = GetComponentInChildren<ParticleSystem>();
+        bulletPos = transform.GetChild(2);
         // 사운드
         audioSource = gameObject.AddComponent<AudioSource>();
         soundManager = GetComponent<SoundManager>();
@@ -58,7 +59,7 @@ public class Enemy : MonoBehaviour
         hitEffect = GameObject.Find("hitEffect");
         hitEffect.SetActive(false);
         walking = true;
-        bulletPos = transform.GetChild(1);
+        
         timer = 0.0f;
         waitingtime = 1;
     }
@@ -92,6 +93,7 @@ public class Enemy : MonoBehaviour
         transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(rotVec), Time.deltaTime * 2f);
         if (transform.tag == "EnemyTurret" && isAttack && count == 0)
         {
+            Debug.Log("몬스터 총");
             StartCoroutine("Shoot");
             count++;
         }
@@ -178,7 +180,7 @@ public class Enemy : MonoBehaviour
     IEnumerator Attack()
     {
 
-        Debug.Log("몬스터 공격");
+        //Debug.Log("몬스터 공격");
         isChase = false;
         isAttack = true;
         anim.SetTrigger("doAttack");
@@ -200,13 +202,15 @@ public class Enemy : MonoBehaviour
 
     IEnumerator Shoot()
     {
+        Debug.Log("Shoot 코루틴 0");
         isAttack = true;
+        anim.SetTrigger("doAttack");
         yield return new WaitForSeconds(0.5f);
         GameObject intantBullet = Instantiate(Resources.Load("EnemyBullet", typeof(GameObject)), bulletPos.position, bulletPos.rotation) as GameObject;
         Rigidbody bulletRigid = intantBullet.GetComponent<Rigidbody>();
         BossMissile test = intantBullet.AddComponent<BossMissile>();
         test.enemyId = enemyId;
-
+        Debug.Log("Shoot 코루틴 ");
         bulletRigid.velocity = bulletPos.forward * 90;
         Destroy(intantBullet, 3f);
         //yield return new WaitForSeconds(1f);

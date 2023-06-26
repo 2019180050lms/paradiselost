@@ -7099,6 +7099,7 @@ MonoBehaviour:
   questtext: {fileID: 253179098}
   questIntNum: {fileID: 465114551}
   player: {fileID: 0}
+  gameUIManager: {fileID: 0}
 --- !u!65 &1334458348
 BoxCollider:
   m_ObjectHideFlags: 0

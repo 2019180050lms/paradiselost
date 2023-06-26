@@ -486,16 +486,20 @@ public class PlayerManager
                 {
                     //enemy.StartCoroutine("Shoot");
                     //enemy.anim.SetTrigger("doAttack");
+                    
+
                 }
                 //enemy.transform.LookAt(enemy.transform.position + enemy.moveVec2);
                 enemy.rotVec = enemy.posVec - enemy.transform.position;
                 //enemy.transform.LookAt(enemy.posVec);
+
                 if (enemy.tag == "EnemyTurret")
                 {
                     EnemyTurret enemyTurret = GameObject.Find("TargetArea").GetComponent<EnemyTurret>();
-                    enemy.transform.LookAt(enemyTurret.targetPos);
+                    //enemy.transform.LookAt(enemyTurret.targetPos);
                     //Debug.Log(enemyTurret.targetPos);
                 }
+
             }
             // 보스 처리
             else if (_boss.enemyId == packet.playerId)
@@ -760,7 +764,7 @@ public class PlayerManager
         }
         else if (packet.type == 5)
         {
-            Object obj = Resources.Load("Monster/Robot1");
+            Object obj = Resources.Load("Monster/Robot2");
             GameObject go = Object.Instantiate(obj) as GameObject;
             Enemy enemy = go.AddComponent<Enemy>();
             enemy.enabled = true;
