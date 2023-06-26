@@ -28,7 +28,9 @@ constexpr char SC_BOSS_ATTACK = 20;
 struct CS_LOGIN_PACKET {
 	unsigned short size;
 	unsigned short type;
-	char	name[NAME_SIZE];
+	//char	name[NAME_SIZE];
+	//std::wstring name;
+	WCHAR name[NAME_SIZE] = { NULL };
 };
 
 struct SC_CHAR_SELECT_PACKET {
@@ -79,10 +81,10 @@ struct SC_LOGIN_INFO_PACKET {
 	unsigned short type;
 	short id;
 	int c_type;
+	int weapon;
 	short hp;
 	float	x, y, z;
-	short	name_size;
-	char	name[NAME_SIZE];
+	WCHAR	name[NAME_SIZE + 2];
 };
 
 struct SC_ADD_PLAYER_PACKET {
@@ -93,8 +95,7 @@ struct SC_ADD_PLAYER_PACKET {
 	short hp;
 	float x, y, z;
 	short head_item, weapon_item, leg_item;
-	short	name_size;
-	char	name[NAME_SIZE];
+	WCHAR	name[NAME_SIZE + 2];
 };
 
 struct SC_REMOVE_PLAYER_PACKET {
