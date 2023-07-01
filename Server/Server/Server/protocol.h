@@ -4,8 +4,8 @@ constexpr int NAME_SIZE = 20;
 
 constexpr int MAX_USER = 500;
 
-constexpr int W_WIDTH = 50;
-constexpr int W_HEIGHT = 50;
+constexpr int W_WIDTH = 70;
+constexpr int W_HEIGHT = 100;
 
 // Packet ID
 constexpr char CS_LOGIN = 0;
@@ -24,6 +24,8 @@ constexpr char SC_ITEM_INFO = 15;
 constexpr char SC_BOSS_ATTACK = 20;
 //constexpr char SC_ITEM_INFO = 
 
+enum MONSTER { GUN_ROBOT = 5, HUMAN_ROBOT = 6, BOSS_TEST = 7 };
+
 #pragma pack (push, 1)
 struct CS_LOGIN_PACKET {
 	unsigned short size;
@@ -40,11 +42,11 @@ struct SC_CHAR_SELECT_PACKET {
 	int c_type;
 };
 
-struct CS_ENTER_GAME_PACKET {
+struct CS_CREATE_PLAYER_PACKET {
 	unsigned short size;
 	unsigned short type;
-	int playerindex;
 	int c_type;
+	WCHAR name[NAME_SIZE] = { NULL };
 };
 
 struct CS_MOVE_PACKET {

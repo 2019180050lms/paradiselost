@@ -275,10 +275,10 @@ public class S_ENTER_PLAYER : IPacket
 	}
 }
 
-class C_ENTER_GAME : IPacket
+class C_CREATE_PLAYER : IPacket
 {
-	public int playerIndex;
 	public int type;
+	public string nickname;
 
 	public ushort Protocol { get { return (ushort)PacketID.C_ENTER_GAME; } }
 
@@ -296,13 +296,17 @@ class C_ENTER_GAME : IPacket
 
 		count += sizeof(ushort);
 		Array.Copy(BitConverter.GetBytes((ushort)PacketID.C_ENTER_GAME), 0, segment.Array, segment.Offset + count, sizeof(ushort));
-		count += sizeof(ushort);
-		Array.Copy(BitConverter.GetBytes(this.playerIndex), 0, segment.Array, segment.Offset + count, sizeof(int));
-		count += sizeof(int);
+		count += sizeof(ushort);;
         Array.Copy(BitConverter.GetBytes(this.type), 0, segment.Array, segment.Offset + count, sizeof(int));
         count += sizeof(int);
-
-        Array.Copy(BitConverter.GetBytes(count), 0, segment.Array, segment.Offset, sizeof(ushort));
+		if (nickname != null)
+		{
+			ushort chatLen = (ushort)Encoding.Unicode.GetBytes(this.nickname, 0, this.nickname.Length, segment.Array, segment.Offset + count + sizeof(ushort));
+			Array.Copy(BitConverter.GetBytes(chatLen), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+			count += sizeof(ushort);
+			count += chatLen;
+		}
+		Array.Copy(BitConverter.GetBytes(count), 0, segment.Array, segment.Offset, sizeof(ushort));
 
 		return SendBufferHelper.Close(count);
 	}
