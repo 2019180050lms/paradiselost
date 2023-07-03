@@ -30,6 +30,7 @@ TagManager:
   - BossMelee
   - StageBoss
   - Bullet
+  - Potion
   layers:
   - Default
   - TransparentFX

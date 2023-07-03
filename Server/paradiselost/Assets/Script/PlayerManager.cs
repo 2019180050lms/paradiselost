@@ -199,13 +199,25 @@ public class PlayerManager
                 if ((int)_myplayer.body == 3)        // 플레이어 좌클릭
                 {
                     _myplayer.StopCoroutine("timer");
-                    if (_myplayer.hasWeapons[1] && !_myplayer.anim.GetCurrentAnimatorStateInfo(0).IsName("Run_Aim"))
+                    if (_myplayer.hasWeapons[1] && !_myplayer.anim.GetCurrentAnimatorStateInfo(0).IsName("Run_Aim"))  // 기본 총
                     {
                         _myplayer.StartCoroutine("Shot");
                         _myplayer.anim.SetTrigger("doAim");
                     }
 
-                    if (!_myplayer.hasWeapons[0] && !_myplayer.hasWeapons[1] && _myplayer.currentTime == 0)
+                    else if (_myplayer.hasWeapons[2]) // 두손검
+                    {
+                        _myplayer.StartCoroutine("TwoHandSwing");
+                        _myplayer.anim.SetTrigger("do2HSwing");
+                    }
+
+                    else if (_myplayer.hasWeapons[3]) // 샷건
+                    {
+                        _myplayer.StartCoroutine("ShotGun");
+                        _myplayer.anim.SetTrigger("doAim");
+                    }
+
+                    if (!_myplayer.hasWeapons[0] && !_myplayer.hasWeapons[1] && !_myplayer.hasWeapons[2] && !_myplayer.hasWeapons[3] && _myplayer.currentTime == 0)
                     {
                         _myplayer.StopCoroutine("Punch");
                         _myplayer.StartCoroutine("Punch");
@@ -216,7 +228,9 @@ public class PlayerManager
                         _myplayer.anim.SetTrigger("doPunch");
                     }
 
-                    else if (!_myplayer.hasWeapons[0] && !_myplayer.hasWeapons[1] && _myplayer.currentTime > 0f && _myplayer.currentTime < 1.0f)
+                    
+
+                    else if (!_myplayer.hasWeapons[0] && !_myplayer.hasWeapons[1] && !_myplayer.hasWeapons[2] && !_myplayer.hasWeapons[3] && _myplayer.currentTime > 0f && _myplayer.currentTime < 1.0f)
                     {
                         _myplayer.anim.SetTrigger("doPunch2");
                         _myplayer.StopCoroutine("Punch");
@@ -263,6 +277,7 @@ public class PlayerManager
                         _myplayer.currentTime = 0;
                     }
 
+                    
 
 
                 }
@@ -929,23 +944,54 @@ public class PlayerManager
                 switch (packet.itemType)
                 {
 
-                    case 0:
+                    case 0: // 한손검
                         _myplayer.equipWeapon = _myplayer.weapons[1].GetComponent<Weapon>();
+                        _myplayer.equipWeapon.gameObject.SetActive(false);
+                        _myplayer.equipWeapon = _myplayer.weapons[2].GetComponent<Weapon>();
+                        _myplayer.equipWeapon.gameObject.SetActive(false);
+                        _myplayer.equipWeapon = _myplayer.weapons[3].GetComponent<Weapon>();
                         _myplayer.equipWeapon.gameObject.SetActive(false);
 
                         _myplayer.equipWeapon = _myplayer.weapons[0].GetComponent<Weapon>();
                         _myplayer.equipWeapon.gameObject.SetActive(true);
                         break;
-                    case 1:
+
+                    case 1: // 총
                         _myplayer.equipWeapon = _myplayer.weapons[0].GetComponent<Weapon>();
+                        _myplayer.equipWeapon.gameObject.SetActive(false);
+                        _myplayer.equipWeapon = _myplayer.weapons[2].GetComponent<Weapon>();
+                        _myplayer.equipWeapon.gameObject.SetActive(false);
+                        _myplayer.equipWeapon = _myplayer.weapons[3].GetComponent<Weapon>();
                         _myplayer.equipWeapon.gameObject.SetActive(false);
 
                         _myplayer.equipWeapon = _myplayer.weapons[1].GetComponent<Weapon>();
                         _myplayer.equipWeapon.gameObject.SetActive(true);
                         break;
-                    case 3:
-                        joint.sp_list[1] = Resources.Load("Weapon Hammer") as GameObject;
-                        joint.SwitchParts(packet.itemType);
+
+                    case 2: // 두손검
+                        _myplayer.equipWeapon = _myplayer.weapons[0].GetComponent<Weapon>();
+                        _myplayer.equipWeapon.gameObject.SetActive(false);
+                        _myplayer.equipWeapon = _myplayer.weapons[1].GetComponent<Weapon>();
+                        _myplayer.equipWeapon.gameObject.SetActive(false);
+                        _myplayer.equipWeapon = _myplayer.weapons[3].GetComponent<Weapon>();
+                        _myplayer.equipWeapon.gameObject.SetActive(false);
+
+                        _myplayer.hasWeapons[packet.itemType] = true;
+                        _myplayer.equipWeapon = _myplayer.weapons[2].GetComponent<Weapon>();
+                        _myplayer.equipWeapon.gameObject.SetActive(true);
+                        break;
+
+                    case 3: // 샷건
+                        _myplayer.equipWeapon = _myplayer.weapons[1].GetComponent<Weapon>();
+                        _myplayer.equipWeapon.gameObject.SetActive(false);
+                        _myplayer.equipWeapon = _myplayer.weapons[2].GetComponent<Weapon>();
+                        _myplayer.equipWeapon.gameObject.SetActive(false);
+                        _myplayer.equipWeapon = _myplayer.weapons[0].GetComponent<Weapon>();
+                        _myplayer.equipWeapon.gameObject.SetActive(false);
+
+                        _myplayer.hasWeapons[packet.itemType] = true;
+                        _myplayer.equipWeapon = _myplayer.weapons[3].GetComponent<Weapon>();
+                        _myplayer.equipWeapon.gameObject.SetActive(true);
                         break;
                 }
             }
@@ -996,29 +1042,66 @@ public class PlayerManager
             {
                 switch (packet.itemType)
                 {
-                    case 0:
+                    case 0: // 한손검
                         player.equipWeapon = player.weapons[1].GetComponent<Weapon>();
                         player.equipWeapon.gameObject.SetActive(false);
                         player.hasWeapons[1] = false;
-
+                        player.equipWeapon = player.weapons[2].GetComponent<Weapon>();
+                        player.equipWeapon.gameObject.SetActive(false);
+                        player.hasWeapons[2] = false;
+                        player.equipWeapon = player.weapons[3].GetComponent<Weapon>();
+                        player.equipWeapon.gameObject.SetActive(false);
+                        player.hasWeapons[3] = false;
 
                         player.hasWeapons[packet.itemType] = true;
                         player.equipWeapon = player.weapons[0].GetComponent<Weapon>();
                         player.equipWeapon.gameObject.SetActive(true);
                         player.body = 3;
                         break;
-                    case 1:
+                    case 1: // 총
                         player.equipWeapon = player.weapons[0].GetComponent<Weapon>();
                         player.equipWeapon.gameObject.SetActive(false);
                         player.hasWeapons[0] = false;
+                        player.equipWeapon = player.weapons[2].GetComponent<Weapon>();
+                        player.equipWeapon.gameObject.SetActive(false);
+                        player.hasWeapons[2] = false;
+                        player.equipWeapon = player.weapons[3].GetComponent<Weapon>();
+                        player.equipWeapon.gameObject.SetActive(false);
+                        player.hasWeapons[3] = false;
 
                         player.hasWeapons[packet.itemType] = true;
                         player.equipWeapon = player.weapons[1].GetComponent<Weapon>();
                         player.equipWeapon.gameObject.SetActive(true);
                         break;
-                    case 3:
-                        c_p_parts.sp_list[1] = Resources.Load("Sp_Body_Parts") as GameObject;
-                        c_p_parts.SwitchParts(packet.itemType);
+                    case 2: // 두손검
+                        player.equipWeapon = player.weapons[1].GetComponent<Weapon>();
+                        player.equipWeapon.gameObject.SetActive(false);
+                        player.hasWeapons[1] = false;
+                        player.equipWeapon = player.weapons[0].GetComponent<Weapon>();
+                        player.equipWeapon.gameObject.SetActive(false);
+                        player.hasWeapons[0] = false;
+                        player.equipWeapon = player.weapons[3].GetComponent<Weapon>();
+                        player.equipWeapon.gameObject.SetActive(false);
+                        player.hasWeapons[3] = false;
+
+                        player.hasWeapons[packet.itemType] = true;
+                        player.equipWeapon = player.weapons[2].GetComponent<Weapon>();
+                        player.equipWeapon.gameObject.SetActive(true);
+                        break;
+                    case 3: // 샷건
+                        player.equipWeapon = player.weapons[1].GetComponent<Weapon>();
+                        player.equipWeapon.gameObject.SetActive(false);
+                        player.hasWeapons[1] = false;
+                        player.equipWeapon = player.weapons[0].GetComponent<Weapon>();
+                        player.equipWeapon.gameObject.SetActive(false);
+                        player.hasWeapons[0] = false;
+                        player.equipWeapon = player.weapons[2].GetComponent<Weapon>();
+                        player.equipWeapon.gameObject.SetActive(false);
+                        player.hasWeapons[2] = false;
+
+                        player.hasWeapons[packet.itemType] = true;
+                        player.equipWeapon = player.weapons[3].GetComponent<Weapon>();
+                        player.equipWeapon.gameObject.SetActive(true);
                         break;
                 }
                 //player.anim_Body = c_p_parts.body.gameObject.transform.GetChild(0).GetComponent<Animator>();

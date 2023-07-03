@@ -8,9 +8,13 @@ public class Player : MonoBehaviour
 
     public float speed = 15.0f;
     public List<GameObject> weapons = new List<GameObject>() { };
-    public bool[] hasWeapons = new bool[2];
+    public bool[] hasWeapons = new bool[4];
     public Transform bulletPos;
+    public Transform bulletPos2;
+    public Transform bulletPos3;
     public GameObject bullet;
+    public GameObject bullet2;
+    public GameObject bullet3;
     public Object intantBullet;
 
     //public string name;
@@ -61,6 +65,7 @@ public class Player : MonoBehaviour
 
     public bool isJumping;
     public bool isShot;
+    public bool isShotGun;
     public int bulletCount = 0;
 
     public int atkCombo = 0;
@@ -87,6 +92,8 @@ public class Player : MonoBehaviour
         ps = GetComponent<ParticleSystem>();
         gunParticle = GetComponentInChildren<ParticleSystem>();
         bulletPos = transform.GetChild(0);
+        bulletPos2 = transform.GetChild(1);
+        bulletPos3 = transform.GetChild(2);
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSourceRun = gameObject.AddComponent<AudioSource>();
         audioSourceBgm = gameObject.AddComponent<AudioSource>();
@@ -102,10 +109,13 @@ public class Player : MonoBehaviour
         hp = 100;
         weapons.Add(GameObject.Find("Weapon Hammer"));
         weapons.Add(GameObject.Find("Weapon Rifle"));
+        weapons.Add(GameObject.Find("Weapon 2H Sword"));
+        weapons.Add(GameObject.Find("Weapon ShotGun"));
         weapons[0].SetActive(false);
         weapons[1].SetActive(false);
-
-        equipWeaponIndex = 2;
+        weapons[2].SetActive(false);
+        weapons[3].SetActive(false);
+        equipWeaponIndex = 4;
     }
 
 
@@ -145,6 +155,42 @@ public class Player : MonoBehaviour
             bulletCount--;
             Destroy(bullet, 3f);
         }
+
+        if (isShotGun && bulletCount == 0)
+        {
+            bullet = Object.Instantiate(intantBullet) as GameObject;
+            bullet.transform.position = bulletPos.transform.position;
+            gunParticle.Play();
+            audioSource.clip = soundManager.shootSfx;
+            audioSource.Play();
+            bullet.transform.rotation = bulletPos.rotation;
+            Rigidbody bulletRigid = bullet.GetComponent<Rigidbody>();
+            bulletRigid.velocity = bulletPos.forward * 120;
+            Bullet BulletId = bullet.GetComponent<Bullet>();
+            BulletId.ParentID = PlayerId;
+
+            bullet2 = Object.Instantiate(intantBullet) as GameObject;
+            bullet2.transform.position = bulletPos2.transform.position;
+            bullet2.transform.rotation = bulletPos2.rotation;
+            Rigidbody bulletRigid2 = bullet2.GetComponent<Rigidbody>();
+            bulletRigid2.velocity = bulletPos2.forward * 120;
+            Bullet BulletId2 = bullet2.GetComponent<Bullet>();
+            BulletId2.ParentID = PlayerId;
+
+            bullet3 = Object.Instantiate(intantBullet) as GameObject;
+            bullet3.transform.position = bulletPos3.transform.position;
+            bullet3.transform.rotation = bulletPos3.rotation;
+            Rigidbody bulletRigid3 = bullet3.GetComponent<Rigidbody>();
+            bulletRigid3.velocity = bulletPos3.forward * 120;
+            Bullet BulletId3 = bullet3.GetComponent<Bullet>();
+            BulletId3.ParentID = PlayerId;
+
+            bulletCount--;
+            Destroy(bullet, 0.2f);
+            Destroy(bullet2, 0.2f);
+            Destroy(bullet3, 0.2f);
+        }
+
         moveVec2 = Vector3.zero;
 
 
@@ -288,6 +334,27 @@ public class Player : MonoBehaviour
         currentTime = 0;
     }
 
+    public IEnumerator TwoHandSwing()
+    {
+        audioSource.clip = soundManager.slashSfx;
+
+
+        yield return new WaitForSeconds(0.1f); // 0.1초 대기
+        //meleeArea.enabled = true;
+        hitBox.meleeArea.enabled = true;
+        trailEffect.enabled = true;
+
+        yield return new WaitForSeconds(0.3f);
+        audioSource.Play();
+
+        yield return new WaitForSeconds(0.4f);
+        //meleeArea.enabled = false;
+        hitBox.meleeArea.enabled = false;
+        trailEffect.enabled = false;
+        StopCoroutine("timer");
+        currentTime = 0;
+    }
+
     IEnumerator Shot()
     {
         Debug.Log("Shot 코루틴");
@@ -306,6 +373,28 @@ public class Player : MonoBehaviour
         //Rigidbody bulletRigid = bullet.GetComponent<Rigidbody>();
         //bulletRigid.velocity = bulletPos.forward * 75;
         
+        //Destroy(bullet, 3f);
+        //yield return new WaitForSeconds(2f);
+    }
+
+    IEnumerator ShotGun()
+    {
+        Debug.Log("ShotGun 코루틴");
+        // 총알 발사
+        isShotGun = true;
+        yield return new WaitForSeconds(0.15f);
+        isShotGun = false;
+        //yield return new WaitForSeconds(1f);
+        bulletCount++;
+
+        if (bulletCount > 1)
+            bulletCount = 0;
+        //bullet = Object.Instantiate(intantBullet) as GameObject;
+        //bullet.transform.position = bulletPos.transform.position;
+        //bullet.transform.rotation = bulletPos.rotation;
+        //Rigidbody bulletRigid = bullet.GetComponent<Rigidbody>();
+        //bulletRigid.velocity = bulletPos.forward * 75;
+
         //Destroy(bullet, 3f);
         //yield return new WaitForSeconds(2f);
     }

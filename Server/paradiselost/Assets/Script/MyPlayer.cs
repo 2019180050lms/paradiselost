@@ -61,9 +61,13 @@ public class MyPlayer : Player
         //transform.tag = "MyPlayer";
         weapons.Add(GameObject.Find("Weapon Hammer"));
         weapons.Add(GameObject.Find("Weapon Rifle"));
+        weapons.Add(GameObject.Find("Weapon 2H Sword"));
+        weapons.Add(GameObject.Find("Weapon ShotGun"));
         weapons[0].SetActive(false);
         weapons[1].SetActive(false);
-        equipWeaponIndex = 2;
+        weapons[2].SetActive(false);
+        weapons[3].SetActive(false);
+        equipWeaponIndex = 4;
 
     }
 
@@ -169,6 +173,41 @@ public class MyPlayer : Player
             BulletId.ParentID = PlayerId;
             bulletCount--;
             Destroy(bullet, 3f);
+        }
+
+        if (isShotGun && bulletCount == 0 && !donShoot)
+        {
+            bullet = Object.Instantiate(intantBullet) as GameObject;
+            bullet.transform.position = bulletPos.transform.position;
+            gunParticle.Play();
+            audioSource.clip = soundManager.shootSfx;
+            audioSource.Play();
+            bullet.transform.rotation = bulletPos.rotation;
+            Rigidbody bulletRigid = bullet.GetComponent<Rigidbody>();
+            bulletRigid.velocity = bulletPos.forward * 120;
+            Bullet BulletId = bullet.GetComponent<Bullet>();
+            BulletId.ParentID = PlayerId;
+
+            bullet2 = Object.Instantiate(intantBullet) as GameObject;
+            bullet2.transform.position = bulletPos2.transform.position;
+            bullet2.transform.rotation = bulletPos2.rotation;
+            Rigidbody bulletRigid2 = bullet2.GetComponent<Rigidbody>();
+            bulletRigid2.velocity = bulletPos2.forward * 120;
+            Bullet BulletId2 = bullet2.GetComponent<Bullet>();
+            BulletId2.ParentID = PlayerId;
+
+            bullet3 = Object.Instantiate(intantBullet) as GameObject;
+            bullet3.transform.position = bulletPos3.transform.position;
+            bullet3.transform.rotation = bulletPos3.rotation;
+            Rigidbody bulletRigid3 = bullet3.GetComponent<Rigidbody>();
+            bulletRigid3.velocity = bulletPos3.forward * 120;
+            Bullet BulletId3 = bullet3.GetComponent<Bullet>();
+            BulletId3.ParentID = PlayerId;
+
+            bulletCount--;
+            Destroy(bullet, 0.2f);
+            Destroy(bullet2, 0.2f);
+            Destroy(bullet3, 0.2f);
         }
 
         testJump = false;

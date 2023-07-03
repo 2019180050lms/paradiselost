@@ -214,9 +214,20 @@ public class GameUIManager : MonoBehaviour
             C_Send_Item(2, (ushort)inventory.ItemList[index].value);
             myPlayer.hasWeapons[0] = false;
             myPlayer.hasWeapons[1] = false;
+            myPlayer.hasWeapons[2] = false;
+            myPlayer.hasWeapons[3] = false;
             myPlayer.hasWeapons[inventory.ItemList[index].value] = true;
             //myPlayer.equipWeapon = myPlayer.weapons[0].GetComponent<Weapon>();
             //myPlayer.equipWeapon.gameObject.SetActive(true);
+            ItemImg[index].color = new Color(1, 1, 1, 0);
+            inventory.ItemList[index] = null;
+            ItemTxt[index].text = " ";
+        }
+        else if (inventory.ItemList[index].tag == "Potion")
+        {
+            //C_Send_Item(2, (ushort)inventory.ItemList[index].value);
+            myPlayer.hp += 10;
+            
             ItemImg[index].color = new Color(1, 1, 1, 0);
             inventory.ItemList[index] = null;
             ItemTxt[index].text = " ";
