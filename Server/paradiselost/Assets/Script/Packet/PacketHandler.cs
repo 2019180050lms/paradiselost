@@ -15,19 +15,12 @@ class PacketHandler
 
 		if (s_enterPacket.success == true)
 		{
-			if (s_enterPacket.type == 0)
-            {
-				SceneManager.LoadScene("CharacterSelect");
-			}
-            else
-            {
-				SceneManager.LoadScene("Lobby");
-				C_ENTER_GAME c_enterPacket = new C_ENTER_GAME();
-				c_enterPacket.playerIndex = 0;
-				ArraySegment<byte> segment = c_enterPacket.Write();
-				serverSession.Send(segment);
-			}
+			SceneManager.LoadScene("InGame");
 		}
+		else
+		{
+			SceneManager.LoadScene("CharacterSelect");
+		}			
 	}
 
 	public static void S_BroadcastEnterGameHandler(PacketSession session, IPacket packet)
@@ -62,7 +55,7 @@ class PacketHandler
 		S_ENTER_PLAYER pkt = packet as S_ENTER_PLAYER;
 		ServerSession serverSession = session as ServerSession;
 
-		//Debug.Log("");
+		Debug.Log("들어옴");
 
 		PlayerManager.Instance.Add(pkt);
 	}

@@ -8,6 +8,7 @@
 #include <unordered_set>
 #include <chrono>
 #include <queue>
+#include <fstream>
 #include "protocol.h"
 
 #include "include/lua.hpp"
@@ -20,6 +21,8 @@ using namespace std;
 
 constexpr int VIEW_RANGE = 100;
 constexpr int MAX_NPC = 4;
+
+char map[W_HEIGHT][W_WIDTH];
 
 enum COMP_TYPE { OP_CONNECT, OP_DISCONNECT, OP_ACCEPT, OP_RECV, OP_SEND, OP_NPC_AI };
 class OVER_EXP {
@@ -104,12 +107,12 @@ public:
 		OVER_EXP* sdata = new OVER_EXP{ reinterpret_cast<char*>(packet) };
 		WSASend(_socket, &sdata->_wsabuf, 1, 0, 0, &sdata->_over, 0);
 	}
-	void send_login_info_packet()
+	void send_login_info_packet(bool check)
 	{
 		SC_CHAR_SELECT_PACKET p;
 		p.size = sizeof(p);
 		p.type = SC_LOGIN_INFO;
-		p.success = true;
+		p.success = check;
 		p.c_type = 0;
 		do_send(&p);
 		//cout << "login info send: " << endl;
@@ -305,38 +308,53 @@ void process_packet(int c_id, char* packet)
 		_db_l.lock();
 		bool check = db.check_user_id(clients[c_id]._name);
 		_db_l.unlock();
-		if (check == false) {
-			{
-				lock_guard<mutex> ll{ clients[c_id]._s_lock };
-				clients[c_id].x = 1.f;
-				clients[c_id].y = 1.f;
-				clients[c_id].z = 1.f;
-				clients[c_id]._state = ST_INGAME;
-			}
-			clients[c_id].exp = 0;
-			clients[c_id].level = 1;
-			clients[c_id].weapon_item = 0;
-			_db_l.lock();
-			db.add_user_data(clients[c_id]._name, clients[c_id]._name, &clients[c_id].x, &clients[c_id].y, &clients[c_id].z, &clients[c_id].exp, &clients[c_id].level, &clients[c_id].weapon_item);
-			_db_l.unlock();
+		{
+			lock_guard<mutex> ll{ clients[c_id]._s_lock };
+			clients[c_id]._state = ST_INGAME;
 		}
-		else {
-			{
-				lock_guard<mutex> ll{ clients[c_id]._s_lock };
-				clients[c_id]._state = ST_INGAME;
+		_db_l.lock();
+		db.get_user_data(clients[c_id]._name, clients[c_id]._name, &clients[c_id].x, 
+			&clients[c_id].y, &clients[c_id].z, &clients[c_id].exp, &clients[c_id].level, 
+			&clients[c_id].weapon_item, &clients[c_id]._type);
+		_db_l.unlock();
+		//cout << clients[c_id].x << ", " << clients[c_id].y << ", " << clients[c_id].z << endl;
+		clients[c_id].send_login_info_packet(check);
+		if (check == true) {
+			clients[c_id].send_enter_game_packet();
+			for (auto& pl : clients) {
+				{
+					lock_guard<mutex> ll(pl._s_lock);
+					if (ST_INGAME != pl._state) continue;
+				}
+				if (pl._id == c_id) continue;
+				if (false == can_see(c_id, pl._id))
+					continue;
+				if (is_pc(pl._id)) pl.send_add_player_packet(c_id);
+				else wakeup_npc(pl._id);
+				clients[c_id].send_add_player_packet(pl._id);
 			}
-			_db_l.lock();
-			db.get_user_data(clients[c_id]._name, clients[c_id]._name, &clients[c_id].x, &clients[c_id].y, &clients[c_id].z, &clients[c_id].exp, &clients[c_id].level, &clients[c_id].weapon_item);
-			_db_l.unlock();
-			//cout << clients[c_id].x << ", " << clients[c_id].y << ", " << clients[c_id].z << endl;
 		}
-		clients[c_id].send_login_info_packet();
 		break;
 	}
 	case CS_ENTER_GAME: {
-		CS_ENTER_GAME_PACKET* p = reinterpret_cast<CS_ENTER_GAME_PACKET*>(packet);
+		CS_CREATE_PLAYER_PACKET* p = reinterpret_cast<CS_CREATE_PLAYER_PACKET*>(packet);
 		clients[c_id]._type = p->c_type;
 		//cout << "client send: " << p->size << ", " << p->c_type << ", " << p->playerindex << endl;
+		{
+			lock_guard<mutex> ll{ clients[c_id]._s_lock };
+			clients[c_id].x = 1.f;
+			clients[c_id].y = 1.f;
+			clients[c_id].z = 1.f;
+			clients[c_id]._state = ST_INGAME;
+		}
+		clients[c_id].exp = 0;
+		clients[c_id].level = 1;
+		clients[c_id].weapon_item = -1;
+		_db_l.lock();
+		db.add_user_data(clients[c_id]._name, clients[c_id]._name, &clients[c_id].x, 
+			&clients[c_id].y, &clients[c_id].z, &clients[c_id].exp, &clients[c_id].level, 
+			&clients[c_id].weapon_item, &clients[c_id]._type);
+		_db_l.unlock();
 		clients[c_id].send_enter_game_packet();
 		//cout << "enter game send: " << endl;
 		for (auto& pl : clients) {
@@ -358,9 +376,26 @@ void process_packet(int c_id, char* packet)
 		//clients[c_id].last_move_time = p->move_time;
 		clients[c_id]._hp = p->hp;
 		clients[c_id]._dir = p->direction;
-		clients[c_id].x = p->x;
-		clients[c_id].y = p->y;
-		clients[c_id].z = p->z;
+		
+		float c_x = clients[c_id].x;
+		float c_y = clients[c_id].y;
+		float c_z = clients[c_id].z;
+
+		//if(p->x < -25 || p->x > 38)
+
+		if (p->y < -0.3f)
+		{
+			clients[c_id].x = -16;
+			clients[c_id].y = -0.1f;
+			clients[c_id].z = -7;
+		}
+		else
+		{
+			clients[c_id].x = p->x;
+			clients[c_id].y = p->y;
+			clients[c_id].z = p->z;
+		}
+
 		clients[c_id].isAttack = p->isAttack;
 		clients[c_id].isJump = p->isJump;
 
@@ -700,11 +735,11 @@ void InitializeNPC()
 	float z = 0.f;
 	for (int i = MAX_USER; i < MAX_USER + MAX_NPC - 1; ++i) {
 		clients[i]._hp = 100;
-		clients[i].x = 1.f;
-		clients[i].y = 0.2;
-		clients[i].z = 1.f + z;
+		clients[i].x = 0.f;
+		clients[i].y = 0.1;
+		clients[i].z = 138.f + z;
 		clients[i]._id = i;
-		clients[i]._type = 5;
+		clients[i]._type = MONSTER::GUN_ROBOT;
 		clients[i]._socket = NULL;
 		clients[i].targetId = -1;
 		clients[i].bossAttack = -1;
@@ -764,14 +799,14 @@ void do_random_move(int c_id)
 		float z = clients[c_id].z;
 		int dir = rand() % 9;
 		switch (dir) {
-		case 0: if (z > 0) z -= 3.f; break;
-		case 1: if (z < W_HEIGHT - 1) z += 3.f; break;
-		case 2: if (x > 0) x -= 3.f; break;
-		case 3: if (x < W_WIDTH - 1) x += 3.f; break;
-		case 4: if (x < W_WIDTH && z < W_HEIGHT) { x += 1.5; z += 1.5; } break;
-		case 5: if (x > 0 && z < W_HEIGHT) { x -= 1.5; z += 1.5; } break;
-		case 6: if (x < W_WIDTH && z > 0) { x += 1.5; z -= 1.5; } break;
-		case 7: if (x > 0 && z > 0) { x -= 1.5; z -= 1.5; } break;
+		case 0: if (z > 93) z -= 3.f; break;
+		case 1: if (z < 171) z += 3.f; break;
+		case 2: if (x > -39) x -= 3.f; break;
+		case 3: if (x < 39) x += 3.f; break;
+		case 4: if (x < 39 && z < 171) { x += 1.5; z += 1.5; } break;
+		case 5: if (x > -39 && z < 171) { x -= 1.5; z += 1.5; } break;
+		case 6: if (x < 39 && z > 93) { x += 1.5; z -= 1.5; } break;
+		case 7: if (x > -39 && z > 93) { x -= 1.5; z -= 1.5; } break;
 		case 8: break;
 		}
 		clients[c_id].x = x;
@@ -829,7 +864,45 @@ void do_player_attack(int n_id, int c_id)
 			view_list.insert(cl._id);
 	}
 
-	if (clients[n_id]._type != 7) {
+	switch (clients[n_id]._type)
+	{
+	case MONSTER::GUN_ROBOT:
+	{
+		if (clients[n_id].x + 15.f >= clients[c_id].x && clients[n_id].x - 15.f <= clients[c_id].x) {
+			if (clients[n_id].z + 15.f >= clients[c_id].z && clients[n_id].z - 15.f <= clients[c_id].z) {
+				clients[n_id].isAttack = true;
+				//cout << "n_id: " << n_id << ", " << clients[n_id].isAttack << endl;
+			}
+		}
+		else if (clients[n_id].x + 30.f < clients[c_id].x && clients[n_id].x - 30.f > clients[c_id].x) {
+			if (clients[n_id].z + 30.f < clients[c_id].z && clients[n_id].z - 30.f > clients[c_id].z) {
+				clients[n_id].isAttack = false;
+				clients[n_id].targetId = -1;
+			}
+		}
+		else {
+			clients[n_id].isAttack = false;
+		}
+
+		if (!clients[n_id].isAttack) {
+			if (clients[n_id].x < clients[c_id].x) {
+				clients[n_id].x += 4.f;
+			}
+			else if (clients[n_id].x > clients[c_id].x) {
+				clients[n_id].x -= 4.f;
+			}
+
+			if (clients[n_id].z < clients[c_id].z) {
+				clients[n_id].z += 4.f;
+			}
+			else if (clients[n_id].z > clients[c_id].z) {
+				clients[n_id].z -= 4.f;
+			}
+		}
+		break;
+	}
+	case MONSTER::HUMAN_ROBOT:
+	{
 		if (clients[n_id].x + 5.f >= clients[c_id].x && clients[n_id].x - 5.f <= clients[c_id].x) {
 			if (clients[n_id].z + 5.f >= clients[c_id].z && clients[n_id].z - 5.f <= clients[c_id].z) {
 				clients[n_id].isAttack = true;
@@ -861,11 +934,18 @@ void do_player_attack(int n_id, int c_id)
 				clients[n_id].z -= 4.f;
 			}
 		}
+		break;
 	}
-	unordered_set<int> near_list;
+	case MONSTER::BOSS_TEST:
+	{
+		// TODO
+		break;
+	}
+	default:
+		break;
+	}
 
-	//cout << "player id: " << c_id << ", pos(" << clients[c_id].x << ", " << clients[c_id].y << ", " << clients[c_id].z << endl;
-	//cout << "monster id: " << n_id << ", pos(" << clients[n_id].x << ", " << clients[n_id].y << ", " << clients[n_id].z << endl;
+	unordered_set<int> near_list;
 
 	for (auto& cl : clients) {
 		if (cl._id >= MAX_USER) break;

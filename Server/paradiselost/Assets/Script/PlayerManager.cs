@@ -181,7 +181,7 @@ public class PlayerManager
             _myplayer.wDown = packet.wDown;
             //Debug.Log(packet.isJump);
             _myplayer.testJump = packet.isJump;
-            //_myplayer.transform.position = movePos;
+            _myplayer.transform.position = movePos;
 
             //Debug.Log(packet.hp);
 
