@@ -99,67 +99,41 @@ public class Inventory : MonoBehaviour
                             Destroy(other.gameObject);
                             break;
                         }
+                        else if (obj.value == 2)
+                        {
+                            ItemList[i] = Resources.Load<ItemParts>("Items/Weapon 2H Sword Item");
+                            gameUIManager.ItemTxt[i].text = "2H Sword";
+                            Destroy(other.gameObject);
+                            break;
+                        }
+                        else if (obj.value == 3)
+                        {
+                            ItemList[i] = Resources.Load<ItemParts>("Items/Weapon ShotGun Item ");
+                            gameUIManager.ItemTxt[i].text = "Shot Gun";
+                            Destroy(other.gameObject);
+                            break;
+                        }
                     }
                 }
                 
             }
-            else if (other.tag == "Body_Item")
+            else if (other.tag == "Potion")
             {
                 ItemParts obj = other.GetComponent<ItemParts>();
-
                 for (int i = 0; i < 9; ++i)
                 {
                     if (ItemList[i] == null)
                     {
-                        if (obj.type == 1)
+                        if (obj.value == 10)
                         {
-                            ItemList[i] = Resources.Load<ItemParts>("Items/Po_Body_Item");
-                            gameUIManager.ItemTxt[i].text = "Power Body";
+                            ItemList[i] = Resources.Load<ItemParts>("Items/HP Potion");
+                            gameUIManager.ItemTxt[i].text = "HP Potion";
+                            Destroy(other.gameObject);
+                            break;
                         }
-                        else if (obj.type == 2)
-                        {
-                            ItemList[i] = Resources.Load<ItemParts>("Items/Sh_Body_Item");
-                            gameUIManager.ItemTxt[i].text = "Shield Body";
-                        }
-                        else if (obj.type == 3)
-                        {
-                            ItemList[i] = Resources.Load<ItemParts>("Items/Sp_Body_Item");
-                            gameUIManager.ItemTxt[i].text = "Speed Body";
-                        }
-                        break;
                     }
                 }
-                Destroy(other.gameObject);
-                PlayerManager.Instance.item = null;
-            }
-            else if (other.tag == "Leg_Item")
-            {
-                ItemParts obj = other.GetComponent<ItemParts>();
 
-                for (int i = 0; i < 9; ++i)
-                {
-                    if (ItemList[i] == null)
-                    {
-                        if (obj.type == 1)
-                        {
-                            ItemList[i] = Resources.Load<ItemParts>("Items/Po_Leg_Item");
-                            gameUIManager.ItemTxt[i].text = "Power Leg";
-                        }
-                        if (obj.type == 2)
-                        {
-                            ItemList[i] = Resources.Load<ItemParts>("Items/Sh_Leg_Item");
-                            gameUIManager.ItemTxt[i].text = "Shield Leg";
-                        }
-                        if (obj.type == 3)
-                        {
-                            ItemList[i] = Resources.Load<ItemParts>("Items/Sp_Leg_Item");
-                            gameUIManager.ItemTxt[i].text = "Speed Leg";
-                        }
-                        break;
-                    }
-                }
-                Destroy(other.gameObject);
-                PlayerManager.Instance.item = null;
             }
         }
     }
