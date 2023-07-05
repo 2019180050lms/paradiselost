@@ -713,7 +713,7 @@ GameObject:
   - component: {fileID: 55737717}
   m_Layer: 0
   m_Name: C_Wall_Simple_2x2 (9)
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -811,7 +811,7 @@ GameObject:
   - component: {fileID: 74923403}
   m_Layer: 0
   m_Name: C_Floor_1_2x2 (28)
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -1003,7 +1003,7 @@ GameObject:
   - component: {fileID: 79016723}
   m_Layer: 0
   m_Name: C_Floor_1_2x2 (30)
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -1101,7 +1101,7 @@ GameObject:
   - component: {fileID: 83503490}
   m_Layer: 0
   m_Name: C_Floor_1_2x2 (33)
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -1825,7 +1825,7 @@ GameObject:
   - component: {fileID: 153323030}
   m_Layer: 0
   m_Name: C_Wall_Simple_2x2 (1)
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -2043,6 +2043,10 @@ PrefabInstance:
     - target: {fileID: 2691051793920565191, guid: 37a396ceaf040014b97a7c55185eb36c, type: 3}
       propertyPath: m_Name
       value: 'Weapon 2H Sword Item '
+      objectReference: {fileID: 0}
+    - target: {fileID: 2691051793920565191, guid: 37a396ceaf040014b97a7c55185eb36c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 37a396ceaf040014b97a7c55185eb36c, type: 3}
@@ -2295,7 +2299,7 @@ GameObject:
   - component: {fileID: 209913753}
   m_Layer: 0
   m_Name: C_Corner_In_2x2 (1)
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -3972,7 +3976,7 @@ GameObject:
   - component: {fileID: 332614860}
   m_Layer: 0
   m_Name: C_Floor_1_2x2 (29)
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -5105,7 +5109,7 @@ GameObject:
   - component: {fileID: 451749364}
   m_Layer: 0
   m_Name: C_Floor_1_2x2 (17)
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -5396,7 +5400,7 @@ GameObject:
   - component: {fileID: 478509369}
   m_Layer: 0
   m_Name: C_Floor_1_2x2 (22)
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -5494,7 +5498,7 @@ GameObject:
   - component: {fileID: 482395048}
   m_Layer: 0
   m_Name: C_Floor_1_2x2 (23)
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -5879,7 +5883,7 @@ GameObject:
   - component: {fileID: 513603755}
   m_Layer: 0
   m_Name: C_Corner_Out_2x2 (6)
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -6258,7 +6262,7 @@ GameObject:
   - component: {fileID: 540583714}
   m_Layer: 0
   m_Name: C_Wall_Simple_2x2 (21)
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -6779,7 +6783,7 @@ GameObject:
   - component: {fileID: 600260650}
   m_Layer: 0
   m_Name: C_Wall_Simple_2x2 (7)
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -7321,7 +7325,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -4216859302048453862, guid: 320b1c2af77554f99a1658df4a6d3d5c, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 320b1c2af77554f99a1658df4a6d3d5c, type: 3}
       propertyPath: m_LocalScale.x
@@ -7337,7 +7341,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 320b1c2af77554f99a1658df4a6d3d5c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -12
+      value: -22
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 320b1c2af77554f99a1658df4a6d3d5c, type: 3}
       propertyPath: m_LocalPosition.y
@@ -7345,7 +7349,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 320b1c2af77554f99a1658df4a6d3d5c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -108
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 320b1c2af77554f99a1658df4a6d3d5c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -7573,7 +7577,7 @@ GameObject:
   - component: {fileID: 707727602}
   m_Layer: 0
   m_Name: C_Floor_1_2x2 (32)
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -7671,7 +7675,7 @@ GameObject:
   - component: {fileID: 710716110}
   m_Layer: 0
   m_Name: C_Wall_Simple_2x2 (12)
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -7903,7 +7907,7 @@ GameObject:
   - component: {fileID: 711777846}
   m_Layer: 0
   m_Name: C_Floor_1_2x2 (35)
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -8650,7 +8654,7 @@ GameObject:
   - component: {fileID: 753770655}
   m_Layer: 0
   m_Name: C_Floor_1_2x2 (27)
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -9117,7 +9121,7 @@ GameObject:
   - component: {fileID: 806625661}
   m_Layer: 0
   m_Name: C_Wall_Simple_2x2 (18)
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -9779,7 +9783,7 @@ GameObject:
   - component: {fileID: 875973911}
   m_Layer: 0
   m_Name: C_Floor_1_2x2 (1)
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -10504,7 +10508,7 @@ GameObject:
   - component: {fileID: 961937430}
   m_Layer: 0
   m_Name: C_Floor_1_2x2 (26)
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -11837,7 +11841,7 @@ GameObject:
   - component: {fileID: 1121580445}
   m_Layer: 0
   m_Name: C_Floor_1_2x2 (4)
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -12168,7 +12172,7 @@ GameObject:
   - component: {fileID: 1139283674}
   m_Layer: 0
   m_Name: C_Floor_1_2x2 (3)
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -12266,7 +12270,7 @@ GameObject:
   - component: {fileID: 1139761031}
   m_Layer: 0
   m_Name: C_Wall_Simple_2x2 (14)
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -12364,7 +12368,7 @@ GameObject:
   - component: {fileID: 1155210040}
   m_Layer: 0
   m_Name: C_Floor_1_2x2 (34)
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -12631,7 +12635,7 @@ GameObject:
   - component: {fileID: 1164510060}
   m_Layer: 0
   m_Name: C_Wall_Simple_2x2 (17)
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -13916,7 +13920,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1306882630
 GameObject:
@@ -15190,7 +15194,7 @@ GameObject:
   - component: {fileID: 1438352586}
   m_Layer: 0
   m_Name: C_Corner_In_2x2 (2)
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -15685,7 +15689,7 @@ GameObject:
   - component: {fileID: 1466680241}
   m_Layer: 0
   m_Name: C_Floor_1_2x2 (2)
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -16188,7 +16192,7 @@ GameObject:
   - component: {fileID: 1499064987}
   m_Layer: 0
   m_Name: C_Wall_Simple_2x2 (13)
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -16945,7 +16949,7 @@ GameObject:
   - component: {fileID: 1550228318}
   m_Layer: 0
   m_Name: C_Floor_1_2x2 (21)
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -17177,7 +17181,7 @@ GameObject:
   - component: {fileID: 1571174078}
   m_Layer: 0
   m_Name: C_Floor_1_2x2 (20)
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -17523,7 +17527,7 @@ GameObject:
   - component: {fileID: 1616418212}
   m_Layer: 0
   m_Name: C_Wall_Simple_2x2 (22)
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -17719,7 +17723,7 @@ GameObject:
   - component: {fileID: 1623558323}
   m_Layer: 0
   m_Name: C_Wall_Simple_2x2 (23)
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -17858,6 +17862,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HP Potion
       objectReference: {fileID: 0}
+    - target: {fileID: 2691051793920565191, guid: 7814b2b4fd16b6c4a86c8350da259f6e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7814b2b4fd16b6c4a86c8350da259f6e, type: 3}
 --- !u!1 &1635965581
@@ -17874,7 +17882,7 @@ GameObject:
   - component: {fileID: 1635965583}
   m_Layer: 0
   m_Name: C_Wall_Simple_2x2 (24)
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -19576,7 +19584,7 @@ GameObject:
   - component: {fileID: 1775986082}
   m_Layer: 0
   m_Name: C_Floor_1_2x2 (19)
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -19772,7 +19780,7 @@ GameObject:
   - component: {fileID: 1783478584}
   m_Layer: 0
   m_Name: C_Floor_1_2x2 (36)
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -20345,7 +20353,7 @@ GameObject:
   - component: {fileID: 1816733493}
   m_Layer: 0
   m_Name: C_Wall_Simple_2x2 (16)
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -20739,7 +20747,7 @@ Transform:
   - {fileID: 1397251926}
   - {fileID: 731956698}
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1841546302
 GameObject:
@@ -20831,7 +20839,7 @@ GameObject:
   - component: {fileID: 1851123589}
   m_Layer: 0
   m_Name: C_Wall_Simple_2x2 (20)
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -20929,7 +20937,7 @@ GameObject:
   - component: {fileID: 1868342787}
   m_Layer: 0
   m_Name: C_Wall_Simple_2x2 (15)
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -21182,7 +21190,7 @@ GameObject:
   - component: {fileID: 1882497659}
   m_Layer: 0
   m_Name: C_Wall_Simple_2x2 (19)
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -21642,7 +21650,7 @@ GameObject:
   - component: {fileID: 1927914141}
   m_Layer: 0
   m_Name: C_Corner_Out_2x2 (5)
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -22595,6 +22603,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: 'Weapon ShotGun Item '
       objectReference: {fileID: 0}
+    - target: {fileID: 8585768932412473467, guid: 470efe8b755cd2248ac4a9a6b977b806, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 470efe8b755cd2248ac4a9a6b977b806, type: 3}
 --- !u!1 &2035250228
@@ -22882,7 +22894,7 @@ GameObject:
   - component: {fileID: 2075522504}
   m_Layer: 5
   m_Name: Text (Legacy)
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -23471,7 +23483,7 @@ GameObject:
   - component: {fileID: 2130946303}
   m_Layer: 0
   m_Name: C_Floor_1_2x2 (31)
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -42762,7 +42774,7 @@ GameObject:
   - component: {fileID: 7142003560671167875}
   m_Layer: 0
   m_Name: C_Doorway_Thin_2x4
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -43555,7 +43567,7 @@ GameObject:
   - component: {fileID: 7142003560713336570}
   m_Layer: 0
   m_Name: C_Floor_1_2x2
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -43776,7 +43788,7 @@ GameObject:
   - component: {fileID: 7142003560737005863}
   m_Layer: 0
   m_Name: C_Floor_1_2x2
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -44080,7 +44092,7 @@ GameObject:
   - component: {fileID: 7142003560733035062}
   m_Layer: 0
   m_Name: C_Wall_Simple_2x2
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -44293,7 +44305,7 @@ GameObject:
   - component: {fileID: 7142003560757075765}
   m_Layer: 0
   m_Name: C_Floor_1_2x2
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -45904,7 +45916,7 @@ GameObject:
   - component: {fileID: 7142003560837196347}
   m_Layer: 0
   m_Name: C_Floor_1_2x2
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -48470,7 +48482,7 @@ GameObject:
   - component: {fileID: 7142003561074240020}
   m_Layer: 0
   m_Name: C_Floor_1_2x2
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -49712,7 +49724,7 @@ GameObject:
   - component: {fileID: 7142003561150311165}
   m_Layer: 0
   m_Name: C_Floor_1_2x2
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -50218,7 +50230,7 @@ GameObject:
   - component: {fileID: 7142003561181457185}
   m_Layer: 0
   m_Name: C_Floor_1_2x2
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -50364,7 +50376,7 @@ GameObject:
   - component: {fileID: 7142003561200828293}
   m_Layer: 0
   m_Name: C_Floor_1_2x2
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -50477,7 +50489,7 @@ GameObject:
   - component: {fileID: 7142003561209271874}
   m_Layer: 0
   m_Name: C_Floor_1_2x2
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -50672,7 +50684,7 @@ GameObject:
   - component: {fileID: 7142003561238432497}
   m_Layer: 0
   m_Name: C_Floor_1_2x2
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -51309,7 +51321,7 @@ GameObject:
   - component: {fileID: 7142003561304079357}
   m_Layer: 0
   m_Name: C_Floor_1_2x2
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -53048,7 +53060,7 @@ GameObject:
   - component: {fileID: 7142003561391880049}
   m_Layer: 0
   m_Name: C_Corner_In_2x2
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -53082,7 +53094,7 @@ GameObject:
   - component: {fileID: 7142003561392419364}
   m_Layer: 0
   m_Name: C_Floor_1_2x2
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -53944,7 +53956,7 @@ GameObject:
   - component: {fileID: 7142003561461240768}
   m_Layer: 0
   m_Name: C_Floor_1_2x2
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -54090,7 +54102,7 @@ GameObject:
   - component: {fileID: 7142003561456704901}
   m_Layer: 0
   m_Name: C_Floor_1_2x2
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -55351,7 +55363,7 @@ GameObject:
   - component: {fileID: 7142003561557337836}
   m_Layer: 0
   m_Name: C_Doorway_Thin_2x4
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -56958,7 +56970,7 @@ GameObject:
   - component: {fileID: 7142003561584038360}
   m_Layer: 0
   m_Name: C_Floor_1_2x2
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -57147,7 +57159,7 @@ GameObject:
   - component: {fileID: 7142003561582787943}
   m_Layer: 0
   m_Name: C_Floor_1_2x2
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -60958,7 +60970,7 @@ GameObject:
   - component: {fileID: 7142003561885856363}
   m_Layer: 0
   m_Name: C_Floor_1_2x2
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -61208,7 +61220,7 @@ GameObject:
   - component: {fileID: 7142003561910608917}
   m_Layer: 0
   m_Name: C_Floor_1_2x2
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -61872,7 +61884,7 @@ GameObject:
   - component: {fileID: 7142003561940074959}
   m_Layer: 0
   m_Name: C_Floor_1_2x2
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -62411,7 +62423,7 @@ GameObject:
   - component: {fileID: 7142003561985065078}
   m_Layer: 0
   m_Name: C_Corner_In_2x2
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -63279,7 +63291,7 @@ GameObject:
   - component: {fileID: 7142003562046858434}
   m_Layer: 0
   m_Name: C_Floor_1_2x2
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -64613,7 +64625,7 @@ GameObject:
   - component: {fileID: 7142003562100674367}
   m_Layer: 0
   m_Name: C_Floor_1_2x2
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -65035,7 +65047,7 @@ GameObject:
   - component: {fileID: 7142003562162064470}
   m_Layer: 0
   m_Name: C_Floor_1_2x2
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -65767,7 +65779,7 @@ GameObject:
   - component: {fileID: 7142003562264676069}
   m_Layer: 0
   m_Name: C_Floor_1_2x2
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -65805,7 +65817,7 @@ GameObject:
   - component: {fileID: 7142003562262484803}
   m_Layer: 0
   m_Name: C_Floor_1_2x2
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -66032,7 +66044,7 @@ GameObject:
   - component: {fileID: 7142003562268825995}
   m_Layer: 0
   m_Name: C_Wall_Simple_2x4
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -66915,7 +66927,7 @@ GameObject:
   - component: {fileID: 7142003562337497818}
   m_Layer: 0
   m_Name: C_Floor_1_2x2
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -67540,7 +67552,7 @@ GameObject:
   - component: {fileID: 7142003562402760859}
   m_Layer: 0
   m_Name: C_Floor_1_2x2
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -68046,7 +68058,7 @@ GameObject:
   - component: {fileID: 7142003562480916095}
   m_Layer: 0
   m_Name: AC_Doorway_Wide_2x4
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -68713,7 +68725,7 @@ GameObject:
   - component: {fileID: 7142003562572763467}
   m_Layer: 0
   m_Name: C_Floor_1_2x2
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -68874,7 +68886,7 @@ GameObject:
   - component: {fileID: 7142003562579982241}
   m_Layer: 0
   m_Name: C_Wall_Simple_2x4
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -70143,7 +70155,7 @@ GameObject:
   - component: {fileID: 7142003562683065619}
   m_Layer: 0
   m_Name: C_Floor_1_2x2
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -70191,7 +70203,7 @@ GameObject:
   - component: {fileID: 7142003562693094013}
   m_Layer: 0
   m_Name: C_Floor_1_2x2
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295

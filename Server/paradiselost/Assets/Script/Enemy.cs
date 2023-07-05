@@ -32,6 +32,7 @@ public class Enemy : MonoBehaviour
     public HitBox hitBox;
     public Animator anim;
     public Transform bulletPos;
+    public Transform bulletPos2;
     public GameObject bullet;
     public GameObject hitEffect;
     
@@ -52,6 +53,7 @@ public class Enemy : MonoBehaviour
         hitBox = GetComponent<HitBox>();
         ps = GetComponentInChildren<ParticleSystem>();
         bulletPos = transform.GetChild(2);
+        bulletPos2 = transform.GetChild(3);
         // 사운드
         audioSource = gameObject.AddComponent<AudioSource>();
         soundManager = GetComponent<SoundManager>();
@@ -209,10 +211,17 @@ public class Enemy : MonoBehaviour
         GameObject intantBullet = Instantiate(Resources.Load("EnemyBullet", typeof(GameObject)), bulletPos.position, bulletPos.rotation) as GameObject;
         Rigidbody bulletRigid = intantBullet.GetComponent<Rigidbody>();
         BossMissile test = intantBullet.AddComponent<BossMissile>();
+
+        GameObject intantBullet2 = Instantiate(Resources.Load("EnemyBullet", typeof(GameObject)), bulletPos2.position, bulletPos2.rotation) as GameObject;
+        Rigidbody bulletRigid2 = intantBullet2.GetComponent<Rigidbody>();
+        BossMissile test2 = intantBullet2.AddComponent<BossMissile>();
+
         test.enemyId = enemyId;
         Debug.Log("Shoot 코루틴 ");
         bulletRigid.velocity = bulletPos.forward * 90;
+        bulletRigid2.velocity = bulletPos.forward * 90;
         Destroy(intantBullet, 3f);
+        Destroy(intantBullet2, 3f);
         //yield return new WaitForSeconds(1f);
         isAttack = false;
 
