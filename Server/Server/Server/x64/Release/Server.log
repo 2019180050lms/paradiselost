@@ -11,7 +11,7 @@ C:\Users\GIGABYTE\OneDrive - 한국산업기술대학교\바탕 화면\수업\�
 C:\Users\GIGABYTE\OneDrive - 한국산업기술대학교\바탕 화면\수업\공부\졸작\paradiselost\Server\Server\Server\main.cpp(775,41): warning C4305: '=': 'double'에서 'float'(으)로 잘립니다.
 LINK : warning LNK4098: 'LIBCMT' defaultlib가 다른 라이브러리와 충돌합니다. /NODEFAULTLIB:library를 사용하십시오.
   코드를 생성하고 있습니다.
-  1 of 464 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
+  2 of 502 functions ( 0.4%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
     1 functions had inline decision re-evaluated but remain unchanged
   코드를 생성했습니다.

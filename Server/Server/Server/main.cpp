@@ -157,7 +157,7 @@ mutex _db_l;
 SOCKET g_s_socket, g_c_socket;
 OVER_EXP g_a_over;
 
-enum EVENT_TYPE { EV_RANDOM_MOVE, EV_HEAL, EV_ATTACK };
+enum EVENT_TYPE { EV_RANDOM_MOVE, EV_HEAL, EV_ATTACK, EV_BOSS, EV_RESPAWN };
 
 struct EVENT {
 	int _oid;
@@ -1051,20 +1051,37 @@ void do_timer(HANDLE h_iocp)
 		g_tl.lock();
 		if (g_timer_queue.empty() == true) {
 			g_tl.unlock();
-			//this_thread::sleep_for(10ms);
+			this_thread::sleep_for(1ms);
 			continue;
 		}
 		auto ev = g_timer_queue.top();
 		if (ev._exec_time > chrono::system_clock::now()) {
 			g_tl.unlock();
-			//this_thread::sleep_for(10ms);
+			this_thread::sleep_for(1ms);
 			continue;
 		}
 		g_timer_queue.pop();
 		g_tl.unlock();
-		OVER_EXP* exover = new OVER_EXP;
-		exover->_comp_type = OP_NPC_AI;
-		PostQueuedCompletionStatus(h_iocp, 1, ev._oid, &exover->_over);
+		switch (ev._type)
+		{
+		case EV_RANDOM_MOVE: {
+			OVER_EXP* exover = new OVER_EXP;
+			exover->_comp_type = OP_NPC_AI;
+			PostQueuedCompletionStatus(h_iocp, 1, ev._oid, &exover->_over);
+			break;
+		}
+		case EV_ATTACK: {
+			break;
+		}
+		case EV_HEAL: {
+			break;
+		}
+		case EV_RESPAWN: {
+			break;
+		}
+		default:
+			break;
+		}
 	}
 }
 
