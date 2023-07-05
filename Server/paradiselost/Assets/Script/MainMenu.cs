@@ -14,7 +14,7 @@ public class MainMenu : MonoBehaviour
     public int charType = 0;
 
     public InputField playerIDInput;
-    private string playerID = null;
+    private string playerID = NetworkManager.Instance.id;
 
     
 

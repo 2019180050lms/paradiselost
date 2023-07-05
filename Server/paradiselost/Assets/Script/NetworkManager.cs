@@ -8,6 +8,8 @@ using UnityEngine;
 
 public class NetworkManager : MonoBehaviour
 {
+	public string id;
+	public static NetworkManager Instance { get; } = new NetworkManager();
 	ServerSession _session = new ServerSession();
 	public void Send(ArraySegment<byte> sendBuff)
     {
