@@ -66,6 +66,7 @@ public:
 	int exp, level;
 	short _hp;
 	float	x, y, z;
+	float	my_max_x, my_max_z, my_min_x, my_min_z;
 	bool isAttack, isJump;
 	short bossAttack;
 	int targetId;
@@ -88,6 +89,10 @@ public:
 		_prev_remain = 0;
 		targetId = -1;
 		bossAttack = -1;
+		my_max_x = 0.f;
+		my_max_z = 0.f;
+		my_min_x = 0.f;
+		my_min_z = 0.f;
 	}
 
 	~SESSION() {}
@@ -383,7 +388,7 @@ void process_packet(int c_id, char* packet)
 
 		//if(p->x < -25 || p->x > 38)
 
-		if (p->y < -0.3f)
+		if (p->y < -5.f)
 		{
 			clients[c_id].x = -16;
 			clients[c_id].y = -0.1f;
@@ -732,6 +737,89 @@ int API_SendMessage(lua_State* L)
 void InitializeNPC()
 {
 	cout << "NPC intialize begin.\n";
+	// 1번 위치 몬스터
+	clients[MAX_USER]._hp = 100;
+	clients[MAX_USER].x = 5.f;
+	clients[MAX_USER].y = -3.f;
+	clients[MAX_USER].z = 121.f;
+	clients[MAX_USER].my_max_x = 7.f;
+	clients[MAX_USER].my_max_z = 142.f;
+	clients[MAX_USER].my_min_x = -13.f;
+	clients[MAX_USER].my_min_z = 87.f;
+	clients[MAX_USER]._type = GUN_ROBOT;
+	clients[MAX_USER]._id = MAX_USER;
+	clients[MAX_USER]._socket = NULL;
+	clients[MAX_USER].targetId = -1;
+	clients[MAX_USER]._state = ST_INGAME;
+	wprintf_s(clients[MAX_USER]._name, "N%d", MAX_USER);
+	lua_State* L = clients[500]._L = luaL_newstate();
+	luaL_openlibs(L);
+	luaL_loadfile(L, "npc.lua");
+	lua_pcall(L, 0, 0, 0);
+	lua_getglobal(L, "set_uid");
+	lua_pushnumber(L, MAX_USER);
+	lua_pcall(L, 1, 0, 0);
+	lua_pop(L, 1);
+	lua_register(L, "API_SendMessage", API_SendMessage);
+	lua_register(L, "API_get_x", API_get_x);
+	lua_register(L, "API_get_y", API_get_y);
+	lua_register(L, "API_add_timer", API_add_timer);
+	// 2번 위치 몬스터
+	clients[MAX_USER + 1]._hp = 100;
+	clients[MAX_USER + 1].x = 1.f;
+	clients[MAX_USER + 1].y = -3.f;
+	clients[MAX_USER + 1].z = 175.f;
+	clients[MAX_USER + 1].my_max_x = 8.f;
+	clients[MAX_USER + 1].my_max_z = 180.f;
+	clients[MAX_USER + 1].my_min_x = -13.f;
+	clients[MAX_USER + 1].my_min_z = 146.f;
+	clients[MAX_USER + 1]._type = GUN_ROBOT;
+	clients[MAX_USER + 1]._id = MAX_USER + 1;
+	clients[MAX_USER + 1]._socket = NULL;
+	clients[MAX_USER + 1].targetId = -1;
+	clients[MAX_USER + 1]._state = ST_INGAME;
+	wprintf_s(clients[MAX_USER]._name, "N%d", MAX_USER + 1);
+	lua_State* L1 = clients[501]._L = luaL_newstate();
+	luaL_openlibs(L1);
+	luaL_loadfile(L1, "npc.lua");
+	lua_pcall(L1, 0, 0, 0);
+	lua_getglobal(L1, "set_uid");
+	lua_pushnumber(L1, MAX_USER + 1);
+	lua_pcall(L1, 1, 0, 0);
+	lua_pop(L1, 1);
+	lua_register(L1, "API_SendMessage", API_SendMessage);
+	lua_register(L1, "API_get_x", API_get_x);
+	lua_register(L1, "API_get_y", API_get_y);
+	lua_register(L1, "API_add_timer", API_add_timer);
+	// 2번 위치 몬스터
+	clients[MAX_USER + 2]._hp = 100;
+	clients[MAX_USER + 2].x = 59.f;
+	clients[MAX_USER + 2].y = -3.f;
+	clients[MAX_USER + 2].z = 174.f;
+	clients[MAX_USER + 2].my_max_x = 74.f;
+	clients[MAX_USER + 2].my_max_z = 188.f;
+	clients[MAX_USER + 2].my_min_x = 50.f;
+	clients[MAX_USER + 2].my_min_z = 146.f;
+	clients[MAX_USER + 2]._type = GUN_ROBOT;
+	clients[MAX_USER + 2]._id = MAX_USER + 2;
+	clients[MAX_USER + 2]._socket = NULL;
+	clients[MAX_USER + 2].targetId = -1;
+	clients[MAX_USER + 2]._state = ST_INGAME;
+	wprintf_s(clients[MAX_USER]._name, "N%d", MAX_USER + 2);
+	lua_State* L2 = clients[502]._L = luaL_newstate();
+	luaL_openlibs(L2);
+	luaL_loadfile(L2, "npc.lua");
+	lua_pcall(L2, 0, 0, 0);
+	lua_getglobal(L2, "set_uid");
+	lua_pushnumber(L2, MAX_USER + 2);
+	lua_pcall(L2, 1, 0, 0);
+	lua_pop(L2, 1);
+	lua_register(L2, "API_SendMessage", API_SendMessage);
+	lua_register(L2, "API_get_x", API_get_x);
+	lua_register(L2, "API_get_y", API_get_y);
+	lua_register(L2, "API_add_timer", API_add_timer);
+
+	/*
 	float z = 0.f;
 	for (int i = MAX_USER; i < MAX_USER + MAX_NPC - 1; ++i) {
 		clients[i]._hp = 100;
@@ -763,6 +851,7 @@ void InitializeNPC()
 		lua_register(L, "API_add_timer", API_add_timer);
 	}
 	z = 0;
+	*/
 	cout << "NPC initialize end.\n";
 }
 
@@ -799,14 +888,14 @@ void do_random_move(int c_id)
 		float z = clients[c_id].z;
 		int dir = rand() % 9;
 		switch (dir) {
-		case 0: if (z > 93) z -= 3.f; break;
-		case 1: if (z < 171) z += 3.f; break;
-		case 2: if (x > -39) x -= 3.f; break;
-		case 3: if (x < 39) x += 3.f; break;
-		case 4: if (x < 39 && z < 171) { x += 1.5; z += 1.5; } break;
-		case 5: if (x > -39 && z < 171) { x -= 1.5; z += 1.5; } break;
-		case 6: if (x < 39 && z > 93) { x += 1.5; z -= 1.5; } break;
-		case 7: if (x > -39 && z > 93) { x -= 1.5; z -= 1.5; } break;
+		case 0: if (z > clients[c_id].my_min_z) z -= 3.f; break;
+		case 1: if (z < clients[c_id].my_max_z) z += 3.f; break;
+		case 2: if (x > clients[c_id].my_min_x) x -= 3.f; break;
+		case 3: if (x < clients[c_id].my_max_x) x += 3.f; break;
+		case 4: if (x < clients[c_id].my_max_x && z < clients[c_id].my_max_z) { x += 1.5; z += 1.5; } break;
+		case 5: if (x > clients[c_id].my_min_x && z < clients[c_id].my_max_z) { x -= 1.5; z += 1.5; } break;
+		case 6: if (x < clients[c_id].my_max_x && z > clients[c_id].my_min_z) { x += 1.5; z -= 1.5; } break;
+		case 7: if (x > clients[c_id].my_min_x && z > clients[c_id].my_min_z) { x -= 1.5; z -= 1.5; } break;
 		case 8: break;
 		}
 		clients[c_id].x = x;
