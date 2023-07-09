@@ -815,12 +815,10 @@ public class PlayerManager
             enemy.ps = go.GetComponentInChildren<ParticleSystem>();
             enemy.posVec = new Vector3(packet.posX, packet.posY, packet.posZ);
             _enemys.Add(packet.playerId, enemy);
-
-            Debug.Log("Monster 생성");
         }
         else if (packet.type == 6)
         {
-            Object obj = Resources.Load("Monster_Spider");
+            Object obj = Resources.Load("Monster/Robot1");
             GameObject go = Object.Instantiate(obj) as GameObject;
             Enemy enemy = go.AddComponent<Enemy>();
             enemy.enabled = true;

@@ -19,8 +19,8 @@
 #pragma comment(lib, "lua54.lib")
 using namespace std;
 
-constexpr int VIEW_RANGE = 100;
-constexpr int MAX_NPC = 4;
+constexpr int VIEW_RANGE = 500;
+constexpr int MAX_NPC = 12;
 
 char map[W_HEIGHT][W_WIDTH];
 
@@ -737,88 +737,141 @@ int API_SendMessage(lua_State* L)
 void InitializeNPC()
 {
 	cout << "NPC intialize begin.\n";
-	// 1번 위치 몬스터
-	clients[MAX_USER]._hp = 100;
-	clients[MAX_USER].x = 5.f;
-	clients[MAX_USER].y = -3.f;
-	clients[MAX_USER].z = 121.f;
-	clients[MAX_USER].my_max_x = 7.f;
-	clients[MAX_USER].my_max_z = 142.f;
-	clients[MAX_USER].my_min_x = -13.f;
-	clients[MAX_USER].my_min_z = 87.f;
-	clients[MAX_USER]._type = GUN_ROBOT;
-	clients[MAX_USER]._id = MAX_USER;
-	clients[MAX_USER]._socket = NULL;
-	clients[MAX_USER].targetId = -1;
-	clients[MAX_USER]._state = ST_INGAME;
-	wprintf_s(clients[MAX_USER]._name, "N%d", MAX_USER);
-	lua_State* L = clients[500]._L = luaL_newstate();
-	luaL_openlibs(L);
-	luaL_loadfile(L, "npc.lua");
-	lua_pcall(L, 0, 0, 0);
-	lua_getglobal(L, "set_uid");
-	lua_pushnumber(L, MAX_USER);
-	lua_pcall(L, 1, 0, 0);
-	lua_pop(L, 1);
-	lua_register(L, "API_SendMessage", API_SendMessage);
-	lua_register(L, "API_get_x", API_get_x);
-	lua_register(L, "API_get_y", API_get_y);
-	lua_register(L, "API_add_timer", API_add_timer);
-	// 2번 위치 몬스터
-	clients[MAX_USER + 1]._hp = 100;
-	clients[MAX_USER + 1].x = 1.f;
-	clients[MAX_USER + 1].y = -3.f;
-	clients[MAX_USER + 1].z = 175.f;
-	clients[MAX_USER + 1].my_max_x = 8.f;
-	clients[MAX_USER + 1].my_max_z = 180.f;
-	clients[MAX_USER + 1].my_min_x = -13.f;
-	clients[MAX_USER + 1].my_min_z = 146.f;
-	clients[MAX_USER + 1]._type = GUN_ROBOT;
-	clients[MAX_USER + 1]._id = MAX_USER + 1;
-	clients[MAX_USER + 1]._socket = NULL;
-	clients[MAX_USER + 1].targetId = -1;
-	clients[MAX_USER + 1]._state = ST_INGAME;
-	wprintf_s(clients[MAX_USER]._name, "N%d", MAX_USER + 1);
-	lua_State* L1 = clients[501]._L = luaL_newstate();
-	luaL_openlibs(L1);
-	luaL_loadfile(L1, "npc.lua");
-	lua_pcall(L1, 0, 0, 0);
-	lua_getglobal(L1, "set_uid");
-	lua_pushnumber(L1, MAX_USER + 1);
-	lua_pcall(L1, 1, 0, 0);
-	lua_pop(L1, 1);
-	lua_register(L1, "API_SendMessage", API_SendMessage);
-	lua_register(L1, "API_get_x", API_get_x);
-	lua_register(L1, "API_get_y", API_get_y);
-	lua_register(L1, "API_add_timer", API_add_timer);
-	// 2번 위치 몬스터
-	clients[MAX_USER + 2]._hp = 100;
-	clients[MAX_USER + 2].x = 59.f;
-	clients[MAX_USER + 2].y = -3.f;
-	clients[MAX_USER + 2].z = 174.f;
-	clients[MAX_USER + 2].my_max_x = 74.f;
-	clients[MAX_USER + 2].my_max_z = 188.f;
-	clients[MAX_USER + 2].my_min_x = 50.f;
-	clients[MAX_USER + 2].my_min_z = 146.f;
-	clients[MAX_USER + 2]._type = GUN_ROBOT;
-	clients[MAX_USER + 2]._id = MAX_USER + 2;
-	clients[MAX_USER + 2]._socket = NULL;
-	clients[MAX_USER + 2].targetId = -1;
-	clients[MAX_USER + 2]._state = ST_INGAME;
-	wprintf_s(clients[MAX_USER]._name, "N%d", MAX_USER + 2);
-	lua_State* L2 = clients[502]._L = luaL_newstate();
-	luaL_openlibs(L2);
-	luaL_loadfile(L2, "npc.lua");
-	lua_pcall(L2, 0, 0, 0);
-	lua_getglobal(L2, "set_uid");
-	lua_pushnumber(L2, MAX_USER + 2);
-	lua_pcall(L2, 1, 0, 0);
-	lua_pop(L2, 1);
-	lua_register(L2, "API_SendMessage", API_SendMessage);
-	lua_register(L2, "API_get_x", API_get_x);
-	lua_register(L2, "API_get_y", API_get_y);
-	lua_register(L2, "API_add_timer", API_add_timer);
+	int i = 0;
+	for(i=0; i<3; ++i)
 
+	// 1번 위치 몬스터
+	{
+		clients[MAX_USER + i]._hp = 100;
+		clients[MAX_USER + i].x = -40.f;
+		clients[MAX_USER + i].y = -1.5f;
+		clients[MAX_USER + i].z = 104.f;
+		clients[MAX_USER + i].my_max_x = -17.f;
+		clients[MAX_USER + i].my_max_z = 124.f;
+		clients[MAX_USER + i].my_min_x = -70.f;
+		clients[MAX_USER + i].my_min_z = 85.f;
+		if (i % 2 == 0)
+			clients[MAX_USER + i]._type = GUN_ROBOT;
+		else
+			clients[MAX_USER + i]._type = HUMAN_ROBOT;
+		clients[MAX_USER + i]._id = MAX_USER + i;
+		clients[MAX_USER + i]._socket = NULL;
+		clients[MAX_USER + i].targetId = -1;
+		clients[MAX_USER + i]._state = ST_INGAME;
+		wprintf_s(clients[MAX_USER + i]._name, "N%d", MAX_USER + i);
+		lua_State* L = clients[MAX_USER + i]._L = luaL_newstate();
+		luaL_openlibs(L);
+		luaL_loadfile(L, "npc.lua");
+		lua_pcall(L, 0, 0, 0);
+		lua_getglobal(L, "set_uid");
+		lua_pushnumber(L, MAX_USER);
+		lua_pcall(L, 1, 0, 0);
+		lua_pop(L, 1);
+		lua_register(L, "API_SendMessage", API_SendMessage);
+		lua_register(L, "API_get_x", API_get_x);
+		lua_register(L, "API_get_y", API_get_y);
+		lua_register(L, "API_add_timer", API_add_timer);
+	}
+	// 2번 위치 몬스터
+	for(i = 3;i< 6; ++i)
+	{
+		clients[MAX_USER + i]._hp = 100;
+		clients[MAX_USER + i].x = 49.f;
+		clients[MAX_USER + i].y = -1.5f;
+		clients[MAX_USER + i].z = 88.f;
+		clients[MAX_USER + i].my_max_x = 68.f;
+		clients[MAX_USER + i].my_max_z = 99.f;
+		clients[MAX_USER + i].my_min_x = 33.f;
+		clients[MAX_USER + i].my_min_z = 47.f;
+		if (i % 2 == 0)
+			clients[MAX_USER + i]._type = GUN_ROBOT;
+		else
+			clients[MAX_USER + i]._type = HUMAN_ROBOT;
+		clients[MAX_USER + i]._id = MAX_USER + i;
+		clients[MAX_USER + i]._socket = NULL;
+		clients[MAX_USER + i].targetId = -1;
+		clients[MAX_USER + i]._state = ST_INGAME;
+		wprintf_s(clients[MAX_USER + i]._name, "N%d", MAX_USER + i);
+		lua_State* L1 = clients[MAX_USER + i]._L = luaL_newstate();
+		luaL_openlibs(L1);
+		luaL_loadfile(L1, "npc.lua");
+		lua_pcall(L1, 0, 0, 0);
+		lua_getglobal(L1, "set_uid");
+		lua_pushnumber(L1, MAX_USER + i);
+		lua_pcall(L1, 1, 0, 0);
+		lua_pop(L1, 1);
+		lua_register(L1, "API_SendMessage", API_SendMessage);
+		lua_register(L1, "API_get_x", API_get_x);
+		lua_register(L1, "API_get_y", API_get_y);
+		lua_register(L1, "API_add_timer", API_add_timer);
+	}
+	for(i = 6; i<9; ++i)
+	// 3번 위치 몬스터
+	{
+		clients[MAX_USER + i]._hp = 100;
+		clients[MAX_USER + i].x = -41.f;
+		clients[MAX_USER + i].y = -1.5f;
+		clients[MAX_USER + i].z = 165.f;
+		clients[MAX_USER + i].my_max_x = -13.f;
+		clients[MAX_USER + i].my_max_z = 183.f;
+		clients[MAX_USER + i].my_min_x = -66.f;
+		clients[MAX_USER + i].my_min_z = 145.f;
+		if (i % 2 == 0)
+			clients[MAX_USER + i]._type = GUN_ROBOT;
+		else
+			clients[MAX_USER + i]._type = HUMAN_ROBOT;
+		clients[MAX_USER + i]._id = MAX_USER + i;
+		clients[MAX_USER + i]._socket = NULL;
+		clients[MAX_USER + i].targetId = -1;
+		clients[MAX_USER + i]._state = ST_INGAME;
+		wprintf_s(clients[MAX_USER + i]._name, "N%d", MAX_USER + i);
+		lua_State* L2 = clients[MAX_USER + i]._L = luaL_newstate();
+		luaL_openlibs(L2);
+		luaL_loadfile(L2, "npc.lua");
+		lua_pcall(L2, 0, 0, 0);
+		lua_getglobal(L2, "set_uid");
+		lua_pushnumber(L2, MAX_USER + i);
+		lua_pcall(L2, 1, 0, 0);
+		lua_pop(L2, 1);
+		lua_register(L2, "API_SendMessage", API_SendMessage);
+		lua_register(L2, "API_get_x", API_get_x);
+		lua_register(L2, "API_get_y", API_get_y);
+		lua_register(L2, "API_add_timer", API_add_timer);
+	}
+
+	for (i = 9; i < 12; ++i)
+		// 4번 위치 몬스터
+	{
+		clients[MAX_USER + i]._hp = 100;
+		clients[MAX_USER + i].x = 120.f;
+		clients[MAX_USER + i].y = -1.5f;
+		clients[MAX_USER + i].z = 174.f;
+		clients[MAX_USER + i].my_max_x = 142.f;
+		clients[MAX_USER + i].my_max_z = 196.f;
+		clients[MAX_USER + i].my_min_x = 95.f;
+		clients[MAX_USER + i].my_min_z = 154.f;
+		if (i % 2 == 0)
+			clients[MAX_USER + i]._type = GUN_ROBOT;
+		else
+			clients[MAX_USER + i]._type = HUMAN_ROBOT;
+		clients[MAX_USER + i]._id = MAX_USER + i;
+		clients[MAX_USER + i]._socket = NULL;
+		clients[MAX_USER + i].targetId = -1;
+		clients[MAX_USER + i]._state = ST_INGAME;
+		wprintf_s(clients[MAX_USER + i]._name, "N%d", MAX_USER + i);
+		lua_State* L2 = clients[MAX_USER + i]._L = luaL_newstate();
+		luaL_openlibs(L2);
+		luaL_loadfile(L2, "npc.lua");
+		lua_pcall(L2, 0, 0, 0);
+		lua_getglobal(L2, "set_uid");
+		lua_pushnumber(L2, MAX_USER + i);
+		lua_pcall(L2, 1, 0, 0);
+		lua_pop(L2, 1);
+		lua_register(L2, "API_SendMessage", API_SendMessage);
+		lua_register(L2, "API_get_x", API_get_x);
+		lua_register(L2, "API_get_y", API_get_y);
+		lua_register(L2, "API_add_timer", API_add_timer);
+	}
 	/*
 	float z = 0.f;
 	for (int i = MAX_USER; i < MAX_USER + MAX_NPC - 1; ++i) {
@@ -860,9 +913,9 @@ void add_boss()
 	clients[MAX_USER + MAX_NPC - 1]._id = MAX_USER + MAX_NPC - 1;
 	clients[MAX_USER + MAX_NPC - 1]._type = 7;
 	clients[MAX_USER + MAX_NPC - 1]._hp = 1000;
-	clients[MAX_USER + MAX_NPC - 1].x = 1.f;
-	clients[MAX_USER + MAX_NPC - 1].y = 0.2;
-	clients[MAX_USER + MAX_NPC - 1].z = 170.f;
+	clients[MAX_USER + MAX_NPC - 1].x = 265.f;
+	clients[MAX_USER + MAX_NPC - 1].y = -2.83f;
+	clients[MAX_USER + MAX_NPC - 1].z = 175.f;
 	clients[MAX_USER + MAX_NPC - 1]._dir = 4;
 	clients[MAX_USER + MAX_NPC - 1]._socket = NULL;
 	clients[MAX_USER + MAX_NPC - 1].targetId = -1;

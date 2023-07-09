@@ -68,7 +68,7 @@ public class MyPlayer : Player
         weapons[2].SetActive(false);
         weapons[3].SetActive(false);
         equipWeaponIndex = 4;
-
+        
     }
 
 
