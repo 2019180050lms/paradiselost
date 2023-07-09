@@ -20,7 +20,7 @@
 using namespace std;
 
 constexpr int VIEW_RANGE = 500;
-constexpr int MAX_NPC = 12;
+constexpr int MAX_NPC = 13;
 
 char map[W_HEIGHT][W_WIDTH];
 
@@ -913,7 +913,7 @@ void add_boss()
 	clients[MAX_USER + MAX_NPC - 1]._id = MAX_USER + MAX_NPC - 1;
 	clients[MAX_USER + MAX_NPC - 1]._type = 7;
 	clients[MAX_USER + MAX_NPC - 1]._hp = 1000;
-	clients[MAX_USER + MAX_NPC - 1].x = 265.f;
+	clients[MAX_USER + MAX_NPC - 1].x = 269.f;
 	clients[MAX_USER + MAX_NPC - 1].y = -2.83f;
 	clients[MAX_USER + MAX_NPC - 1].z = 175.f;
 	clients[MAX_USER + MAX_NPC - 1]._dir = 4;
