@@ -218,6 +218,22 @@ public class Player : MonoBehaviour
             weapons[3].SetActive(false);
         }
 
+        if (setActiveWeapon == 3)
+        {
+            weapons[0].SetActive(false);
+            weapons[1].SetActive(false);
+            weapons[2].SetActive(true);
+            weapons[3].SetActive(false);
+        }
+
+        if (setActiveWeapon == 4)
+        {
+            weapons[0].SetActive(false);
+            weapons[1].SetActive(false);
+            weapons[2].SetActive(false);
+            weapons[3].SetActive(true);
+        }
+
 
 
     }

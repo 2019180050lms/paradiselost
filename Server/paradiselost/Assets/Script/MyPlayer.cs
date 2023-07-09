@@ -118,22 +118,23 @@ public class MyPlayer : Player
         rightDown = Input.GetKey(KeyCode.D);
         backDown = Input.GetKey(KeyCode.S);
 
+        anim.SetBool("isRun", true);
+
         if (moveVec == Vector3.zero)
         {
             //anim_Body.SetBool("isRun", false);
             //anim_Leg.SetBool("isRun", false);
             anim.SetBool("isRun", false);
-            anim.SetBool("isRun", false);
             audioSourceRun.mute = true;
         }
 
-        //if (setActiveWeapon == 0)
-        //{
-        //    weapons[0].SetActive(false);
-        //    weapons[1].SetActive(false);
-        //    weapons[2].SetActive(false);
-        //    weapons[3].SetActive(false);
-        //}
+        if (setActiveWeapon == 0)
+        {
+            weapons[0].SetActive(false);
+            weapons[1].SetActive(false);
+            weapons[2].SetActive(false);
+            weapons[3].SetActive(false);
+        }
 
 
         if (setActiveWeapon == 1)
@@ -150,6 +151,22 @@ public class MyPlayer : Player
             weapons[1].SetActive(true);
             weapons[2].SetActive(false);
             weapons[3].SetActive(false);
+        }
+
+        if (setActiveWeapon == 3)
+        {
+            weapons[0].SetActive(false);
+            weapons[1].SetActive(false);
+            weapons[2].SetActive(true);
+            weapons[3].SetActive(false);
+        }
+
+        if (setActiveWeapon == 4)
+        {
+            weapons[0].SetActive(false);
+            weapons[1].SetActive(false);
+            weapons[2].SetActive(false);
+            weapons[3].SetActive(true);
         }
 
 
