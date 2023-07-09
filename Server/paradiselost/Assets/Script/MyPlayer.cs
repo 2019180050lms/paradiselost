@@ -38,14 +38,14 @@ public class MyPlayer : Player
     [SerializeField] [Range(0.1f, 1f)] float duration = 0.5f;
     Vector3 cameraPos;
     bool isDamaging;
-    void Start()
+    public void Start()
     {
         delay_body = 0.0f;
         delay_leg = 0.0f;
         StartCoroutine("CoSendPacket");
         hitBox = GetComponent<HitBox>();
         soundManager = GetComponent<SoundManager>();
-
+        
         // 사운드
         audioSourceRun.clip = soundManager.runningSfx;
         audioSourceRun.loop = true;
@@ -60,9 +60,13 @@ public class MyPlayer : Player
         trailEffect = GameObject.Find("trailEffect").GetComponent<TrailRenderer>();
         //transform.tag = "MyPlayer";
         weapons.Add(GameObject.Find("Weapon Hammer"));
+        weapons[0].name = "MyPlayerSword";
         weapons.Add(GameObject.Find("Weapon Rifle"));
+        weapons[1].name = "MyPlayerRifle";
         weapons.Add(GameObject.Find("Weapon 2H Sword"));
+        weapons[2].name = "MyPlayer2HSword";
         weapons.Add(GameObject.Find("Weapon ShotGun"));
+        weapons[3].name = "MyPlayerShotGun";
         weapons[0].SetActive(false);
         weapons[1].SetActive(false);
         weapons[2].SetActive(false);
@@ -122,6 +126,32 @@ public class MyPlayer : Player
             anim.SetBool("isRun", false);
             audioSourceRun.mute = true;
         }
+
+        //if (setActiveWeapon == 0)
+        //{
+        //    weapons[0].SetActive(false);
+        //    weapons[1].SetActive(false);
+        //    weapons[2].SetActive(false);
+        //    weapons[3].SetActive(false);
+        //}
+
+
+        if (setActiveWeapon == 1)
+        {
+            weapons[0].SetActive(true);
+            weapons[1].SetActive(false);
+            weapons[2].SetActive(false);
+            weapons[3].SetActive(false);
+        }
+
+        if (setActiveWeapon == 2)
+        {
+            weapons[0].SetActive(false);
+            weapons[1].SetActive(true);
+            weapons[2].SetActive(false);
+            weapons[3].SetActive(false);
+        }
+
 
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("Swing"))
             A_dontMove = true;
@@ -272,7 +302,7 @@ public class MyPlayer : Player
         }
         if (isDamaging)
             StartShake();
-        Debug.Log(isDamaging);
+        //Debug.Log(isDamaging);
         isDamaging = false;
         if (Input.GetMouseButton(1))
         {

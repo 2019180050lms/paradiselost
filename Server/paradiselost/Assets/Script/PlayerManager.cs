@@ -128,8 +128,8 @@ public class PlayerManager
                 Debug.Log("오류");
                 break;
         }
-
     }
+
 
     public void Add(S_ENTER_PLAYER packet)
     {
@@ -140,25 +140,47 @@ public class PlayerManager
             Debug.Log("test pos: " + packet.x + packet.y + packet.z);
             Debug.Log("test name: " + packet.name);
             GameObject.Find("Game Manager").GetComponent<GameUIManager>().FindPlayerUI();
-            /*
+
             switch (packet.weapon)
             {
                 case 0:
-                    _myplayer.equipWeapon = _myplayer.weapons[1].GetComponent<Weapon>();
-                    _myplayer.equipWeapon.gameObject.SetActive(false);
+                    Debug.Log("근거리타입");
+                    Debug.Log(_myplayer.weapons);
+                    _myplayer.hasWeapons[0] = true;
+                    _myplayer.setActiveWeapon = 1;
 
-                    _myplayer.equipWeapon = _myplayer.weapons[0].GetComponent<Weapon>();
-                    _myplayer.equipWeapon.gameObject.SetActive(true);
+                    //_myplayer.weapons[1].SetActive(false);
+                    //_myplayer.equipWeapon = _myplayer.weapons[1].GetComponent<Weapon>();
+                    //_myplayer.equipWeapon.gameObject.SetActive(false);
+                    //_myplayer.equipWeapon = _myplayer.weapons[2].GetComponent<Weapon>();
+                    //_myplayer.equipWeapon.gameObject.SetActive(false);
+                    //_myplayer.equipWeapon = _myplayer.weapons[3].GetComponent<Weapon>();
+                    //_myplayer.equipWeapon.gameObject.SetActive(false);
+
+                    //_myplayer.weapons[0].SetActive(true);
+                    //_myplayer.weapons[1].SetActive(false);
+                    //_myplayer.weapons[2].SetActive(false);
+                    //_myplayer.weapons[3].SetActive(false);
+
+                    //_myplayer.equipWeapon = _myplayer.weapons[0].GetComponent<Weapon>();
+                    //_myplayer.equipWeapon.gameObject.SetActive(true);
                     break;
                 case 1:
-                    _myplayer.equipWeapon = _myplayer.weapons[0].GetComponent<Weapon>();
-                    _myplayer.equipWeapon.gameObject.SetActive(false);
+                    Debug.Log("원거리타입");
+                    _myplayer.hasWeapons[1] = true;
+                    _myplayer.setActiveWeapon = 2;
+                    //_myplayer.equipWeapon = _myplayer.weapons[0].GetComponent<Weapon>();
+                    //_myplayer.equipWeapon.gameObject.SetActive(false);
+                    //_myplayer.equipWeapon = _myplayer.weapons[2].GetComponent<Weapon>();
+                    //_myplayer.equipWeapon.gameObject.SetActive(false);
+                    //_myplayer.equipWeapon = _myplayer.weapons[3].GetComponent<Weapon>();
+                    //_myplayer.equipWeapon.gameObject.SetActive(false);
 
-                    _myplayer.equipWeapon = _myplayer.weapons[1].GetComponent<Weapon>();
-                    _myplayer.equipWeapon.gameObject.SetActive(true);
+                    //_myplayer.equipWeapon = _myplayer.weapons[1].GetComponent<Weapon>();
+                    //_myplayer.equipWeapon.gameObject.SetActive(true);
                     break;
             }
-            */
+
         }
     }
 
@@ -608,6 +630,9 @@ public class PlayerManager
 
         if (packet.type == 0)
             Debug.Log("캐릭터 생성");
+
+        
+
         else if(packet.type == 1)
         {
             Object obj = Resources.Load("Player_t1");
@@ -761,23 +786,20 @@ public class PlayerManager
             PlayerText.transform.SetParent(go.transform, false);
             PlayerText playerText = PlayerText.GetComponent<PlayerText>();
             playerText.playerText.text = packet.name;
-            /*
-            switch (packet.playerId % 4)
+            switch (packet.weapon_item)
             {
-                case 1:
-                    playerText.playerText.text = "Player 1";
-                    break;
-                case 2:
-                    playerText.playerText.text = "Player 2";
-                    break;
-                case 3:
-                    playerText.playerText.text = "Player 3";
-                    break;
                 case 0:
-                    playerText.playerText.text = "Player 4";
+                    Debug.Log("근거리타입");
+                    Debug.Log(player.weapons);
+                    player.hasWeapons[0] = true;
+                    player.setActiveWeapon = 1;
+                    break;
+                case 1:
+                    Debug.Log("원거리타입");
+                    player.hasWeapons[1] = true;
+                    player.setActiveWeapon = 2;
                     break;
             }
-            */
             player.intantBullet = Resources.Load("Bullet") as Object;
 
             //_playerParts.Add(packet.playerId, jointP);
@@ -943,27 +965,29 @@ public class PlayerManager
                 {
 
                     case 0: // 한손검
-                        _myplayer.equipWeapon = _myplayer.weapons[1].GetComponent<Weapon>();
-                        _myplayer.equipWeapon.gameObject.SetActive(false);
-                        _myplayer.equipWeapon = _myplayer.weapons[2].GetComponent<Weapon>();
-                        _myplayer.equipWeapon.gameObject.SetActive(false);
-                        _myplayer.equipWeapon = _myplayer.weapons[3].GetComponent<Weapon>();
-                        _myplayer.equipWeapon.gameObject.SetActive(false);
+                        //_myplayer.equipWeapon = _myplayer.weapons[1].GetComponent<Weapon>();
+                        //_myplayer.equipWeapon.gameObject.SetActive(false);
+                        //_myplayer.equipWeapon = _myplayer.weapons[2].GetComponent<Weapon>();
+                        //_myplayer.equipWeapon.gameObject.SetActive(false);
+                        //_myplayer.equipWeapon = _myplayer.weapons[3].GetComponent<Weapon>();
+                        //_myplayer.equipWeapon.gameObject.SetActive(false);
 
-                        _myplayer.equipWeapon = _myplayer.weapons[0].GetComponent<Weapon>();
-                        _myplayer.equipWeapon.gameObject.SetActive(true);
+                        //_myplayer.equipWeapon = _myplayer.weapons[0].GetComponent<Weapon>();
+                        //_myplayer.equipWeapon.gameObject.SetActive(true);
+                        _myplayer.setActiveWeapon = 1;
                         break;
 
                     case 1: // 총
-                        _myplayer.equipWeapon = _myplayer.weapons[0].GetComponent<Weapon>();
-                        _myplayer.equipWeapon.gameObject.SetActive(false);
-                        _myplayer.equipWeapon = _myplayer.weapons[2].GetComponent<Weapon>();
-                        _myplayer.equipWeapon.gameObject.SetActive(false);
-                        _myplayer.equipWeapon = _myplayer.weapons[3].GetComponent<Weapon>();
-                        _myplayer.equipWeapon.gameObject.SetActive(false);
+                        //_myplayer.equipWeapon = _myplayer.weapons[0].GetComponent<Weapon>();
+                        //_myplayer.equipWeapon.gameObject.SetActive(false);
+                        //_myplayer.equipWeapon = _myplayer.weapons[2].GetComponent<Weapon>();
+                        //_myplayer.equipWeapon.gameObject.SetActive(false);
+                        //_myplayer.equipWeapon = _myplayer.weapons[3].GetComponent<Weapon>();
+                        //_myplayer.equipWeapon.gameObject.SetActive(false);
 
-                        _myplayer.equipWeapon = _myplayer.weapons[1].GetComponent<Weapon>();
-                        _myplayer.equipWeapon.gameObject.SetActive(true);
+                        //_myplayer.equipWeapon = _myplayer.weapons[1].GetComponent<Weapon>();
+                        //_myplayer.equipWeapon.gameObject.SetActive(true);
+                        _myplayer.setActiveWeapon = 2;
                         break;
 
                     case 2: // 두손검
@@ -1041,35 +1065,36 @@ public class PlayerManager
                 switch (packet.itemType)
                 {
                     case 0: // 한손검
-                        player.equipWeapon = player.weapons[1].GetComponent<Weapon>();
-                        player.equipWeapon.gameObject.SetActive(false);
-                        player.hasWeapons[1] = false;
-                        player.equipWeapon = player.weapons[2].GetComponent<Weapon>();
-                        player.equipWeapon.gameObject.SetActive(false);
-                        player.hasWeapons[2] = false;
-                        player.equipWeapon = player.weapons[3].GetComponent<Weapon>();
-                        player.equipWeapon.gameObject.SetActive(false);
-                        player.hasWeapons[3] = false;
+                        //player.equipWeapon = player.weapons[1].GetComponent<Weapon>();
+                        //player.equipWeapon.gameObject.SetActive(false);
+                        //player.hasWeapons[1] = false;
+                        //player.equipWeapon = player.weapons[2].GetComponent<Weapon>();
+                        //player.equipWeapon.gameObject.SetActive(false);
+                        //player.hasWeapons[2] = false;
+                        //player.equipWeapon = player.weapons[3].GetComponent<Weapon>();
+                        //player.equipWeapon.gameObject.SetActive(false);
+                        //player.hasWeapons[3] = false;
 
-                        player.hasWeapons[packet.itemType] = true;
-                        player.equipWeapon = player.weapons[0].GetComponent<Weapon>();
-                        player.equipWeapon.gameObject.SetActive(true);
-                        player.body = 3;
+                        //player.hasWeapons[packet.itemType] = true;
+                        //player.equipWeapon = player.weapons[0].GetComponent<Weapon>();
+                        //player.equipWeapon.gameObject.SetActive(true);
+                        player.setActiveWeapon = 1;
                         break;
                     case 1: // 총
-                        player.equipWeapon = player.weapons[0].GetComponent<Weapon>();
-                        player.equipWeapon.gameObject.SetActive(false);
-                        player.hasWeapons[0] = false;
-                        player.equipWeapon = player.weapons[2].GetComponent<Weapon>();
-                        player.equipWeapon.gameObject.SetActive(false);
-                        player.hasWeapons[2] = false;
-                        player.equipWeapon = player.weapons[3].GetComponent<Weapon>();
-                        player.equipWeapon.gameObject.SetActive(false);
-                        player.hasWeapons[3] = false;
+                        //player.equipWeapon = player.weapons[0].GetComponent<Weapon>();
+                        //player.equipWeapon.gameObject.SetActive(false);
+                        //player.hasWeapons[0] = false;
+                        //player.equipWeapon = player.weapons[2].GetComponent<Weapon>();
+                        //player.equipWeapon.gameObject.SetActive(false);
+                        //player.hasWeapons[2] = false;
+                        //player.equipWeapon = player.weapons[3].GetComponent<Weapon>();
+                        //player.equipWeapon.gameObject.SetActive(false);
+                        //player.hasWeapons[3] = false;
 
-                        player.hasWeapons[packet.itemType] = true;
-                        player.equipWeapon = player.weapons[1].GetComponent<Weapon>();
-                        player.equipWeapon.gameObject.SetActive(true);
+                        //player.hasWeapons[packet.itemType] = true;
+                        //player.equipWeapon = player.weapons[1].GetComponent<Weapon>();
+                        //player.equipWeapon.gameObject.SetActive(true);
+                        player.setActiveWeapon = 2;
                         break;
                     case 2: // 두손검
                         player.equipWeapon = player.weapons[1].GetComponent<Weapon>();

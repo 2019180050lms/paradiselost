@@ -72,6 +72,7 @@ public class Player : MonoBehaviour
     public float currentTime;
     public float maxTime;
 
+    public int setActiveWeapon = 0;
     // 사운드
     public SoundManager soundManager;
     public AudioSource audioSource;
@@ -192,6 +193,31 @@ public class Player : MonoBehaviour
         }
 
         moveVec2 = Vector3.zero;
+
+        if (setActiveWeapon == 0)
+        {
+            weapons[0].SetActive(false);
+            weapons[1].SetActive(false);
+            weapons[2].SetActive(false);
+            weapons[3].SetActive(false);
+        }
+
+        if (setActiveWeapon == 1)
+        {
+            weapons[0].SetActive(true);
+            weapons[1].SetActive(false);
+            weapons[2].SetActive(false);
+            weapons[3].SetActive(false);
+        }
+
+        if (setActiveWeapon == 2)
+        {
+            weapons[0].SetActive(false);
+            weapons[1].SetActive(true);
+            weapons[2].SetActive(false);
+            weapons[3].SetActive(false);
+        }
+
 
 
     }
