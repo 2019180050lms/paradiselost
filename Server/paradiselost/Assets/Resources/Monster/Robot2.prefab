@@ -12530,11 +12530,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6edfec3b3f235049b3dab27fe12ae82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shootSfx: {fileID: 0}
+  shootSfx: {fileID: 8300000, guid: 34b439bf70b80a6409eadecc6be92d68, type: 3}
   runningSfx: {fileID: 0}
   slashSfx: {fileID: 0}
+  twoHandSlashSfx: {fileID: 0}
   Bgm: {fileID: 0}
-  monsterDieSfx: {fileID: 0}
+  monsterDieSfx: {fileID: 8300000, guid: c6e4bbd0523b95e42ae383989ba09984, type: 3}
 --- !u!1 &4067050452559328125
 GameObject:
   m_ObjectHideFlags: 0

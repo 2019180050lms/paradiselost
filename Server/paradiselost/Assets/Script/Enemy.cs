@@ -204,6 +204,8 @@ public class Enemy : MonoBehaviour
 
     IEnumerator Shoot()
     {
+        audioSource.clip = soundManager.shootSfx;
+        audioSource.Play();
         Debug.Log("Shoot 코루틴 0");
         isAttack = true;
         anim.SetTrigger("doAttack");

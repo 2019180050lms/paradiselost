@@ -5394,6 +5394,7 @@ MonoBehaviour:
   shootSfx: {fileID: 8300000, guid: 6dd7024f00606b44eb5884197a66a893, type: 3}
   runningSfx: {fileID: 8300000, guid: 06e5dc48ccc78af42b37368180af13b2, type: 3}
   slashSfx: {fileID: 8300000, guid: 86e27c06fb2bc8e48a1121063c05c804, type: 3}
+  twoHandSlashSfx: {fileID: 8300000, guid: d46323e22e74e46baa241cbf48c85671, type: 3}
   Bgm: {fileID: 8300000, guid: 75809951836972743baf521ade23dca0, type: 3}
   monsterDieSfx: {fileID: 0}
 --- !u!1 &2480548497426442257

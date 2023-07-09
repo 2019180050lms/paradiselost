@@ -336,7 +336,7 @@ public class Player : MonoBehaviour
 
     public IEnumerator TwoHandSwing()
     {
-        audioSource.clip = soundManager.slashSfx;
+        audioSource.clip = soundManager.twoHandSlashSfx;
 
 
         yield return new WaitForSeconds(0.1f); // 0.1초 대기

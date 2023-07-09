@@ -7,6 +7,7 @@ public class SoundManager : MonoBehaviour
     public AudioClip shootSfx;
     public AudioClip runningSfx;
     public AudioClip slashSfx;
+    public AudioClip twoHandSlashSfx;
     public AudioClip Bgm;
     public AudioClip monsterDieSfx;
     void Start()
