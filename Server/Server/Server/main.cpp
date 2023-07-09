@@ -19,7 +19,7 @@
 #pragma comment(lib, "lua54.lib")
 using namespace std;
 
-constexpr int VIEW_RANGE = 500;
+constexpr int VIEW_RANGE = 700;
 constexpr int MAX_NPC = 13;
 
 char map[W_HEIGHT][W_WIDTH];
@@ -309,6 +309,8 @@ void process_packet(int c_id, char* packet)
 	switch (packet[2]) {
 	case CS_LOGIN: {
 		CS_LOGIN_PACKET* p = reinterpret_cast<CS_LOGIN_PACKET*>(packet);
+		if (p->name[0] == L'\x2')
+			break;
 		wcscpy_s(clients[c_id]._name, p->name);
 		_db_l.lock();
 		bool check = db.check_user_id(clients[c_id]._name);
@@ -344,6 +346,8 @@ void process_packet(int c_id, char* packet)
 	case CS_ENTER_GAME: {
 		CS_CREATE_PLAYER_PACKET* p = reinterpret_cast<CS_CREATE_PLAYER_PACKET*>(packet);
 		clients[c_id]._type = p->c_type;
+		if (p->name[0] == L'\x2')
+			break;
 		//cout << "client send: " << p->size << ", " << p->c_type << ", " << p->playerindex << endl;
 		{
 			lock_guard<mutex> ll{ clients[c_id]._s_lock };
@@ -354,7 +358,18 @@ void process_packet(int c_id, char* packet)
 		}
 		clients[c_id].exp = 0;
 		clients[c_id].level = 1;
-		clients[c_id].weapon_item = -1;
+		switch (clients[c_id]._type)
+		{
+		case 2:
+			clients[c_id].weapon_item = 1;
+			break;
+		case 3:
+			clients[c_id].weapon_item = 0;
+			break;
+		default:
+			clients[c_id].weapon_item = -1;
+			break;
+		}
 		_db_l.lock();
 		db.add_user_data(clients[c_id]._name, clients[c_id]._name, &clients[c_id].x, 
 			&clients[c_id].y, &clients[c_id].z, &clients[c_id].exp, &clients[c_id].level, 
@@ -393,6 +408,7 @@ void process_packet(int c_id, char* packet)
 			clients[c_id].x = -16;
 			clients[c_id].y = -0.1f;
 			clients[c_id].z = -7;
+			clients[c_id].send_move_packet(c_id);
 		}
 		else
 		{
@@ -403,6 +419,9 @@ void process_packet(int c_id, char* packet)
 
 		clients[c_id].isAttack = p->isAttack;
 		clients[c_id].isJump = p->isJump;
+
+		if(clients[c_id].isAttack)
+			clients[c_id].send_move_packet(c_id);
 
 		unordered_set<int> near_list;
 		clients[c_id]._vl.lock();
@@ -415,7 +434,6 @@ void process_packet(int c_id, char* packet)
 				near_list.insert(cl._id);
 		}
 
-		clients[c_id].send_move_packet(c_id);
 
 		for (auto& pl : near_list) {
 			auto& cpl = clients[pl];
