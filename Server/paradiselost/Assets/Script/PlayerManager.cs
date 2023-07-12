@@ -20,55 +20,59 @@ public class PlayerManager
 
     void SetCharacter(int playerId, short hp, int playerType, Vector3 pos)
     {
-        Object obj = Resources.Load("test/test");
-        GameObject go = Object.Instantiate(obj) as GameObject;
+        
+
+        
         switch (playerType)
         {
             case 1:
                 {
-                    MyPlayer myPlayer = go.AddComponent<MyPlayer>();
-                    Object head = Resources.Load("Po_Head_Parts");
-                    Object body = Resources.Load("Po_Body_Parts");
-                    Object leg = Resources.Load("Po_Leg_Parts");
+                    //MyPlayer myPlayer = go.AddComponent<MyPlayer>();
+                    //Object head = Resources.Load("Po_Head_Parts");
+                    //Object body = Resources.Load("Po_Body_Parts");
+                    //Object leg = Resources.Load("Po_Leg_Parts");
 
-                    joint = go.AddComponent<Joint_Robot>();
+                    //joint = go.AddComponent<Joint_Robot>();
 
-                    joint.po_list = new GameObject[3];
-                    joint.sh_list = new GameObject[3];
-                    joint.sp_list = new GameObject[3];
+                    //joint.po_list = new GameObject[3];
+                    //joint.sh_list = new GameObject[3];
+                    //joint.sp_list = new GameObject[3];
 
-                    joint.po_list[0] = head as GameObject;
-                    joint.po_list[1] = body as GameObject;
-                    joint.po_list[2] = leg as GameObject;
+                    //joint.po_list[0] = head as GameObject;
+                    //joint.po_list[1] = body as GameObject;
+                    //joint.po_list[2] = leg as GameObject;
 
-                    joint.leg = Object.Instantiate(joint.po_list[2], myPlayer.transform);
-                    //leg.transform.position = new Vector3(-5, 5, 3);
+                    //joint.leg = Object.Instantiate(joint.po_list[2], myPlayer.transform);
+                    ////leg.transform.position = new Vector3(-5, 5, 3);
 
-                    joint.body = Object.Instantiate(joint.po_list[1], myPlayer.transform);
-                    joint.body.transform.localPosition = joint.leg.transform.localPosition + joint.leg.transform.Find("Joint_Leg").transform.localPosition - joint.body.transform.Find("Joint_Leg").transform.localPosition;
+                    //joint.body = Object.Instantiate(joint.po_list[1], myPlayer.transform);
+                    //joint.body.transform.localPosition = joint.leg.transform.localPosition + joint.leg.transform.Find("Joint_Leg").transform.localPosition - joint.body.transform.Find("Joint_Leg").transform.localPosition;
 
-                    joint.head = Object.Instantiate(joint.po_list[0], myPlayer.transform);
-                    joint.head.transform.position = joint.body.transform.position + joint.body.transform.Find("Joint_Head").transform.position;
+                    //joint.head = Object.Instantiate(joint.po_list[0], myPlayer.transform);
+                    //joint.head.transform.position = joint.body.transform.position + joint.body.transform.Find("Joint_Head").transform.position;
 
-                    myPlayer.PlayerId = playerId;
-                    myPlayer.hp = hp;
-                    myPlayer.body = 1;
-                    //myPlayer.name = name;
-                    //Debug.Log(p.hp);
+                    //myPlayer.PlayerId = playerId;
+                    //myPlayer.hp = hp;
+                    //myPlayer.body = 1;
+                    ////myPlayer.name = name;
+                    ////Debug.Log(p.hp);
 
-                    myPlayer.transform.tag = "MyPlayer";
-                    myPlayer.transform.position = new Vector3(pos.x, pos.y, pos.z);
-                    _myplayer = myPlayer;
-                    myPlayer.anim_Head = joint.head.gameObject.transform.GetChild(0).GetComponent<Animator>();
-                    myPlayer.anim_Body = joint.body.gameObject.transform.GetChild(0).GetComponent<Animator>();
-                    myPlayer.anim_Leg = joint.leg.gameObject.transform.GetChild(0).GetComponent<Animator>();
+                    //myPlayer.transform.tag = "MyPlayer";
+                    //myPlayer.transform.position = new Vector3(pos.x, pos.y, pos.z);
+                    //_myplayer = myPlayer;
+                    //myPlayer.anim_Head = joint.head.gameObject.transform.GetChild(0).GetComponent<Animator>();
+                    //myPlayer.anim_Body = joint.body.gameObject.transform.GetChild(0).GetComponent<Animator>();
+                    //myPlayer.anim_Leg = joint.leg.gameObject.transform.GetChild(0).GetComponent<Animator>();
 
-                    Debug.Log(myPlayer.name);
+                    //Debug.Log(myPlayer.name);
                     break;
                 }
             case 2:
                 {
-                    MyPlayer myPlayer = go.AddComponent<MyPlayer>();
+                    Object obj2 = Resources.Load("test/RangeType");
+                    GameObject go2 = Object.Instantiate(obj2) as GameObject;
+
+                    MyPlayer myPlayer = go2.AddComponent<MyPlayer>();
                     myPlayer.PlayerId = playerId;
                     //myPlayer.name = p.name;
                     myPlayer.transform.tag = "MyPlayer";
@@ -84,6 +88,9 @@ public class PlayerManager
                 }
             case 3:
                 {
+                    Object obj = Resources.Load("test/test");
+                    GameObject go = Object.Instantiate(obj) as GameObject;
+
                     MyPlayer myPlayer = go.AddComponent<MyPlayer>();
                     myPlayer.PlayerId = playerId;
                     //myPlayer.name = p.name;
@@ -677,7 +684,7 @@ public class PlayerManager
         }
         else if (packet.type == 2)
         {
-            Object obj = Resources.Load("test/test");
+            Object obj = Resources.Load("test/RangeType");
             GameObject go = Object.Instantiate(obj) as GameObject;
             Object obj3 = Resources.Load("PlayerText");
             GameObject PlayerText = Object.Instantiate(obj3) as GameObject;
