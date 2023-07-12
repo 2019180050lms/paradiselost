@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <array>
 #include <WS2tcpip.h>
@@ -6,8 +7,8 @@
 #include <vector>
 #include <mutex>
 #include <unordered_set>
+#include <concurrent_priority_queue.h>
 #include <chrono>
-#include <queue>
 #include <fstream>
 #include "protocol.h"
 
@@ -18,7 +19,6 @@
 #pragma comment(lib, "MSWSock.lib")
 #pragma comment(lib, "lua54.lib")
 using namespace std;
-
 constexpr int VIEW_RANGE = 700;
 constexpr int MAX_NPC = 13;
 
@@ -168,6 +168,7 @@ struct EVENT {
 	int _oid;
 	chrono::system_clock::time_point _exec_time;
 	EVENT_TYPE _type;
+	int target_id;
 	constexpr bool operator < (const EVENT& _Left) const
 	{
 		return (_exec_time > _Left._exec_time);
@@ -175,7 +176,7 @@ struct EVENT {
 
 };
 
-priority_queue <EVENT> g_timer_queue;
+concurrency::concurrent_priority_queue <EVENT> g_timer_queue;
 mutex g_tl;
 
 void do_random_move(int o_id);
@@ -401,13 +402,12 @@ void process_packet(int c_id, char* packet)
 		float c_y = clients[c_id].y;
 		float c_z = clients[c_id].z;
 
+		int z = (int)p->z;
+		int x = (int)p->x;
 		//if(p->x < -25 || p->x > 38)
 
-		if (p->y < -5.f)
+		if (map[z][x] == WALL)
 		{
-			clients[c_id].x = -16;
-			clients[c_id].y = -0.1f;
-			clients[c_id].z = -7;
 			clients[c_id].send_move_packet(c_id);
 		}
 		else
@@ -1208,6 +1208,38 @@ void do_delay_disable(int n_id, int c_id)
 void do_timer(HANDLE h_iocp)
 {
 	while (true) {
+		EVENT ev;
+		auto current_time = chrono::system_clock::now();
+		if (true == g_timer_queue.try_pop(ev)) {
+			if (ev._exec_time > current_time) {
+				g_timer_queue.push(ev);
+				this_thread::sleep_for(1ms);
+				continue;
+			}
+			switch (ev._type) {
+			case EV_RANDOM_MOVE: {
+				OVER_EXP* exover = new OVER_EXP;
+				exover->_comp_type = OP_NPC_AI;
+				PostQueuedCompletionStatus(h_iocp, 1, ev._oid, &exover->_over);
+				break;
+			}
+			case EV_ATTACK: {
+				break;
+			}
+			case EV_HEAL: {
+				break;
+			}
+			case EV_RESPAWN: {
+				break;
+			}
+			default:
+				break;
+			}
+
+		}
+	}
+	/*
+	while (true) {
 		g_tl.lock();
 		if (g_timer_queue.empty() == true) {
 			g_tl.unlock();
@@ -1243,6 +1275,59 @@ void do_timer(HANDLE h_iocp)
 			break;
 		}
 	}
+	*/
+}
+
+void create_map()
+{
+	ofstream file_w("map_data.txt");
+	cout << "Map Creating..." << endl;
+	for (int z = 0; z < W_HEIGHT; ++z) {
+		for (int x = 0; x < W_WIDTH; ++x) {
+			if ((x == 8 && z == 52) || (x == 8 && z == 84) || (x == 31 && z == 84) ||
+				(x == 43 && z == 84) || (x == 70 && z == 84) || (x == 70 && z == 52) ||
+				(x == 60 && z == 52) || (x == 60 && z == 34) || (x == 54 && z == 34) ||
+				(x == 54 && z == 24) || (x == 34 && z == 24) || (x == 31 && z == 52) ||
+				(x == 8 && z == 52)) {
+				file_w << 1;
+			}
+			else {
+				file_w << 0;
+			}
+		}
+		file_w << endl;
+	}
+	file_w.close();
+}
+
+void load_map()
+{
+	cout << "Map Load..." << endl;
+	char line[W_WIDTH];
+	char* pline;
+	ifstream file("map_data.txt");
+	FILE* in = fopen("map_data.txt", "r");
+	if (!file.is_open()) {
+		cout << "map does not exist." << endl;
+		return;
+	}
+	int z = 0;
+	while (!feof(in)) {
+		pline = fgets(line, W_WIDTH, in);
+		for (int w = 0; w < W_WIDTH; ++w) {
+			map[z][w] = line[w];
+		}
+		z++;
+	}
+	fclose(in);
+	/*
+	for (int z = 0; z < W_HEIGHT; ++z) {
+		for (int x = 0; x < W_WIDTH; ++x) {
+			file >> map[z][x];
+		}
+	}
+	*/
+	
 }
 
 int main()
@@ -1251,6 +1336,8 @@ int main()
 
 	InitializeNPC();
 	db.DBConnect();
+
+	load_map();
 
 	WSADATA WSAData;
 	WSAStartup(MAKEWORD(2, 2), &WSAData);

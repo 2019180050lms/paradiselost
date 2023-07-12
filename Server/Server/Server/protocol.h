@@ -4,8 +4,10 @@ constexpr int NAME_SIZE = 20;
 
 constexpr int MAX_USER = 500;
 
-constexpr int W_WIDTH = 70;
-constexpr int W_HEIGHT = 100;
+constexpr int W_WIDTH = 500;
+constexpr int W_HEIGHT = 500;
+
+constexpr char WALL = '1';
 
 // Packet ID
 constexpr char CS_LOGIN = 0;

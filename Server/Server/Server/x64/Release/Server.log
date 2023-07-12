@@ -1,17 +1,18 @@
 ﻿  main.cpp
 C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\format(43): warning STL4038: The contents of <format> are available only with C++20 or later.
-C:\Users\GIGABYTE\OneDrive - 한국산업기술대학교\바탕 화면\수업\공부\졸작\paradiselost\Server\Server\Server\main.cpp(663,20): warning C4244: '인수': 'ULONG_PTR'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\GIGABYTE\OneDrive - 한국산업기술대학교\바탕 화면\수업\공부\졸작\paradiselost\Server\Server\Server\main.cpp(672,16): warning C4244: '인수': 'ULONG_PTR'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\GIGABYTE\OneDrive - 한국산업기술대학교\바탕 화면\수업\공부\졸작\paradiselost\Server\Server\Server\main.cpp(676,16): warning C4244: '인수': 'ULONG_PTR'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\GIGABYTE\OneDrive - 한국산업기술대학교\바탕 화면\수업\공부\졸작\paradiselost\Server\Server\Server\main.cpp(680,16): warning C4244: '인수': 'ULONG_PTR'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\GIGABYTE\OneDrive - 한국산업기술대학교\바탕 화면\수업\공부\졸작\paradiselost\Server\Server\Server\main.cpp(684,16): warning C4244: '인수': 'ULONG_PTR'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\GIGABYTE\OneDrive - 한국산업기술대학교\바탕 화면\수업\공부\졸작\paradiselost\Server\Server\Server\main.cpp(702,8): warning C4244: '초기화 중': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\GIGABYTE\OneDrive - 한국산업기술대학교\바탕 화면\수업\공부\졸작\paradiselost\Server\Server\Server\main.cpp(720,8): warning C4244: '초기화 중': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\GIGABYTE\OneDrive - 한국산업기술대학교\바탕 화면\수업\공부\졸작\paradiselost\Server\Server\Server\main.cpp(864,41): warning C4305: '=': 'double'에서 'float'(으)로 잘립니다.
+C:\Users\GIGABYTE\OneDrive - 한국산업기술대학교\바탕 화면\수업\공부\졸작\paradiselost\Server\Server\Server\main.cpp(680,20): warning C4244: '인수': 'ULONG_PTR'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\GIGABYTE\OneDrive - 한국산업기술대학교\바탕 화면\수업\공부\졸작\paradiselost\Server\Server\Server\main.cpp(689,16): warning C4244: '인수': 'ULONG_PTR'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\GIGABYTE\OneDrive - 한국산업기술대학교\바탕 화면\수업\공부\졸작\paradiselost\Server\Server\Server\main.cpp(693,16): warning C4244: '인수': 'ULONG_PTR'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\GIGABYTE\OneDrive - 한국산업기술대학교\바탕 화면\수업\공부\졸작\paradiselost\Server\Server\Server\main.cpp(697,16): warning C4244: '인수': 'ULONG_PTR'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\GIGABYTE\OneDrive - 한국산업기술대학교\바탕 화면\수업\공부\졸작\paradiselost\Server\Server\Server\main.cpp(701,16): warning C4244: '인수': 'ULONG_PTR'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\GIGABYTE\OneDrive - 한국산업기술대학교\바탕 화면\수업\공부\졸작\paradiselost\Server\Server\Server\main.cpp(719,8): warning C4244: '초기화 중': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\GIGABYTE\OneDrive - 한국산업기술대학교\바탕 화면\수업\공부\졸작\paradiselost\Server\Server\Server\main.cpp(737,8): warning C4244: '초기화 중': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 LINK : warning LNK4098: 'LIBCMT' defaultlib가 다른 라이브러리와 충돌합니다. /NODEFAULTLIB:library를 사용하십시오.
   코드를 생성하고 있습니다.
-  1 of 502 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
+  1 of 614 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
     2 functions had inline decision re-evaluated but remain unchanged
   코드를 생성했습니다.
+DB.obj : warning LNK4099: '' PDB를 'DB.obj' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+lua54.lib(lcode.obj) : warning LNK4020: ''의 형식 레코드가 손상되었습니다. 디버거에서 일부 기호와 형식에 액세스할 수 없습니다.
   Server.vcxproj -> C:\Users\GIGABYTE\OneDrive - 한국산업기술대학교\바탕 화면\수업\공부\졸작\paradiselost\Server\Server\x64\Release\Server.exe
