@@ -25,10 +25,6 @@ public class MyPlayer : Player
     bool isBorder;
     public bool hasHeadItem = false;
 
-    [HideInInspector]
-    public float delay_body;
-    public float delay_leg;
-
     bool camera1 = true;
     bool camera2 = false;
 
@@ -257,6 +253,9 @@ public class MyPlayer : Player
             Destroy(bullet3, 0.2f);
         }
 
+        Vector3 reverseDistance = new Vector3(0.0f, 0.0f, distance); // 이동량에 따른 Z 축방향의 벡터를 구합니다.
+        Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y + 5, transform.position.z) - Camera.main.transform.rotation * reverseDistance; // 플레이어의 위치에서 카메라가 바라보는 방향에 벡터값을 적용한 상대 좌표를 차감합니다.
+
         testJump = false;
 
     }
@@ -308,7 +307,7 @@ public class MyPlayer : Player
     {
         Camera.main.transform.rotation = Quaternion.Euler(ymove, xmove, 0); // 이동량에 따라 카메라의 바라보는 방향을 조정합니다.
         Vector3 reverseDistance = new Vector3(0.0f, 0.0f, distance); // 이동량에 따른 Z 축방향의 벡터를 구합니다.
-        
+
         if (camera1)
             Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y + 5, transform.position.z) - Camera.main.transform.rotation * reverseDistance; // 플레이어의 위치에서 카메라가 바라보는 방향에 벡터값을 적용한 상대 좌표를 차감합니다.
         else if (camera2)

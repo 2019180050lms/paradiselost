@@ -4,8 +4,8 @@ constexpr int NAME_SIZE = 20;
 
 constexpr int MAX_USER = 500;
 
-constexpr int W_WIDTH = 500;
-constexpr int W_HEIGHT = 500;
+constexpr int W_WIDTH = 600;
+constexpr int W_HEIGHT = 600;
 
 constexpr char WALL = '1';
 
