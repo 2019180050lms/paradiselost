@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 
 public class MyPlayer : Player
 {
@@ -68,7 +68,9 @@ public class MyPlayer : Player
         weapons[2].SetActive(false);
         weapons[3].SetActive(false);
         equipWeaponIndex = 4;
-        
+
+
+        DontDestroyOnLoad(this);
     }
 
 
@@ -104,7 +106,16 @@ public class MyPlayer : Player
             Debug.Log(camera2);
         }
 
-        
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            Debug.Log("P");
+            SceneManager.LoadScene("InGame2");
+        }
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            SceneManager.LoadScene("InGame3");
+        }
+
         GetInput();
 
         audioSourceRun.mute = false;

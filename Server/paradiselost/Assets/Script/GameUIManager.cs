@@ -51,6 +51,8 @@ public class GameUIManager : MonoBehaviour
     {
         Invoke("FindMyPlayer", 0.5f);
         _network = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
+
+        DontDestroyOnLoad(this);
     }
 
     void Awake()
