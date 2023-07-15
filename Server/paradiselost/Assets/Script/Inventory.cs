@@ -23,6 +23,7 @@ public class Inventory : MonoBehaviour
     }
     void FindInven()
     {
+        Debug.Log("FindInven");
         InventoryUI = GameObject.FindGameObjectWithTag("InventoryUI");
         gameUIManager = GameObject.Find("Game Manager").GetComponent<GameUIManager>();
         InventoryUI.SetActive(false);

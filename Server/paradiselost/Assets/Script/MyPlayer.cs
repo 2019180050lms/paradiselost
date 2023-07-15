@@ -7,6 +7,7 @@ public class MyPlayer : Player
 {
     NetworkManager _network;
 
+    public Inventory inven;
 
     public float xmove = 0;  // X축 누적 이동량
     public float ymove = 0;  // Y축 누적 이동량
@@ -41,7 +42,7 @@ public class MyPlayer : Player
         StartCoroutine("CoSendPacket");
         hitBox = GetComponent<HitBox>();
         soundManager = GetComponent<SoundManager>();
-        
+        inven = GetComponent<Inventory>();
         // 사운드
         audioSourceRun.clip = soundManager.runningSfx;
         audioSourceRun.loop = true;
@@ -106,15 +107,15 @@ public class MyPlayer : Player
             Debug.Log(camera2);
         }
 
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            Debug.Log("P");
-            SceneManager.LoadScene("InGame2");
-        }
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            SceneManager.LoadScene("InGame3");
-        }
+        //if (Input.GetKeyDown(KeyCode.P))
+        //{
+        //    Debug.Log("P");
+        //    SceneManager.LoadScene("InGame2");
+        //}
+        //if (Input.GetKeyDown(KeyCode.O))
+        //{
+        //    SceneManager.LoadScene("InGame3");
+        //}
 
         GetInput();
 
@@ -420,6 +421,19 @@ public class MyPlayer : Player
         else if (other.tag == "EnemyMelee")
         {
             isDamaging = true;
+        }
+        else if(other.tag == "Portal1")
+        {
+            SceneManager.LoadScene("Stage1");
+            inven.Invoke("FindInven", 1f);
+        }
+        else if (other.tag == "Portal2")
+        {
+            SceneManager.LoadScene("Stage2");
+        }
+        else if (other.tag == "Portal3")
+        {
+            SceneManager.LoadScene("Stage3");
         }
     }
 

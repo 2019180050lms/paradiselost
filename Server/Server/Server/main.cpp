@@ -352,9 +352,9 @@ void process_packet(int c_id, char* packet)
 		//cout << "client send: " << p->size << ", " << p->c_type << ", " << p->playerindex << endl;
 		{
 			lock_guard<mutex> ll{ clients[c_id]._s_lock };
-			clients[c_id].x = 160.f;
+			clients[c_id].x = 245.f;
 			clients[c_id].y = 1.f;
-			clients[c_id].z = 70.f;
+			clients[c_id].z = 60.f;
 			clients[c_id]._state = ST_INGAME;
 		}
 		clients[c_id].exp = 0;

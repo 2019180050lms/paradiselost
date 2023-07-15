@@ -52,7 +52,7 @@ public class GameUIManager : MonoBehaviour
         Invoke("FindMyPlayer", 0.5f);
         _network = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
 
-        DontDestroyOnLoad(this);
+        //DontDestroyOnLoad(this);
     }
 
     void Awake()
@@ -69,7 +69,7 @@ public class GameUIManager : MonoBehaviour
 
     void FindMyPlayer()
     {
-
+        Debug.Log("FindMyPLayer");
         inventory = GameObject.FindGameObjectWithTag("MyPlayer").GetComponent<Inventory>();
         myPlayer = GameObject.FindGameObjectWithTag("MyPlayer").GetComponent<MyPlayer>();
     }

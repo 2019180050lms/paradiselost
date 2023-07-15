@@ -21,9 +21,12 @@ EditorBuildSettings:
     path: Assets/CharacterSelect.unity
     guid: 90aa4b11df527f14d9c4f919c638a6c7
   - enabled: 1
-    path: Assets/InGame2.unity
+    path: Assets/Stage2.unity
     guid: 49347f852a8b63749a3c2d27e77109ac
   - enabled: 1
-    path: Assets/InGame3.unity
+    path: Assets/Stage1.unity
+    guid: 36a02e69d5416dc40a46a8622ca360b5
+  - enabled: 1
+    path: Assets/Stage3.unity
     guid: 268c55bff2eb8e2469db7722f39a3bde
   m_configObjects: {}

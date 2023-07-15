@@ -31,6 +31,9 @@ TagManager:
   - StageBoss
   - Bullet
   - Potion
+  - Portal1
+  - Portal2
+  - Portal3
   layers:
   - Default
   - TransparentFX
