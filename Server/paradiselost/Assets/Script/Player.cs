@@ -6,7 +6,7 @@ public class Player : MonoBehaviour
 {
     public int PlayerId { get; set; }
 
-    public float speed = 15.0f;
+    public float speed = 10.0f;
     public List<GameObject> weapons = new List<GameObject>() { };
     public bool[] hasWeapons = new bool[4];
     public Transform bulletPos;
@@ -271,7 +271,7 @@ public class Player : MonoBehaviour
         {
             if (wDown)
             {
-                transform.position += moveVec2 * speed * 0.3f * Time.deltaTime;
+                transform.position += moveVec2 * speed * 0.1f * Time.deltaTime;
                 moveVec = transform.position;
             }
             else

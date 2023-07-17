@@ -430,10 +430,12 @@ public class MyPlayer : Player
         else if (other.tag == "Portal2")
         {
             SceneManager.LoadScene("Stage2");
+            inven.Invoke("FindInven", 1f);
         }
         else if (other.tag == "Portal3")
         {
             SceneManager.LoadScene("Stage3");
+            inven.Invoke("FindInven", 1f);
         }
     }
 
