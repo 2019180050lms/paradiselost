@@ -19,10 +19,13 @@
 #pragma comment(lib, "MSWSock.lib")
 #pragma comment(lib, "lua54.lib")
 using namespace std;
-constexpr int VIEW_RANGE = 700;
+constexpr int VIEW_RANGE = 100;
 constexpr int MAX_NPC = 13;
 
-char map[W_HEIGHT][W_WIDTH];
+char hometown[W_HEIGHT][W_WIDTH];
+char stage1[W_HEIGHT][W_WIDTH];
+char stage2[W_HEIGHT][W_WIDTH];
+char stage3[W_HEIGHT][W_WIDTH];
 
 enum COMP_TYPE { OP_CONNECT, OP_DISCONNECT, OP_ACCEPT, OP_RECV, OP_SEND, OP_NPC_AI };
 class OVER_EXP {
@@ -61,6 +64,7 @@ public:
 	int _id;
 	int _type;
 	int _dir;
+	short _stage;
 	SOCKET _socket;
 	int head_item, weapon_item, leg_item;
 	int exp, level;
@@ -93,6 +97,7 @@ public:
 		my_max_z = 0.f;
 		my_min_x = 0.f;
 		my_min_z = 0.f;
+		_stage = 0;
 	}
 
 	~SESSION() {}
@@ -352,9 +357,9 @@ void process_packet(int c_id, char* packet)
 		//cout << "client send: " << p->size << ", " << p->c_type << ", " << p->playerindex << endl;
 		{
 			lock_guard<mutex> ll{ clients[c_id]._s_lock };
-			clients[c_id].x = 245.f;
+			clients[c_id].x = 30.f;
 			clients[c_id].y = 1.f;
-			clients[c_id].z = 60.f;
+			clients[c_id].z = 40.f;
 			clients[c_id]._state = ST_INGAME;
 		}
 		clients[c_id].exp = 0;
@@ -405,16 +410,54 @@ void process_packet(int c_id, char* packet)
 		int z = (int)p->z;
 		int x = (int)p->x;
 		//if(p->x < -25 || p->x > 38)
-
-		if (map[z][x] == WALL)
-		{
-			clients[c_id].send_move_packet(c_id);
+		clients[c_id]._stage = 3;
+		if(clients[c_id]._stage == 0) {
+			if (hometown[z][x] == WALL)
+			{
+				clients[c_id].send_move_packet(c_id);
+			}
+			else
+			{
+				clients[c_id].x = p->x;
+				clients[c_id].y = p->y;
+				clients[c_id].z = p->z;
+			}
 		}
-		else
-		{
-			clients[c_id].x = p->x;
-			clients[c_id].y = p->y;
-			clients[c_id].z = p->z;
+		else if (clients[c_id]._stage == 1) {
+			if (stage1[z][x] == WALL)
+			{
+				clients[c_id].send_move_packet(c_id);
+			}
+			else
+			{
+				clients[c_id].x = p->x;
+				clients[c_id].y = p->y;
+				clients[c_id].z = p->z;
+			}
+		}
+		else if (clients[c_id]._stage == 2) {
+			if (stage2[z][x] == WALL)
+			{
+				clients[c_id].send_move_packet(c_id);
+			}
+			else
+			{
+				clients[c_id].x = p->x;
+				clients[c_id].y = p->y;
+				clients[c_id].z = p->z;
+			}
+		}
+		else if (clients[c_id]._stage == 3) {
+			if (stage3[z][x] == WALL)
+			{
+				clients[c_id].send_move_packet(c_id);
+			}
+			else
+			{
+				clients[c_id].x = p->x;
+				clients[c_id].y = p->y;
+				clients[c_id].z = p->z;
+			}
 		}
 
 		clients[c_id].isAttack = p->isAttack;
@@ -761,13 +804,13 @@ void InitializeNPC()
 	// 1번 위치 몬스터
 	{
 		clients[MAX_USER + i]._hp = 100;
-		clients[MAX_USER + i].x = -40.f;
+		clients[MAX_USER + i].x = 0.f;
 		clients[MAX_USER + i].y = -1.5f;
-		clients[MAX_USER + i].z = 104.f;
-		clients[MAX_USER + i].my_max_x = -17.f;
-		clients[MAX_USER + i].my_max_z = 124.f;
-		clients[MAX_USER + i].my_min_x = -70.f;
-		clients[MAX_USER + i].my_min_z = 85.f;
+		clients[MAX_USER + i].z = 0.f;
+		clients[MAX_USER + i].my_max_x = 0.f;
+		clients[MAX_USER + i].my_max_z = 0.f;
+		clients[MAX_USER + i].my_min_x = 0.f;
+		clients[MAX_USER + i].my_min_z = 0.f;
 		if (i % 2 == 0)
 			clients[MAX_USER + i]._type = GUN_ROBOT;
 		else
@@ -794,13 +837,13 @@ void InitializeNPC()
 	for(i = 3;i< 6; ++i)
 	{
 		clients[MAX_USER + i]._hp = 100;
-		clients[MAX_USER + i].x = 49.f;
-		clients[MAX_USER + i].y = -1.5f;
-		clients[MAX_USER + i].z = 88.f;
-		clients[MAX_USER + i].my_max_x = 68.f;
-		clients[MAX_USER + i].my_max_z = 99.f;
-		clients[MAX_USER + i].my_min_x = 33.f;
-		clients[MAX_USER + i].my_min_z = 47.f;
+		clients[MAX_USER + i].x = 0.f;
+		clients[MAX_USER + i].y = 0.f;
+		clients[MAX_USER + i].z = 0.f;
+		clients[MAX_USER + i].my_max_x = 0.f;
+		clients[MAX_USER + i].my_max_z = 0.f;
+		clients[MAX_USER + i].my_min_x = 0.f;
+		clients[MAX_USER + i].my_min_z = 0.f;
 		if (i % 2 == 0)
 			clients[MAX_USER + i]._type = GUN_ROBOT;
 		else
@@ -827,13 +870,13 @@ void InitializeNPC()
 	// 3번 위치 몬스터
 	{
 		clients[MAX_USER + i]._hp = 100;
-		clients[MAX_USER + i].x = -41.f;
-		clients[MAX_USER + i].y = -1.5f;
-		clients[MAX_USER + i].z = 165.f;
-		clients[MAX_USER + i].my_max_x = -13.f;
-		clients[MAX_USER + i].my_max_z = 183.f;
-		clients[MAX_USER + i].my_min_x = -66.f;
-		clients[MAX_USER + i].my_min_z = 145.f;
+		clients[MAX_USER + i].x = 0.f;
+		clients[MAX_USER + i].y = 0.f;
+		clients[MAX_USER + i].z = 0.f;
+		clients[MAX_USER + i].my_max_x = 0.f;
+		clients[MAX_USER + i].my_max_z = 0.f;
+		clients[MAX_USER + i].my_min_x = 0.f;
+		clients[MAX_USER + i].my_min_z = 0.f;
 		if (i % 2 == 0)
 			clients[MAX_USER + i]._type = GUN_ROBOT;
 		else
@@ -861,13 +904,13 @@ void InitializeNPC()
 		// 4번 위치 몬스터
 	{
 		clients[MAX_USER + i]._hp = 100;
-		clients[MAX_USER + i].x = 120.f;
-		clients[MAX_USER + i].y = -1.5f;
-		clients[MAX_USER + i].z = 174.f;
-		clients[MAX_USER + i].my_max_x = 142.f;
-		clients[MAX_USER + i].my_max_z = 196.f;
-		clients[MAX_USER + i].my_min_x = 95.f;
-		clients[MAX_USER + i].my_min_z = 154.f;
+		clients[MAX_USER + i].x = 0.f;
+		clients[MAX_USER + i].y = 0.f;
+		clients[MAX_USER + i].z = 0.f;
+		clients[MAX_USER + i].my_max_x = 0.f;
+		clients[MAX_USER + i].my_max_z = 0.f;
+		clients[MAX_USER + i].my_min_x = 0.f;
+		clients[MAX_USER + i].my_min_z = 0.f;
 		if (i % 2 == 0)
 			clients[MAX_USER + i]._type = GUN_ROBOT;
 		else
@@ -931,9 +974,9 @@ void add_boss()
 	clients[MAX_USER + MAX_NPC - 1]._id = MAX_USER + MAX_NPC - 1;
 	clients[MAX_USER + MAX_NPC - 1]._type = 7;
 	clients[MAX_USER + MAX_NPC - 1]._hp = 1000;
-	clients[MAX_USER + MAX_NPC - 1].x = 269.f;
-	clients[MAX_USER + MAX_NPC - 1].y = -2.83f;
-	clients[MAX_USER + MAX_NPC - 1].z = 175.f;
+	clients[MAX_USER + MAX_NPC - 1].x = 0.f;
+	clients[MAX_USER + MAX_NPC - 1].y = 0.f;
+	clients[MAX_USER + MAX_NPC - 1].z = 0.f;
 	clients[MAX_USER + MAX_NPC - 1]._dir = 4;
 	clients[MAX_USER + MAX_NPC - 1]._socket = NULL;
 	clients[MAX_USER + MAX_NPC - 1].targetId = -1;
@@ -959,10 +1002,10 @@ void do_random_move(int c_id)
 		float z = clients[c_id].z;
 		int dir = rand() % 9;
 		switch (dir) {
-		case 0: if (z > clients[c_id].my_min_z) z -= 3.f; break;
-		case 1: if (z < clients[c_id].my_max_z) z += 3.f; break;
-		case 2: if (x > clients[c_id].my_min_x) x -= 3.f; break;
-		case 3: if (x < clients[c_id].my_max_x) x += 3.f; break;
+		case 0: if (z > clients[c_id].my_min_z) z -= 1.f; break;
+		case 1: if (z < clients[c_id].my_max_z) z += 1.f; break;
+		case 2: if (x > clients[c_id].my_min_x) x -= 1.f; break;
+		case 3: if (x < clients[c_id].my_max_x) x += 1.f; break;
 		case 4: if (x < clients[c_id].my_max_x && z < clients[c_id].my_max_z) { x += 1.5; z += 1.5; } break;
 		case 5: if (x > clients[c_id].my_min_x && z < clients[c_id].my_max_z) { x -= 1.5; z += 1.5; } break;
 		case 6: if (x < clients[c_id].my_max_x && z > clients[c_id].my_min_z) { x += 1.5; z -= 1.5; } break;
@@ -1046,17 +1089,17 @@ void do_player_attack(int n_id, int c_id)
 
 		if (!clients[n_id].isAttack) {
 			if (clients[n_id].x < clients[c_id].x) {
-				clients[n_id].x += 4.f;
+				clients[n_id].x += 1.f;
 			}
 			else if (clients[n_id].x > clients[c_id].x) {
-				clients[n_id].x -= 4.f;
+				clients[n_id].x -= 1.f;
 			}
 
 			if (clients[n_id].z < clients[c_id].z) {
-				clients[n_id].z += 4.f;
+				clients[n_id].z += 1.f;
 			}
 			else if (clients[n_id].z > clients[c_id].z) {
-				clients[n_id].z -= 4.f;
+				clients[n_id].z -= 1.f;
 			}
 		}
 		break;
@@ -1081,17 +1124,17 @@ void do_player_attack(int n_id, int c_id)
 
 		if (!clients[n_id].isAttack) {
 			if (clients[n_id].x < clients[c_id].x) {
-				clients[n_id].x += 4.f;
+				clients[n_id].x += 1.f;
 			}
 			else if (clients[n_id].x > clients[c_id].x) {
-				clients[n_id].x -= 4.f;
+				clients[n_id].x -= 1.f;
 			}
 
 			if (clients[n_id].z < clients[c_id].z) {
-				clients[n_id].z += 4.f;
+				clients[n_id].z += 1.f;
 			}
 			else if (clients[n_id].z > clients[c_id].z) {
-				clients[n_id].z -= 4.f;
+				clients[n_id].z -= 1.f;
 			}
 		}
 		break;
@@ -1280,8 +1323,83 @@ void do_timer(HANDLE h_iocp)
 
 void create_map()
 {
-	ofstream file_w("map_data.txt");
+	// 시작방
+	ofstream file_h("hometown.txt");
 	cout << "Map Creating..." << endl;
+	for (int z = 0; z < TEXT_HEIGHT; ++z) {
+		for (int x = 0; x < TEXT_WIDTH; ++x) {
+			if ((x == 6 && z == 49) || (x == 6 && z == 28) || (x == 24 && z == 28) ||
+				(x == 24 && z == 8) || (x == 42 && z == 7) || (x == 42 && z == 27) ||
+				(x == 49 && z == 27) || (x == 49 && z == 49) || (x == 29 && z == 49)) {
+				file_h << 1;
+			}
+			else
+				file_h << 0;
+		}
+		file_h << endl;
+	}
+	file_h.close();
+
+	// 스테이지 1
+	ofstream file_s1("stage1.txt");
+	for (int z = 0; z < TEXT_HEIGHT; ++z) {
+		for (int x = 0; x < TEXT_WIDTH; ++x) {
+			if ((x == 184 && z == 119) || (x == 184 && z == 77) || (x == 146 && z == 77) ||
+				(x == 146 && z == 91) || (x == 146 && z == 104) || (x == 146 && z == 119) ||
+				(x == 101 && z == 104) || (x == 101 && z == 91) || (x == 67 && z == 91) ||
+				(x == 67 && z == 104) || (x == 80 && z == 91) || (x == 80 && z == 81) ||
+				(x == 89 && z == 91) || (x == 89 && z == 81) || (x == 89 && z == 19) ||
+				(x == 67 && z == 12) || (x == 67 && z == 57) || (x == 80 && z == 67) ||
+				(x == 53 && z == 67) || (x == 53 && z == 57) || (x == 53 && z == 46) ||
+				(x == 7 && z == 46) || (x == 7 && z == 56) || (x == 0 && z == 56) ||
+				(x == 0 && z == 69) || (x == 43 && z == 67) || (x == 43 && z == 80) ||
+				(x == 7 && z == 80) || (x == 7 && z == 91) || (x == 0 && z == 91) ||
+				(x == 0 && z == 104)) {
+				file_s1 << 1;
+			}
+			else
+				file_s1 << 0;
+		}
+		file_s1 << endl;
+	}
+	file_s1.close();
+
+	// 스테이지 2
+	ofstream file_s2("stage2.txt");
+	for (int z = 0; z < TEXT_HEIGHT; ++z) {
+		for (int x = 0; x < TEXT_WIDTH; ++x) {
+			if ((x == 5 && z == 5) || (x == 66 && z == 5) || (x == 66 && z == 91) ||
+				(x == 5 && z == 91)) {
+				file_s2 << 1;
+			}
+			else
+				file_s2 << 0;
+		}
+		file_s2 << endl;
+	}
+	file_s2.close();
+
+	// 스테이지 3
+	ofstream file_s3("stage3.txt");
+	for (int z = 0; z < TEXT_HEIGHT; ++z) {
+		for (int x = 0; x < TEXT_WIDTH; ++x) {
+			if ((x == 162 && z == 117) || (x == 162 && z == 83) || (x == 122 && z == 117) ||
+				(x == 122 && z == 104) || (x == 122 && z == 96) || (x == 122 && z == 83) ||
+				(x == 113 && z == 104) || (x == 113 && z == 96) || (x == 99 && z == 104) ||
+				(x == 99 && z == 96) || (x == 92 && z == 96) || (x == 92 && z == 85) ||
+				(x == 92 && z == 104) || (x == 92 && z == 115) || (x == 58 && z == 115) ||
+				(x == 58 && z == 104) || (x == 58 && z == 96) || (x == 58 && z == 85) ||
+				(x == 50 && z == 104) || (x == 50 && z == 96) || (x == 24 && z == 96) ||
+				(x == 13 && z == 104) || (x == 13 && z == 22) || (x == 24 && z == 30) ||
+				(x == 75 && z == 30) || (x == 75 && z == 22)) {
+				file_s3 << 1;
+			}
+			else
+				file_s3 << 0;
+		}
+		file_s3 << endl;
+	}
+	/* 맵 이전
 	for (int z = 0; z < W_HEIGHT; ++z) {
 		for (int x = 0; x < W_WIDTH; ++x) {
 			if ((x == 472 && z == 565) || (x == 505 && z == 591) || (x == 505 && z == 574) ||
@@ -1354,29 +1472,92 @@ void create_map()
 		}
 		file_w << endl;
 	}
-	file_w.close();
+	*/
+	file_s3.close();
+	cout << "Map Complete !.";
 }
 
 void load_map()
 {
 	cout << "Map Load..." << endl;
-	char line[W_WIDTH];
-	char* pline;
-	ifstream file("map_data.txt");
-	FILE* in = fopen("map_data.txt", "r");
-	if (!file.is_open()) {
+	char h_line[W_WIDTH];
+	char* hline;
+	ifstream read("Map/hometown/hometown.txt");
+	FILE* hometown_t = fopen("Map/hometown/hometown.txt", "r");
+	if (!read.is_open()) {
 		cout << "map does not exist." << endl;
 		return;
 	}
 	int z = 0;
-	while (!feof(in)) {
-		pline = fgets(line, W_WIDTH, in);
+	while (!feof(hometown_t)) {
+		hline = fgets(h_line, W_HEIGHT, hometown_t);
 		for (int w = 0; w < W_WIDTH; ++w) {
-			map[z][w] = line[w];
+			hometown[z][w] = h_line[w];
 		}
 		z++;
 	}
-	fclose(in);
+	fclose(hometown_t);
+	read.close();
+
+	cout << "Map Load..." << endl;
+	char s1_line[W_WIDTH];
+	char* s1line;
+	ifstream s1_read("Map/stage1/stage1.txt");
+	FILE* stage1_t = fopen("Map/stage1/stage1.txt", "r");
+	if (!s1_read.is_open()) {
+		cout << "map does not exist." << endl;
+		return;
+	}
+	z = 0;
+	while (!feof(stage1_t)) {
+		s1line = fgets(s1_line, W_HEIGHT, stage1_t);
+		for (int w = 0; w < W_WIDTH; ++w) {
+			stage1[z][w] = s1_line[w];
+		}
+		z++;
+	}
+	fclose(stage1_t);
+	s1_read.close();
+
+	cout << "Map Load..." << endl;
+	char s2_line[W_WIDTH];
+	char* s2line;
+	ifstream s2_read("Map/stage2/stage2.txt");
+	FILE* stage2_t = fopen("Map/stage2/stage2.txt", "r");
+	if (!s2_read.is_open()) {
+		cout << "map does not exist." << endl;
+		return;
+	}
+	z = 0;
+	while (!feof(stage2_t)) {
+		s2line = fgets(s2_line, W_HEIGHT, stage2_t);
+		for (int w = 0; w < W_WIDTH; ++w) {
+			stage2[z][w] = s2_line[w];
+		}
+		z++;
+	}
+	fclose(stage2_t);
+	s2_read.close();
+
+	cout << "Map Load..." << endl;
+	char s3_line[W_WIDTH];
+	char* s3line;
+	ifstream s3_read("Map/stage3/stage3.txt");
+	FILE* stage3_t = fopen("Map/stage3/stage3.txt", "r");
+	if (!s3_read.is_open()) {
+		cout << "map does not exist." << endl;
+		return;
+	}
+	z = 0;
+	while (!feof(stage3_t)) {
+		s3line = fgets(s3_line, W_HEIGHT, stage3_t);
+		for (int w = 0; w < W_WIDTH; ++w) {
+			stage3[z][w] = s3_line[w];
+		}
+		z++;
+	}
+	fclose(stage3_t);
+	s3_read.close();
 	/*
 	for (int z = 0; z < W_HEIGHT; ++z) {
 		for (int x = 0; x < W_WIDTH; ++x) {
@@ -1394,8 +1575,8 @@ int main()
 	InitializeNPC();
 	db.DBConnect();
 
-	//load_map();
-	create_map();
+	load_map();
+	//create_map();
 
 	WSADATA WSAData;
 	WSAStartup(MAKEWORD(2, 2), &WSAData);
