@@ -1,10 +1,1 @@
-﻿  main.cpp
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\format(43): warning STL4038: The contents of <format> are available only with C++20 or later.
-C:\Users\GIGABYTE\OneDrive - 한국산업기술대학교\바탕 화면\수업\공부\졸작\paradiselost\Server\Server\Server\main.cpp(724,20): warning C4244: '인수': 'ULONG_PTR'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\GIGABYTE\OneDrive - 한국산업기술대학교\바탕 화면\수업\공부\졸작\paradiselost\Server\Server\Server\main.cpp(733,16): warning C4244: '인수': 'ULONG_PTR'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\GIGABYTE\OneDrive - 한국산업기술대학교\바탕 화면\수업\공부\졸작\paradiselost\Server\Server\Server\main.cpp(737,16): warning C4244: '인수': 'ULONG_PTR'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\GIGABYTE\OneDrive - 한국산업기술대학교\바탕 화면\수업\공부\졸작\paradiselost\Server\Server\Server\main.cpp(741,16): warning C4244: '인수': 'ULONG_PTR'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\GIGABYTE\OneDrive - 한국산업기술대학교\바탕 화면\수업\공부\졸작\paradiselost\Server\Server\Server\main.cpp(745,16): warning C4244: '인수': 'ULONG_PTR'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\GIGABYTE\OneDrive - 한국산업기술대학교\바탕 화면\수업\공부\졸작\paradiselost\Server\Server\Server\main.cpp(763,8): warning C4244: '초기화 중': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\GIGABYTE\OneDrive - 한국산업기술대학교\바탕 화면\수업\공부\졸작\paradiselost\Server\Server\Server\main.cpp(781,8): warning C4244: '초기화 중': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  Server.vcxproj -> C:\Users\GIGABYTE\OneDrive - 한국산업기술대학교\바탕 화면\수업\공부\졸작\paradiselost\Server\Server\x64\Debug\Server.exe
+﻿  Server.vcxproj -> D:\ParadiseLostClient2\paradiselost\Server\Server\Server\x64\Debug\Server.exe
