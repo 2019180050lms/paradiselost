@@ -53,17 +53,20 @@ public class Enemy1StageBoss : MonoBehaviour
     public SoundManager soundManager;
     public AudioSource audioSource;
 
+    public ParticleSystem ShootEffect;
+
     private void Start()
     {
+        ShootEffect = GetComponentInChildren<ParticleSystem>();
         _network = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
         hitBox = GetComponent<HitBox>();
         ps = GetComponentInChildren<ParticleSystem>();
-        bulletPos = transform.GetChild(0);
-        bulletPos2 = transform.GetChild(1);
-        bulletPos3 = transform.GetChild(2);
-        bulletPos4 = transform.GetChild(3);
-        bulletPos5 = transform.GetChild(4);
-        bulletPos6 = transform.GetChild(5);
+        bulletPos = transform.GetChild(1);
+        bulletPos2 = transform.GetChild(2);
+        bulletPos3 = transform.GetChild(3);
+        bulletPos4 = transform.GetChild(4);
+        bulletPos5 = transform.GetChild(5);
+        bulletPos6 = transform.GetChild(6);
         // 사운드
         audioSource = gameObject.AddComponent<AudioSource>();
         soundManager = GetComponent<SoundManager>();
@@ -212,7 +215,7 @@ public class Enemy1StageBoss : MonoBehaviour
         count--;
     }
 
-    IEnumerator Lazer()
+    IEnumerator Fire()
     {
 
         isChase = false;
@@ -220,10 +223,8 @@ public class Enemy1StageBoss : MonoBehaviour
         anim.SetTrigger("doAttack");
 
         yield return new WaitForSeconds(0.2f);
-        hitBox.meleeArea.enabled = true;
-
+        ShootEffect.Emit(100);
         yield return new WaitForSeconds(0.5f);
-        hitBox.meleeArea.enabled = false;
 
         yield return new WaitForSeconds(3f); // 몬스터 공격속도
 
