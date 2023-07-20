@@ -424,16 +424,25 @@ public class MyPlayer : Player
         }
         else if(other.tag == "Portal1")
         {
+            C_Portal packet = new C_Portal();
+            packet.stage = 1;
+            _network.Send(packet.Write());
             SceneManager.LoadScene("Stage1");
             inven.Invoke("FindInven", 1f);
         }
         else if (other.tag == "Portal2")
         {
+            C_Portal packet = new C_Portal();
+            packet.stage = 2;
+            _network.Send(packet.Write());
             SceneManager.LoadScene("Stage2");
             inven.Invoke("FindInven", 1f);
         }
         else if (other.tag == "Portal3")
         {
+            C_Portal packet = new C_Portal();
+            packet.stage = 3;
+            _network.Send(packet.Write());
             SceneManager.LoadScene("Stage3");
             inven.Invoke("FindInven", 1f);
         }

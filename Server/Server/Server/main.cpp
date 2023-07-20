@@ -309,6 +309,7 @@ void disconnect(int c_id);
 void do_player_attack(int n_id, int c_id);
 bool do_add_boss();
 void add_boss();
+void add_monster(int stage);
 
 void process_packet(int c_id, char* packet)
 {
@@ -342,9 +343,13 @@ void process_packet(int c_id, char* packet)
 				if (pl._id == c_id) continue;
 				if (false == can_see(c_id, pl._id))
 					continue;
-				if (is_pc(pl._id)) pl.send_add_player_packet(c_id);
-				else wakeup_npc(pl._id);
-				clients[c_id].send_add_player_packet(pl._id);
+				if (is_pc(pl._id) && clients[c_id]._stage == pl._stage) pl.send_add_player_packet(c_id);
+				else if (pl._stage == clients[c_id]._stage) {
+					wakeup_npc(pl._id);
+				}
+				if (pl._stage == clients[c_id]._stage) {
+					clients[c_id].send_add_player_packet(pl._id);
+				}
 			}
 		}
 		break;
@@ -391,9 +396,13 @@ void process_packet(int c_id, char* packet)
 			if (pl._id == c_id) continue;
 			if (false == can_see(c_id, pl._id))
 				continue;
-			if (is_pc(pl._id)) pl.send_add_player_packet(c_id);
-			else wakeup_npc(pl._id);
-			clients[c_id].send_add_player_packet(pl._id);
+			if (is_pc(pl._id) && clients[c_id]._stage == pl._stage) pl.send_add_player_packet(c_id);
+			else if (pl._stage == clients[c_id]._stage) {
+				wakeup_npc(pl._id);
+			}
+			if (pl._stage == clients[c_id]._stage) {
+				clients[c_id].send_add_player_packet(pl._id);
+			}
 		}
 		break;
 	}
@@ -410,7 +419,6 @@ void process_packet(int c_id, char* packet)
 		int z = (int)p->z;
 		int x = (int)p->x;
 		//if(p->x < -25 || p->x > 38)
-		clients[c_id]._stage = 3;
 		if(clients[c_id]._stage == 0) {
 			if (hometown[z][x] == WALL)
 			{
@@ -473,6 +481,7 @@ void process_packet(int c_id, char* packet)
 		for (auto& cl : clients) {
 			if (cl._state != ST_INGAME) continue;
 			if (cl._id == c_id) continue;
+			if (cl._stage != clients[c_id]._stage) continue;
 			if (can_see(c_id, cl._id))
 				near_list.insert(cl._id);
 		}
@@ -480,6 +489,8 @@ void process_packet(int c_id, char* packet)
 
 		for (auto& pl : near_list) {
 			auto& cpl = clients[pl];
+			if (clients[pl]._stage != clients[c_id]._stage)
+				continue;
 			if (is_pc(pl)) {
 				cpl._vl.lock();
 				if (clients[pl]._view_list.count(c_id)) {
@@ -501,7 +512,9 @@ void process_packet(int c_id, char* packet)
 		}
 
 		for (auto& pl : old_vlist)
-			if (0 == near_list.count(pl)) {
+			if (clients[pl]._stage != clients[c_id]._stage)
+				continue;
+			else if (0 == near_list.count(pl)) {
 				clients[c_id].send_remove_player_packet(pl);
 				if (is_pc(pl))
 					clients[pl].send_remove_player_packet(c_id);
@@ -593,6 +606,18 @@ void process_packet(int c_id, char* packet)
 		}
 		break;
 	}
+	case CS_NPC: {
+		CS_NPC_PACKET* p = reinterpret_cast<CS_NPC_PACKET*>(packet);
+		if (p->active = true) {
+			cout << "test" << endl;
+		}
+	}
+	case CS_PORTAL: {
+		CS_PORTAL_PACKET* p = reinterpret_cast<CS_PORTAL_PACKET*>(packet);
+		clients[c_id]._stage = p->stage;
+		add_monster((int)clients[c_id]._stage);
+		// TODO 스테이지별 위치 조정 추가
+	}
 	default:
 		break;
 	}
@@ -624,6 +649,7 @@ void disconnect(int c_id)
 
 	lock_guard<mutex> ll(clients[c_id]._s_lock);
 	clients[c_id]._state = ST_FREE;
+	clients[c_id]._stage = 0;
 }
 
 bool do_add_boss()
@@ -795,10 +821,169 @@ int API_SendMessage(lua_State* L)
 	return 0;
 }
 
-void InitializeNPC()
+void add_monster(int stage)
 {
 	cout << "NPC intialize begin.\n";
-	int i = 0;
+	switch (stage) {
+	case 1: {
+		for (int i = 0; i < 12; ++i) {
+			if (i < 4) {
+				clients[MAX_USER + i]._hp = 100;
+				clients[MAX_USER + i].x = 78.f;
+				clients[MAX_USER + i].y = 0.f;
+				clients[MAX_USER + i].z = 39.f;
+				clients[MAX_USER + i].my_max_x = 90.f;
+				clients[MAX_USER + i].my_max_z = 65.f;
+				clients[MAX_USER + i].my_min_x = 67.f;
+				clients[MAX_USER + i].my_min_z = 22.f;
+			}
+			else if (i > 3 && i < 8) {
+				clients[MAX_USER + i]._hp = 100;
+				clients[MAX_USER + i].x = 18.f;
+				clients[MAX_USER + i].y = 0.f;
+				clients[MAX_USER + i].z = 56.f;
+				clients[MAX_USER + i].my_max_x = 40.f;
+				clients[MAX_USER + i].my_max_z = 67.f;
+				clients[MAX_USER + i].my_min_x = 7.f;
+				clients[MAX_USER + i].my_min_z = 44.f;
+			}
+			else if (i > 7 && i < 12) {
+				clients[MAX_USER + i]._hp = 100;
+				clients[MAX_USER + i].x = 24.f;
+				clients[MAX_USER + i].y = 0.f;
+				clients[MAX_USER + i].z = 93.f;
+				clients[MAX_USER + i].my_max_x = 40.f;
+				clients[MAX_USER + i].my_max_z = 102.f;
+				clients[MAX_USER + i].my_min_x = 7.f;
+				clients[MAX_USER + i].my_min_z = 80.f;
+			}
+			clients[MAX_USER + i]._type = HUMAN_ROBOT;
+			clients[MAX_USER + i]._stage = 1;
+			clients[MAX_USER + i]._id = MAX_USER + i;
+			clients[MAX_USER + i]._socket = NULL;
+			clients[MAX_USER + i].targetId = -1;
+			clients[MAX_USER + i]._state = ST_INGAME;
+			wprintf_s(clients[MAX_USER + i]._name, "N%d", MAX_USER + i);
+			lua_State* L = clients[MAX_USER + i]._L = luaL_newstate();
+			luaL_openlibs(L);
+			luaL_loadfile(L, "npc.lua");
+			lua_pcall(L, 0, 0, 0);
+			lua_getglobal(L, "set_uid");
+			lua_pushnumber(L, MAX_USER);
+			lua_pcall(L, 1, 0, 0);
+			lua_pop(L, 1);
+			lua_register(L, "API_SendMessage", API_SendMessage);
+			lua_register(L, "API_get_x", API_get_x);
+			lua_register(L, "API_get_y", API_get_y);
+			lua_register(L, "API_add_timer", API_add_timer);
+		}
+		break;
+	}
+	case 2: {
+		for (int i = 0; i < 12; ++i) {
+			if (i < 4) {
+				clients[MAX_USER + i]._hp = 100;
+				clients[MAX_USER + i].x = 34.f;
+				clients[MAX_USER + i].y = 0.f;
+				clients[MAX_USER + i].z = 39.f;
+				clients[MAX_USER + i].my_max_x = 50.f;
+				clients[MAX_USER + i].my_max_z = 51.f;
+				clients[MAX_USER + i].my_min_x = 21.f;
+				clients[MAX_USER + i].my_min_z = 32.f;
+			}
+			else if (i > 3 && i < 8) {
+				clients[MAX_USER + i]._hp = 100;
+				clients[MAX_USER + i].x = 56.f;
+				clients[MAX_USER + i].y = 0.f;
+				clients[MAX_USER + i].z = 78.f;
+				clients[MAX_USER + i].my_max_x = 63.f;
+				clients[MAX_USER + i].my_max_z = 87.f;
+				clients[MAX_USER + i].my_min_x = 46.f;
+				clients[MAX_USER + i].my_min_z = 59.f;
+			}
+			else if (i > 7 && i < 12) {
+				clients[MAX_USER + i]._hp = 100;
+				clients[MAX_USER + i].x = 43.f;
+				clients[MAX_USER + i].y = 18.f;
+				clients[MAX_USER + i].z = 73.f;
+				clients[MAX_USER + i].my_max_x = 60.f;
+				clients[MAX_USER + i].my_max_z = 90.f;
+				clients[MAX_USER + i].my_min_x = 35.f;
+				clients[MAX_USER + i].my_min_z = 57.f;
+			}
+			clients[MAX_USER + i]._type = GUN_ROBOT;
+			clients[MAX_USER + i]._stage = 2;
+			clients[MAX_USER + i]._id = MAX_USER + i;
+			clients[MAX_USER + i]._socket = NULL;
+			clients[MAX_USER + i].targetId = -1;
+			clients[MAX_USER + i]._state = ST_INGAME;
+			wprintf_s(clients[MAX_USER + i]._name, "N%d", MAX_USER + i);
+			lua_State* L = clients[MAX_USER + i]._L = luaL_newstate();
+			luaL_openlibs(L);
+			luaL_loadfile(L, "npc.lua");
+			lua_pcall(L, 0, 0, 0);
+			lua_getglobal(L, "set_uid");
+			lua_pushnumber(L, MAX_USER);
+			lua_pcall(L, 1, 0, 0);
+			lua_pop(L, 1);
+			lua_register(L, "API_SendMessage", API_SendMessage);
+			lua_register(L, "API_get_x", API_get_x);
+			lua_register(L, "API_get_y", API_get_y);
+			lua_register(L, "API_add_timer", API_add_timer);
+		}
+		break;
+	}
+	case 3: {
+		for (int i = 0; i < 12; ++i) {
+			if (i < 4) {
+				clients[MAX_USER + i]._hp = 100;
+				clients[MAX_USER + i].x = 74.f;
+				clients[MAX_USER + i].y = 0.f;
+				clients[MAX_USER + i].z = 100.f;
+				clients[MAX_USER + i].my_max_x = 89.f;
+				clients[MAX_USER + i].my_max_z = 115.f;
+				clients[MAX_USER + i].my_min_x = 59.f;
+				clients[MAX_USER + i].my_min_z = 84.f;
+			}
+			else if (i > 3) {
+				clients[MAX_USER + i]._hp = 100;
+				clients[MAX_USER + i].x = 128.f;
+				clients[MAX_USER + i].y = -8.f;
+				clients[MAX_USER + i].z = 20.f;
+				clients[MAX_USER + i].my_max_x = 165.f;
+				clients[MAX_USER + i].my_max_z = 30.f;
+				clients[MAX_USER + i].my_min_x = 95.f;
+				clients[MAX_USER + i].my_min_z = 8.f;
+			}
+			if (i % 2 == 0)
+				clients[MAX_USER + i]._type = HUMAN_ROBOT;
+			else
+				clients[MAX_USER + i]._type = GUN_ROBOT;
+			clients[MAX_USER + i]._stage = 3;
+			clients[MAX_USER + i]._id = MAX_USER + i;
+			clients[MAX_USER + i]._socket = NULL;
+			clients[MAX_USER + i].targetId = -1;
+			clients[MAX_USER + i]._state = ST_INGAME;
+			wprintf_s(clients[MAX_USER + i]._name, "N%d", MAX_USER + i);
+			lua_State* L = clients[MAX_USER + i]._L = luaL_newstate();
+			luaL_openlibs(L);
+			luaL_loadfile(L, "npc.lua");
+			lua_pcall(L, 0, 0, 0);
+			lua_getglobal(L, "set_uid");
+			lua_pushnumber(L, MAX_USER);
+			lua_pcall(L, 1, 0, 0);
+			lua_pop(L, 1);
+			lua_register(L, "API_SendMessage", API_SendMessage);
+			lua_register(L, "API_get_x", API_get_x);
+			lua_register(L, "API_get_y", API_get_y);
+			lua_register(L, "API_add_timer", API_add_timer);
+		}
+		break;
+	}
+	default:
+		break;
+	}
+	/* 이전 몬스터 생성
 	for(i=0; i<3; ++i)
 
 	// 1번 위치 몬스터
@@ -989,6 +1174,7 @@ void do_random_move(int c_id)
 {
 	unordered_set<int> view_list;
 	for (auto& cl : clients) {
+		if (cl._stage <= 0) continue;
 		if (cl._id >= MAX_USER) break;
 		if (cl._state != ST_INGAME) continue;
 		if (cl._id == c_id) continue;
@@ -1020,6 +1206,7 @@ void do_random_move(int c_id)
 	unordered_set<int> near_list;
 
 	for (auto& cl : clients) {
+		if (cl._stage <= 0) continue;
 		if (cl._id >= MAX_USER) break;
 		if (cl._state != ST_INGAME) continue;
 		if (cl._id == c_id) continue;
@@ -1029,6 +1216,7 @@ void do_random_move(int c_id)
 
 	for (auto& pl : near_list) {
 		auto& cpl = clients[pl];
+		if (clients[pl]._stage <= 0) continue;
 		{
 			cpl._vl.lock();
 			if (clients[pl]._view_list.count(c_id) && clients[pl]._state == ST_INGAME) {
@@ -1051,7 +1239,8 @@ void do_random_move(int c_id)
 	}
 
 	for (auto& pl : view_list)
-		if (0 == near_list.count(pl)) {
+		if (clients[pl]._stage <= 0) continue;
+		else if (0 == near_list.count(pl)) {
 			clients[pl].send_remove_player_packet(c_id);
 		}
 }
@@ -1060,6 +1249,7 @@ void do_player_attack(int n_id, int c_id)
 {
 	unordered_set<int> view_list;
 	for (auto& cl : clients) {
+		if (cl._stage <= 0) continue;
 		if (cl._id >= MAX_USER) break;
 		if (cl._state != ST_INGAME) continue;
 		if (cl._id == n_id) continue;
@@ -1151,6 +1341,7 @@ void do_player_attack(int n_id, int c_id)
 	unordered_set<int> near_list;
 
 	for (auto& cl : clients) {
+		if (cl._stage <= 0) continue;
 		if (cl._id >= MAX_USER) break;
 		if (cl._state != ST_INGAME) continue;
 		if (cl._id == n_id) continue;
@@ -1160,6 +1351,7 @@ void do_player_attack(int n_id, int c_id)
 
 	for (auto& pl : near_list) {
 		auto& cpl = clients[pl];
+		if (cpl._stage <= 0) continue;
 		{
 			cpl._vl.lock();
 			if (clients[pl]._view_list.count(n_id) && clients[pl]._state == ST_INGAME) {
@@ -1177,7 +1369,8 @@ void do_player_attack(int n_id, int c_id)
 		}
 	}
 	for (auto& pl : view_list)
-		if (0 == near_list.count(pl)) {
+		if (clients[pl]._stage <= 0) continue;
+		else if (0 == near_list.count(pl)) {
 			clients[pl].send_remove_player_packet(n_id);
 		}
 }
@@ -1186,6 +1379,7 @@ void do_delay_disable(int n_id, int c_id)
 {
 	unordered_set<int> view_list;
 	for (auto& cl : clients) {
+		if (cl._stage <= 0) continue;
 		if (cl._id >= MAX_USER) break;
 		if (cl._state != ST_INGAME) continue;
 		if (cl._id == n_id) continue;
@@ -1217,6 +1411,7 @@ void do_delay_disable(int n_id, int c_id)
 	//cout << "monster id: " << n_id << ", pos(" << clients[n_id].x << ", " << clients[n_id].y << ", " << clients[n_id].z << endl;
 
 	for (auto& cl : clients) {
+		if (cl._stage <= 0) continue;
 		if (cl._id >= MAX_USER) break;
 		if (cl._state != ST_INGAME) continue;
 		if (cl._id == n_id) continue;
@@ -1224,8 +1419,9 @@ void do_delay_disable(int n_id, int c_id)
 			near_list.insert(cl._id);
 	}
 
-	for (auto& pl : near_list) {
+	for (auto& pl : near_list) {	
 		auto& cpl = clients[pl];
+		if (cpl._stage <= 0) continue;
 		{
 			cpl._vl.lock();
 			if (clients[pl]._view_list.count(n_id) && clients[pl]._state == ST_INGAME) {
@@ -1243,7 +1439,8 @@ void do_delay_disable(int n_id, int c_id)
 		}
 	}
 	for (auto& pl : view_list)
-		if (0 == near_list.count(pl)) {
+		if (clients[pl]._stage <= 0) continue;
+		else if (0 == near_list.count(pl)) {
 			clients[pl].send_remove_player_packet(n_id);
 		}
 }
@@ -1281,44 +1478,6 @@ void do_timer(HANDLE h_iocp)
 
 		}
 	}
-	/*
-	while (true) {
-		g_tl.lock();
-		if (g_timer_queue.empty() == true) {
-			g_tl.unlock();
-			this_thread::sleep_for(1ms);
-			continue;
-		}
-		auto ev = g_timer_queue.top();
-		if (ev._exec_time > chrono::system_clock::now()) {
-			g_tl.unlock();
-			this_thread::sleep_for(1ms);
-			continue;
-		}
-		g_timer_queue.pop();
-		g_tl.unlock();
-		switch (ev._type)
-		{
-		case EV_RANDOM_MOVE: {
-			OVER_EXP* exover = new OVER_EXP;
-			exover->_comp_type = OP_NPC_AI;
-			PostQueuedCompletionStatus(h_iocp, 1, ev._oid, &exover->_over);
-			break;
-		}
-		case EV_ATTACK: {
-			break;
-		}
-		case EV_HEAL: {
-			break;
-		}
-		case EV_RESPAWN: {
-			break;
-		}
-		default:
-			break;
-		}
-	}
-	*/
 }
 
 void create_map()
@@ -1479,7 +1638,7 @@ void create_map()
 
 void load_map()
 {
-	cout << "Map Load..." << endl;
+	cout << "Map Hometown Load..." << endl;
 	char h_line[W_WIDTH];
 	char* hline;
 	ifstream read("Map/hometown/hometown.txt");
@@ -1499,7 +1658,7 @@ void load_map()
 	fclose(hometown_t);
 	read.close();
 
-	cout << "Map Load..." << endl;
+	cout << "Map Stage1 Load..." << endl;
 	char s1_line[W_WIDTH];
 	char* s1line;
 	ifstream s1_read("Map/stage1/stage1.txt");
@@ -1519,7 +1678,7 @@ void load_map()
 	fclose(stage1_t);
 	s1_read.close();
 
-	cout << "Map Load..." << endl;
+	cout << "Map Stage2 Load..." << endl;
 	char s2_line[W_WIDTH];
 	char* s2line;
 	ifstream s2_read("Map/stage2/stage2.txt");
@@ -1539,7 +1698,7 @@ void load_map()
 	fclose(stage2_t);
 	s2_read.close();
 
-	cout << "Map Load..." << endl;
+	cout << "Map Stage3 Load..." << endl;
 	char s3_line[W_WIDTH];
 	char* s3line;
 	ifstream s3_read("Map/stage3/stage3.txt");
@@ -1572,7 +1731,7 @@ int main()
 {
 	HANDLE h_iocp;
 
-	InitializeNPC();
+	//InitializeNPC();
 	db.DBConnect();
 
 	load_map();
