@@ -58,7 +58,7 @@ public class Enemy1StageBoss : MonoBehaviour
     private void Start()
     {
         ShootEffect = GetComponentInChildren<ParticleSystem>();
-        _network = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
+       // _network = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
         hitBox = GetComponent<HitBox>();
         ps = GetComponentInChildren<ParticleSystem>();
         bulletPos = transform.GetChild(1);
@@ -77,6 +77,7 @@ public class Enemy1StageBoss : MonoBehaviour
         
         timer = 0.0f;
         waitingtime = 1;
+
     }
 
     void Awake()
@@ -102,6 +103,7 @@ public class Enemy1StageBoss : MonoBehaviour
     }
      void Update()
     {
+
         Vector3 velo = Vector3.zero;
         //transform.position = Vector3.Lerp(transform.position, pos, 0.001f);
         transform.position = Vector3.SmoothDamp(transform.position, posVec, ref velo, 0.1f);
@@ -195,7 +197,7 @@ public class Enemy1StageBoss : MonoBehaviour
     IEnumerator Attack()
     {
 
-        //Debug.Log("몬스터 공격");
+        Debug.Log("몬스터 공격");
         isChase = false;
         isAttack = true;
         anim.SetTrigger("doAttack");
@@ -220,11 +222,13 @@ public class Enemy1StageBoss : MonoBehaviour
 
         isChase = false;
         isAttack = true;
-        anim.SetTrigger("doAttack");
+        anim.SetTrigger("doFire");
 
         yield return new WaitForSeconds(0.2f);
-        ShootEffect.Emit(100);
-        yield return new WaitForSeconds(0.5f);
+        //ShootEffect.Emit(100);
+        ShootEffect.Play();
+        yield return new WaitForSeconds(3f);
+        ShootEffect.Stop();
 
         yield return new WaitForSeconds(3f); // 몬스터 공격속도
 
@@ -240,41 +244,41 @@ public class Enemy1StageBoss : MonoBehaviour
         audioSource.Play();
         Debug.Log("Shoot 코루틴 0");
         isAttack = true;
-        anim.SetTrigger("doAttack");
+        anim.SetTrigger("doRangeAttack");
         yield return new WaitForSeconds(0.5f);
         GameObject intantBullet = Instantiate(Resources.Load("EnemyBullet", typeof(GameObject)), bulletPos.position, bulletPos.rotation) as GameObject;
         Rigidbody bulletRigid = intantBullet.GetComponent<Rigidbody>();
-        BossMissile test = intantBullet.AddComponent<BossMissile>();
+        //BossMissile test = intantBullet.AddComponent<BossMissile>();
 
         GameObject intantBullet2 = Instantiate(Resources.Load("EnemyBullet", typeof(GameObject)), bulletPos2.position, bulletPos2.rotation) as GameObject;
         Rigidbody bulletRigid2 = intantBullet2.GetComponent<Rigidbody>();
-        BossMissile test2 = intantBullet2.AddComponent<BossMissile>();
+        //BossMissile test2 = intantBullet2.AddComponent<BossMissile>();
 
         GameObject intantBullet3 = Instantiate(Resources.Load("EnemyBullet", typeof(GameObject)), bulletPos3.position, bulletPos3.rotation) as GameObject;
         Rigidbody bulletRigid3 = intantBullet3.GetComponent<Rigidbody>();
-        BossMissile test3 = intantBullet3.AddComponent<BossMissile>();
+        //BossMissile test3 = intantBullet3.AddComponent<BossMissile>();
 
         GameObject intantBullet4 = Instantiate(Resources.Load("EnemyBullet", typeof(GameObject)), bulletPos4.position, bulletPos4.rotation) as GameObject;
         Rigidbody bulletRigid4 = intantBullet4.GetComponent<Rigidbody>();
-        BossMissile test4 = intantBullet4.AddComponent<BossMissile>();
+        //BossMissile test4 = intantBullet4.AddComponent<BossMissile>();
 
         GameObject intantBullet5 = Instantiate(Resources.Load("EnemyBullet", typeof(GameObject)), bulletPos5.position, bulletPos5.rotation) as GameObject;
         Rigidbody bulletRigid5 = intantBullet5.GetComponent<Rigidbody>();
-        BossMissile test5 = intantBullet5.AddComponent<BossMissile>();
+        //BossMissile test5 = intantBullet5.AddComponent<BossMissile>();
 
         GameObject intantBullet6 = Instantiate(Resources.Load("EnemyBullet", typeof(GameObject)), bulletPos6.position, bulletPos6.rotation) as GameObject;
         Rigidbody bulletRigid6 = intantBullet6.GetComponent<Rigidbody>();
-        BossMissile test6 = intantBullet6.AddComponent<BossMissile>();
+        //BossMissile test6 = intantBullet6.AddComponent<BossMissile>();
 
-        test.enemyId = enemyId;
+        //test.enemyId = enemyId;
         Debug.Log("Shoot 코루틴 ");
 
-        bulletRigid.velocity = bulletPos.forward * 30;
-        bulletRigid2.velocity = bulletPos.forward * 30;
-        bulletRigid3.velocity = bulletPos.forward * 30;
-        bulletRigid4.velocity = bulletPos.forward * 30;
-        bulletRigid5.velocity = bulletPos.forward * 30;
-        bulletRigid6.velocity = bulletPos.forward * 30;
+        bulletRigid.velocity = bulletPos.forward * 10;
+        bulletRigid2.velocity = bulletPos.forward * 15;
+        bulletRigid3.velocity = bulletPos.forward * 7;
+        bulletRigid4.velocity = bulletPos.forward * 20;
+        bulletRigid5.velocity = bulletPos.forward * 25;
+        bulletRigid6.velocity = bulletPos.forward * 13;
 
         Destroy(intantBullet, 3f);
         Destroy(intantBullet2, 3f);
