@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class NpcScript : MonoBehaviour
 {
+    NetworkManager _network;
+
     public GameObject talkPanel;
     public GameObject questPanel;
     public Text npxtext;
@@ -14,8 +16,11 @@ public class NpcScript : MonoBehaviour
 
     public MyPlayer player;
     public GameUIManager gameUIManager;
+    public static NpcScript Instance { get; } = new NpcScript();
+
     void Start()
     {
+        _network = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
         talkPanel.SetActive(false);
         questPanel.SetActive(false);
 
@@ -57,9 +62,13 @@ public class NpcScript : MonoBehaviour
                 }
                 else if (clickCount == 3 && obj.questInt == 0)
                 {
+                    C_Npc npcpacket = new C_Npc();
+                    npcpacket.active = true;
+
                     questPanel.SetActive(true);
                     talkPanel.SetActive(false);
                     clickCount = 0;
+                    _network.Send(npcpacket.Write());
                 }
 
                 else if(clickCount == 0 && obj.questInt > 0 && obj.questInt < 3)

@@ -15532,7 +15532,7 @@ Transform:
   m_GameObject: {fileID: 6684991289945519868}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4, y: 4, z: 4}
+  m_LocalScale: {x: 1.7, y: 1.7, z: 1.7}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2385827365195252326}
@@ -15634,6 +15634,7 @@ MonoBehaviour:
   shootSfx: {fileID: 0}
   runningSfx: {fileID: 0}
   slashSfx: {fileID: 0}
+  twoHandSlashSfx: {fileID: 0}
   Bgm: {fileID: 0}
   monsterDieSfx: {fileID: 8300000, guid: c6e4bbd0523b95e42ae383989ba09984, type: 3}
 --- !u!1 &6684998354885227946

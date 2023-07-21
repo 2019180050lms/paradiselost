@@ -18,6 +18,8 @@ constexpr char CS_MOVE = 6;
 constexpr char CS_ENTER_GAME = 4;
 constexpr char CS_MONSTER_ATTACKED = 12;
 constexpr char CS_EQUIP_ITEM = 16;
+constexpr char CS_NPC = 17;
+constexpr char CS_PORTAL = 18;
 
 constexpr char SC_LOGIN_INFO = 3;
 constexpr char SC_ENTER_PLAYER = 8;
@@ -27,6 +29,7 @@ constexpr char SC_MOVE_PLAYER = 10;
 constexpr char SC_ATTACKED_MONSTER = 14;
 constexpr char SC_ITEM_INFO = 15;
 constexpr char SC_BOSS_ATTACK = 20;
+constexpr char SC_NPC = 21;
 //constexpr char SC_ITEM_INFO = 
 
 enum MONSTER { GUN_ROBOT = 5, HUMAN_ROBOT = 6, BOSS_TEST = 7 };
@@ -83,6 +86,18 @@ struct CS_EQUIP_ITEM_PACKET {
 	unsigned short itemValue;
 };
 
+struct CS_NPC_PACKET {
+	unsigned short size;
+	unsigned short type;
+	bool active;
+};
+
+struct CS_PORTAL_PACKET {
+	unsigned short size;
+	unsigned short type;
+	int stage;
+};
+
 struct SC_LOGIN_INFO_PACKET {
 	unsigned short size;
 	unsigned short type;
@@ -129,6 +144,14 @@ struct SC_ATTACKED_MONSTER_PACKET {
 	unsigned short type;
 	int id;
 	short hp;
+};
+
+struct SC_NPC_PACKET {
+	unsigned short size;
+	unsigned short type;
+	short stage;
+	bool active;
+	short monster_count;
 };
 
 struct SC_BOSS_ATTACK_PACKET {

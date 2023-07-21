@@ -20,9 +20,6 @@ public class PlayerManager
 
     void SetCharacter(int playerId, short hp, int playerType, Vector3 pos)
     {
-        
-
-        
         switch (playerType)
         {
             case 1:
@@ -1170,5 +1167,13 @@ public class PlayerManager
         }
 
         Debug.Log("player hp: " + packet.hp);
+    }
+
+    public void NPCManager(S_Npc packet)
+    {
+        //NpcScript.Instance.questInt = packet.monster_count;
+        Debug.Log("stage: " + packet.stage);
+        Debug.Log("active: " + packet.active);
+        Debug.Log("monster_count: " + packet.monster_count);
     }
 }

@@ -102,6 +102,16 @@ class PacketHandler
 		PlayerManager.Instance.AttackedPlayer(pkt);
 	}
 
+	public static void S_NpcHandler(PacketSession session, IPacket packet)
+	{
+		S_Npc pkt = packet as S_Npc;
+		ServerSession serverSession = session as ServerSession;
+
+		//Debug.Log("");
+
+		PlayerManager.Instance.NPCManager(pkt);
+	}
+
 	public static void S_ChatHandler(PacketSession session, IPacket packet)
 	{
 		S_Chat chatPacket = packet as S_Chat;
