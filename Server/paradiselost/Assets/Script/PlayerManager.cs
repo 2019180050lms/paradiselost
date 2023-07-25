@@ -14,6 +14,7 @@ public class PlayerManager
     Dictionary<int, Enemy> _enemys = new Dictionary<int, Enemy>();
     Joint_Robot c_p_parts = null;
     public GameObject item;
+    public GameObject stageClearLogo;
     public Vector3 moveVec;
     public static PlayerManager Instance { get; } = new PlayerManager();
 
@@ -850,6 +851,7 @@ public class PlayerManager
             {
                 Enemy enemy = null;
                 Object items = null;
+                Object stageClear = Resources.Load("Items/StageClear");
                 switch (packet.itemNum)
                 {
                     case 0:
@@ -885,7 +887,8 @@ public class PlayerManager
                 {
                     _boss.anim.SetTrigger("doDie");
                     GameObject.Destroy(_boss.gameObject, 2);
-
+                    stageClearLogo = Object.Instantiate(stageClear) as GameObject;
+                    stageClearLogo.transform.position = new Vector3(enemy.transform.position.x, 5f, enemy.transform.position.z);
                     Debug.Log("dead boss monster test");
                     _boss = null;
                 }
