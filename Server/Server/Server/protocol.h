@@ -20,7 +20,7 @@ constexpr char CS_ENTER_GAME = 4;
 constexpr char CS_MONSTER_ATTACKED = 12;
 constexpr char CS_EQUIP_ITEM = 16;
 constexpr char CS_NPC = 17;
-constexpr char CS_PORTAL = 18;
+constexpr char CS_PORTAL = 23;
 
 constexpr char SC_LOGIN_INFO = 3;
 constexpr char SC_ENTER_PLAYER = 8;
@@ -31,6 +31,7 @@ constexpr char SC_ATTACKED_MONSTER = 14;
 constexpr char SC_ITEM_INFO = 15;
 constexpr char SC_BOSS_ATTACK = 20;
 constexpr char SC_NPC = 21;
+constexpr char SC_STAGE_CLEAR = 22;
 //constexpr char SC_ITEM_INFO = 
 
 enum MONSTER { STAGE1_BOSS = 4, GUN_ROBOT = 5, HUMAN_ROBOT = 6, BOSS_TEST = 7 };
@@ -169,6 +170,13 @@ struct SC_ITEM_INFO_PACKET {
 	int id;
 	unsigned short itemType;
 	unsigned short itemValue;
+};
+
+struct SC_STAGE_CLEAR_PACKET {
+	unsigned short size;
+	unsigned short type;
+	int stage;
+	int item;
 };
 
 #pragma pack (pop)

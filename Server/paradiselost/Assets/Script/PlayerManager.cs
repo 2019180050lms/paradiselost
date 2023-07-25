@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerManager
 {
@@ -1178,5 +1179,12 @@ public class PlayerManager
         Debug.Log("stage: " + packet.stage);
         Debug.Log("active: " + packet.active);
         Debug.Log("monster_count: " + packet.monster_count);
+    }
+
+    public void StageClearManager(S_StageClear packet)
+    {
+        SceneManager.LoadScene("InGame");
+        // 아이템
+        Debug.Log("스테이지 클리어 보상 아이템: " + packet.item);
     }
 }

@@ -141,4 +141,14 @@ class PacketHandler
 
 		Debug.Log("아이템 먹은 플레이어 " + pkt.playerId + " 아이템 타입: " + pkt.charactorType + " 아이템 값: " + pkt.itemType);
 	}
+
+	public static void S_StageClearHandler(PacketSession session, IPacket packet)
+	{
+		S_StageClear pkt = packet as S_StageClear;
+		ServerSession serverSession = session as ServerSession;
+
+		//Debug.Log("");
+
+		PlayerManager.Instance.StageClearManager(pkt);
+	}
 }
