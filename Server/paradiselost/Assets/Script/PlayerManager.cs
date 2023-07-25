@@ -10,6 +10,7 @@ public class PlayerManager
     Enemy enemy = null;
     public Joint_Robot joint;
     public BossEnemy _boss = null;
+    public Enemy1StageBoss _boss1 = null;
     Dictionary<int, Player> _players = new Dictionary<int, Player>();
     public Dictionary<int, Joint_Robot> _playerParts = new Dictionary<int, Joint_Robot>();
     Dictionary<int, Enemy> _enemys = new Dictionary<int, Enemy>();
@@ -771,7 +772,7 @@ public class PlayerManager
         {
             Object obj = Resources.Load("Monster/1StageBoss");
             GameObject go = Object.Instantiate(obj) as GameObject;
-            Enemy enemy = go.AddComponent<Enemy>();
+            Enemy1StageBoss enemy = go.AddComponent<Enemy1StageBoss>();
             enemy.enabled = true;
             enemy.enemyId = packet.playerId;
             enemy.enemyType = packet.type;
@@ -780,7 +781,7 @@ public class PlayerManager
             enemy.ps = go.GetComponentInChildren<ParticleSystem>();
 
             enemy.posVec = new Vector3(packet.posX, packet.posY, packet.posZ);
-            _enemys.Add(packet.playerId, enemy);
+            _boss1 = enemy;
 
         }
         else if (packet.type == 5)
@@ -884,14 +885,16 @@ public class PlayerManager
                         rigidbody.AddForce(new Vector3(7, 10, 0), ForceMode.Impulse);
                     }
                 }
-                else if(packet.playerId == _boss.enemyId)
+
+                if(packet.playerId == _boss1.enemyId)
                 {
-                    _boss.anim.SetTrigger("doDie");
-                    GameObject.Destroy(_boss.gameObject, 2);
+                    _boss1.anim.SetTrigger("doDie");
                     stageClearLogo = Object.Instantiate(stageClear) as GameObject;
-                    stageClearLogo.transform.position = new Vector3(enemy.transform.position.x, 5f, enemy.transform.position.z);
+                    stageClearLogo.transform.position = new Vector3(_boss.transform.position.x, 5f, _boss.transform.position.z);
+                    GameObject.Destroy(_boss.gameObject, 2);
+                    
                     Debug.Log("dead boss monster test");
-                    _boss = null;
+                    _boss1 = null;
                 }
             }
         }
