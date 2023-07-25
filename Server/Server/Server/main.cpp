@@ -26,7 +26,7 @@ char stage1[W_HEIGHT][W_WIDTH];
 char stage2[W_HEIGHT][W_WIDTH];
 char stage3[W_HEIGHT][W_WIDTH];
 
-enum COMP_TYPE { OP_CONNECT, OP_DISCONNECT, OP_ACCEPT, OP_RECV, OP_SEND, OP_NPC_AI };
+enum COMP_TYPE { OP_CONNECT, OP_DISCONNECT, OP_ACCEPT, OP_RECV, OP_SEND, OP_NPC_AI, OP_BOSS_AI, OP_STAGE_CLEAR };
 class OVER_EXP {
 public:
 	WSAOVERLAPPED _over;
@@ -159,6 +159,15 @@ public:
 	}
 	void send_attacked_monster(int c_id);
 	void send_boss_attack(int c_id);
+	void send_stage_clear(int stage, int item) {
+		SC_STAGE_CLEAR_PACKET p;
+		p.size = sizeof(p);
+		p.type = SC_STAGE_CLEAR;
+		p.stage = stage;
+		p.item = item;
+		do_send(&p);
+		cout << _id << " stage clear!" << endl;
+	}
 };
 
 array<SESSION, MAX_USER + MAX_NPC> clients;
@@ -168,7 +177,7 @@ mutex _db_l;
 SOCKET g_s_socket, g_c_socket;
 OVER_EXP g_a_over;
 
-enum EVENT_TYPE { EV_RANDOM_MOVE, EV_HEAL, EV_ATTACK, EV_BOSS, EV_RESPAWN };
+enum EVENT_TYPE { EV_RANDOM_MOVE, EV_HEAL, EV_ATTACK, EV_BOSS, EV_RESPAWN, EV_BOSS_MOVE, EV_STAGE_CLEAR };
 
 struct EVENT {
 	int _oid;
@@ -456,18 +465,19 @@ void process_packet(int c_id, char* packet)
 			}
 		}
 		else if (clients[c_id]._stage == 3) {
+			/*
 			if (stage3[z][x] == WALL)
 			{
 				clients[c_id].send_move_packet(c_id);
 			}
 			else
 			{
-				clients[c_id].x = p->x;
-				clients[c_id].y = p->y;
-				clients[c_id].z = p->z;
 			}
+			*/
+			clients[c_id].x = p->x;
+			clients[c_id].y = p->y;
+			clients[c_id].z = p->z;
 		}
-
 		clients[c_id].isAttack = p->isAttack;
 		clients[c_id].isJump = p->isJump;
 
@@ -612,11 +622,15 @@ void process_packet(int c_id, char* packet)
 		if (p->active = true) {
 			clients[c_id]._quest_stage = p->_quest_stage;
 		}
+		break;
 	}
 	case CS_PORTAL: {
 		CS_PORTAL_PACKET* p = reinterpret_cast<CS_PORTAL_PACKET*>(packet);
+		clients[c_id]._s_lock.lock();
 		clients[c_id]._stage = p->stage;
+		clients[c_id]._s_lock.unlock();
 		// TODO 스테이지별 위치 조정 추가
+		break;
 	}
 	default:
 		break;
@@ -648,7 +662,9 @@ void disconnect(int c_id)
 		clients[c_id]._stage = 0;
 		clients[c_id]._quest_stage = -1;
 	}
-
+	if (c_id == MAX_USER + MAX_NPC - 1) {
+		add_timer(c_id, chrono::system_clock::now() + 10s, EV_STAGE_CLEAR);
+	}
 	lock_guard<mutex> ll(clients[c_id]._s_lock);
 	clients[c_id]._state = ST_FREE;
 }
@@ -783,6 +799,28 @@ void worker_thread(HANDLE h_iocp)
 			}
 			else
 				cout << "deactivate = false" << endl;
+			break;
+		}
+		case OP_BOSS_AI:
+		{
+
+			break;
+		}
+		case OP_STAGE_CLEAR:
+		{
+			for (auto& client : clients) {
+				if (client._id >= MAX_USER) break;
+				if (client._stage == clients[key]._stage) {
+					client.send_stage_clear(0, 1);
+					client._s_lock.lock();
+					client.x = 30.f;
+					client.y = 1.f;
+					client.z = 40.f;
+					client._stage = 0;
+					client._s_lock.unlock();
+					client.send_move_packet(client._id);
+				}
+			}
 			break;
 		}
 		default:
@@ -970,6 +1008,10 @@ void add_boss(short stage)
 		clients[MAX_USER + MAX_NPC - 1].x = 169.f;
 		clients[MAX_USER + MAX_NPC - 1].y = 0.f;
 		clients[MAX_USER + MAX_NPC - 1].z = 98.f;
+		clients[MAX_USER + MAX_NPC - 1].my_max_x = 181.f;
+		clients[MAX_USER + MAX_NPC - 1].my_max_z = 115.f;
+		clients[MAX_USER + MAX_NPC - 1].my_min_x = 152.f;
+		clients[MAX_USER + MAX_NPC - 1].my_min_z = 80.f;
 		clients[MAX_USER + MAX_NPC - 1]._dir = 4;
 		clients[MAX_USER + MAX_NPC - 1]._stage = 1;
 		clients[MAX_USER + MAX_NPC - 1]._socket = NULL;
@@ -1293,6 +1335,12 @@ void do_timer(HANDLE h_iocp)
 				break;
 			}
 			case EV_HEAL: {
+				break;
+			}
+			case EV_STAGE_CLEAR: {
+				OVER_EXP* exover = new OVER_EXP;
+				exover->_comp_type = OP_STAGE_CLEAR;
+				PostQueuedCompletionStatus(h_iocp, 1, ev._oid, &exover->_over);
 				break;
 			}
 			case EV_RESPAWN: {

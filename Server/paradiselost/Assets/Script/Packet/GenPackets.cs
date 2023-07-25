@@ -30,7 +30,8 @@ public enum PacketID
 	S_BOSSATTACK = 20,
 	S_NPC = 21,
 	C_NPC = 17,
-	C_PORTAL = 18
+	C_PORTAL = 23,
+	S_STAGE_CLEAR = 22
 }
 
 public interface IPacket
@@ -1185,6 +1186,43 @@ public class C_Portal : IPacket
 		Array.Copy(BitConverter.GetBytes((ushort)PacketID.C_PORTAL), 0, segment.Array, segment.Offset + count, sizeof(ushort));
 		count += sizeof(ushort);
 		Array.Copy(BitConverter.GetBytes(this.stage), 0, segment.Array, segment.Offset + count, sizeof(int));
+		count += sizeof(int);
+
+		Array.Copy(BitConverter.GetBytes(count), 0, segment.Array, segment.Offset, sizeof(ushort));
+
+		return SendBufferHelper.Close(count);
+	}
+}
+
+public class S_StageClear : IPacket
+{
+	public int stage;
+	public int item;
+
+	public ushort Protocol { get { return (ushort)PacketID.S_STAGE_CLEAR; } }
+
+	public void Read(ArraySegment<byte> segment)
+	{
+		ushort count = 0;
+		count += sizeof(ushort);
+		count += sizeof(ushort);
+		this.stage = BitConverter.ToInt32(segment.Array, segment.Offset + count);
+		count += sizeof(int);
+		this.item = BitConverter.ToInt32(segment.Array, segment.Offset + count);
+		count += sizeof(int);
+	}
+
+	public ArraySegment<byte> Write()
+	{
+		ArraySegment<byte> segment = SendBufferHelper.Open(4096);
+		ushort count = 0;
+
+		count += sizeof(ushort);
+		Array.Copy(BitConverter.GetBytes((ushort)PacketID.S_STAGE_CLEAR), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+		count += sizeof(ushort);
+		Array.Copy(BitConverter.GetBytes(this.stage), 0, segment.Array, segment.Offset + count, sizeof(int));
+		count += sizeof(int);
+		Array.Copy(BitConverter.GetBytes(this.item), 0, segment.Array, segment.Offset + count, sizeof(int));
 		count += sizeof(int);
 
 		Array.Copy(BitConverter.GetBytes(count), 0, segment.Array, segment.Offset, sizeof(ushort));
