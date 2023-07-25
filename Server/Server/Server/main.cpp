@@ -280,7 +280,7 @@ void SESSION::send_add_player_packet(int c_id)
 	_view_list.insert(c_id);
 	_vl.unlock();
 	do_send(&add_packet);
-	cout << "add player send: " << add_packet.id << ", " << add_packet.c_type << ", " << add_packet.weapon_item << endl;
+	//cout << "add player send: " << add_packet.id << ", " << add_packet.c_type << ", " << add_packet.weapon_item << endl;
 
 	//cout << "send enter game: " << add_packet.name << endl;
 }
@@ -334,6 +334,7 @@ void process_packet(int c_id, char* packet)
 		{
 			lock_guard<mutex> ll{ clients[c_id]._s_lock };
 			clients[c_id]._state = ST_INGAME;
+			clients[c_id]._stage = 0;
 		}
 		_db_l.lock();
 		db.get_user_data(clients[c_id]._name, clients[c_id]._name, &clients[c_id].x, 
@@ -372,9 +373,10 @@ void process_packet(int c_id, char* packet)
 		{
 			lock_guard<mutex> ll{ clients[c_id]._s_lock };
 			clients[c_id].x = 30.f;
-			clients[c_id].y = 1.f;
+			clients[c_id].y = 5.f;
 			clients[c_id].z = 40.f;
 			clients[c_id]._state = ST_INGAME;
+			clients[c_id]._stage = 0;
 		}
 		clients[c_id].exp = 0;
 		clients[c_id].level = 1;
@@ -405,12 +407,16 @@ void process_packet(int c_id, char* packet)
 			if (pl._id == c_id) continue;
 			if (false == can_see(c_id, pl._id))
 				continue;
-			if (is_pc(pl._id) && clients[c_id]._stage == pl._stage) pl.send_add_player_packet(c_id);
+			if (is_pc(pl._id) && clients[c_id]._stage == pl._stage) {
+				pl.send_add_player_packet(c_id);
+				cout << "first: " << pl._id << ": add " << c_id << endl;
+			}
 			else if (pl._stage == clients[c_id]._stage) {
 				wakeup_npc(pl._id);
 			}
 			if (pl._stage == clients[c_id]._stage) {
 				clients[c_id].send_add_player_packet(pl._id);
+				cout << "first: " << pl._id << ": add " << c_id << endl;
 			}
 		}
 		break;
@@ -514,8 +520,7 @@ void process_packet(int c_id, char* packet)
 			}
 
 			if (old_vlist.count(pl) == 0) {
-				if (clients[pl]._stage == clients[c_id]._stage)
-					clients[c_id].send_add_player_packet(pl);
+				clients[c_id].send_add_player_packet(pl);
 					//cout << "pl: " << pl << endl;
 				if (false == is_pc(pl))
 					wakeup_npc(pl);
@@ -814,7 +819,7 @@ void worker_thread(HANDLE h_iocp)
 					client.send_stage_clear(0, 1);
 					client._s_lock.lock();
 					client.x = 30.f;
-					client.y = 1.f;
+					client.y = 5.f;
 					client.z = 40.f;
 					client._stage = 0;
 					client._s_lock.unlock();
@@ -1606,10 +1611,6 @@ int main()
 	HANDLE h_iocp;
 
 	//InitializeNPC();
-	db.DBConnect();
-
-	load_map();
-	add_monster();
 
 	WSADATA WSAData;
 	WSAStartup(MAKEWORD(2, 2), &WSAData);
@@ -1624,13 +1625,16 @@ int main()
 	SOCKADDR_IN cl_addr;
 	int addr_size = sizeof(cl_addr);
 
+	db.DBConnect();
+	load_map();
+	add_monster();
+
 	h_iocp = CreateIoCompletionPort(INVALID_HANDLE_VALUE, 0, 0, 0);
 	CreateIoCompletionPort(reinterpret_cast<HANDLE>(g_s_socket), h_iocp, 9999, 0);
 	g_c_socket = WSASocket(AF_INET, SOCK_STREAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED);
 	g_a_over._comp_type = OP_ACCEPT;
 	AcceptEx(g_s_socket, g_c_socket, g_a_over._send_buf, 0, addr_size + 16, addr_size + 16, 0, &g_a_over._over);
 
-	// thread ai_thread{ do_ai };
 	thread timer_thread{ do_timer, h_iocp };
 	vector <thread> worker_threads;
 	int num_threads = std::thread::hardware_concurrency();
@@ -1638,7 +1642,6 @@ int main()
 		worker_threads.emplace_back(worker_thread, h_iocp);
 	for (auto& th : worker_threads)
 		th.join();
-	// ai_thread.join();
 	timer_thread.join();
 	closesocket(g_s_socket);
 	WSACleanup();
