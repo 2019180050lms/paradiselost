@@ -3,6 +3,7 @@ constexpr int BUF_SIZE = 8192;
 constexpr int NAME_SIZE = 20;
 
 constexpr int MAX_USER = 500;
+constexpr int MAX_NPC = 37;
 
 constexpr int W_WIDTH = 500;
 constexpr int W_HEIGHT = 500;
@@ -32,7 +33,7 @@ constexpr char SC_BOSS_ATTACK = 20;
 constexpr char SC_NPC = 21;
 //constexpr char SC_ITEM_INFO = 
 
-enum MONSTER { GUN_ROBOT = 5, HUMAN_ROBOT = 6, BOSS_TEST = 7 };
+enum MONSTER { STAGE1_BOSS = 4, GUN_ROBOT = 5, HUMAN_ROBOT = 6, BOSS_TEST = 7 };
 
 #pragma pack (push, 1)
 struct CS_LOGIN_PACKET {
@@ -90,6 +91,7 @@ struct CS_NPC_PACKET {
 	unsigned short size;
 	unsigned short type;
 	bool active;
+	short _quest_stage;
 };
 
 struct CS_PORTAL_PACKET {

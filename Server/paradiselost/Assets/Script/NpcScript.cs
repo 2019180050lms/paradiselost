@@ -12,6 +12,7 @@ public class NpcScript : MonoBehaviour
     public Text npxtext;
     public Text questtext;
     public Text questIntNum;
+    public short _stage;
     int clickCount = 0;
 
     public MyPlayer player;
@@ -23,7 +24,7 @@ public class NpcScript : MonoBehaviour
         _network = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
         talkPanel.SetActive(false);
         questPanel.SetActive(false);
-
+        _stage = 0;
         gameUIManager = GameObject.Find("Game Manager").GetComponent<GameUIManager>();
     }
 
@@ -64,6 +65,7 @@ public class NpcScript : MonoBehaviour
                 {
                     C_Npc npcpacket = new C_Npc();
                     npcpacket.active = true;
+                    npcpacket._quest_stage = _stage;
 
                     questPanel.SetActive(true);
                     talkPanel.SetActive(false);
@@ -94,6 +96,7 @@ public class NpcScript : MonoBehaviour
                 else if (clickCount == 1 && obj.questInt == 3)
                 {
                     npxtext.text = "보상으로 검을 지급합니다.";
+                    _stage++;
                     clickCount++;
                 }
 

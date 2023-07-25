@@ -767,7 +767,7 @@ public class PlayerManager
         }
         if (packet.type == 4)
         {
-            Object obj = Resources.Load("Monster_turret");
+            Object obj = Resources.Load("Monster/1StageBoss");
             GameObject go = Object.Instantiate(obj) as GameObject;
             Enemy enemy = go.AddComponent<Enemy>();
             enemy.enabled = true;
@@ -797,7 +797,7 @@ public class PlayerManager
         }
         else if (packet.type == 6)
         {
-            Object obj = Resources.Load("Monster/Robot1");
+            Object obj = Resources.Load("Monster/Robot2");
             GameObject go = Object.Instantiate(obj) as GameObject;
             Enemy enemy = go.AddComponent<Enemy>();
             enemy.enabled = true;
