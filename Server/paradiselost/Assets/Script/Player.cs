@@ -6,7 +6,7 @@ public class Player : MonoBehaviour
 {
     public int PlayerId { get; set; }
 
-    public float speed = 10.0f;
+    public float speed = 10.5f;
     public List<GameObject> weapons = new List<GameObject>() { };
     public bool[] hasWeapons = new bool[4];
     public Transform bulletPos;
