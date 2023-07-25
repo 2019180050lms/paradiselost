@@ -189,6 +189,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 20
   ParentID: 0
+  explosionEffect: {fileID: 0}
 --- !u!23 &7140955929453131831
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -317,6 +318,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2478743403027163748}
     m_Modifications:
+    - target: {fileID: 1828176872806910, guid: 64891a0eb28db934898420d80ca07cb3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4361801158873524, guid: 64891a0eb28db934898420d80ca07cb3, type: 3}
       propertyPath: m_RootOrder
       value: 0
