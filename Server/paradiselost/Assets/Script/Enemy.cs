@@ -146,6 +146,10 @@ public class Enemy : MonoBehaviour
             _network.Send(attackedPacket.Write());
             StartCoroutine(OnDamage(reactVec));
         }
+        else if(other.tag == "EnemyBullet")
+        {
+            Destroy(other);
+        }
     }
 
 
@@ -220,8 +224,8 @@ public class Enemy : MonoBehaviour
 
         test.enemyId = enemyId;
         Debug.Log("Shoot 코루틴 ");
-        bulletRigid.velocity = bulletPos.forward * 90;
-        bulletRigid2.velocity = bulletPos.forward * 90;
+        bulletRigid.velocity = bulletPos.forward * 30;
+        bulletRigid2.velocity = bulletPos.forward * 30;
         Destroy(intantBullet, 3f);
         Destroy(intantBullet2, 3f);
         //yield return new WaitForSeconds(1f);
