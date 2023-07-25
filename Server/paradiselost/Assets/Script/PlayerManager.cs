@@ -538,6 +538,52 @@ public class PlayerManager
                 }
 
             }
+            // 스테이지1 보스 처리
+            else if (_boss1.enemyId == packet.playerId)
+            {
+                _boss1.isAttack = packet.wDown;
+                //_boss1.bossAttack = packet.bossAttack;
+                if (packet.playerDir == 0)
+                    _boss1.moveVec2 = new Vector3(0, 0, 0);
+                else if (packet.playerDir == 1)
+                    _boss1.moveVec2 = new Vector3(1, 0, 0);
+                else if (packet.playerDir == 2)
+                    _boss1.moveVec2 = new Vector3(-1, 0, 0);
+                else if (packet.playerDir == 3)
+                    _boss1.moveVec2 = new Vector3(0, 0, 1);
+                else if (packet.playerDir == 4)
+                    _boss1.moveVec2 = new Vector3(0, 0, -1);
+                else if (packet.playerDir == 5)
+                    _boss1.moveVec2 = new Vector3(Mathf.Sqrt(0.5f), 0, Mathf.Sqrt(0.5f));
+                else if (packet.playerDir == 6)
+                    _boss1.moveVec2 = new Vector3(Mathf.Sqrt(0.5f), 0, -(Mathf.Sqrt(0.5f)));
+                else if (packet.playerDir == 7)
+                    _boss1.moveVec2 = new Vector3(-(Mathf.Sqrt(0.5f)), 0, Mathf.Sqrt(0.5f));
+                else if (packet.playerDir == 8)
+                    _boss1.moveVec2 = new Vector3(-(Mathf.Sqrt(0.5f)), 0, -(Mathf.Sqrt(0.5f)));
+
+                _boss1.moveVec2 = new Vector3(packet.posX, packet.posY, packet.posZ);
+                _boss1.posVec = new Vector3(packet.posX, packet.posY, packet.posZ);
+                //_boss.anim.SetBool("isWalk", _boss.isAttack != false);
+
+                if (packet.bossAttack == 1)
+                {
+                    //_boss.StopCoroutine("Attack");
+                    //_boss.anim.SetTrigger("doAttack");
+                    //_boss.StartCoroutine("Attack");
+                    //Debug.Log("Boss Attack1 " + packet.bossAttack);
+                }
+                else if (packet.bossAttack == 2)
+                {
+                    //_boss.StopCoroutine("MissileShot");
+                    //_boss.StartCoroutine("MissileShot");
+                    //Debug.Log("Boss Attack2 " + packet.bossAttack);
+                    //_boss.transform.LookAt();
+                }
+                //enemy.transform.LookAt(enemy.transform.position + enemy.moveVec2);
+                Debug.Log("Stage1 Boss Move");
+                _boss1.transform.LookAt(_boss1.posVec);
+            }
             // 보스 처리
             else if (_boss.enemyId == packet.playerId)
             {
@@ -890,7 +936,7 @@ public class PlayerManager
                 {
                     _boss1.anim.SetTrigger("doDie");
                     stageClearLogo = Object.Instantiate(stageClear) as GameObject;
-                    stageClearLogo.transform.position = new Vector3(_boss.transform.position.x, 5f, _boss.transform.position.z);
+                    stageClearLogo.transform.position = new Vector3(_boss1.transform.position.x, _boss1.transform.position.y, _boss1.transform.position.z);
                     GameObject.Destroy(_boss.gameObject, 2);
                     
                     Debug.Log("dead boss monster test");

@@ -58,7 +58,7 @@ public class Enemy1StageBoss : MonoBehaviour
     private void Start()
     {
         ShootEffect = GetComponentInChildren<ParticleSystem>();
-       // _network = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
+        _network = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
         hitBox = GetComponent<HitBox>();
         ps = GetComponentInChildren<ParticleSystem>();
         bulletPos = transform.GetChild(1);
