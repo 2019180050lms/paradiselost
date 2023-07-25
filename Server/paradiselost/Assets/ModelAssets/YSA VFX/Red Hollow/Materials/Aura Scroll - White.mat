@@ -2,15 +2,15 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Aura Scroll - White
-  m_Shader: {fileID: -6465566751694194690, guid: e59a32fa0328516429bb9b870f848b4e,
-    type: 3}
-  m_ShaderKeywords: 
+  m_Shader: {fileID: -6465566751694194690, guid: e59a32fa0328516429bb9b870f848b4e, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -36,6 +36,7 @@ Material:
         m_Texture: {fileID: 2800000, guid: 327e3ecb66b52bf47864f60040a632bc, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - Vector1_24724565: 90
     - Vector1_B9EE7F0D: 0.1
@@ -43,3 +44,17 @@ Material:
     - Vector2_5148D11C: {r: -2, g: 0, b: 0, a: 0}
     - Vector2_B12BF039: {r: 4, g: 2, b: 0, a: 0}
     - _Color1: {r: 5.3403134, g: 0.54450256, b: 0.54450256, a: 0}
+  m_BuildTextureStacks: []
+--- !u!114 &5602473715401335914
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 5

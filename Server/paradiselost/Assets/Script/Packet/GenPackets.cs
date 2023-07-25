@@ -1127,6 +1127,7 @@ public class S_Npc : IPacket
 public class C_Npc : IPacket
 {
 	public bool active;
+	public short _quest_stage;
 
 	public ushort Protocol { get { return (ushort)PacketID.C_NPC; } }
 
@@ -1137,6 +1138,8 @@ public class C_Npc : IPacket
 		count += sizeof(ushort);
 		this.active = BitConverter.ToBoolean(segment.Array, segment.Offset + count);
 		count += sizeof(bool);
+		this._quest_stage = BitConverter.ToInt16(segment.Array, segment.Offset + count);
+		count += sizeof(short);
 	}
 
 	public ArraySegment<byte> Write()
@@ -1149,6 +1152,8 @@ public class C_Npc : IPacket
 		count += sizeof(ushort);
 		Array.Copy(BitConverter.GetBytes(this.active), 0, segment.Array, segment.Offset + count, sizeof(bool));
 		count += sizeof(bool);
+		Array.Copy(BitConverter.GetBytes(this._quest_stage), 0, segment.Array, segment.Offset + count, sizeof(short));
+		count += sizeof(short);
 
 		Array.Copy(BitConverter.GetBytes(count), 0, segment.Array, segment.Offset, sizeof(ushort));
 
