@@ -1184,6 +1184,7 @@ public class PlayerManager
     public void StageClearManager(S_StageClear packet)
     {
         SceneManager.LoadScene("InGame");
+        _myplayer.inven.Invoke("FindInven", 1f);
         // 아이템
         Debug.Log("스테이지 클리어 보상 아이템: " + packet.item);
     }
