@@ -23,6 +23,7 @@ public class GameUIManager : MonoBehaviour
     int index = 0;
 
     public BossEnemy boss;
+    public Enemy1StageBoss boss1;
     public RectTransform bossHealthGroup;
     public RectTransform bossHealthBar;
 
@@ -64,7 +65,8 @@ public class GameUIManager : MonoBehaviour
 
     void FindBossHp()
     {
-        boss = GameObject.FindGameObjectWithTag("Boss").GetComponent<BossEnemy>();
+        boss1 = GameObject.FindGameObjectWithTag("boss").GetComponent<Enemy1StageBoss>();
+        boss = GameObject.FindGameObjectWithTag("boss").GetComponent<BossEnemy>();
     }
 
     void FindMyPlayer()
@@ -100,6 +102,12 @@ public class GameUIManager : MonoBehaviour
         {
             Debug.Log("boss != null");
             bossHealthBar.localScale = new Vector3((float)PlayerManager.Instance._boss.curHealth / boss.maxHealth, 1, 1);
+        }
+
+        if (boss1 != null)
+        {
+            Debug.Log("boss1 != null");
+            bossHealthBar.localScale = new Vector3((float)PlayerManager.Instance._boss1.curHealth / boss1.maxHealth, 1, 1);
         }
 
         if (playersUI != null)

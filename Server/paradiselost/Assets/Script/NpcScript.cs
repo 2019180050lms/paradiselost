@@ -15,6 +15,10 @@ public class NpcScript : MonoBehaviour
     public short _stage;
     int clickCount = 0;
 
+    public GameObject portal1;
+    public GameObject portal2;
+    public GameObject portal3;
+
     public MyPlayer player;
     public GameUIManager gameUIManager;
     public static NpcScript Instance { get; } = new NpcScript();
@@ -24,6 +28,11 @@ public class NpcScript : MonoBehaviour
         _network = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
         talkPanel.SetActive(false);
         questPanel.SetActive(false);
+
+        portal1.SetActive(false);
+        portal2.SetActive(false);
+        portal3.SetActive(false);
+
         _stage = 0;
         gameUIManager = GameObject.Find("Game Manager").GetComponent<GameUIManager>();
     }
@@ -69,6 +78,7 @@ public class NpcScript : MonoBehaviour
 
                     //questPanel.SetActive(true);
                     talkPanel.SetActive(false);
+                    portal1.SetActive(true);
                     clickCount = 0;
                     _network.Send(npcpacket.Write());
                 }
@@ -84,9 +94,18 @@ public class NpcScript : MonoBehaviour
                     {
                         if (objInven.ItemList[i] == null)
                         {
-                            objInven.ItemList[i] = Resources.Load<ItemParts>("Items/Weapon Sword Item");
-                            gameUIManager.ItemTxt[i].text = "SWORD";
-                            break;
+                            if (obj.playerType == 1)
+                            {
+                                objInven.ItemList[i] = Resources.Load<ItemParts>("Items/Weapon 2H Sword Item");
+                                gameUIManager.ItemTxt[i].text = "2H SWORD";
+                                break;
+                            }
+                            else
+                            {
+                                objInven.ItemList[i] = Resources.Load<ItemParts>("Items/Weapon ShotGun Item ");
+                                gameUIManager.ItemTxt[i].text = "SHOT GUN";
+                                break;
+                            }
                         }
                     }
 
@@ -112,6 +131,7 @@ public class NpcScript : MonoBehaviour
                     npcpacket._quest_stage = _stage;
 
                     //questPanel.SetActive(true);
+                    portal2.SetActive(true);
                     talkPanel.SetActive(false);
                     clickCount = 0;
                     _network.Send(npcpacket.Write());
@@ -137,6 +157,7 @@ public class NpcScript : MonoBehaviour
                 }
                 else if (clickCount == 3 && obj.questInt == 2)
                 {
+                    portal3.SetActive(true);
                     talkPanel.SetActive(false);
                     clickCount = 0;
                 }
@@ -161,9 +182,18 @@ public class NpcScript : MonoBehaviour
                     {
                         if (objInven.ItemList[i] == null)
                         {
-                            objInven.ItemList[i] = Resources.Load<ItemParts>("Items/Weapon Sword Item");
-                            gameUIManager.ItemTxt[i].text = "SWORD";
-                            break;
+                            if(obj.playerType == 1)
+                            {
+                                objInven.ItemList[i] = Resources.Load<ItemParts>("Items/Weapon 2H Sword Item");
+                                gameUIManager.ItemTxt[i].text = "2H SWORD";
+                                break;
+                            }
+                            else
+                            {
+                                objInven.ItemList[i] = Resources.Load<ItemParts>("Items/Weapon ShotGun Item ");
+                                gameUIManager.ItemTxt[i].text = "SHOT GUN";
+                                break;
+                            }
                         }
                     }
                     questPanel.SetActive(false);
@@ -175,6 +205,11 @@ public class NpcScript : MonoBehaviour
 
         }
         
+    }
+
+     void OnTriggerExit(Collider other)
+    {
+        talkPanel.SetActive(false);
     }
 
 }

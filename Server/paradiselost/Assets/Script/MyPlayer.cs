@@ -8,6 +8,7 @@ public class MyPlayer : Player
     NetworkManager _network;
 
     public Inventory inven;
+    public int playerType;
 
     public float xmove = 0;  // X축 누적 이동량
     public float ymove = 0;  // Y축 누적 이동량
@@ -418,7 +419,7 @@ public class MyPlayer : Player
         if (other.tag == "Weapon")
             nearObject = other.gameObject;
         // Debug.Log(nearObject.name);
-        else if (other.tag == "EnemyMelee")
+        else if (other.tag == "EnemyMelee" || other.tag == "EnemyBullet" || other.tag == "BossMelee")
         {
             isDamaging = true;
         }

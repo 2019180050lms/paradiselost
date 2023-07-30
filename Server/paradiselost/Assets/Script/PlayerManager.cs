@@ -76,6 +76,7 @@ public class PlayerManager
                     myPlayer.PlayerId = playerId;
                     //myPlayer.name = p.name;
                     myPlayer.transform.tag = "MyPlayer";
+                    myPlayer.playerType = 0;
                     myPlayer.hp = hp;
                     myPlayer.body = 3;
                     //Debug.Log(p.hp);
@@ -95,6 +96,7 @@ public class PlayerManager
                     myPlayer.PlayerId = playerId;
                     //myPlayer.name = p.name;
                     myPlayer.transform.tag = "MyPlayer";
+                    myPlayer.playerType = 1;
                     myPlayer.hp = hp;
                     myPlayer.body = 3;
                     //Debug.Log(p.hp);
@@ -1225,7 +1227,7 @@ public class PlayerManager
             }
             else if (packet.bossAttack == 2)
             {
-                _boss1.StartCoroutine("Shot");
+                _boss1.StartCoroutine("Shoot");
                 _boss1.anim.SetTrigger("doRangeAttack");
             }
             else if (packet.bossAttack == 3)
