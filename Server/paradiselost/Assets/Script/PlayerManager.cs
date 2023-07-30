@@ -903,10 +903,9 @@ public class PlayerManager
                 switch (packet.itemNum)
                 {
                     case 0:
-                        items = Resources.Load("Items/Weapon Rifle Item");
                         break;
                     case 1:
-                        items = Resources.Load("Items/Weapon Sword Item");
+                        items = Resources.Load("Items/HP Potion");
                         break;
                     default:
                         items = null;
