@@ -215,7 +215,7 @@ public class PlayerManager
                         _myplayer.StartCoroutine("TwoHandSwing");
                         _myplayer.anim.SetTrigger("do2HSwing");
                         _myplayer.StopCoroutine("timer");
-                        _myplayer.StartCoroutine("timer");
+                        //_myplayer.StartCoroutine("timer");
                     }
 
                     else if (_myplayer.hasWeapons[3]) // 샷건
@@ -387,6 +387,20 @@ public class PlayerManager
                         player.StartCoroutine("timer");
 
                         player.anim.SetTrigger("doPunch");
+                    }
+
+                    else if (!player.anim.GetCurrentAnimatorStateInfo(0).IsName("do2HSwing") && player.hasWeapons[2] && player.currentTime == 0) // 두손검
+                    {
+                        player.StartCoroutine("TwoHandSwing");
+                        player.anim.SetTrigger("do2HSwing");
+                        player.StopCoroutine("timer");
+                        player.StartCoroutine("timer");
+                    }
+
+                    else if (player.hasWeapons[3]) // 샷건
+                    {
+                        //player.StartCoroutine("ShotGun");
+                        player.anim.SetTrigger("doAim");
                     }
 
                     else if (!player.hasWeapons[0] && !player.hasWeapons[1] && player.currentTime > 0f && player.currentTime < 1.0f)
@@ -1002,6 +1016,8 @@ public class PlayerManager
                         //_myplayer.equipWeapon = _myplayer.weapons[0].GetComponent<Weapon>();
                         //_myplayer.equipWeapon.gameObject.SetActive(true);
                         _myplayer.setActiveWeapon = 1;
+
+                        _myplayer.currentTime = 0;
                         break;
 
                     case 1: // 총
@@ -1015,6 +1031,7 @@ public class PlayerManager
                         //_myplayer.equipWeapon = _myplayer.weapons[1].GetComponent<Weapon>();
                         //_myplayer.equipWeapon.gameObject.SetActive(true);
                         _myplayer.setActiveWeapon = 2;
+                        _myplayer.currentTime = 0;
                         break;
 
                     case 2: // 두손검
@@ -1029,6 +1046,7 @@ public class PlayerManager
                         //_myplayer.equipWeapon = _myplayer.weapons[2].GetComponent<Weapon>();
                         //_myplayer.equipWeapon.gameObject.SetActive(true);
                         _myplayer.setActiveWeapon = 3;
+                        _myplayer.currentTime = 0;
                         break;
 
                     case 3: // 샷건
@@ -1043,6 +1061,7 @@ public class PlayerManager
                         //_myplayer.equipWeapon = _myplayer.weapons[3].GetComponent<Weapon>();
                         //_myplayer.equipWeapon.gameObject.SetActive(true);
                         _myplayer.setActiveWeapon = 4;
+                        _myplayer.currentTime = 0;
                         break;
                 }
             }
@@ -1108,6 +1127,7 @@ public class PlayerManager
                         //player.equipWeapon = player.weapons[0].GetComponent<Weapon>();
                         //player.equipWeapon.gameObject.SetActive(true);
                         player.setActiveWeapon = 1;
+                        player.currentTime = 0;
                         break;
                     case 1: // 총
                         //player.equipWeapon = player.weapons[0].GetComponent<Weapon>();
@@ -1124,6 +1144,7 @@ public class PlayerManager
                         //player.equipWeapon = player.weapons[1].GetComponent<Weapon>();
                         //player.equipWeapon.gameObject.SetActive(true);
                         player.setActiveWeapon = 2;
+                        player.currentTime = 0;
                         break;
                     case 2: // 두손검
                         //player.equipWeapon = player.weapons[1].GetComponent<Weapon>();
@@ -1141,6 +1162,7 @@ public class PlayerManager
                         //player.equipWeapon.gameObject.SetActive(true);
 
                         player.setActiveWeapon = 3;
+                        player.currentTime = 0;
                         break;
                     case 3: // 샷건
                         //player.equipWeapon = player.weapons[1].GetComponent<Weapon>();
@@ -1158,6 +1180,7 @@ public class PlayerManager
                         //player.equipWeapon.gameObject.SetActive(true);
 
                         player.setActiveWeapon = 4;
+                        player.currentTime = 0;
                         break;
                 }
                 //player.anim_Body = c_p_parts.body.gameObject.transform.GetChild(0).GetComponent<Animator>();
