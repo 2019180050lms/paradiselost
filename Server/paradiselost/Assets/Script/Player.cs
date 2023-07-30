@@ -164,8 +164,8 @@ public class Player : MonoBehaviour
             bullet = Object.Instantiate(intantBullet) as GameObject;
             bullet.transform.position = bulletPos.transform.position;
             gunParticle.Play();
-            audioSource.clip = soundManager.shootSfx;
-            audioSource.Play();
+            //audioSource.clip = soundManager.shootSfx;
+            //audioSource.Play();
             bullet.transform.rotation = bulletPos.rotation;
             Rigidbody bulletRigid = bullet.GetComponent<Rigidbody>();
             bulletRigid.velocity = bulletPos.forward * 120;

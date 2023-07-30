@@ -378,7 +378,7 @@ public class PlayerManager
                         player.anim.SetTrigger("doAim");
                     }
 
-                    else if (!player.hasWeapons[0] && !player.hasWeapons[1] && player.currentTime == 0)
+                    else if (!player.hasWeapons[0] && !player.hasWeapons[1] && !player.hasWeapons[2] && !player.hasWeapons[3] && player.currentTime == 0)
                     {
                         player.StopCoroutine("Punch");
                         player.StartCoroutine("Punch");
@@ -397,13 +397,13 @@ public class PlayerManager
                         player.StartCoroutine("timer");
                     }
 
-                    else if (player.hasWeapons[3]) // 샷건
+                    else if (player.hasWeapons[3] && !player.anim.GetCurrentAnimatorStateInfo(0).IsName("Run_Aim")) // 샷건
                     {
-                        //player.StartCoroutine("ShotGun");
+                        player.StartCoroutine("ShotGun");
                         player.anim.SetTrigger("doAim");
                     }
 
-                    else if (!player.hasWeapons[0] && !player.hasWeapons[1] && player.currentTime > 0f && player.currentTime < 1.0f)
+                    else if (!player.hasWeapons[0] && !player.hasWeapons[1] && !player.hasWeapons[2] && !player.hasWeapons[3] && player.currentTime > 0f && player.currentTime < 1.0f)
                     {
                         player.anim.SetTrigger("doPunch2");
                         player.StopCoroutine("Punch");
@@ -412,7 +412,7 @@ public class PlayerManager
 
                     }
 
-                    else if (player.currentTime == 0.0f)
+                    else if (player.hasWeapons[0] && player.currentTime == 0.0f)
                     {
                         Debug.Log("currenttime 0 ");
                         Debug.Log("swing1 ");
