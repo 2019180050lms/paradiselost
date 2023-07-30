@@ -24,7 +24,7 @@ public enum PacketID
     S_ATTACKEDMONSTER = 14,
 	S_BROADCAST_ITEM = 15,
 	C_ENTER_ITEM = 16,
-	C_PLAYERATTACK = 17,
+	C_PLAYERATTACK = 24,
 	S_PLAYERATTACK = 18,
 	S_ENEMYLIST = 19,
 	S_BOSSATTACK = 20,
@@ -1014,7 +1014,7 @@ public class C_AttackedPlayer : IPacket
 	public int p_id;
 	public int m_id;
 
-	public ushort Protocol { get { return (ushort)PacketID.C_MONSTERATTACK; } }
+	public ushort Protocol { get { return (ushort)PacketID.C_PLAYERATTACK; } }
 
 	public void Read(ArraySegment<byte> segment)
 	{
