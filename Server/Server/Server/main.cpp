@@ -237,7 +237,6 @@ void SESSION::send_move_packet(int c_id)
 	p.isJump = clients[c_id].isJump;
 	//p.move_time = clients[c_id].last_move_time;
 	do_send(&p);
-	//cout << "send move: " << p.id << ", " << p.isAttack << endl;
 }
 
 void SESSION::send_player_attacked_packet(int c_id) {
@@ -449,6 +448,10 @@ void process_packet(int c_id, char* packet)
 			{
 				clients[c_id].send_move_packet(c_id);
 			}
+			else if (clients[c_id].y < 0) {
+				clients[c_id].y = 3.f;
+				clients[c_id].send_move_packet(c_id);
+			}
 			else
 			{
 				clients[c_id].x = p->x;
@@ -461,6 +464,10 @@ void process_packet(int c_id, char* packet)
 			{
 				clients[c_id].send_move_packet(c_id);
 			}
+			else if (clients[c_id].y < -2) {
+				clients[c_id].y = 3.f;
+				clients[c_id].send_move_packet(c_id);
+			}
 			else
 			{
 				clients[c_id].x = p->x;
@@ -471,6 +478,10 @@ void process_packet(int c_id, char* packet)
 		else if (clients[c_id]._stage == 2) {
 			if (stage2[z][x] == WALL)
 			{
+				clients[c_id].send_move_packet(c_id);
+			}
+			else if (clients[c_id].y < -50) {
+				clients[c_id].y = 3.f;
 				clients[c_id].send_move_packet(c_id);
 			}
 			else
@@ -490,6 +501,10 @@ void process_packet(int c_id, char* packet)
 			{
 			}
 			*/
+			if (clients[c_id].y < 0) {
+				clients[c_id].y = 3.f;
+				clients[c_id].send_move_packet(c_id);
+			}
 			clients[c_id].x = p->x;
 			clients[c_id].y = p->y;
 			clients[c_id].z = p->z;
@@ -549,7 +564,7 @@ void process_packet(int c_id, char* packet)
 	}
 	case CS_MONSTER_ATTACKED: {
 		CS_MONSTER_ATTACKED_PACKET* p = reinterpret_cast<CS_MONSTER_ATTACKED_PACKET*>(packet);
-		clients[p->id]._hp = p->hp;
+		clients[p->id]._hp -= 10;
 		clients[p->id].targetId = p->playerId;
 		if (clients[p->id]._hp < 1) {
 			disconnect(p->id);
@@ -783,7 +798,7 @@ void worker_thread(HANDLE h_iocp)
 				}
 				clients[client_id]._hp = 100;
 				clients[client_id].x = 0;
-				clients[client_id].y = 0;
+				clients[client_id].y = 5.f;
 				clients[client_id].z = 0;
 				clients[client_id]._id = client_id;
 				clients[client_id]._name[0] = 0;
