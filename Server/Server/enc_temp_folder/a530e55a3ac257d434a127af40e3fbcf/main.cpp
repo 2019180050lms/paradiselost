@@ -1189,17 +1189,17 @@ void do_player_attack(int n_id, int c_id)
 
 		if (!clients[n_id].isAttack) {
 			if (clients[n_id].x < clients[c_id].x) {
-				clients[n_id].x += 3.f;
+				clients[n_id].x += 1.f;
 			}
 			else if (clients[n_id].x > clients[c_id].x) {
-				clients[n_id].x -= 3.f;
+				clients[n_id].x -= 1.f;
 			}
 
 			if (clients[n_id].z < clients[c_id].z) {
-				clients[n_id].z += 3.f;
+				clients[n_id].z += 1.f;
 			}
 			else if (clients[n_id].z > clients[c_id].z) {
-				clients[n_id].z -= 3.f;
+				clients[n_id].z -= 1.f;
 			}
 		}
 		break;
