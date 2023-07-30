@@ -391,7 +391,7 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
         audioSource.Play();
 
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(1f);
         //meleeArea.enabled = false;
         hitBox.meleeArea.enabled = false;
         twoHandTrailEffect.enabled = false;

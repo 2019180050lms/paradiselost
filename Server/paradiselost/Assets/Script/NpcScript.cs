@@ -139,23 +139,23 @@ public class NpcScript : MonoBehaviour
 
 
                 // 2스테이지 이후 
-                else if (clickCount == 0 && obj.questInt == 2)
+                else if (clickCount == 0 && obj.questInt > 1)
                 {
                     talkPanel.SetActive(true);
                     npxtext.text = "이제 마지막 스테이지만 남았습니다.";
                     clickCount++;
                 }
-                else if (clickCount == 1 && obj.questInt == 2)
+                else if (clickCount == 1 && obj.questInt > 1)
                 {
                     npxtext.text = "새로 생긴 포탈을 통해 3스테이지에 입장 할 수 있습니다.";
                     clickCount++;
                 }
-                else if (clickCount == 2 && obj.questInt == 2)
+                else if (clickCount == 2 && obj.questInt > 1)
                 {
                     npxtext.text = "몬스터들을 처치한 후 마지막 보스까지 처치하십시오.";
                     clickCount++;
                 }
-                else if (clickCount == 3 && obj.questInt == 2)
+                else if (clickCount == 3 && obj.questInt > 1)
                 {
                     portal3.SetActive(true);
                     talkPanel.SetActive(false);

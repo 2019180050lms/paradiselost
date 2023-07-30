@@ -132,7 +132,7 @@ public class Enemy1StageBoss : MonoBehaviour
         {
             //Debug.Log(" �浹 " );
             Weapon weapon = other.GetComponent<Weapon>();
-            curHealth -= weapon.damage;
+            //curHealth -= weapon.damage;
             Vector3 reactVec = transform.position - other.transform.position;
            // Debug.Log("Melee : " + curHealth);
             StartCoroutine(OnDamage(reactVec));
@@ -146,7 +146,7 @@ public class Enemy1StageBoss : MonoBehaviour
         else if (other.tag == "Bullet")
         {
             Bullet bullet = other.GetComponent<Bullet>();
-            curHealth -= bullet.damage;
+            //curHealth -= bullet.damage;
             
             Vector3 reactVec = transform.position - other.transform.position;
             Destroy(other.gameObject);
