@@ -76,6 +76,7 @@ public class PlayerManager
                     myPlayer.PlayerId = playerId;
                     //myPlayer.name = p.name;
                     myPlayer.transform.tag = "MyPlayer";
+                    myPlayer.playerType = 0;
                     myPlayer.hp = hp;
                     myPlayer.body = 3;
                     //Debug.Log(p.hp);
@@ -95,6 +96,7 @@ public class PlayerManager
                     myPlayer.PlayerId = playerId;
                     //myPlayer.name = p.name;
                     myPlayer.transform.tag = "MyPlayer";
+                    myPlayer.playerType = 1;
                     myPlayer.hp = hp;
                     myPlayer.body = 3;
                     //Debug.Log(p.hp);
@@ -919,7 +921,7 @@ public class PlayerManager
                     enemy.audioSource.clip = soundManager.monsterDieSfx;
                     enemy.audioSource.Play();
                     enemy.ps.Play();
-                    _myplayer.questInt++;
+                    //_myplayer.questInt++;
                     GameObject.Destroy(enemy.gameObject, 0.6f);
                     Debug.Log("dead monster test");
                     _enemys.Remove(packet.playerId);
@@ -1225,7 +1227,7 @@ public class PlayerManager
             }
             else if (packet.bossAttack == 2)
             {
-                _boss1.StartCoroutine("Shot");
+                _boss1.StartCoroutine("Shoot");
                 _boss1.anim.SetTrigger("doRangeAttack");
             }
             else if (packet.bossAttack == 3)
@@ -1267,6 +1269,7 @@ public class PlayerManager
         SceneManager.LoadScene("InGame");
         _myplayer.inven.Invoke("FindInven", 1f);
         // 아이템
+        _myplayer.questInt++;
         Debug.Log("스테이지 클리어 보상 아이템: " + packet.item);
     }
 }

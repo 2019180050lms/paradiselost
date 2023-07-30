@@ -36,6 +36,8 @@ public class Enemy : MonoBehaviour
     public GameObject bullet;
     public GameObject hitEffect;
 
+    
+
     public GameObject gunParticleObj;
     public ParticleSystem gunParticle;
     NetworkManager _network;
@@ -217,18 +219,18 @@ public class Enemy : MonoBehaviour
         
         Debug.Log("Shoot 코루틴 0");
         isAttack = true;
-        
+
         anim.SetTrigger("doAttack");
         yield return new WaitForSeconds(0.5f);
         GameObject intantBullet = Instantiate(Resources.Load("EnemyBullet", typeof(GameObject)), bulletPos.position, bulletPos.rotation) as GameObject;
         Rigidbody bulletRigid = intantBullet.GetComponent<Rigidbody>();
-        BossMissile test = intantBullet.AddComponent<BossMissile>();
+        //BossMissile test = intantBullet.AddComponent<BossMissile>();
 
         GameObject intantBullet2 = Instantiate(Resources.Load("EnemyBullet", typeof(GameObject)), bulletPos2.position, bulletPos2.rotation) as GameObject;
         Rigidbody bulletRigid2 = intantBullet2.GetComponent<Rigidbody>();
-        BossMissile test2 = intantBullet2.AddComponent<BossMissile>();
+        //BossMissile test2 = intantBullet2.AddComponent<BossMissile>();
 
-        test.enemyId = enemyId;
+        //test.enemyId = enemyId;
         Debug.Log("Shoot 코루틴 ");
         audioSource.Play();
         gunParticle.Play();

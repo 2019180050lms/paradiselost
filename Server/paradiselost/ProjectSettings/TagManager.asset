@@ -34,6 +34,7 @@ TagManager:
   - Portal1
   - Portal2
   - Portal3
+  - boss
   layers:
   - Default
   - TransparentFX

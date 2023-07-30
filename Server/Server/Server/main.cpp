@@ -166,7 +166,7 @@ public:
 		p.stage = stage;
 		p.item = item;
 		do_send(&p);
-		cout << _id << " stage clear!" << endl;
+		cout << _id << ": " << stage << " stage clear!" << endl;
 	}
 };
 
@@ -303,6 +303,7 @@ void SESSION::send_boss_attack(int c_id)
 	p.playerid = clients[c_id].targetId;
 	p.bossAttack = clients[c_id].bossAttack;
 	do_send(&p);
+	cout << "boss attack send" << endl;
 }
 
 int get_new_client_id()
@@ -317,7 +318,7 @@ int get_new_client_id()
 
 void disconnect(int c_id);
 void do_player_attack(int n_id, int c_id);
-void do_add_boss();
+void do_add_boss(int c_id);
 void add_boss(short stage);
 
 void process_packet(int c_id, char* packet)
@@ -543,7 +544,7 @@ void process_packet(int c_id, char* packet)
 		clients[p->id].targetId = p->playerId;
 		if (clients[p->id]._hp < 1) {
 			disconnect(p->id);
-			do_add_boss();
+			do_add_boss(c_id);
 		}
 		else {
 			//wakeup_npc(p->id);
@@ -674,21 +675,28 @@ void disconnect(int c_id)
 	clients[c_id]._state = ST_FREE;
 }
 
-void do_add_boss()
+void do_add_boss(int c_id)
 {
-	int stage1 = 0, stage3 = 0;
+	int stage1 = 0, stage2 = 0, stage3 = 0;
 	for (int i = MAX_USER; i < MAX_USER + MAX_NPC; ++i) {
 		switch (clients[i]._stage) {
 		case 1:
 			if (clients[i]._state == ST_FREE) stage1++;
+			break;
+		case 2:
+			if (clients[i]._state == ST_FREE) stage2++;
 			break;
 		case 3:
 			if (clients[i]._state == ST_FREE) stage3++;
 			break;
 		}
 	}
+
 	if (stage1 == 12) {
 		add_boss(1);
+	}
+	else if (stage2 == 12) {
+		add_timer(c_id, chrono::system_clock::now() + 10s, EV_STAGE_CLEAR);
 	}
 	else if (stage3 == 12) {
 		add_boss(3);
@@ -815,8 +823,9 @@ void worker_thread(HANDLE h_iocp)
 		{
 			for (auto& client : clients) {
 				if (client._id >= MAX_USER) break;
+				if (client._state == ST_FREE || client._state == ST_ALLOC) continue;
 				if (client._stage == clients[key]._stage) {
-					client.send_stage_clear(0, 1);
+					client.send_stage_clear(clients[key]._stage, 1);
 					client._s_lock.lock();
 					client.x = 30.f;
 					client.y = 5.f;
@@ -824,6 +833,15 @@ void worker_thread(HANDLE h_iocp)
 					client._stage = 0;
 					client._s_lock.unlock();
 					client.send_move_packet(client._id);
+				}
+			}
+			for (int i = MAX_USER; i < MAX_USER + MAX_NPC - 1; ++i) {
+				if (clients[i]._state == ST_FREE) {
+					lock_guard<mutex> ll(clients[i]._s_lock);
+					clients[i]._state = ST_INGAME;
+					clients[i].targetId = -1;
+					clients[i].isAttack = false;
+					clients[i]._hp = 100;
 				}
 			}
 			break;
@@ -1065,19 +1083,73 @@ void do_random_move(int c_id)
 		float z = clients[c_id].z;
 		int dir = rand() % 8;
 		switch (dir) {
-		case 0: if (z > clients[c_id].my_min_z) z -= 2.f; break;
-		case 1: if (z < clients[c_id].my_max_z) z += 2.f; break;
-		case 2: if (x > clients[c_id].my_min_x) x -= 2.f; break;
-		case 3: if (x < clients[c_id].my_max_x) x += 2.f; break;
-		case 4: if (x < clients[c_id].my_max_x && z < clients[c_id].my_max_z) { x += 1.5; z += 1.5; } break;
-		case 5: if (x > clients[c_id].my_min_x && z < clients[c_id].my_max_z) { x -= 1.5; z += 1.5; } break;
-		case 6: if (x < clients[c_id].my_max_x && z > clients[c_id].my_min_z) { x += 1.5; z -= 1.5; } break;
-		case 7: if (x > clients[c_id].my_min_x && z > clients[c_id].my_min_z) { x -= 1.5; z -= 1.5; } break;
+		case 0: {
+			if (z > clients[c_id].my_min_z) {
+				z -= 2.f;
+				clients[c_id]._dir = dir;
+			}
+			break;
+		}
+		case 1: {
+			if (z < clients[c_id].my_max_z) {
+				z += 2.f;
+				clients[c_id]._dir = dir;
+			}
+			break;
+		}
+		case 2: {
+			if (x > clients[c_id].my_min_x) {
+				x -= 2.f;
+				clients[c_id]._dir = dir;
+			}
+			break;
+		}
+		case 3: {
+			if (x < clients[c_id].my_max_x) {
+				x += 2.f;
+				clients[c_id]._dir = dir;
+			}
+			break;
+		}
+		case 4: {
+			if (x < clients[c_id].my_max_x && z < clients[c_id].my_max_z) { 
+				x += 1.5;
+				z += 1.5;
+				clients[c_id]._dir = dir;
+			}
+			break;
+		}
+		case 5: {
+			if (x > clients[c_id].my_min_x && z < clients[c_id].my_max_z) {
+				x -= 1.5;
+				z += 1.5;
+				clients[c_id]._dir = dir;
+			}
+			break;
+		}
+		case 6: {
+			if (x < clients[c_id].my_max_x && z > clients[c_id].my_min_z) { 
+				x += 1.5;
+				z -= 1.5;
+				clients[c_id]._dir = dir;
+			} 
+			break;
+		}
+		case 7: {
+			if (x > clients[c_id].my_min_x && z > clients[c_id].my_min_z) {
+				x -= 1.5;
+				z -= 1.5;
+				clients[c_id]._dir = dir;
+			}
+			break;
+		}
+		default:
+			clients[c_id]._dir = 0;
+			break;
 		}
 		clients[c_id].x = x;
 		clients[c_id].y = y;
 		clients[c_id].z = z;
-		clients[c_id]._dir = dir;
 	}
 	unordered_set<int> near_list;
 
@@ -1206,7 +1278,72 @@ void do_player_attack(int n_id, int c_id)
 	}
 	case MONSTER::BOSS_TEST:
 	{
-		// TODO
+		if (clients[n_id].x + 5.f >= clients[c_id].x && clients[n_id].x - 5.f <= clients[c_id].x) {
+			if (clients[n_id].z + 5.f >= clients[c_id].z && clients[n_id].z - 5.f <= clients[c_id].z) {
+				clients[n_id].isAttack = true;
+				clients[n_id].bossAttack = 1;
+				//cout << "n_id: " << n_id << ", " << clients[n_id].isAttack << endl;
+			}
+		}
+		else if (clients[n_id].x + 15.f >= clients[c_id].x && clients[n_id].x - 15.f <= clients[c_id].x) {
+			if (clients[n_id].z + 15.f >= clients[c_id].z && clients[n_id].z - 15.f <= clients[c_id].z) {
+				clients[n_id].isAttack = true;
+				clients[n_id].bossAttack = 2;
+				//cout << "n_id: " << n_id << ", " << clients[n_id].isAttack << endl;
+			}
+		}
+		else if (clients[n_id].x + 30.f < clients[c_id].x && clients[n_id].x - 30.f > clients[c_id].x) {
+			if (clients[n_id].z + 30.f < clients[c_id].z && clients[n_id].z - 30.f > clients[c_id].z) {
+				clients[n_id].isAttack = false;
+				clients[n_id].targetId = -1;
+			}
+		}
+		else {
+			clients[n_id].isAttack = false;
+		}
+		break;
+	}
+	case MONSTER::STAGE1_BOSS:
+	{
+		if (clients[n_id].x + 5.f >= clients[c_id].x && clients[n_id].x - 5.f <= clients[c_id].x) {
+			if (clients[n_id].z + 5.f >= clients[c_id].z && clients[n_id].z - 5.f <= clients[c_id].z) {
+				clients[n_id].isAttack = true;
+				clients[n_id].bossAttack = 1;
+				//cout << "n_id: " << n_id << ", " << clients[n_id].isAttack << endl;
+			}
+		}
+		else if (clients[n_id].x + 15.f >= clients[c_id].x && clients[n_id].x - 15.f <= clients[c_id].x) {
+			if (clients[n_id].z + 15.f >= clients[c_id].z && clients[n_id].z - 15.f <= clients[c_id].z) {
+				clients[n_id].isAttack = true;
+				clients[n_id].bossAttack = 2;
+				//cout << "n_id: " << n_id << ", " << clients[n_id].isAttack << endl;
+			}
+		}
+		else if (clients[n_id].x + 30.f < clients[c_id].x && clients[n_id].x - 30.f > clients[c_id].x) {
+			if (clients[n_id].z + 30.f < clients[c_id].z && clients[n_id].z - 30.f > clients[c_id].z) {
+				clients[n_id].isAttack = false;
+				clients[n_id].targetId = -1;
+			}
+		}
+		else {
+			clients[n_id].isAttack = false;
+		}
+
+		if (!clients[n_id].isAttack) {
+			if (clients[n_id].x < clients[c_id].x) {
+				clients[n_id].x += 3.f;
+			}
+			else if (clients[n_id].x > clients[c_id].x) {
+				clients[n_id].x -= 3.f;
+			}
+
+			if (clients[n_id].z < clients[c_id].z) {
+				clients[n_id].z += 3.f;
+			}
+			else if (clients[n_id].z > clients[c_id].z) {
+				clients[n_id].z -= 3.f;
+			}
+		}
 		break;
 	}
 	default:
@@ -1230,12 +1367,16 @@ void do_player_attack(int n_id, int c_id)
 		cpl._vl.lock();
 		if (clients[pl]._view_list.count(n_id) && clients[pl]._state == ST_INGAME) {
 			cpl._vl.unlock();
-			if (clients[n_id]._type != 7)
+			if (clients[n_id]._type != 7 && clients[n_id]._type != 4)
 				clients[pl].send_move_packet(n_id);
 			else {
-				clients[n_id].bossAttack = rand() % 2;
-				clients[n_id].targetId = c_id;
-				clients[pl].send_boss_attack(n_id);
+				if (clients[n_id].isAttack) {
+					clients[n_id].targetId = c_id;
+					clients[pl].send_boss_attack(n_id);
+				}
+				else {
+					clients[pl].send_move_packet(n_id);
+				}
 			}
 		}
 		else

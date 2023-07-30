@@ -58,6 +58,7 @@ public class Player : MonoBehaviour
     public ParticleSystem ps;
     public ParticleSystem gunParticle;
     public TrailRenderer trailEffect;
+    public TrailRenderer twoHandTrailEffect;
 
     public int equipWeaponIndex = -1;
     public float fireDelay;
@@ -386,7 +387,7 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(0.1f); // 0.1초 대기
         //meleeArea.enabled = true;
         hitBox.meleeArea.enabled = true;
-        trailEffect.enabled = true;
+        twoHandTrailEffect.enabled = true;
 
         yield return new WaitForSeconds(0.3f);
         audioSource.Play();
@@ -394,7 +395,7 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(0.4f);
         //meleeArea.enabled = false;
         hitBox.meleeArea.enabled = false;
-        trailEffect.enabled = false;
+        twoHandTrailEffect.enabled = false;
         StopCoroutine("timer");
         currentTime = 0;
     }
