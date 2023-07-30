@@ -501,7 +501,7 @@ void process_packet(int c_id, char* packet)
 			{
 			}
 			*/
-			if (clients[c_id].y < 0) {
+			if (clients[c_id].y < -20) {
 				clients[c_id].y = 3.f;
 				clients[c_id].send_move_packet(c_id);
 			}
@@ -564,7 +564,7 @@ void process_packet(int c_id, char* packet)
 	}
 	case CS_MONSTER_ATTACKED: {
 		CS_MONSTER_ATTACKED_PACKET* p = reinterpret_cast<CS_MONSTER_ATTACKED_PACKET*>(packet);
-		clients[p->id]._hp -= 10;
+		clients[p->id]._hp -= 20;
 		clients[p->id].targetId = p->playerId;
 		if (clients[p->id]._hp < 1) {
 			disconnect(p->id);
@@ -603,7 +603,7 @@ void process_packet(int c_id, char* packet)
 	}
 	case CS_PLAYER_ATTACKED: {
 		CS_PLAYER_ATTACKED_PACKET* p = reinterpret_cast<CS_PLAYER_ATTACKED_PACKET*>(packet);
-		clients[p->playerid]._hp -= 10;
+		clients[p->playerid]._hp -= 2;
 		//wakeup_npc(p->id);
 		clients[c_id].send_player_attacked_packet(p->playerid);
 
@@ -731,7 +731,6 @@ void disconnect(int c_id)
 	}
 	lock_guard<mutex> ll(clients[c_id]._s_lock);
 	clients[c_id]._state = ST_FREE;
-	cout << "disconnect: " << c_id << endl;
 }
 
 void do_add_boss(int c_id)
@@ -880,11 +879,12 @@ void worker_thread(HANDLE h_iocp)
 		}
 		case OP_STAGE_CLEAR:
 		{
+			short stage = clients[key]._stage;
 			for (auto& client : clients) {
 				if (client._id >= MAX_USER) break;
 				if (client._state == ST_FREE || client._state == ST_ALLOC) continue;
-				if (client._stage == clients[key]._stage) {
-					client.send_stage_clear(clients[key]._stage, 1);
+				if (client._stage == stage) {
+					client.send_stage_clear(stage, 1);
 					client._s_lock.lock();
 					client.x = 30.f;
 					client.y = 5.f;
@@ -1126,6 +1126,8 @@ void add_boss(short stage)
 
 void do_random_move(int c_id)
 {
+	if (c_id < 0)
+		return;
 	unordered_set<int> view_list;
 	for (auto& cl : clients) {
 		if (cl._stage != clients[c_id]._stage) continue;
@@ -1253,6 +1255,8 @@ void do_random_move(int c_id)
 
 void do_player_attack(int n_id, int c_id)
 {
+	if (c_id < 0 || n_id < 0)
+		return;
 	unordered_set<int> view_list;
 	for (auto& cl : clients) {
 		if (cl._stage != clients[n_id]._stage) continue;
@@ -1450,6 +1454,8 @@ void do_player_attack(int n_id, int c_id)
 
 void do_delay_disable(int n_id, int c_id)
 {
+	if (c_id < 0 || n_id < 0)
+		return;
 	unordered_set<int> view_list;
 	for (auto& cl : clients) {
 		if (cl._stage <= 0) continue;
