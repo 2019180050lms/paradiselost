@@ -365,7 +365,7 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(0.1f); // 0.1초 대기
         //meleeArea.enabled = true;
         hitBox.meleeArea.enabled = true;
-        trailEffect.enabled = true;
+        //trailEffect.enabled = true;
 
         yield return new WaitForSeconds(0.3f);
         audioSource.Play();
@@ -373,7 +373,7 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(0.4f);
         //meleeArea.enabled = false;
         hitBox.meleeArea.enabled = false;
-        trailEffect.enabled = false;
+        //trailEffect.enabled = false;
         StopCoroutine("timer");
         currentTime = 0;
     }
@@ -385,8 +385,9 @@ public class Player : MonoBehaviour
 
         yield return new WaitForSeconds(0.1f); // 0.1초 대기
         //meleeArea.enabled = true;
+        StartCoroutine("timer");
         hitBox.meleeArea.enabled = true;
-        twoHandTrailEffect.enabled = true;
+        //twoHandTrailEffect.enabled = true;
 
         yield return new WaitForSeconds(0.3f);
         audioSource.Play();
@@ -394,8 +395,9 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(1f);
         //meleeArea.enabled = false;
         hitBox.meleeArea.enabled = false;
-        twoHandTrailEffect.enabled = false;
+        //twoHandTrailEffect.enabled = false;
         StopCoroutine("timer");
+        Debug.Log("stopTImer");
         currentTime = 0;
     }
 

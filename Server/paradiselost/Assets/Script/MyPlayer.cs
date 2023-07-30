@@ -71,11 +71,12 @@ public class MyPlayer : Player
         weapons[3].SetActive(false);
         equipWeaponIndex = 4;
 
+        //trailEffect = GameObject.Find("trailEffect").GetComponent<TrailRenderer>();
+        //twoHandTrailEffect = GameObject.Find("twoHandTrailEffect").GetComponent<TrailRenderer>();
 
         DontDestroyOnLoad(this);
 
-        trailEffect = GameObject.Find("trailEffect").GetComponent<TrailRenderer>();
-        twoHandTrailEffect = GameObject.Find("twoHandTrailEffect").GetComponent<TrailRenderer>();
+        
     }
 
 
