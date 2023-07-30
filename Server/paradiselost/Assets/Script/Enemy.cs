@@ -35,7 +35,9 @@ public class Enemy : MonoBehaviour
     public Transform bulletPos2;
     public GameObject bullet;
     public GameObject hitEffect;
-    
+
+    public GameObject gunParticleObj;
+    public ParticleSystem gunParticle;
     NetworkManager _network;
 
     public ParticleSystem ps;
@@ -57,6 +59,9 @@ public class Enemy : MonoBehaviour
         // 사운드
         audioSource = gameObject.AddComponent<AudioSource>();
         soundManager = GetComponent<SoundManager>();
+
+        gunParticleObj = transform.GetChild(2).gameObject;
+        gunParticle = gunParticleObj.GetComponent<ParticleSystem>();
 
         hitEffect = GameObject.Find("hitEffect");
         hitEffect.SetActive(false);
@@ -209,9 +214,10 @@ public class Enemy : MonoBehaviour
     IEnumerator Shoot()
     {
         audioSource.clip = soundManager.shootSfx;
-        audioSource.Play();
+        
         Debug.Log("Shoot 코루틴 0");
         isAttack = true;
+        
         anim.SetTrigger("doAttack");
         yield return new WaitForSeconds(0.5f);
         GameObject intantBullet = Instantiate(Resources.Load("EnemyBullet", typeof(GameObject)), bulletPos.position, bulletPos.rotation) as GameObject;
@@ -224,8 +230,10 @@ public class Enemy : MonoBehaviour
 
         test.enemyId = enemyId;
         Debug.Log("Shoot 코루틴 ");
-        bulletRigid.velocity = bulletPos.forward * 30;
-        bulletRigid2.velocity = bulletPos.forward * 30;
+        audioSource.Play();
+        gunParticle.Play();
+        bulletRigid.velocity = bulletPos.forward * 60;
+        bulletRigid2.velocity = bulletPos.forward * 60;
         Destroy(intantBullet, 3f);
         Destroy(intantBullet2, 3f);
         //yield return new WaitForSeconds(1f);
