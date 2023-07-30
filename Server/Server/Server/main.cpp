@@ -146,6 +146,7 @@ public:
 	void send_move_packet(int c_id);
 	void send_add_player_packet(int c_id);
 	void send_remove_player_packet(int c_id);
+	void send_player_attacked_packet(int c_id);
 	void send_item_info(int c_id, int itemType, int itemValue)
 	{
 		SC_ITEM_INFO_PACKET p;
@@ -239,6 +240,15 @@ void SESSION::send_move_packet(int c_id)
 	//cout << "send move: " << p.id << ", " << p.isAttack << endl;
 }
 
+void SESSION::send_player_attacked_packet(int c_id) {
+	SC_PLAYER_ATTACKED_PACKET p;
+	p.size = sizeof(p);
+	p.type = SC_PLAYER_ATTACKED;
+	p.playerid = c_id;
+	p.hp = clients[c_id]._hp;
+	do_send(&p);
+}
+
 void SESSION::send_remove_player_packet(int c_id)
 {
 	_vl.lock();
@@ -303,7 +313,6 @@ void SESSION::send_boss_attack(int c_id)
 	p.playerid = clients[c_id].targetId;
 	p.bossAttack = clients[c_id].bossAttack;
 	do_send(&p);
-	cout << "boss attack send" << endl;
 }
 
 int get_new_client_id()
@@ -577,6 +586,38 @@ void process_packet(int c_id, char* packet)
 		}
 		break;
 	}
+	case CS_PLAYER_ATTACKED: {
+		CS_PLAYER_ATTACKED_PACKET* p = reinterpret_cast<CS_PLAYER_ATTACKED_PACKET*>(packet);
+		clients[p->playerid]._hp -= 10;
+		//wakeup_npc(p->id);
+		clients[c_id].send_player_attacked_packet(p->playerid);
+
+		unordered_set<int> near_list;
+		clients[c_id]._vl.lock();
+		unordered_set<int> old_vlist = clients[c_id]._view_list;
+		clients[c_id]._vl.unlock();
+		for (auto& cl : clients) {
+			if (cl._stage != clients[c_id]._stage) continue;
+			if (cl._state != ST_INGAME) continue;
+			if (cl._id == c_id) continue;
+			if (can_see(c_id, cl._id))
+				near_list.insert(cl._id);
+		}
+
+		for (auto& pl : near_list) {
+			auto& cpl = clients[pl];
+			if (is_pc(pl)) {
+				cpl._vl.lock();
+				if (clients[pl]._view_list.count(c_id) && (cpl._stage == clients[c_id]._stage)) {
+					cpl._vl.unlock();
+					clients[pl].send_player_attacked_packet(p->playerid);
+				}
+				else
+					cpl._vl.unlock();
+			}
+		}
+		break;
+	}
 	case CS_EQUIP_ITEM: {
 		CS_EQUIP_ITEM_PACKET* p = reinterpret_cast<CS_EQUIP_ITEM_PACKET*>(packet);
 		switch (p->itemType) {
@@ -588,6 +629,9 @@ void process_packet(int c_id, char* packet)
 			break;
 		case 3:
 			clients[c_id].leg_item = p->itemValue;
+			break;
+		case 10:
+			clients[c_id]._hp += 10;
 			break;
 		default:
 			cout << "Unknown packet (error)" << endl;
@@ -657,7 +701,6 @@ void disconnect(int c_id)
 			}
 			if (pl._id == c_id) continue;
 			pl.send_remove_player_packet(c_id);
-			//cout << "boss pl: " << p_id << ", " << c_id << endl;
 		}
 	}
 	if (is_pc(c_id)) {
@@ -673,6 +716,7 @@ void disconnect(int c_id)
 	}
 	lock_guard<mutex> ll(clients[c_id]._s_lock);
 	clients[c_id]._state = ST_FREE;
+	cout << "disconnect: " << c_id << endl;
 }
 
 void do_add_boss(int c_id)
@@ -958,7 +1002,7 @@ void add_monster()
 			else if (i >= 20 && i < 24) {
 				clients[MAX_USER + i]._hp = 100;
 				clients[MAX_USER + i].x = 43.f;
-				clients[MAX_USER + i].y = 18.f;
+				clients[MAX_USER + i].y = 19.03f;
 				clients[MAX_USER + i].z = 73.f;
 				clients[MAX_USER + i].my_max_x = 60.f;
 				clients[MAX_USER + i].my_max_z = 90.f;

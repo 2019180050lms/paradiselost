@@ -56,6 +56,7 @@ public class MyPlayer : Player
         _network = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
         bulletPos = transform.GetChild(0);
         trailEffect = GameObject.Find("trailEffect").GetComponent<TrailRenderer>();
+        twoHandTrailEffect = GameObject.Find("twoHandTrailEffect").GetComponent<TrailRenderer>();
         //transform.tag = "MyPlayer";
         weapons.Add(GameObject.Find("Weapon Hammer"));
         weapons[0].name = "MyPlayerSword";
@@ -451,6 +452,7 @@ public class MyPlayer : Player
 
     private void OnParticleCollision(GameObject other)
     {
+        isDamaging = true;
         anim.SetTrigger("doDamaged");
         Debug.Log("파티클 ");
     }
