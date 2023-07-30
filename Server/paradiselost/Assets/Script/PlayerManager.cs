@@ -939,7 +939,7 @@ public class PlayerManager
                     }
                 }
 
-                if(packet.playerId == _boss1.enemyId)
+                if (_boss1 != null && packet.playerId == 536)
                 {
                     _boss1.anim.SetTrigger("doDie");
                     stageClearLogo = Object.Instantiate(stageClear) as GameObject;
@@ -949,9 +949,9 @@ public class PlayerManager
                     Debug.Log("dead boss monster test");
                     _boss1 = null;
                 }
-                else if (packet.playerId == _boss.enemyId)
+                else if (_boss != null && packet.playerId == 536)
                 {
-                    _boss1.anim.SetTrigger("doDie");
+                    _boss.anim.SetTrigger("doDie");
                     stageClearLogo = Object.Instantiate(stageClear) as GameObject;
                     stageClearLogo.transform.position = new Vector3(_boss1.transform.position.x, _boss1.transform.position.y, _boss1.transform.position.z);
                     GameObject.Destroy(_boss.gameObject, 2);

@@ -120,42 +120,45 @@ public class Enemy : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Melee")
+        if (curHealth >= 20)
         {
-            //Debug.Log(" �浹 " );
-            Weapon weapon = other.GetComponent<Weapon>();
-            //curHealth -= weapon.damage;
-            Vector3 reactVec = transform.position - other.transform.position;
-           // Debug.Log("Melee : " + curHealth);
-            StartCoroutine(OnDamage(reactVec));
-            C_AttackedMonster attackedPacket = new C_AttackedMonster();
-            attackedPacket.id = enemyId;
-            attackedPacket.hp = (short)curHealth;
-            attackedPacket.playerId = weapon.ParentId;
-            attackedPacket.hitEnemy = hitEnemy;
-            _network.Send(attackedPacket.Write());
-        }
-        else if (other.tag == "Bullet")
-        {
-            Bullet bullet = other.GetComponent<Bullet>();
-            //curHealth -= bullet.damage;
-            
-            Vector3 reactVec = transform.position - other.transform.position;
-            Destroy(other.gameObject);
-            
-            if (curHealth < 1)
-                curHealth = 0;
-            C_AttackedMonster attackedPacket = new C_AttackedMonster();
-            attackedPacket.id = enemyId;
-            attackedPacket.hp = (short)curHealth;
-            attackedPacket.playerId = bullet.ParentID;
-            attackedPacket.hitEnemy = hitEnemy;
-            _network.Send(attackedPacket.Write());
-            StartCoroutine(OnDamage(reactVec));
-        }
-        else if(other.tag == "EnemyBullet")
-        {
-            Destroy(other);
+            if (other.tag == "Melee")
+            {
+                //Debug.Log(" �浹 " );
+                Weapon weapon = other.GetComponent<Weapon>();
+                //curHealth -= weapon.damage;
+                Vector3 reactVec = transform.position - other.transform.position;
+                // Debug.Log("Melee : " + curHealth);
+                StartCoroutine(OnDamage(reactVec));
+                C_AttackedMonster attackedPacket = new C_AttackedMonster();
+                attackedPacket.id = enemyId;
+                attackedPacket.hp = (short)curHealth;
+                attackedPacket.playerId = weapon.ParentId;
+                attackedPacket.hitEnemy = hitEnemy;
+                _network.Send(attackedPacket.Write());
+            }
+            else if (other.tag == "Bullet")
+            {
+                Bullet bullet = other.GetComponent<Bullet>();
+                //curHealth -= bullet.damage;
+
+                Vector3 reactVec = transform.position - other.transform.position;
+                Destroy(other.gameObject);
+
+                if (curHealth < 1)
+                    curHealth = 0;
+                C_AttackedMonster attackedPacket = new C_AttackedMonster();
+                attackedPacket.id = enemyId;
+                attackedPacket.hp = (short)curHealth;
+                attackedPacket.playerId = bullet.ParentID;
+                attackedPacket.hitEnemy = hitEnemy;
+                _network.Send(attackedPacket.Write());
+                StartCoroutine(OnDamage(reactVec));
+            }
+            else if (other.tag == "EnemyBullet")
+            {
+                Destroy(other);
+            }
         }
     }
 
