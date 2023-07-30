@@ -210,7 +210,7 @@ public class PlayerManager
                         _myplayer.anim.SetTrigger("doAim");
                     }
 
-                    else if (_myplayer.hasWeapons[2]) // 두손검
+                    else if (!_myplayer.anim.GetCurrentAnimatorStateInfo(0).IsName("do2HSwing") && _myplayer.hasWeapons[2]) // 두손검
                     {
                         _myplayer.StartCoroutine("TwoHandSwing");
                         _myplayer.anim.SetTrigger("do2HSwing");

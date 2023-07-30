@@ -35,6 +35,7 @@ TagManager:
   - Portal2
   - Portal3
   - boss
+  - Boss1Melee
   layers:
   - Default
   - TransparentFX
