@@ -918,7 +918,7 @@ public class PlayerManager
                     enemy.audioSource.clip = soundManager.monsterDieSfx;
                     enemy.audioSource.Play();
                     enemy.ps.Play();
-                    _myplayer.questInt++;
+                    //_myplayer.questInt++;
                     GameObject.Destroy(enemy.gameObject, 0.6f);
                     Debug.Log("dead monster test");
                     _enemys.Remove(packet.playerId);
@@ -1234,6 +1234,7 @@ public class PlayerManager
         SceneManager.LoadScene("InGame");
         _myplayer.inven.Invoke("FindInven", 1f);
         // 아이템
+        _myplayer.questInt++;
         Debug.Log("스테이지 클리어 보상 아이템: " + packet.item);
     }
 }
