@@ -1190,16 +1190,24 @@ public class PlayerManager
     {
         Enemy enemy = null;
 
-        
-        if (_enemys.TryGetValue(packet.id, out enemy))
+        if(packet.id != 536)
         {
-            enemy.curHealth = packet.hp;
-            enemy.anim.SetTrigger("doDamaged");
+            if (_enemys.TryGetValue(packet.id, out enemy))
+            {
+                enemy.curHealth = packet.hp;
+                enemy.anim.SetTrigger("doDamaged");
+            }
         }
-        else if(packet.id >= 503)
+        else
         {
-            _boss.curHealth = packet.hp;
-            Debug.Log("보스 피격" + _boss.curHealth);
+            if (_boss1 != null)
+            {
+                _boss1.curHealth = packet.hp;
+            }
+            else if (_boss != null)
+            {
+                _boss.curHealth = packet.hp;
+            }
         }
     }
 
