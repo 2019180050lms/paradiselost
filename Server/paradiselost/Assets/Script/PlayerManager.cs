@@ -564,6 +564,7 @@ public class PlayerManager
 
                 _boss1.moveVec2 = new Vector3(packet.posX, packet.posY, packet.posZ);
                 _boss1.posVec = new Vector3(packet.posX, packet.posY, packet.posZ);
+                _boss1.rotVec = _boss1.posVec - _boss1.transform.position;
                 //_boss.anim.SetBool("isWalk", _boss.isAttack != false);
 
                 if (packet.bossAttack == 1)
@@ -582,7 +583,7 @@ public class PlayerManager
                 }
                 //enemy.transform.LookAt(enemy.transform.position + enemy.moveVec2);
                 Debug.Log("Stage1 Boss Move");
-                _boss1.transform.LookAt(_boss1.posVec);
+                //_boss1.transform.LookAt(_boss1.posVec);
             }
             // 보스 처리
             else if (_boss.enemyId == packet.playerId)
@@ -846,7 +847,7 @@ public class PlayerManager
         }
         else if (packet.type == 6)
         {
-            Object obj = Resources.Load("Monster/Robot2");
+            Object obj = Resources.Load("Monster/Robot1");
             GameObject go = Object.Instantiate(obj) as GameObject;
             Enemy enemy = go.AddComponent<Enemy>();
             enemy.enabled = true;
@@ -940,6 +941,16 @@ public class PlayerManager
                     
                     Debug.Log("dead boss monster test");
                     _boss1 = null;
+                }
+                else if (packet.playerId == _boss.enemyId)
+                {
+                    _boss1.anim.SetTrigger("doDie");
+                    stageClearLogo = Object.Instantiate(stageClear) as GameObject;
+                    stageClearLogo.transform.position = new Vector3(_boss1.transform.position.x, _boss1.transform.position.y, _boss1.transform.position.z);
+                    GameObject.Destroy(_boss.gameObject, 2);
+
+                    Debug.Log("dead boss monster test");
+                    _boss = null;
                 }
             }
         }
@@ -1191,17 +1202,39 @@ public class PlayerManager
     {
 
         Debug.Log("타겟 아이디: " + packet.targetid + " 보스 공격" + packet.bossAttack);
-        if( packet.bossAttack == 1)
-        {
-            _boss.StartCoroutine("Attack");
-            _boss.anim.SetTrigger("doAttack");
-        }
-        else if (packet.bossAttack == 0)
-        {
-            _boss.StartCoroutine("Shot");
-            _boss.anim.SetTrigger("doRangeAttack");
-        }
 
+        if (_boss != null)
+        {
+            if (packet.bossAttack == 1)
+            {
+                _boss.StartCoroutine("Attack");
+                _boss.anim.SetTrigger("doAttack");
+            }
+            else if (packet.bossAttack == 2)
+            {
+                _boss.StartCoroutine("Shot");
+                _boss.anim.SetTrigger("doRangeAttack");
+            }
+        }
+        else if (_boss1 != null)
+        {
+            if (packet.bossAttack == 1)
+            {
+                _boss1.StartCoroutine("Attack");
+                _boss1.anim.SetTrigger("doAttack");
+            }
+            else if (packet.bossAttack == 2)
+            {
+                _boss1.StartCoroutine("Shot");
+                _boss1.anim.SetTrigger("doRangeAttack");
+            }
+            else if (packet.bossAttack == 3)
+            {
+                _boss1.StartCoroutine("Fire");
+                _boss1.anim.SetTrigger("doFire");
+            }
+        }
+        
     }
 
     public void AttackedPlayer(S_AttackedPlayer packet)
