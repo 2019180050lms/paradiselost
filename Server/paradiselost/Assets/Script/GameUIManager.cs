@@ -92,7 +92,7 @@ public class GameUIManager : MonoBehaviour
         int second = (int)(playTime % 60);
 
         playTimeTxt.text = string.Format("{0:00}", hour) + ":" + string.Format("{0:00}", min) + ":" + string.Format("{0:00}", second);
-        playerHealthTxt.text = myPlayer.hp.ToString() + " /  100";  // ÇÃ·¹ÀÌ¾î Ã¼·Â Ç¥½Ã
+        playerHealthTxt.text = myPlayer.hp.ToString() + " /  100";  // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ Ã¼ï¿½ï¿½ Ç¥ï¿½ï¿½
 
         playerHealthBar.localScale = new Vector3((float)PlayerManager.Instance._myplayer.hp / 100, 1, 1);
 
@@ -150,7 +150,7 @@ public class GameUIManager : MonoBehaviour
         }
     }
 
-    public void FindTagName(string TagName)  // ÅÂ±×·Î ¸î¹ø Ä­ÀÎÁö °Ë»ö
+    public void FindTagName(string TagName)  // ï¿½Â±×·ï¿½ ï¿½ï¿½ï¿½ Ä­ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½
     {
         if (TagName == "Inven1")
             index = 0;
@@ -187,11 +187,11 @@ public class GameUIManager : MonoBehaviour
         FindTagName(tagName);
 
 
-        if(inventory.ItemList[index].tag == "Head_Item") // ÇØ´ç Ä­ÀÇ ¾ÆÀÌÅÛÀÌ ¸Ó¸® ÆÄÃ÷ÀÌ¸é
+        if(inventory.ItemList[index].tag == "Head_Item") // ï¿½Ø´ï¿½ Ä­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ó¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½
         {
             C_Send_Item(1, (ushort)inventory.ItemList[index].type);
-            ItemImg[index].color = new Color(1, 1, 1, 0); // Àåºñ ¾ÆÀÌÄÜ UI ²ô±â
-            //inventory.ItemList.RemoveAt(index); // ÀÎº¥ List¿¡¼­ ÇØ´ç ÆÄÃ÷ Á¦°Å
+            ItemImg[index].color = new Color(1, 1, 1, 0); // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ UI ï¿½ï¿½ï¿½ï¿½
+            //inventory.ItemList.RemoveAt(index); // ï¿½Îºï¿½ Listï¿½ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             inventory.ItemList[index] = null;
             ItemTxt[index].text = " ";
             
@@ -227,7 +227,7 @@ public class GameUIManager : MonoBehaviour
         }
         else if (inventory.ItemList[index].tag == "Potion")
         {
-            //C_Send_Item(2, (ushort)inventory.ItemList[index].value);
+            C_Send_Item(2, (ushort)inventory.ItemList[index].value);
             myPlayer.hp += 10;
             
             ItemImg[index].color = new Color(1, 1, 1, 0);
@@ -235,7 +235,7 @@ public class GameUIManager : MonoBehaviour
             ItemTxt[index].text = " ";
         }
 
-        //for (int i = 0; i < 9; ++i) // ÀÎº¥ Á¤·Ä
+        //for (int i = 0; i < 9; ++i) // ï¿½Îºï¿½ ï¿½ï¿½ï¿½ï¿½
         //{
         //  if (inventory.ItemList[i] == null)
         //        ItemImg[i].color = new Color(1, 1, 1, 0);
