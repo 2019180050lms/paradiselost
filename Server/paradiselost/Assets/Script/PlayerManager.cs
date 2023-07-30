@@ -210,10 +210,12 @@ public class PlayerManager
                         _myplayer.anim.SetTrigger("doAim");
                     }
 
-                    else if (!_myplayer.anim.GetCurrentAnimatorStateInfo(0).IsName("do2HSwing") && _myplayer.hasWeapons[2]) // 두손검
+                    else if (!_myplayer.anim.GetCurrentAnimatorStateInfo(0).IsName("do2HSwing") && _myplayer.hasWeapons[2] && _myplayer.currentTime == 0) // 두손검
                     {
                         _myplayer.StartCoroutine("TwoHandSwing");
                         _myplayer.anim.SetTrigger("do2HSwing");
+                        _myplayer.StopCoroutine("timer");
+                        _myplayer.StartCoroutine("timer");
                     }
 
                     else if (_myplayer.hasWeapons[3]) // 샷건
@@ -325,7 +327,7 @@ public class PlayerManager
                     player.falling = false;
                 }
                 player.posVec = new Vector3(packet.posX, packet.posY, packet.posZ);
-                Debug.Log("other move: " + player.posVec);
+                //Debug.Log("other move: " + player.posVec);
                 if (packet.playerDir == 0)
                     player.moveVec2 = new Vector3(0, 0, 0);
                 else if (packet.playerDir == 1)
@@ -367,8 +369,8 @@ public class PlayerManager
 
                 if (packet.wDown)
                 {
-                    Debug.Log("다른 player wDown ");
-                    Debug.Log(player.currentTime);
+                    //Debug.Log("다른 player wDown ");
+                    //Debug.Log(player.currentTime);
                     //player.StopCoroutine("timer");
                     if (player.hasWeapons[1] && !player.anim.GetCurrentAnimatorStateInfo(0).IsName("Run_Aim"))
                     {
@@ -1190,7 +1192,8 @@ public class PlayerManager
     {
         Enemy enemy = null;
 
-        if(packet.id != 536)
+
+        if (packet.id != 536)
         {
             if (_enemys.TryGetValue(packet.id, out enemy))
             {

@@ -55,8 +55,7 @@ public class MyPlayer : Player
 
         _network = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
         bulletPos = transform.GetChild(0);
-        trailEffect = GameObject.Find("trailEffect").GetComponent<TrailRenderer>();
-        twoHandTrailEffect = GameObject.Find("twoHandTrailEffect").GetComponent<TrailRenderer>();
+        
         //transform.tag = "MyPlayer";
         weapons.Add(GameObject.Find("Weapon Hammer"));
         weapons[0].name = "MyPlayerSword";
@@ -74,6 +73,9 @@ public class MyPlayer : Player
 
 
         DontDestroyOnLoad(this);
+
+        trailEffect = GameObject.Find("trailEffect").GetComponent<TrailRenderer>();
+        twoHandTrailEffect = GameObject.Find("twoHandTrailEffect").GetComponent<TrailRenderer>();
     }
 
 

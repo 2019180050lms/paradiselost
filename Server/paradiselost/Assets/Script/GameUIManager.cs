@@ -104,7 +104,7 @@ public class GameUIManager : MonoBehaviour
             bossHealthBar.localScale = new Vector3((float)PlayerManager.Instance._boss.curHealth / boss.maxHealth, 1, 1);
         }
 
-        if (boss1 != null)
+        else if (boss1 != null)
         {
             Debug.Log("boss1 != null");
             bossHealthBar.localScale = new Vector3((float)PlayerManager.Instance._boss1.curHealth / boss1.maxHealth, 1, 1);

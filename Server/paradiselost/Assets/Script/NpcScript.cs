@@ -40,7 +40,7 @@ public class NpcScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(player);
+        //Debug.Log(player);
         questIntNum.text = player.questInt.ToString() + "  / 3";
     }
 
@@ -67,9 +67,10 @@ public class NpcScript : MonoBehaviour
                 {
                     npxtext.text = "보상 : 새로운 무기";
                     questtext.text = "1스테이지 보스 처치";
-                    player = GameObject.Find("test(Clone)").GetComponent<MyPlayer>();
                     clickCount++;
+                    // player = GameObject.Find("test(Clone)").GetComponent<MyPlayer>();
                 }
+
                 else if (clickCount == 3 && obj.questInt == 0)
                 {
                     C_Npc npcpacket = new C_Npc();
@@ -84,7 +85,7 @@ public class NpcScript : MonoBehaviour
                 }
 
                 // 1스테이지 클리어 이후
-                else if(clickCount == 0 && obj.questInt == 1)
+                else if (clickCount == 0 && obj.questInt == 1)
                 {
                     talkPanel.SetActive(true);
                     npxtext.text = "1스테이지 클리어 보상으로 무기를 지급합니다.";
@@ -100,9 +101,9 @@ public class NpcScript : MonoBehaviour
                                 gameUIManager.ItemTxt[i].text = "2H SWORD";
                                 break;
                             }
-                            else
+                            else if (obj.playerType == 0)
                             {
-                                objInven.ItemList[i] = Resources.Load<ItemParts>("Items/Weapon ShotGun Item ");
+                                objInven.ItemList[i] = Resources.Load<ItemParts>("Items/Weapon ShotGun Item");
                                 gameUIManager.ItemTxt[i].text = "SHOT GUN";
                                 break;
                             }
@@ -169,38 +170,38 @@ public class NpcScript : MonoBehaviour
 
 
 
-                else if (clickCount == 4 && obj.questInt == 2)
-                {
-                    talkPanel.SetActive(false);
-                    clickCount = 0;
-                }
+                //else if (clickCount == 4 && obj.questInt == 2)
+                //{
+                //    talkPanel.SetActive(false);
+                //    clickCount = 0;
+                //}
 
-                else if (clickCount == 2 && obj.questInt == 2)
-                {
-                    ItemParts reward = GetComponent<ItemParts>();
-                    for (int i = 0; i < 9; ++i)
-                    {
-                        if (objInven.ItemList[i] == null)
-                        {
-                            if(obj.playerType == 1)
-                            {
-                                objInven.ItemList[i] = Resources.Load<ItemParts>("Items/Weapon 2H Sword Item");
-                                gameUIManager.ItemTxt[i].text = "2H SWORD";
-                                break;
-                            }
-                            else
-                            {
-                                objInven.ItemList[i] = Resources.Load<ItemParts>("Items/Weapon ShotGun Item ");
-                                gameUIManager.ItemTxt[i].text = "SHOT GUN";
-                                break;
-                            }
-                        }
-                    }
-                    questPanel.SetActive(false);
-                    talkPanel.SetActive(false);
-                    clickCount = 0;
-                    obj.questInt = 0;
-                }
+                //else if (clickCount == 2 && obj.questInt == 2)
+                //{
+                //    ItemParts reward = GetComponent<ItemParts>();
+                //    for (int i = 0; i < 9; ++i)
+                //    {
+                //        if (objInven.ItemList[i] == null)
+                //        {
+                //            if(obj.playerType == 1)
+                //            {
+                //                objInven.ItemList[i] = Resources.Load<ItemParts>("Items/Weapon 2H Sword Item");
+                //                gameUIManager.ItemTxt[i].text = "2H SWORD";
+                //                break;
+                //            }
+                //            else
+                //            {
+                //                objInven.ItemList[i] = Resources.Load<ItemParts>("Items/Weapon ShotGun Item ");
+                //                gameUIManager.ItemTxt[i].text = "SHOT GUN";
+                //                break;
+                //            }
+                //        }
+                //    }
+                //    questPanel.SetActive(false);
+                //    talkPanel.SetActive(false);
+                //    clickCount = 0;
+                //    obj.questInt = 0;
+                //}
             }
 
         }
