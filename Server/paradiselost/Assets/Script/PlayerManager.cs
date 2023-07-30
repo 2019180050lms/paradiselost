@@ -318,13 +318,14 @@ public class PlayerManager
         {
             if (_players.TryGetValue(packet.playerId, out player))
             {
-                if (packet.posX == 19.0f && packet.posY == 2.0f && packet.posZ == 19.0f)
+                if (packet.posY < -25.0f)
                 {
                     player.falling = true;
-                    player.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
+                    player.transform.position = new Vector3(packet.posX, 3, packet.posZ);
                     player.falling = false;
                 }
                 player.posVec = new Vector3(packet.posX, packet.posY, packet.posZ);
+                Debug.Log("other move: " + player.posVec);
                 if (packet.playerDir == 0)
                     player.moveVec2 = new Vector3(0, 0, 0);
                 else if (packet.playerDir == 1)
@@ -738,9 +739,8 @@ public class PlayerManager
             Object obj3 = Resources.Load("PlayerText");
             GameObject PlayerText = Object.Instantiate(obj3) as GameObject;
 
-
-
             Player player = go.AddComponent<Player>();
+            player.falling = true;
             player.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
 
             player.PlayerId = packet.playerId;
@@ -770,6 +770,8 @@ public class PlayerManager
 
             //_playerParts.Add(packet.playerId, jointP);
             Debug.Log("test o_id: " + player.PlayerId);
+            player.falling = false;
+            Debug.Log("player 들어온 좌표: " + player.transform.position);
             _players.Add(packet.playerId, player);
             GameObject.Find("Game Manager").GetComponent<GameUIManager>().FindPlayerUI();
             //Debug.Log(player.name);
@@ -781,9 +783,8 @@ public class PlayerManager
             Object obj3 = Resources.Load("PlayerText");
             GameObject PlayerText = Object.Instantiate(obj3) as GameObject;
 
-
-
             Player player = go.AddComponent<Player>();
+            player.falling = true;
             player.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
 
             player.PlayerId = packet.playerId;
@@ -813,7 +814,9 @@ public class PlayerManager
 
             //_playerParts.Add(packet.playerId, jointP);
             Debug.Log("test o_id: " + player.PlayerId);
+            player.falling = false;
             _players.Add(packet.playerId, player);
+            Debug.Log("player 들어온 좌표: " + player.transform.position);
             GameObject.Find("Game Manager").GetComponent<GameUIManager>().FindPlayerUI();
             //Debug.Log(player.name);
         }

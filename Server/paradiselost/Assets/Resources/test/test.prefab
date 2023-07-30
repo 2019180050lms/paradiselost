@@ -12812,7 +12812,7 @@ GameObject:
   - component: {fileID: 2610527397759041739}
   - component: {fileID: 6795696479845571788}
   m_Layer: 0
-  m_Name: trailEffect
+  m_Name: twoHandTrailEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -118,7 +118,6 @@ public class Player : MonoBehaviour
         weapons[2].SetActive(false);
         weapons[3].SetActive(false);
         equipWeaponIndex = 4;
-
         DontDestroyOnLoad(this);
     }
 
