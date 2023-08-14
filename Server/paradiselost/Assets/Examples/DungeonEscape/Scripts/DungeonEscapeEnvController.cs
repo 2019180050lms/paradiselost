@@ -20,7 +20,7 @@ public class DungeonEscapeEnvController : MonoBehaviour
     }
 
     [System.Serializable]
-    public class DragonInfo
+    public class TargetInfo
     {
         public SimpleNPC Agent;
         [HideInInspector]
@@ -60,7 +60,7 @@ public class DungeonEscapeEnvController : MonoBehaviour
     Renderer m_GroundRenderer;
 
     public List<PlayerInfo> AgentsList = new List<PlayerInfo>();
-    public List<DragonInfo> DragonsList = new List<DragonInfo>();
+    public List<TargetInfo> TargetList = new List<TargetInfo>();
     private Dictionary<PushAgentEscape, PlayerInfo> m_PlayerDict = new Dictionary<PushAgentEscape, PlayerInfo>();
     public bool UseRandomAgentRotation = true;
     public bool UseRandomAgentPosition = true;
@@ -98,7 +98,7 @@ public class DungeonEscapeEnvController : MonoBehaviour
             // Add to team manager
             m_AgentGroup.RegisterAgent(item.Agent);
         }
-        foreach (var item in DragonsList)
+        foreach (var item in TargetList)
         {
             item.StartingPos = item.Agent.transform.position;
             item.StartingRot = item.Agent.transform.rotation;
@@ -248,7 +248,7 @@ public class DungeonEscapeEnvController : MonoBehaviour
         Tombstone.SetActive(false);
 
         //End Episode
-        foreach (var item in DragonsList)
+        foreach (var item in TargetList)
         {
             if (!item.Agent)
             {
