@@ -9744,6 +9744,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 9042103128268640893}
     m_Modifications:
+    - target: {fileID: 4417409307467332286, guid: 1e411c9046ad85f47bda7b865c42abe3, type: 3}
+      propertyPath: monster_id
+      value: 514
+      objectReference: {fileID: 0}
     - target: {fileID: 4417409307474741567, guid: 1e411c9046ad85f47bda7b865c42abe3, type: 3}
       propertyPath: m_Name
       value: 3
@@ -11195,6 +11199,10 @@ PrefabInstance:
     - target: {fileID: 4417409307467332286, guid: 1e411c9046ad85f47bda7b865c42abe3, type: 3}
       propertyPath: MaxStep
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4417409307467332286, guid: 1e411c9046ad85f47bda7b865c42abe3, type: 3}
+      propertyPath: monster_id
+      value: 512
       objectReference: {fileID: 0}
     - target: {fileID: 4417409307474741567, guid: 1e411c9046ad85f47bda7b865c42abe3, type: 3}
       propertyPath: m_Name
@@ -25883,6 +25891,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 9042103128268640893}
     m_Modifications:
+    - target: {fileID: 4417409307467332286, guid: 1e411c9046ad85f47bda7b865c42abe3, type: 3}
+      propertyPath: monster_id
+      value: 513
+      objectReference: {fileID: 0}
     - target: {fileID: 4417409307474741567, guid: 1e411c9046ad85f47bda7b865c42abe3, type: 3}
       propertyPath: m_Name
       value: 2

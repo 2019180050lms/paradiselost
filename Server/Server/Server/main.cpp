@@ -371,6 +371,8 @@ void process_packet(int c_id, char* packet)
 				}
 				if (pl._stage == clients[c_id]._stage) {
 					clients[c_id].send_add_player_packet(pl._id);
+					cout << pl._id << " add player" << endl;
+				
 				}
 			}
 		}
@@ -519,7 +521,7 @@ void process_packet(int c_id, char* packet)
 			clients[c_id]._sl.lock();
 			clients[c_id]._skill_list.insert(1);
 			clients[c_id]._sl.unlock();
-			add_timer(c_id, std::chrono::system_clock::now() + 1s, EV_SKILL_DELAY);
+			add_timer(c_id, std::chrono::system_clock::now() + 500ms, EV_SKILL_DELAY);
 			clients[c_id].send_move_packet(c_id);
 			clients[c_id].isAttack = false;
 		}
@@ -703,7 +705,18 @@ void process_packet(int c_id, char* packet)
 		clients[c_id]._s_lock.lock();
 		clients[c_id]._stage = p->stage;
 		clients[c_id]._s_lock.unlock();
+		//
+		clients[c_id]._vl.lock();
+		clients[c_id]._view_list.clear();
+		clients[c_id]._vl.unlock();
 		// TODO 스테이지별 위치 조정 추가
+		break;
+	}
+	case CS_MONSTER_AI: {
+		CS_MONSTER_AI_PACKET* p = reinterpret_cast<CS_MONSTER_AI_PACKET*>(packet);
+		clients[p->id].x = p->x;
+		clients[p->id].y = p->y;
+		clients[p->id].z = p->z;
 		break;
 	}
 	default:
@@ -734,6 +747,9 @@ void disconnect(int c_id)
 		_db_l.unlock();
 		clients[c_id]._stage = 0;
 		clients[c_id]._quest_stage = -1;
+		clients[c_id]._vl.lock();
+		clients[c_id]._view_list.clear();
+		clients[c_id]._vl.unlock();
 	}
 	if (c_id == MAX_USER + MAX_NPC - 1) {
 		add_timer(c_id, chrono::system_clock::now() + 10s, EV_STAGE_CLEAR);
@@ -1155,60 +1171,60 @@ void do_random_move(int c_id)
 		switch (dir) {
 		case 0: {
 			if (z > clients[c_id].my_min_z) {
-				z -= 2.f;
+				z -= 1.5f;
 				clients[c_id]._dir = dir;
 			}
 			break;
 		}
 		case 1: {
 			if (z < clients[c_id].my_max_z) {
-				z += 2.f;
+				z += 1.5f;
 				clients[c_id]._dir = dir;
 			}
 			break;
 		}
 		case 2: {
 			if (x > clients[c_id].my_min_x) {
-				x -= 2.f;
+				x -= 1.5f;
 				clients[c_id]._dir = dir;
 			}
 			break;
 		}
 		case 3: {
 			if (x < clients[c_id].my_max_x) {
-				x += 2.f;
+				x += 1.5f;
 				clients[c_id]._dir = dir;
 			}
 			break;
 		}
 		case 4: {
 			if (x < clients[c_id].my_max_x && z < clients[c_id].my_max_z) { 
-				x += 1.5;
-				z += 1.5;
+				x += 1.f;
+				z += 1.f;
 				clients[c_id]._dir = dir;
 			}
 			break;
 		}
 		case 5: {
 			if (x > clients[c_id].my_min_x && z < clients[c_id].my_max_z) {
-				x -= 1.5;
-				z += 1.5;
+				x -= 1.f;
+				z += 1.f;
 				clients[c_id]._dir = dir;
 			}
 			break;
 		}
 		case 6: {
 			if (x < clients[c_id].my_max_x && z > clients[c_id].my_min_z) { 
-				x += 1.5;
-				z -= 1.5;
+				x += 1.f;
+				z -= 1.f;
 				clients[c_id]._dir = dir;
 			} 
 			break;
 		}
 		case 7: {
 			if (x > clients[c_id].my_min_x && z > clients[c_id].my_min_z) {
-				x -= 1.5;
-				z -= 1.5;
+				x -= 1.f;
+				z -= 1.f;
 				clients[c_id]._dir = dir;
 			}
 			break;
@@ -1298,17 +1314,45 @@ void do_player_attack(int n_id, int c_id)
 
 		if (!clients[n_id].isAttack) {
 			if (clients[n_id].x < clients[c_id].x) {
-				clients[n_id].x += 3.f;
+				clients[n_id].x += 1.5f;
+				clients[n_id]._dir = 1;
 			}
 			else if (clients[n_id].x > clients[c_id].x) {
-				clients[n_id].x -= 3.f;
+				clients[n_id].x -= 1.5f;
+				clients[n_id]._dir = 2;
 			}
 
 			if (clients[n_id].z < clients[c_id].z) {
-				clients[n_id].z += 3.f;
+				clients[n_id].z += 1.5f;
+				clients[n_id]._dir = 3;
 			}
 			else if (clients[n_id].z > clients[c_id].z) {
-				clients[n_id].z -= 3.f;
+				clients[n_id].z -= 1.5f;
+				clients[n_id]._dir = 4;
+			}
+			if (clients[n_id].x < clients[c_id].x 
+				&& clients[n_id].z < clients[c_id].z) {
+				clients[n_id].x += 1.f;
+				clients[n_id].z += 1.f;
+				clients[n_id]._dir = 5;
+			}
+			else if (clients[n_id].x < clients[c_id].x
+				&& clients[n_id].z > clients[c_id].z) {
+				clients[n_id].x += 1.f;
+				clients[n_id].z -= 1.f;
+				clients[n_id]._dir = 6;
+			}
+			else if (clients[n_id].x > clients[c_id].x
+				&& clients[n_id].z < clients[c_id].z) {
+				clients[n_id].x -= 1.f;
+				clients[n_id].z += 1.f;
+				clients[n_id]._dir = 7;
+			}
+			else if (clients[n_id].x > clients[c_id].x
+				&& clients[n_id].z > clients[c_id].z) {
+				clients[n_id].x -= 1.f;
+				clients[n_id].z -= 1.f;
+				clients[n_id]._dir = 8;
 			}
 		}
 		break;
@@ -1333,17 +1377,45 @@ void do_player_attack(int n_id, int c_id)
 
 		if (!clients[n_id].isAttack) {
 			if (clients[n_id].x < clients[c_id].x) {
-				clients[n_id].x += 3.f;
+				clients[n_id].x += 1.5f;
+				clients[n_id]._dir = 1;
 			}
 			else if (clients[n_id].x > clients[c_id].x) {
-				clients[n_id].x -= 3.f;
+				clients[n_id].x -= 1.5f;
+				clients[n_id]._dir = 2;
 			}
 
 			if (clients[n_id].z < clients[c_id].z) {
-				clients[n_id].z += 3.f;
+				clients[n_id].z += 1.5f;
+				clients[n_id]._dir = 3;
 			}
 			else if (clients[n_id].z > clients[c_id].z) {
-				clients[n_id].z -= 3.f;
+				clients[n_id].z -= 1.5f;
+				clients[n_id]._dir = 4;
+			}
+			if (clients[n_id].x < clients[c_id].x
+				&& clients[n_id].z < clients[c_id].z) {
+				clients[n_id].x += 1.f;
+				clients[n_id].z += 1.f;
+				clients[n_id]._dir = 5;
+			}
+			else if (clients[n_id].x < clients[c_id].x
+				&& clients[n_id].z > clients[c_id].z) {
+				clients[n_id].x += 1.f;
+				clients[n_id].z -= 1.f;
+				clients[n_id]._dir = 6;
+			}
+			else if (clients[n_id].x > clients[c_id].x
+				&& clients[n_id].z < clients[c_id].z) {
+				clients[n_id].x -= 1.f;
+				clients[n_id].z += 1.f;
+				clients[n_id]._dir = 7;
+			}
+			else if (clients[n_id].x > clients[c_id].x
+				&& clients[n_id].z > clients[c_id].z) {
+				clients[n_id].x -= 1.f;
+				clients[n_id].z -= 1.f;
+				clients[n_id]._dir = 8;
 			}
 		}
 		break;
@@ -1404,16 +1476,44 @@ void do_player_attack(int n_id, int c_id)
 		if (!clients[n_id].isAttack) {
 			if (clients[n_id].x < clients[c_id].x) {
 				clients[n_id].x += 3.f;
+				clients[n_id]._dir = 1;
 			}
 			else if (clients[n_id].x > clients[c_id].x) {
 				clients[n_id].x -= 3.f;
+				clients[n_id]._dir = 2;
 			}
 
 			if (clients[n_id].z < clients[c_id].z) {
 				clients[n_id].z += 3.f;
+				clients[n_id]._dir = 3;
 			}
 			else if (clients[n_id].z > clients[c_id].z) {
 				clients[n_id].z -= 3.f;
+				clients[n_id]._dir = 4;
+			}
+			if (clients[n_id].x < clients[c_id].x
+				&& clients[n_id].z < clients[c_id].z) {
+				clients[n_id].x += 1.5f;
+				clients[n_id].z += 1.5f;
+				clients[n_id]._dir = 5;
+			}
+			else if (clients[n_id].x < clients[c_id].x
+				&& clients[n_id].z > clients[c_id].z) {
+				clients[n_id].x += 1.5f;
+				clients[n_id].z -= 1.5f;
+				clients[n_id]._dir = 6;
+			}
+			else if (clients[n_id].x > clients[c_id].x
+				&& clients[n_id].z < clients[c_id].z) {
+				clients[n_id].x -= 1.5f;
+				clients[n_id].z += 1.5f;
+				clients[n_id]._dir = 7;
+			}
+			else if (clients[n_id].x > clients[c_id].x
+				&& clients[n_id].z > clients[c_id].z) {
+				clients[n_id].x -= 1.5f;
+				clients[n_id].z -= 1.5f;
+				clients[n_id]._dir = 8;
 			}
 		}
 		break;

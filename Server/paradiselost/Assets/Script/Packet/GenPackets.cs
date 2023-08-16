@@ -31,7 +31,8 @@ public enum PacketID
 	S_NPC = 21,
 	C_NPC = 17,
 	C_PORTAL = 23,
-	S_STAGE_CLEAR = 22
+	S_STAGE_CLEAR = 22,
+	C_MONSTER_AI = 25
 }
 
 public interface IPacket
@@ -363,6 +364,73 @@ public class C_Move : IPacket
 		count += sizeof(ushort);
 		Array.Copy(BitConverter.GetBytes((ushort)PacketID.C_MOVE), 0, segment.Array, segment.Offset + count, sizeof(ushort));
 		count += sizeof(ushort); 
+		Array.Copy(BitConverter.GetBytes(this.playerIndex), 0, segment.Array, segment.Offset + count, sizeof(int));
+		count += sizeof(int);
+		Array.Copy(BitConverter.GetBytes(this.playerDir), 0, segment.Array, segment.Offset + count, sizeof(int));
+		count += sizeof(int);
+		Array.Copy(BitConverter.GetBytes(this.hp), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+		count += sizeof(ushort);
+		Array.Copy(BitConverter.GetBytes(this.posX), 0, segment.Array, segment.Offset + count, sizeof(float));
+		count += sizeof(float);
+		Array.Copy(BitConverter.GetBytes(this.posY), 0, segment.Array, segment.Offset + count, sizeof(float));
+		count += sizeof(float);
+		Array.Copy(BitConverter.GetBytes(this.posZ), 0, segment.Array, segment.Offset + count, sizeof(float));
+		count += sizeof(float);
+		Array.Copy(BitConverter.GetBytes(this.wDown), 0, segment.Array, segment.Offset + count, sizeof(bool));
+		count += sizeof(bool);
+		Array.Copy(BitConverter.GetBytes(this.isJump), 0, segment.Array, segment.Offset + count, sizeof(bool));
+		count += sizeof(bool);
+
+		Array.Copy(BitConverter.GetBytes(count), 0, segment.Array, segment.Offset, sizeof(ushort));
+
+		return SendBufferHelper.Close(count);
+	}
+}
+
+public class C_Move_AI : IPacket
+{
+	public int playerIndex;
+	public int playerDir;
+	public short hp;
+	public float posX;
+	public float posY;
+	public float posZ;
+	public bool wDown;
+	public bool isJump;
+
+	public ushort Protocol { get { return (ushort)PacketID.C_MONSTER_AI; } }
+
+	public void Read(ArraySegment<byte> segment)
+	{
+		ushort count = 0;
+		count += sizeof(ushort);
+		count += sizeof(ushort);
+		Array.Copy(BitConverter.GetBytes(this.playerIndex), 0, segment.Array, segment.Offset + count, sizeof(int));
+		count += sizeof(int);
+		Array.Copy(BitConverter.GetBytes(this.playerDir), 0, segment.Array, segment.Offset + count, sizeof(int));
+		count += sizeof(int);
+		Array.Copy(BitConverter.GetBytes(this.hp), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+		count += sizeof(ushort);
+		this.posX = BitConverter.ToSingle(segment.Array, segment.Offset + count);
+		count += sizeof(float);
+		this.posY = BitConverter.ToSingle(segment.Array, segment.Offset + count);
+		count += sizeof(float);
+		this.posZ = BitConverter.ToSingle(segment.Array, segment.Offset + count);
+		count += sizeof(float);
+		this.wDown = BitConverter.ToBoolean(segment.Array, segment.Offset + count);
+		count += sizeof(bool);
+		this.isJump = BitConverter.ToBoolean(segment.Array, segment.Offset + count);
+		count += sizeof(bool);
+	}
+
+	public ArraySegment<byte> Write()
+	{
+		ArraySegment<byte> segment = SendBufferHelper.Open(4096);
+		ushort count = 0;
+
+		count += sizeof(ushort);
+		Array.Copy(BitConverter.GetBytes((ushort)PacketID.C_MONSTER_AI), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+		count += sizeof(ushort);
 		Array.Copy(BitConverter.GetBytes(this.playerIndex), 0, segment.Array, segment.Offset + count, sizeof(int));
 		count += sizeof(int);
 		Array.Copy(BitConverter.GetBytes(this.playerDir), 0, segment.Array, segment.Offset + count, sizeof(int));

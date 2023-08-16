@@ -22,6 +22,7 @@ constexpr char CS_EQUIP_ITEM = 16;
 constexpr char CS_NPC = 17;
 constexpr char CS_PORTAL = 23;
 constexpr char CS_PLAYER_ATTACKED = 24;
+constexpr char CS_MONSTER_AI = 25;			// ml_agent
 
 constexpr char SC_LOGIN_INFO = 3;
 constexpr char SC_ENTER_PLAYER = 8;
@@ -62,6 +63,18 @@ struct CS_CREATE_PLAYER_PACKET {
 };
 
 struct CS_MOVE_PACKET {
+	unsigned short size;
+	unsigned short type;
+	int id;
+	int	direction;  // 0 : UP, 1 : DOWN, 2 : LEFT, 3 : RIGHT
+	short hp;
+	float x, y, z;
+	bool isAttack;
+	bool isJump;
+	//unsigned	move_time;
+};
+
+struct CS_MONSTER_AI_PACKET {
 	unsigned short size;
 	unsigned short type;
 	int id;

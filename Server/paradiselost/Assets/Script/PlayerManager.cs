@@ -122,7 +122,7 @@ public class PlayerManager
             SetCharacter(packet.id, packet.hp, packet.type, playerPos);
             Debug.Log("test pos: " + packet.x + packet.y + packet.z);
             Debug.Log("test name: " + packet.name);
-            GameObject.Find("Game Manager").GetComponent<GameUIManager>().FindPlayerUI();
+            //GameObject.Find("Game Manager").GetComponent<GameUIManager>().FindPlayerUI();
 
             switch (packet.weapon)
             {
@@ -527,16 +527,19 @@ public class PlayerManager
                 else if (packet.playerDir == 8)
                     enemy.moveVec2 = new Vector3(-(Mathf.Sqrt(0.5f)), 0, -(Mathf.Sqrt(0.5f)));
 
+                /*
                 if (enemy.enemyType != 4)
                 {
                     enemy.moveVec2 = new Vector3(packet.posX, packet.posY, packet.posZ);
                 }
+                */
 
                 //enemy.transform.position = Vector3.MoveTowards(enemy.transform.position, new Vector3(packet.posX, packet.posY, packet.posZ), 1f);
                 //Debug.Log(enemy.transform.position);
                 //enemy.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
 
                 enemy.posVec = new Vector3(packet.posX, packet.posY, packet.posZ);
+                //enemy.transform.LookAt(enemy.transform.position + enemy.moveVec2);
                 //enemy.anim.SetBool("isWalk", enemy.isAttack != false);
                 if (packet.wDown)
                 {
@@ -546,12 +549,14 @@ public class PlayerManager
 
                 }
                 //enemy.transform.LookAt(enemy.transform.position + enemy.moveVec2);
+                
                 enemy.rotVec = enemy.posVec - enemy.transform.position;
+                
                 //enemy.transform.LookAt(enemy.posVec);
 
                 if (enemy.tag == "EnemyTurret")
                 {
-                    EnemyTurret enemyTurret = GameObject.Find("TargetArea").GetComponent<EnemyTurret>();
+                    //EnemyTurret enemyTurret = GameObject.Find("TargetArea").GetComponent<EnemyTurret>();
                     //enemy.transform.LookAt(enemyTurret.targetPos);
                     //Debug.Log(enemyTurret.targetPos);
                 }

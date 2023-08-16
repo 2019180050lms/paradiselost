@@ -2,12 +2,17 @@ using UnityEngine;
 using Unity.MLAgents;
 using Unity.MLAgents.Sensors;
 using Unity.MLAgents.Actuators;
+using System.Collections;
+using System.Collections.Generic;
 
 public class PushAgentEscape : Agent
 {
+    NetworkManager _network;
 
     public GameObject MyKey; //my key gameobject. will be enabled when key picked up.
     public bool IHaveAKey; //have i picked up a key
+    public int monster_id;
+
     private PushBlockSettings m_PushBlockSettings;
     private Rigidbody m_AgentRb;
     private DungeonEscapeEnvController m_GameController;
@@ -19,6 +24,8 @@ public class PushAgentEscape : Agent
         m_PushBlockSettings = FindObjectOfType<PushBlockSettings>();
         MyKey.SetActive(false);
         IHaveAKey = false;
+        _network = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
+        StartCoroutine(cs_send_monster_ai());
     }
 
     public override void OnEpisodeBegin()
@@ -66,6 +73,21 @@ public class PushAgentEscape : Agent
         transform.Rotate(rotateDir, Time.fixedDeltaTime * 200f);
         m_AgentRb.AddForce(dirToGo * m_PushBlockSettings.agentRunSpeed,
             ForceMode.VelocityChange);
+    }
+
+    IEnumerator cs_send_monster_ai()
+    {
+        C_Move_AI move_ai = new C_Move_AI();
+        move_ai.playerIndex = monster_id;
+        move_ai.posX = transform.position.x;
+        move_ai.posY = transform.position.y;
+        move_ai.posZ = transform.position.z;
+        move_ai.hp = 100;
+        move_ai.wDown = false;
+        move_ai.isJump = false;
+        move_ai.playerDir = 1;
+        _network.Send(move_ai.Write());
+        yield return new WaitForSeconds(1);
     }
 
     /// <summary>
