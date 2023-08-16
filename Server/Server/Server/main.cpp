@@ -63,7 +63,7 @@ public:
 	int _id;
 	int _type;
 	int _dir;
-	short _stage;					// 포탈 이동
+	int _stage;					// 포탈 이동
 	short _quest_stage;				// 몇 번째 퀘스트 인지
 	SOCKET _socket;
 	int head_item, weapon_item, leg_item;
@@ -77,7 +77,9 @@ public:
 	WCHAR	_name[NAME_SIZE];
 	int		_prev_remain;
 	unordered_set <int> _view_list;
+	unordered_set <int> _skill_list;
 	mutex	_vl;
+	mutex	_sl;
 	int		last_move_time;
 	lua_State* _L;
 	mutex _ll;
@@ -141,6 +143,7 @@ public:
 		p.x = x;
 		p.y = y;
 		p.z = z;
+		p.stage = _stage;
 		do_send(&p);
 	}
 	void send_move_packet(int c_id);
@@ -178,7 +181,7 @@ mutex _db_l;
 SOCKET g_s_socket, g_c_socket;
 OVER_EXP g_a_over;
 
-enum EVENT_TYPE { EV_RANDOM_MOVE, EV_HEAL, EV_ATTACK, EV_BOSS, EV_RESPAWN, EV_BOSS_MOVE, EV_STAGE_CLEAR };
+enum EVENT_TYPE { EV_RANDOM_MOVE, EV_HEAL, EV_ATTACK, EV_BOSS, EV_RESPAWN, EV_BOSS_MOVE, EV_STAGE_CLEAR, EV_SKILL_DELAY };
 
 struct EVENT {
 	int _oid;
@@ -345,14 +348,14 @@ void process_packet(int c_id, char* packet)
 			clients[c_id]._state = ST_INGAME;
 			clients[c_id]._stage = 0;
 		}
-		_db_l.lock();
-		db.get_user_data(clients[c_id]._name, clients[c_id]._name, &clients[c_id].x, 
-			&clients[c_id].y, &clients[c_id].z, &clients[c_id].exp, &clients[c_id].level, 
-			&clients[c_id].weapon_item, &clients[c_id]._type);
-		_db_l.unlock();
 		//cout << clients[c_id].x << ", " << clients[c_id].y << ", " << clients[c_id].z << endl;
 		clients[c_id].send_login_info_packet(check);
 		if (check == true) {
+			_db_l.lock();
+			db.get_user_data(clients[c_id]._name, clients[c_id]._name, &clients[c_id].x,
+				&clients[c_id].y, &clients[c_id].z, &clients[c_id].exp, &clients[c_id].level,
+				&clients[c_id].weapon_item, &clients[c_id]._type, &clients[c_id]._stage);
+			_db_l.unlock();
 			clients[c_id].send_enter_game_packet();
 			for (auto& pl : clients) {
 				{
@@ -404,7 +407,7 @@ void process_packet(int c_id, char* packet)
 		_db_l.lock();
 		db.add_user_data(clients[c_id]._name, clients[c_id]._name, &clients[c_id].x, 
 			&clients[c_id].y, &clients[c_id].z, &clients[c_id].exp, &clients[c_id].level, 
-			&clients[c_id].weapon_item, &clients[c_id]._type);
+			&clients[c_id].weapon_item, &clients[c_id]._type, &clients[c_id]._stage);
 		_db_l.unlock();
 		clients[c_id].send_enter_game_packet();
 		//cout << "enter game send: " << endl;
@@ -512,8 +515,14 @@ void process_packet(int c_id, char* packet)
 		clients[c_id].isAttack = p->isAttack;
 		clients[c_id].isJump = p->isJump;
 
-		if(clients[c_id].isAttack)
+		if (clients[c_id].isAttack && !clients[c_id]._skill_list.count(1)) {
+			clients[c_id]._sl.lock();
+			clients[c_id]._skill_list.insert(1);
+			clients[c_id]._sl.unlock();
+			add_timer(c_id, std::chrono::system_clock::now() + 1s, EV_SKILL_DELAY);
 			clients[c_id].send_move_packet(c_id);
+			clients[c_id].isAttack = false;
+		}
 
 		unordered_set<int> near_list;
 		clients[c_id]._vl.lock();
@@ -721,7 +730,7 @@ void disconnect(int c_id)
 	if (is_pc(c_id)) {
 		closesocket(clients[c_id]._socket);
 		_db_l.lock();
-		db.update_user_data(clients[c_id]._name, clients[c_id]._name, &clients[c_id].x, &clients[c_id].y, &clients[c_id].z, &clients[c_id].exp, &clients[c_id].level, &clients[c_id].weapon_item);
+		db.update_user_data(clients[c_id]._name, clients[c_id]._name, &clients[c_id].x, &clients[c_id].y, &clients[c_id].z, &clients[c_id].exp, &clients[c_id].level, &clients[c_id].weapon_item, &clients[c_id]._stage);
 		_db_l.unlock();
 		clients[c_id]._stage = 0;
 		clients[c_id]._quest_stage = -1;
@@ -1554,6 +1563,16 @@ void do_timer(HANDLE h_iocp)
 				break;
 			}
 			case EV_RESPAWN: {
+				break;
+			}
+			case EV_SKILL_DELAY: {
+				int p_id = ev._oid;
+				clients[p_id]._sl.lock();
+				if (clients[p_id]._skill_list.count(1))
+					clients[p_id]._skill_list.erase(1);
+				clients[p_id]._sl.unlock();
+				if (clients[p_id].isAttack)
+					clients[p_id].isAttack = false;
 				break;
 			}
 			default:

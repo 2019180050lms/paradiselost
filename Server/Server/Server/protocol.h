@@ -118,6 +118,7 @@ struct SC_LOGIN_INFO_PACKET {
 	int weapon;
 	short hp;
 	float	x, y, z;
+	int stage;
 	WCHAR	name[NAME_SIZE + 2];
 };
 

@@ -111,12 +111,12 @@ bool DB::check_user_id(wchar_t* id)
         return true;
 }
 
-void DB::get_user_data(wchar_t* id, wchar_t* name, float* x, float* y, float* z, int* exp, int* level, int* weapon, int* type)
+void DB::get_user_data(wchar_t* id, wchar_t* name, float* x, float* y, float* z, int* exp, int* level, int* weapon, int* type, int* stage)
 {
     SQLCHAR user_name[NAME_LEN];
-    SQLINTEGER user_exp = 0, user_level = 0, user_weapon = 0, user_type = -1;
+    SQLINTEGER user_exp = 0, user_level = 0, user_weapon = 0, user_type = -1, user_stage = 0;
     SQLFLOAT user_x = 0, user_y = 0, user_z = 0;
-    SQLLEN cbX = 0, cbY = 0, cbZ = 0, cbName = 0, cbExp = 0, cbLevel = 0, cbWeapon = 0, cbType = 0;
+    SQLLEN cbX = 0, cbY = 0, cbZ = 0, cbName = 0, cbExp = 0, cbLevel = 0, cbWeapon = 0, cbType = 0, cbStage = 0;
 
     retcode = SQLAllocHandle(SQL_HANDLE_STMT, hdbc, &hstmt);
     wchar_t user_id[100] = L"";
@@ -133,6 +133,7 @@ void DB::get_user_data(wchar_t* id, wchar_t* name, float* x, float* y, float* z,
         retcode = SQLBindCol(hstmt, 6, SQL_INTEGER, &user_level, 12, &cbLevel);
         retcode = SQLBindCol(hstmt, 7, SQL_INTEGER, &user_weapon, 12, &cbWeapon);
         retcode = SQLBindCol(hstmt, 8, SQL_INTEGER, &user_type, 12, &cbType);
+        retcode = SQLBindCol(hstmt, 9, SQL_INTEGER, &user_stage, 12, &cbStage);
 
         for (int i = 0; ; i++) {
             retcode = SQLFetch(hstmt);
@@ -141,7 +142,7 @@ void DB::get_user_data(wchar_t* id, wchar_t* name, float* x, float* y, float* z,
             else if (retcode == SQL_SUCCESS || retcode == SQL_SUCCESS_WITH_INFO) {
                 std::cout << user_name << ", " << user_x << ", " << user_y << ", "
                     << user_z << ", " << user_exp << ", " << user_level << ", "
-                    << user_weapon << ", " << user_type << std::endl;
+                    << user_weapon << ", " << user_type << ", " << user_stage << std::endl;
             }
             else
                 break;
@@ -163,15 +164,16 @@ void DB::get_user_data(wchar_t* id, wchar_t* name, float* x, float* y, float* z,
     *level = user_level;
     *weapon = user_weapon;
     *type = user_type;
+    *stage = user_stage;
 }
 
-void DB::add_user_data(wchar_t* id, wchar_t* name, float* x, float* y, float* z, int* exp, int* level, int* weapon, int* type)
+void DB::add_user_data(wchar_t* id, wchar_t* name, float* x, float* y, float* z, int* exp, int* level, int* weapon, int* type, int* stage)
 {
     retcode = SQLAllocHandle(SQL_HANDLE_STMT, hdbc, &hstmt);
     wchar_t add_user[200] = L"";
     if (id[0] == '\0')
         return;
-    swprintf_s(add_user, L"EXEC add_user_data %s, %s, %f, %f, %f, %d, %d, %d, %d", id, name, *x, *y, *z, *exp, *level, *weapon, *type);
+    swprintf_s(add_user, L"EXEC add_user_data %s, %s, %f, %f, %f, %d, %d, %d, %d, %d", id, name, *x, *y, *z, *exp, *level, *weapon, *type, *stage);
 
     retcode = SQLExecDirect(hstmt, (SQLWCHAR*)add_user, SQL_NTS);
 
@@ -188,13 +190,13 @@ void DB::add_user_data(wchar_t* id, wchar_t* name, float* x, float* y, float* z,
     }
 }
 
-void DB::update_user_data(wchar_t* id, wchar_t* name, float* x, float* y, float* z, int* exp, int* level, int* weapon)
+void DB::update_user_data(wchar_t* id, wchar_t* name, float* x, float* y, float* z, int* exp, int* level, int* weapon, int* stage)
 {
     retcode = SQLAllocHandle(SQL_HANDLE_STMT, hdbc, &hstmt);
     wchar_t update[200] = L"";
     if (id[0] == '\0')
         return;
-    swprintf_s(update, L"EXEC update_user %s, %s, %f, %f, %f, %d, %d, %d", id, name, *x, *y, *z, *exp, *level, *weapon);
+    swprintf_s(update, L"EXEC update_user %s, %s, %f, %f, %f, %d, %d, %d, %d", id, name, *x, *y, *z, *exp, *level, *weapon, *stage);
     
     retcode = SQLExecDirect(hstmt, (SQLWCHAR*)update, SQL_NTS);
 

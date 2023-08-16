@@ -15,7 +15,7 @@ class PacketHandler
 
 		if (s_enterPacket.success == true)
 		{
-			SceneManager.LoadScene("InGame");
+			//SceneManager.LoadScene("InGame");
 		}
 		else
 		{
@@ -56,6 +56,34 @@ class PacketHandler
 		ServerSession serverSession = session as ServerSession;
 
 		Debug.Log("들어옴");
+		switch(pkt.stage)
+        {
+			case 0:
+				{
+					SceneManager.LoadScene("InGame");
+					break;
+                }
+			case 1:
+				{
+					SceneManager.LoadScene("Stage1");
+					break;
+                }
+			case 2:
+				{
+					SceneManager.LoadScene("Stage2");
+					break;
+                }
+			case 3:
+				{
+					SceneManager.LoadScene("Stage3");
+					break;
+                }
+            default:
+                {
+					Debug.Log("오류");
+					break;
+                }
+        }
 
 		PlayerManager.Instance.Add(pkt);
 	}
