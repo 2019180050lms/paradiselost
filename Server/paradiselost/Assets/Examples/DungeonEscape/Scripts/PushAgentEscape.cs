@@ -25,7 +25,7 @@ public class PushAgentEscape : Agent
         MyKey.SetActive(false);
         IHaveAKey = false;
         _network = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
-        StartCoroutine(cs_send_monster_ai());
+        //StartCoroutine(cs_send_monster_ai());
     }
 
     public override void OnEpisodeBegin()

@@ -503,6 +503,13 @@ public class MyPlayer : Player
             cs_send_playerdamage(monsterInfo.enemyId);
             Destroy(other.gameObject);
         }
+
+        else if (other.tag == "key")
+        {
+            C_Clear_Fail packet = new C_Clear_Fail();
+            packet.type = 1;
+            _network.Send(packet.Write());
+        }
     }
 
     IEnumerator CoSendPacket()

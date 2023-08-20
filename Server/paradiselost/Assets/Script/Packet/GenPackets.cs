@@ -32,7 +32,8 @@ public enum PacketID
 	C_NPC = 17,
 	C_PORTAL = 23,
 	S_STAGE_CLEAR = 22,
-	C_MONSTER_AI = 25
+	C_MONSTER_AI = 25,
+    C_CLEAR_AND_FAIL = 26
 }
 
 public interface IPacket
@@ -183,6 +184,38 @@ public class S_ENTER_GAME : IPacket
 
 		return SendBufferHelper.Close(count);
 	}
+}
+
+public class C_Clear_Fail : IPacket
+{
+    public int type;	// 0 : MONSTER, 1 : KEY
+
+    public ushort Protocol { get { return (ushort)PacketID.C_CLEAR_AND_FAIL; } }
+
+    public void Read(ArraySegment<byte> segment)
+    {
+        ushort count = 0;
+        count += sizeof(ushort);
+        count += sizeof(ushort);
+        this.type = BitConverter.ToInt32(segment.Array, segment.Offset + count);
+        count += sizeof(int);
+    }
+
+    public ArraySegment<byte> Write()
+    {
+        ArraySegment<byte> segment = SendBufferHelper.Open(4096);
+        ushort count = 0;
+
+        count += sizeof(ushort);
+        Array.Copy(BitConverter.GetBytes((ushort)PacketID.C_CLEAR_AND_FAIL), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+        count += sizeof(ushort);
+        Array.Copy(BitConverter.GetBytes(this.type), 0, segment.Array, segment.Offset + count, sizeof(int));
+        count += sizeof(int);
+
+        Array.Copy(BitConverter.GetBytes(count), 0, segment.Array, segment.Offset, sizeof(ushort));
+
+        return SendBufferHelper.Close(count);
+    }
 }
 
 public class S_ADD_PLAYER : IPacket

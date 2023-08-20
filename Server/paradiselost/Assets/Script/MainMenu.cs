@@ -39,6 +39,7 @@ public class MainMenu : MonoBehaviour
         playerID = playerIDInput.text + '\0';
         C_Chat loginPacket = new C_Chat();
         loginPacket.chat = playerID;
+        loginPacket.ml_client = false;
         ArraySegment<byte> segment = loginPacket.Write();
         _network.Send(segment);
     }
