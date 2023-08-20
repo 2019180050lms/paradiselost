@@ -149,7 +149,7 @@ public class Player : MonoBehaviour
             Debug.Log("총알 발사 생성");
             bullet = Object.Instantiate(intantBullet) as GameObject;
             gunParticle.Play();
-            bullet.transform.position = new Vector3(bulletPos.transform.position.x, bulletPos.transform.position.y + 2, bulletPos.transform.position.z);
+            bullet.transform.position = new Vector3(bulletPos.transform.position.x, bulletPos.transform.position.y + 1, bulletPos.transform.position.z);
             bullet.transform.rotation = bulletPos.rotation;
             Rigidbody bulletRigid = bullet.GetComponent<Rigidbody>();
             bulletRigid.velocity = bulletPos.forward * 120;
