@@ -45,6 +45,7 @@ struct CS_LOGIN_PACKET {
 	unsigned short type;
 	//char	name[NAME_SIZE];
 	//std::wstring name;
+	bool ml_client;
 	WCHAR name[NAME_SIZE] = { NULL };
 };
 

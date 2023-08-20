@@ -50,7 +50,7 @@ public:
 	}
 };
 
-enum S_STATE { ST_FREE, ST_ALLOC, ST_INGAME };
+enum S_STATE { ST_FREE, ST_ALLOC, ST_INGAME, ST_ML_AGENT };
 
 class SESSION {
 	OVER_EXP _recv_over;
@@ -337,25 +337,14 @@ void process_packet(int c_id, char* packet)
 	switch (packet[2]) {
 	case CS_LOGIN: {
 		CS_LOGIN_PACKET* p = reinterpret_cast<CS_LOGIN_PACKET*>(packet);
-		if (p->name[0] == L'\x2')
-			break;
-		wcscpy_s(clients[c_id]._name, p->name);
-		_db_l.lock();
-		bool check = db.check_user_id(clients[c_id]._name);
-		_db_l.unlock();
-		{
-			lock_guard<mutex> ll{ clients[c_id]._s_lock };
-			clients[c_id]._state = ST_INGAME;
-			clients[c_id]._stage = 0;
-		}
-		//cout << clients[c_id].x << ", " << clients[c_id].y << ", " << clients[c_id].z << endl;
-		clients[c_id].send_login_info_packet(check);
-		if (check == true) {
-			_db_l.lock();
-			db.get_user_data(clients[c_id]._name, clients[c_id]._name, &clients[c_id].x,
-				&clients[c_id].y, &clients[c_id].z, &clients[c_id].exp, &clients[c_id].level,
-				&clients[c_id].weapon_item, &clients[c_id]._type, &clients[c_id]._stage);
-			_db_l.unlock();
+		if (p->ml_client) {
+			{
+				lock_guard<mutex> ll{ clients[c_id]._s_lock };
+				clients[c_id]._state = ST_ML_AGENT;
+				clients[c_id]._stage = 2;
+				clients[c_id]._type = 0;
+			}
+			clients[c_id].send_login_info_packet(true);
 			clients[c_id].send_enter_game_packet();
 			for (auto& pl : clients) {
 				{
@@ -372,7 +361,49 @@ void process_packet(int c_id, char* packet)
 				if (pl._stage == clients[c_id]._stage) {
 					clients[c_id].send_add_player_packet(pl._id);
 					cout << pl._id << " add player" << endl;
-				
+
+				}
+			}
+		}
+		else if (!p->ml_client)
+		{
+			if (p->name[0] == L'\x2')
+				break;
+			wcscpy_s(clients[c_id]._name, p->name);
+			_db_l.lock();
+			bool check = db.check_user_id(clients[c_id]._name);
+			_db_l.unlock();
+			{
+				lock_guard<mutex> ll{ clients[c_id]._s_lock };
+				clients[c_id]._state = ST_INGAME;
+				clients[c_id]._stage = 0;
+			}
+			//cout << clients[c_id].x << ", " << clients[c_id].y << ", " << clients[c_id].z << endl;
+			clients[c_id].send_login_info_packet(check);
+			if (check == true) {
+				_db_l.lock();
+				db.get_user_data(clients[c_id]._name, clients[c_id]._name, &clients[c_id].x,
+					&clients[c_id].y, &clients[c_id].z, &clients[c_id].exp, &clients[c_id].level,
+					&clients[c_id].weapon_item, &clients[c_id]._type, &clients[c_id]._stage);
+				_db_l.unlock();
+				clients[c_id].send_enter_game_packet();
+				for (auto& pl : clients) {
+					{
+						lock_guard<mutex> ll(pl._s_lock);
+						if (ST_INGAME != pl._state) continue;
+					}
+					if (pl._id == c_id) continue;
+					if (false == can_see(c_id, pl._id))
+						continue;
+					if (is_pc(pl._id) && clients[c_id]._stage == pl._stage) pl.send_add_player_packet(c_id);
+					else if (pl._stage == clients[c_id]._stage) {
+						wakeup_npc(pl._id);
+					}
+					if (pl._stage == clients[c_id]._stage) {
+						clients[c_id].send_add_player_packet(pl._id);
+						cout << pl._id << " add player" << endl;
+
+					}
 				}
 			}
 		}
@@ -390,7 +421,7 @@ void process_packet(int c_id, char* packet)
 			clients[c_id].y = 5.f;
 			clients[c_id].z = 40.f;
 			clients[c_id]._state = ST_INGAME;
-			clients[c_id]._stage = 0;
+			clients[c_id]._stage = 2;
 		}
 		clients[c_id].exp = 0;
 		clients[c_id].level = 1;
@@ -714,9 +745,60 @@ void process_packet(int c_id, char* packet)
 	}
 	case CS_MONSTER_AI: {
 		CS_MONSTER_AI_PACKET* p = reinterpret_cast<CS_MONSTER_AI_PACKET*>(packet);
+		
+		unordered_set<int> view_list;
+		for (auto& cl : clients) {
+			if (cl._stage != clients[p->id]._stage) continue;
+			if (cl._id >= MAX_USER) break;
+			if (cl._state != ST_INGAME) continue;
+			if (cl._id == p->id) continue;
+			if (can_see(p->id, cl._id))
+				view_list.insert(cl._id);
+		}
+		
 		clients[p->id].x = p->x;
-		clients[p->id].y = p->y;
+		//clients[p->id].y = p->y;
 		clients[p->id].z = p->z;
+
+		unordered_set<int> near_list;
+
+		for (auto& cl : clients) {
+			if (cl._stage != clients[p->id]._stage) continue;
+			if (cl._id >= MAX_USER) break;
+			if (cl._state != ST_INGAME) continue;
+			if (can_see(p->id, cl._id))
+				near_list.insert(cl._id);
+		}
+
+		for (auto& pl : near_list) {
+			auto& cpl = clients[pl];
+			if (clients[pl]._stage != clients[p->id]._stage)
+				continue;
+			cpl._vl.lock();
+			if (clients[pl]._view_list.count(p->id) && clients[pl]._state == ST_INGAME) {
+				cpl._vl.unlock();
+				if (clients[p->id]._type != 7)
+					clients[pl].send_move_packet(p->id);
+				else {
+					clients[p->id].bossAttack = rand() % 2;
+					clients[p->id].targetId = 0;
+					clients[pl].send_boss_attack(p->id);
+				}
+			}
+			else {
+				cpl._vl.unlock();
+				if (clients[p->id]._state != ST_FREE) {
+					clients[pl].send_add_player_packet(p->id);
+				}
+			}
+		}
+
+		for (auto& pl : view_list)
+			if (clients[pl]._stage != clients[p->id]._stage) continue;
+			else if (0 == near_list.count(pl)) {
+				clients[pl].send_remove_player_packet(p->id);
+			}
+
 		break;
 	}
 	default:
@@ -1018,11 +1100,12 @@ void add_monster()
 			clients[MAX_USER + i].targetId = -1;
 			clients[MAX_USER + i]._state = ST_INGAME;
 		}
-		else if (i >= 12 && i < 24) {
+		else if (i >= 12 && i < 15) {
 			if (i < 16) {
 				clients[MAX_USER + i]._hp = 100;
 				clients[MAX_USER + i].x = 34.f + i - 9;
-				clients[MAX_USER + i].y = 0.f;
+				//clients[MAX_USER + i].y = 0.f;
+				clients[MAX_USER + i].y = 7.f;
 				clients[MAX_USER + i].z = 39.f;
 				clients[MAX_USER + i].my_max_x = 50.f;
 				clients[MAX_USER + i].my_max_z = 51.f;
@@ -1056,7 +1139,7 @@ void add_monster()
 			clients[MAX_USER + i].targetId = -1;
 			clients[MAX_USER + i]._state = ST_INGAME;
 		}
-		else if (i >= 24 && i < 36) {
+		else if (i >= 15 && i < 36) {
 			if (i < 28) {
 				clients[MAX_USER + i]._hp = 100;
 				clients[MAX_USER + i].x = 74.f;
@@ -1163,7 +1246,7 @@ void do_random_move(int c_id)
 			view_list.insert(cl._id);
 	}
 
-	if (clients[c_id]._type != 7) {
+	if (clients[c_id]._type != 7 && clients[c_id]._stage != 2) {
 		float x = clients[c_id].x;
 		float y = clients[c_id].y;
 		float z = clients[c_id].z;
@@ -1237,6 +1320,7 @@ void do_random_move(int c_id)
 		clients[c_id].y = y;
 		clients[c_id].z = z;
 	}
+	
 	unordered_set<int> near_list;
 
 	for (auto& cl : clients) {
@@ -1299,6 +1383,18 @@ void do_player_attack(int n_id, int c_id)
 		if (clients[n_id].x + 15.f >= clients[c_id].x && clients[n_id].x - 15.f <= clients[c_id].x) {
 			if (clients[n_id].z + 15.f >= clients[c_id].z && clients[n_id].z - 15.f <= clients[c_id].z) {
 				clients[n_id].isAttack = true;
+				if (clients[c_id].x > clients[n_id].x) {
+					clients[n_id].x += 1.f;
+				}
+				else if (clients[c_id].z > clients[n_id].z) {
+					clients[n_id].z += 1.f;
+				}
+				else if (clients[c_id].x < clients[n_id].x) {
+					clients[n_id].x -= 1.f;
+				}
+				else if (clients[c_id].z < clients[n_id].z) {
+					clients[n_id].z -= 1.f;
+				}
 				//cout << "n_id: " << n_id << ", " << clients[n_id].isAttack << endl;
 			}
 		}

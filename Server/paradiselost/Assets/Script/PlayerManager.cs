@@ -25,6 +25,11 @@ public class PlayerManager
     {
         switch (playerType)
         {
+            case 0:
+                {
+                    Debug.Log("ML Agent Client");
+                    break;
+                }
             case 1:
                 {
                     //MyPlayer myPlayer = go.AddComponent<MyPlayer>();

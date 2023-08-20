@@ -70,7 +70,8 @@ class C_Login : IPacket
 
 class C_Chat : IPacket
 {
-	public string chat;
+    public bool ml_client;
+    public string chat;
 
 	public ushort Protocol { get { return (ushort)PacketID.C_Chat; } }
 
@@ -92,8 +93,10 @@ class C_Chat : IPacket
 
 		count += sizeof(ushort);
 		Array.Copy(BitConverter.GetBytes((ushort)PacketID.C_Chat), 0, segment.Array, segment.Offset + count, sizeof(ushort));
-		count += sizeof(ushort);
-		ushort chatLen = (ushort)Encoding.Unicode.GetBytes(this.chat, 0, this.chat.Length, segment.Array, segment.Offset + count + sizeof(ushort));
+		count += sizeof(ushort); 
+		Array.Copy(BitConverter.GetBytes(this.ml_client), 0, segment.Array, segment.Offset + count, sizeof(bool));
+        count += sizeof(bool);
+        ushort chatLen = (ushort)Encoding.Unicode.GetBytes(this.chat, 0, this.chat.Length, segment.Array, segment.Offset + count + sizeof(ushort));
 		Array.Copy(BitConverter.GetBytes(chatLen), 0, segment.Array, segment.Offset + count, sizeof(ushort));
 		count += sizeof(ushort);
 		count += chatLen;
