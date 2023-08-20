@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
     public GameObject bullet2;
     public GameObject bullet3;
     public Object intantBullet;
-
+    public GameObject stageClearLogo;
     //public string name;
 
     public short hp;
@@ -487,6 +487,14 @@ public class Player : MonoBehaviour
             Debug.Log(hp);
             Destroy(other.gameObject);
             //cs_send_playerdamage(monsterInfo.enemyId);
+        }
+
+        else if (other.tag == "key")
+        {
+            Object stageClear = Resources.Load("Items/StageClear");
+            stageClearLogo = Object.Instantiate(stageClear) as GameObject;
+            stageClearLogo.transform.position = new Vector3(other.transform.position.x, other.transform.position.y, other.transform.position.z);
+            Destroy(other.gameObject);
         }
 
     }

@@ -506,6 +506,10 @@ public class MyPlayer : Player
 
         else if (other.tag == "key")
         {
+            Object stageClear = Resources.Load("Items/StageClear");
+            stageClearLogo = Object.Instantiate(stageClear) as GameObject;
+            stageClearLogo.transform.position = new Vector3(other.transform.position.x, other.transform.position.y, other.transform.position.z);
+            Destroy(other.gameObject);
             C_Clear_Fail packet = new C_Clear_Fail();
             packet.type = 1;
             _network.Send(packet.Write());
