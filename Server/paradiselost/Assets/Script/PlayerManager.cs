@@ -8,12 +8,14 @@ public class PlayerManager
     public MyPlayer _myplayer;
     public Player player = null;
     Enemy enemy = null;
+    Enemy_ml ml_enemy = null;
     public Joint_Robot joint;
     public BossEnemy _boss = null;
     public Enemy1StageBoss _boss1 = null;
     Dictionary<int, Player> _players = new Dictionary<int, Player>();
     public Dictionary<int, Joint_Robot> _playerParts = new Dictionary<int, Joint_Robot>();
     Dictionary<int, Enemy> _enemys = new Dictionary<int, Enemy>();
+    Dictionary<int, Enemy_ml> _ml_enemys = new Dictionary<int, Enemy_ml>();
     Joint_Robot c_p_parts = null;
     public GameObject item;
     public GameObject stageClearLogo;
@@ -568,6 +570,68 @@ public class PlayerManager
                 }
 
             }
+            else if (_ml_enemys.TryGetValue(packet.playerId, out ml_enemy))
+            {
+                //moveVec = new Vector3(packet.posX, packet.posY, packet.posZ).normalized;
+                //enemy.transform.position += moveVec * 1f * 0.3f * Time.deltaTime;
+                //moveVec = enemy.transform.position;
+
+                ml_enemy.isAttack = packet.wDown;
+                ml_enemy.dir = packet.playerDir;
+                if (packet.playerDir == 0)
+                    ml_enemy.moveVec2 = new Vector3(0, 0, 0);
+                else if (packet.playerDir == 1)
+                    ml_enemy.moveVec2 = new Vector3(1, 0, 0);
+                else if (packet.playerDir == 2)
+                    ml_enemy.moveVec2 = new Vector3(-1, 0, 0);
+                else if (packet.playerDir == 3)
+                    ml_enemy.moveVec2 = new Vector3(0, 0, 1);
+                else if (packet.playerDir == 4)
+                    ml_enemy.moveVec2 = new Vector3(0, 0, -1);
+                else if (packet.playerDir == 5)
+                    ml_enemy.moveVec2 = new Vector3(Mathf.Sqrt(0.5f), 0, Mathf.Sqrt(0.5f));
+                else if (packet.playerDir == 6)
+                    ml_enemy.moveVec2 = new Vector3(Mathf.Sqrt(0.5f), 0, -(Mathf.Sqrt(0.5f)));
+                else if (packet.playerDir == 7)
+                    ml_enemy.moveVec2 = new Vector3(-(Mathf.Sqrt(0.5f)), 0, Mathf.Sqrt(0.5f));
+                else if (packet.playerDir == 8)
+                    ml_enemy.moveVec2 = new Vector3(-(Mathf.Sqrt(0.5f)), 0, -(Mathf.Sqrt(0.5f)));
+
+                /*
+                if (enemy.enemyType != 4)
+                {
+                    enemy.moveVec2 = new Vector3(packet.posX, packet.posY, packet.posZ);
+                }
+                */
+
+                //enemy.transform.position = Vector3.MoveTowards(enemy.transform.position, new Vector3(packet.posX, packet.posY, packet.posZ), 1f);
+                //Debug.Log(enemy.transform.position);
+                //enemy.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
+
+                ml_enemy.posVec = new Vector3(packet.posX, packet.posY, packet.posZ);
+                //enemy.transform.LookAt(enemy.transform.position + enemy.moveVec2);
+                //enemy.anim.SetBool("isWalk", enemy.isAttack != false);
+                if (packet.wDown)
+                {
+                    //enemy.StartCoroutine("Shoot");
+                    //enemy.anim.SetTrigger("doAttack");
+
+
+                }
+                //enemy.transform.LookAt(enemy.transform.position + enemy.moveVec2);
+
+                ml_enemy.rotVec = ml_enemy.posVec - ml_enemy.transform.position;
+
+                //enemy.transform.LookAt(enemy.posVec);
+
+                if (ml_enemy.tag == "EnemyTurret")
+                {
+                    //EnemyTurret enemyTurret = GameObject.Find("TargetArea").GetComponent<EnemyTurret>();
+                    //enemy.transform.LookAt(enemyTurret.targetPos);
+                    //Debug.Log(enemyTurret.targetPos);
+                }
+
+            }
             // 스테이지1 보스 처리
             else if (_boss1.enemyId == packet.playerId)
             {
@@ -871,20 +935,30 @@ public class PlayerManager
             if (packet.playerId == 512 || packet.playerId == 513 || packet.playerId == 514)
             {
                 Enemy_ml enemy = go.AddComponent<Enemy_ml>();
+                enemy.enabled = true;
+                enemy.enemyId = packet.playerId;
+                enemy.enemyType = packet.type;
+                enemy.maxHealth = packet.hp;
+                enemy.curHealth = packet.hp;
+                enemy.ps = go.GetComponentInChildren<ParticleSystem>();
+                enemy.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
+                enemy.posVec = new Vector3(packet.posX, packet.posY, packet.posZ);
+                _ml_enemys.Add(packet.playerId, enemy);
             }
             else
             {
                 Enemy enemy = go.AddComponent<Enemy>();
+                enemy.enabled = true;
+                enemy.enemyId = packet.playerId;
+                enemy.enemyType = packet.type;
+                enemy.maxHealth = packet.hp;
+                enemy.curHealth = packet.hp;
+                enemy.ps = go.GetComponentInChildren<ParticleSystem>();
+                enemy.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
+                enemy.posVec = new Vector3(packet.posX, packet.posY, packet.posZ);
+                _enemys.Add(packet.playerId, enemy);
             }
-            enemy.enabled = true;
-            enemy.enemyId = packet.playerId;
-            enemy.enemyType = packet.type;
-            enemy.maxHealth = packet.hp;
-            enemy.curHealth = packet.hp;
-            enemy.ps = go.GetComponentInChildren<ParticleSystem>();
-            enemy.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
-            enemy.posVec = new Vector3(packet.posX, packet.posY, packet.posZ);
-            _enemys.Add(packet.playerId, enemy);
+            
         }
         else if (packet.type == 6)
         {

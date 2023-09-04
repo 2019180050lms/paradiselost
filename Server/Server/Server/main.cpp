@@ -421,7 +421,7 @@ void process_packet(int c_id, char* packet)
 			clients[c_id].y = 5.f;
 			clients[c_id].z = 40.f;
 			clients[c_id]._state = ST_INGAME;
-			clients[c_id]._stage = 0;
+			clients[c_id]._stage = 2;
 		}
 		clients[c_id].exp = 0;
 		clients[c_id].level = 1;
@@ -452,7 +452,7 @@ void process_packet(int c_id, char* packet)
 			if (pl._id == c_id) continue;
 			if (false == can_see(c_id, pl._id))
 				continue;
-			if (is_pc(pl._id) && clients[c_id]._stage == pl._stage) {
+			if (is_pc(pl._id) && clients[c_id]._stage == pl._stage && pl._state != ST_ML_AGENT) {
 				pl.send_add_player_packet(c_id);
 				cout << "first: " << pl._id << ": add " << c_id << endl;
 			}
@@ -1165,8 +1165,8 @@ void add_monster()
 			clients[MAX_USER + i].targetId = -1;
 			clients[MAX_USER + i]._state = ST_INGAME;
 		}
-		else if (i >= 15 && i < 36) {
-			if (i < 28) {
+		else if (i >= 24 && i < 36) {
+			if (i < 30) {
 				clients[MAX_USER + i]._hp = 100;
 				clients[MAX_USER + i].x = 74.f;
 				clients[MAX_USER + i].y = 0.f;
@@ -1176,7 +1176,7 @@ void add_monster()
 				clients[MAX_USER + i].my_min_x = 59.f;
 				clients[MAX_USER + i].my_min_z = 84.f;
 			}
-			else if (i >= 28 && i < 36) {
+			else if (i >= 30 && i < 36) {
 				clients[MAX_USER + i]._hp = 100;
 				clients[MAX_USER + i].x = 128.f;
 				clients[MAX_USER + i].y = -8.f;
