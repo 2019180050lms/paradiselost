@@ -447,7 +447,7 @@ void process_packet(int c_id, char* packet)
 		for (auto& pl : clients) {
 			{
 				lock_guard<mutex> ll(pl._s_lock);
-				if (ST_INGAME != pl._state) continue;
+				if (ST_INGAME != pl._state && ST_ML_AGENT != pl._state) continue;
 			}
 			if (pl._id == c_id) continue;
 			if (false == can_see(c_id, pl._id))
@@ -562,7 +562,7 @@ void process_packet(int c_id, char* packet)
 		unordered_set<int> old_vlist = clients[c_id]._view_list;
 		clients[c_id]._vl.unlock();
 		for (auto& cl : clients) {
-			if (cl._state != ST_INGAME) continue;
+			if (cl._state != ST_INGAME && ST_ML_AGENT != cl._state) continue;
 			if (cl._id == c_id) continue;
 			if (cl._stage != clients[c_id]._stage) continue;
 			if (can_see(c_id, cl._id))
@@ -799,6 +799,32 @@ void process_packet(int c_id, char* packet)
 				clients[pl].send_remove_player_packet(p->id);
 			}
 
+		break;
+	}
+	case CS_CLEAR_AND_FAIL: {
+		CS_CLEAR_AND_FAIL_PACKET* p = reinterpret_cast<CS_CLEAR_AND_FAIL_PACKET*>(packet);
+		switch(p->clear_type)
+		{
+		case 0:
+			for (auto& client : clients) {
+				if (client._id >= MAX_USER) break;
+				if (client._state == ST_FREE || client._state == ST_ALLOC || client._state == ST_ML_AGENT) continue;
+				if (client._stage == 2) {
+					client._s_lock.lock();
+					client.x = 30.f;
+					client.y = 5.f;
+					client.z = 40.f;
+					client._s_lock.unlock();
+					client.send_move_packet(client._id);
+				}
+			}
+			break;
+		case 1:
+			add_timer(c_id, chrono::system_clock::now() + 10s, EV_STAGE_CLEAR);
+			break;
+		default:
+			break;
+		}
 		break;
 	}
 	default:
@@ -1101,11 +1127,11 @@ void add_monster()
 			clients[MAX_USER + i]._state = ST_INGAME;
 		}
 		else if (i >= 12 && i < 15) {
-			if (i < 16) {
+			if (i < 15) {
 				clients[MAX_USER + i]._hp = 100;
 				clients[MAX_USER + i].x = 34.f + i - 9;
 				//clients[MAX_USER + i].y = 0.f;
-				clients[MAX_USER + i].y = 7.f;
+				clients[MAX_USER + i].y = 0.f;
 				clients[MAX_USER + i].z = 39.f;
 				clients[MAX_USER + i].my_max_x = 50.f;
 				clients[MAX_USER + i].my_max_z = 51.f;
