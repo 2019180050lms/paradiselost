@@ -23,6 +23,7 @@ constexpr char CS_NPC = 17;
 constexpr char CS_PORTAL = 23;
 constexpr char CS_PLAYER_ATTACKED = 24;
 constexpr char CS_MONSTER_AI = 25;			// ml_agent
+constexpr char CS_CLEAR_AND_FAIL = 26;
 
 constexpr char SC_LOGIN_INFO = 3;
 constexpr char SC_ENTER_PLAYER = 8;
@@ -122,6 +123,12 @@ struct CS_PLAYER_ATTACKED_PACKET {
 	unsigned short type;
 	int playerid;
 	int monsterid;
+};
+
+struct CS_CLEAR_AND_FAIL_PACKET {
+	unsigned short size;
+	unsigned short type;
+	int clear_type;
 };
 
 struct SC_LOGIN_INFO_PACKET {

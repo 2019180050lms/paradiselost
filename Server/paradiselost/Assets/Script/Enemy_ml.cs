@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Enemy : MonoBehaviour
+public class Enemy_ml : MonoBehaviour
 {
     float speed = 1.5f;
     public int enemyId;
@@ -102,11 +102,11 @@ public class Enemy : MonoBehaviour
     {
         Vector3 velo = Vector3.zero;
         //transform.position = Vector3.Lerp(transform.position, pos, 0.001f);
-        //transform.position = Vector3.SmoothDamp(transform.position, posVec, ref velo, 0.1f);
+        transform.position = Vector3.SmoothDamp(transform.position, posVec, ref velo, 0.1f);
 
-        //transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(rotVec), Time.deltaTime * 2f);
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(rotVec), Time.deltaTime * 2f);
 
-        m_MoveControl();
+        //m_MoveControl();
 
 
         if (transform.tag == "EnemyTurret" && isAttack && count == 0)
