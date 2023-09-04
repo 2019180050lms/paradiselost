@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,7 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
+    float speed = 1.5f;
     public int enemyId;
     public int enemyType;
     public int maxHealth;
@@ -35,7 +37,7 @@ public class Enemy : MonoBehaviour
     public Transform bulletPos2;
     public GameObject bullet;
     public GameObject hitEffect;
-
+    public int dir;
     
 
     public GameObject gunParticleObj;
@@ -99,8 +101,13 @@ public class Enemy : MonoBehaviour
     {
         Vector3 velo = Vector3.zero;
         //transform.position = Vector3.Lerp(transform.position, pos, 0.001f);
-        transform.position = Vector3.SmoothDamp(transform.position, posVec, ref velo, 0.1f);
-        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(rotVec), Time.deltaTime * 2f);
+        //transform.position = Vector3.SmoothDamp(transform.position, posVec, ref velo, 0.1f);
+
+        //transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(rotVec), Time.deltaTime * 2f);
+
+        m_MoveControl();
+
+
         if (transform.tag == "EnemyTurret" && isAttack && count == 0)
         {
             Debug.Log("몬스터 총");
@@ -117,6 +124,46 @@ public class Enemy : MonoBehaviour
         else if (!anim.GetCurrentAnimatorStateInfo(0).IsName("doAttack"))
             hitEnemy = false;
 
+        moveVec2 = Vector3.zero;
+    }
+
+    void m_MoveControl()
+    {
+        switch (dir)
+        {
+            case 0:
+                moveVec2 = new Vector3(0, 0, 0);
+                break;
+            case 1:
+                moveVec2 = new Vector3(1, 0, 0);
+                break;
+            case 2:
+                moveVec2 = new Vector3(-1, 0, 0);
+                break;
+            case 3:
+                moveVec2 = new Vector3(0, 0, 1);
+                break;
+            case 4:
+                moveVec2 = new Vector3(0, 0, -1);
+                break;
+            case 5:
+                moveVec2 = new Vector3(Mathf.Sqrt(0.5f), 0, Mathf.Sqrt(0.5f));
+                break;
+            case 6:
+                moveVec2 = new Vector3(Mathf.Sqrt(0.5f), 0, -(Mathf.Sqrt(0.5f)));
+                break;
+            case 7:
+                moveVec2 = new Vector3(-(Mathf.Sqrt(0.5f)), 0, Mathf.Sqrt(0.5f));
+                break;
+            case 8:
+                moveVec2 = new Vector3(-(Mathf.Sqrt(0.5f)), 0, -(Mathf.Sqrt(0.5f)));
+                break;
+            default:
+                break;
+        }
+
+        transform.position += moveVec2 * speed * Time.deltaTime;
+        transform.LookAt(transform.position + moveVec2);
     }
 
     void OnTriggerEnter(Collider other)

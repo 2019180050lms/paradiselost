@@ -421,7 +421,7 @@ void process_packet(int c_id, char* packet)
 			clients[c_id].y = 5.f;
 			clients[c_id].z = 40.f;
 			clients[c_id]._state = ST_INGAME;
-			clients[c_id]._stage = 2;
+			clients[c_id]._stage = 0;
 		}
 		clients[c_id].exp = 0;
 		clients[c_id].level = 1;

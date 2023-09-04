@@ -513,6 +513,7 @@ public class PlayerManager
                 //moveVec = enemy.transform.position;
 
                 enemy.isAttack = packet.wDown;
+                enemy.dir = packet.playerDir;
                 if (packet.playerDir == 0)
                     enemy.moveVec2 = new Vector3(0, 0, 0);
                 else if (packet.playerDir == 1)
@@ -858,7 +859,8 @@ public class PlayerManager
             enemy.curHealth = packet.hp;
             enemy.ps = go.GetComponentInChildren<ParticleSystem>();
 
-            enemy.posVec = new Vector3(packet.posX, packet.posY, packet.posZ);
+            //enemy.posVec = new Vector3(packet.posX, packet.posY, packet.posZ);
+            enemy.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
             _boss1 = enemy;
 
         }
@@ -873,7 +875,8 @@ public class PlayerManager
             enemy.maxHealth = packet.hp;
             enemy.curHealth = packet.hp;
             enemy.ps = go.GetComponentInChildren<ParticleSystem>();
-            enemy.posVec = new Vector3(packet.posX, packet.posY, packet.posZ);
+            enemy.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
+            //enemy.posVec = new Vector3(packet.posX, packet.posY, packet.posZ);
             _enemys.Add(packet.playerId, enemy);
         }
         else if (packet.type == 6)
@@ -887,7 +890,8 @@ public class PlayerManager
             enemy.maxHealth = packet.hp;
             enemy.curHealth = packet.hp;
             enemy.ps = go.GetComponentInChildren<ParticleSystem>();
-            enemy.posVec = new Vector3(packet.posX, packet.posY, packet.posZ);
+            //enemy.posVec = new Vector3(packet.posX, packet.posY, packet.posZ);
+            enemy.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
             _enemys.Add(packet.playerId, enemy);
 
         }
@@ -901,6 +905,7 @@ public class PlayerManager
             boss.enemyId = packet.playerId;
             boss.maxHealth = packet.hp;
             boss.curHealth = packet.hp;
+            //boss.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
             boss.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
             _boss = boss;
             Debug.Log("보스 생성");
