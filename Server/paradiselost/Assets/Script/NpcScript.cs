@@ -121,7 +121,7 @@ public class NpcScript : MonoBehaviour
 
                 else if (clickCount == 2 && obj.questInt == 1)
                 {
-                    npxtext.text = "퀘스트 : 모든 몬스터 잡기";
+                    npxtext.text = "퀘스트 : 몬스터를 피해 열쇠 찾기";
                     clickCount++;
                 }
 
