@@ -73,7 +73,6 @@ public class Enemy : MonoBehaviour
         
         timer = 0.0f;
         waitingtime = 1;
-        //DontDestroyOnLoad(this);
         DontDestroyOnLoad(this);
     }
 
