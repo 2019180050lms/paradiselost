@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static UnityEngine.UI.Image;
 
 public class PlayerManager
 {
@@ -516,6 +517,7 @@ public class PlayerManager
 
                 enemy.isAttack = packet.wDown;
                 enemy.dir = packet.playerDir;
+                /*
                 if (packet.playerDir == 0)
                     enemy.moveVec2 = new Vector3(0, 0, 0);
                 else if (packet.playerDir == 1)
@@ -534,7 +536,7 @@ public class PlayerManager
                     enemy.moveVec2 = new Vector3(-(Mathf.Sqrt(0.5f)), 0, Mathf.Sqrt(0.5f));
                 else if (packet.playerDir == 8)
                     enemy.moveVec2 = new Vector3(-(Mathf.Sqrt(0.5f)), 0, -(Mathf.Sqrt(0.5f)));
-
+                */
                 /*
                 if (enemy.enemyType != 4)
                 {
@@ -546,7 +548,49 @@ public class PlayerManager
                 //Debug.Log(enemy.transform.position);
                 //enemy.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
 
+                //enemy.StartCoroutine(enemy.lerpCoroutine(new Vector3(packet.posX, packet.posY, packet.posZ), 1.0f));
+
                 enemy.posVec = new Vector3(packet.posX, packet.posY, packet.posZ);
+                /*
+                if (enemy.moveVec2.x > 0)
+                {
+                    if (enemy.moveVec2.x > 0 && enemy.moveVec2.z > 0)
+                        enemy.moveVec2 = new Vector3(1, 0, 1);
+                    else if (enemy.moveVec2.x > 0 && enemy.moveVec2.z < 0)
+                        enemy.moveVec2 = new Vector3(1, 0, -1);
+                    else
+                        enemy.moveVec2 = new Vector3(1, 0, 0);
+                }
+                else if (enemy.moveVec2.x < 0)
+                {
+                    if (enemy.moveVec2.x < 0 && enemy.moveVec2.z > 0)
+                        enemy.moveVec2 = new Vector3(-1, 0, 1);
+                    else if (enemy.moveVec2.x < 0 && enemy.moveVec2.z < 0)
+                        enemy.moveVec2 = new Vector3(-1, 0, -1);
+                    else
+                        enemy.moveVec2 = new Vector3(-1, 0, 0);
+                }
+                else if (enemy.moveVec2.z > 0)
+                {
+                    if (enemy.moveVec2.x > 0 && enemy.moveVec2.z > 0)
+                        enemy.moveVec2 = new Vector3(1, 0, 1);
+                    else if (enemy.moveVec2.x > 0 && enemy.moveVec2.z < 0)
+                        enemy.moveVec2 = new Vector3(1, 0, -1);
+                    else
+                        enemy.moveVec2 = new Vector3(0, 0, 1);
+                }
+                else if (enemy.moveVec2.z < 0)
+                {
+                    if (enemy.moveVec2.x < 0 && enemy.moveVec2.z > 0)
+                        enemy.moveVec2 = new Vector3(-1, 0, 1);
+                    else if (enemy.moveVec2.x < 0 && enemy.moveVec2.z < 0)
+                        enemy.moveVec2 = new Vector3(-1, 0, -1);
+                    else
+                        enemy.moveVec2 = new Vector3(0, 0, -1);
+                }
+                else
+                    enemy.moveVec2 = new Vector3(0, 0, 0);
+                */
                 //enemy.transform.LookAt(enemy.transform.position + enemy.moveVec2);
                 //enemy.anim.SetBool("isWalk", enemy.isAttack != false);
                 if (packet.wDown)
@@ -732,7 +776,7 @@ public class PlayerManager
                 }
             }
         }
-    } 
+    }
 
     public void CollisionMove(S_Move packet)
     {

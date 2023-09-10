@@ -83,9 +83,7 @@ public class Enemy : MonoBehaviour
         rigid = GetComponent<Rigidbody>();
         boxCollider = GetComponent<BoxCollider>();
         //mat = GetComponentInChildren<MeshRenderer>().material;  // Material�� MesgRenderer�� ���� ������
-                                                                //nav = GetComponent<NavMeshAgent>();
-
-        
+                
 
         //Invoke("Walk", 2);
         
@@ -105,8 +103,9 @@ public class Enemy : MonoBehaviour
 
         //transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(rotVec), Time.deltaTime * 2f);
 
-        m_MoveControl();
+        //m_MoveControl();
 
+        MoveControls(posVec);
 
         if (transform.tag == "EnemyTurret" && isAttack && count == 0)
         {
@@ -129,41 +128,50 @@ public class Enemy : MonoBehaviour
 
     void m_MoveControl()
     {
-        switch (dir)
+        if (!isAttack)
         {
-            case 0:
-                moveVec2 = new Vector3(0, 0, 0);
-                break;
-            case 1:
-                moveVec2 = new Vector3(1, 0, 0);
-                break;
-            case 2:
-                moveVec2 = new Vector3(-1, 0, 0);
-                break;
-            case 3:
-                moveVec2 = new Vector3(0, 0, 1);
-                break;
-            case 4:
-                moveVec2 = new Vector3(0, 0, -1);
-                break;
-            case 5:
-                moveVec2 = new Vector3(Mathf.Sqrt(0.5f), 0, Mathf.Sqrt(0.5f));
-                break;
-            case 6:
-                moveVec2 = new Vector3(Mathf.Sqrt(0.5f), 0, -(Mathf.Sqrt(0.5f)));
-                break;
-            case 7:
-                moveVec2 = new Vector3(-(Mathf.Sqrt(0.5f)), 0, Mathf.Sqrt(0.5f));
-                break;
-            case 8:
-                moveVec2 = new Vector3(-(Mathf.Sqrt(0.5f)), 0, -(Mathf.Sqrt(0.5f)));
-                break;
-            default:
-                break;
+            switch (dir)
+            {
+                case 0:
+                    moveVec2 = new Vector3(0, 0, 0);
+                    break;
+                case 1:
+                    moveVec2 = new Vector3(1, 0, 0);
+                    break;
+                case 2:
+                    moveVec2 = new Vector3(-1, 0, 0);
+                    break;
+                case 3:
+                    moveVec2 = new Vector3(0, 0, 1);
+                    break;
+                case 4:
+                    moveVec2 = new Vector3(0, 0, -1);
+                    break;
+                case 5:
+                    moveVec2 = new Vector3(Mathf.Sqrt(0.5f), 0, Mathf.Sqrt(0.5f));
+                    break;
+                case 6:
+                    moveVec2 = new Vector3(Mathf.Sqrt(0.5f), 0, -(Mathf.Sqrt(0.5f)));
+                    break;
+                case 7:
+                    moveVec2 = new Vector3(-(Mathf.Sqrt(0.5f)), 0, Mathf.Sqrt(0.5f));
+                    break;
+                case 8:
+                    moveVec2 = new Vector3(-(Mathf.Sqrt(0.5f)), 0, -(Mathf.Sqrt(0.5f)));
+                    break;
+                default:
+                    break;
+            }
+            transform.position += moveVec2 * speed * Time.deltaTime;
+            transform.LookAt(transform.position + moveVec2);
         }
+        else
+        {
+            Vector3 velo = Vector3.zero;
+            transform.position = Vector3.SmoothDamp(transform.position, posVec, ref velo, 0.1f);
 
-        transform.position += moveVec2 * speed * Time.deltaTime;
-        transform.LookAt(transform.position + moveVec2);
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(rotVec), Time.deltaTime * 2f);
+        }
     }
 
     void OnTriggerEnter(Collider other)
@@ -210,6 +218,37 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    public IEnumerator lerpCoroutine(Vector3 target, float time)
+    {
+        float elapsedTime = 0.0f;
+
+        while(elapsedTime < time)
+        {
+            elapsedTime += (Time.deltaTime);
+            transform.position = Vector3.Lerp(transform.position, target, elapsedTime / time);
+
+            yield return null;
+        }
+        transform.position = target;
+
+        yield return null;
+    }
+
+    void MoveControls(Vector3 target)
+    {
+        var dir = (target - transform.position).normalized;
+        float distance = Vector3.Distance(transform.position, target);
+        if(distance <= 0.01f)
+        {
+            return;
+        }
+        else
+        {
+            transform.position += dir * speed * Time.deltaTime;
+            if (!isAttack)
+                transform.LookAt(target);
+        }
+    }
 
     IEnumerator OnDamage(Vector3 reactVec)
     {
