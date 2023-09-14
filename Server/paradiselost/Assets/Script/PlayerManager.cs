@@ -503,7 +503,7 @@ public class PlayerManager
                         player.StartCoroutine("Swing");
                     }
                 }
-                player.transform.LookAt(player.transform.position + player.moveVec2);
+                //player.transform.LookAt(player.transform.position + player.moveVec2);
             }
         }
         else

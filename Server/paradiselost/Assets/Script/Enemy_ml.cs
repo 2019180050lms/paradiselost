@@ -102,9 +102,11 @@ public class Enemy_ml : MonoBehaviour
     {
         Vector3 velo = Vector3.zero;
         //transform.position = Vector3.Lerp(transform.position, pos, 0.001f);
-        transform.position = Vector3.SmoothDamp(transform.position, posVec, ref velo, 0.1f);
+        //transform.position = Vector3.SmoothDamp(transform.position, posVec, ref velo, 0.1f);
 
-        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(rotVec), Time.deltaTime * 2f);
+        //transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(rotVec), Time.deltaTime * 2f);
+
+        MoveControl(posVec);
 
         //m_MoveControl();
 
@@ -126,6 +128,22 @@ public class Enemy_ml : MonoBehaviour
             hitEnemy = false;
 
         moveVec2 = Vector3.zero;
+    }
+
+    void MoveControl(Vector3 target)
+    {
+        var dir = (target - transform.position).normalized;
+        float distance = Vector3.Distance(transform.position, target);
+        if (distance <= 0.01f)
+        {
+            return;
+        }
+        else
+        {
+            transform.position += dir * speed * Time.deltaTime;
+            if (!isAttack)
+                transform.LookAt(target);
+        }
     }
 
     void m_MoveControl()

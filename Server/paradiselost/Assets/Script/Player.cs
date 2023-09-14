@@ -134,13 +134,16 @@ public class Player : MonoBehaviour
     void Update()
     {
         //Delay_Update();
-        Vector3 velo = Vector3.zero;
-        if (!falling)
-            transform.position = Vector3.SmoothDamp(transform.position, posVec, ref velo, 0.03f);
+        //Vector3 velo = Vector3.zero;
+        //if (!falling)
+        //    transform.position = Vector3.SmoothDamp(transform.position, posVec, ref velo, 0.03f);
+
+        MoveControl(posVec);
+
         Jump(other_jump);
         if (transform.position == posVec)
         {
-            anim.SetBool("isRun", false);
+            //anim.SetBool("isRun", false);
             //anim_Leg.SetBool("isRun", false);
         }
 
@@ -284,6 +287,22 @@ public class Player : MonoBehaviour
 
         //anim.SetBool("isRun", moveVec2 != Vector3.zero);
         //anim.SetBool("isWalk", wDown);
+    }
+
+    void MoveControl(Vector3 target)
+    {
+        var dir = (target - transform.position).normalized;
+        float distance = Vector3.Distance(transform.position, target);
+        if(distance <= 0.01f)
+        {
+            return;
+        }
+        else
+        {
+            transform.position += dir * speed * Time.deltaTime;
+            if (!wDown)
+                transform.LookAt(target);
+        }
     }
 
     public void Turn()

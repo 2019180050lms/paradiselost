@@ -545,14 +545,14 @@ void process_packet(int c_id, char* packet)
 			clients[c_id].y = p->y;
 			clients[c_id].z = p->z;
 		}
-		clients[c_id].isAttack = p->isAttack;
 		clients[c_id].isJump = p->isJump;
 
-		if (clients[c_id].isAttack && !clients[c_id]._skill_list.count(1)) {
+		if (!clients[c_id].isAttack && !clients[c_id]._skill_list.count(1)) {
+			clients[c_id].isAttack = p->isAttack;
 			clients[c_id]._sl.lock();
 			clients[c_id]._skill_list.insert(1);
 			clients[c_id]._sl.unlock();
-			add_timer(c_id, std::chrono::system_clock::now() + 500ms, EV_SKILL_DELAY);
+			add_timer(c_id, std::chrono::system_clock::now() + 700ms, EV_SKILL_DELAY);
 			clients[c_id].send_move_packet(c_id);
 			clients[c_id].isAttack = false;
 		}

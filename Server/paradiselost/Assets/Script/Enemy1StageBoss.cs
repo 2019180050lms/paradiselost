@@ -13,7 +13,7 @@ public class Enemy1StageBoss : MonoBehaviour
     public bool isChase;
     public bool isAttack;
     public bool hitEnemy = false;
-
+    float speed = 1.5f;
     public Vector3 prevVec;
     public Vector3 moveVec2;
     public Vector3 posVec;
@@ -104,10 +104,13 @@ public class Enemy1StageBoss : MonoBehaviour
      void Update()
     {
 
-        Vector3 velo = Vector3.zero;
+        //Vector3 velo = Vector3.zero;
         //transform.position = Vector3.Lerp(transform.position, pos, 0.001f);
-        transform.position = Vector3.SmoothDamp(transform.position, posVec, ref velo, 0.1f);
-        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(rotVec), Time.deltaTime * 2f);
+        //transform.position = Vector3.SmoothDamp(transform.position, posVec, ref velo, 0.1f);
+        //transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(rotVec), Time.deltaTime * 2f);
+
+        MoveControl(posVec);
+
         if (transform.tag == "EnemyTurret" && isAttack && count == 0)
         {
             Debug.Log("몬스터 총");
@@ -124,6 +127,22 @@ public class Enemy1StageBoss : MonoBehaviour
         else if (!anim.GetCurrentAnimatorStateInfo(0).IsName("doAttack"))
             hitEnemy = false;
 
+    }
+
+    void MoveControl(Vector3 target)
+    {
+        var dir = (target - transform.position).normalized;
+        float distance = Vector3.Distance(transform.position, target);
+        if(distance <= 0.01f)
+        {
+            return;
+        }
+        else
+        {
+            transform.position += dir * speed * Time.deltaTime;
+            if (!isAttack)
+                transform.LookAt(target);
+        }
     }
 
     void OnTriggerEnter(Collider other)

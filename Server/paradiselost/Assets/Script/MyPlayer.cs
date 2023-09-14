@@ -317,6 +317,7 @@ public class MyPlayer : Player
 
             transform.position += moveVec2 * speed * Time.deltaTime;
             transform.LookAt(transform.position + moveVec2);
+            cs_move_packet();
         }
     }
 
@@ -526,7 +527,7 @@ public class MyPlayer : Player
                 Debug.Log("wDown True");
 
             //CameraMove();
-            cs_move_packet();
+            //cs_move_packet();
         }
     }
 
