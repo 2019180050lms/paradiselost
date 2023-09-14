@@ -300,8 +300,6 @@ public class Player : MonoBehaviour
         else
         {
             transform.position += dir * speed * Time.deltaTime;
-            if (!wDown)
-                transform.LookAt(target);
         }
     }
 

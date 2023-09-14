@@ -547,13 +547,15 @@ void process_packet(int c_id, char* packet)
 		}
 		clients[c_id].isJump = p->isJump;
 
-		if (!clients[c_id].isAttack && !clients[c_id]._skill_list.count(1)) {
+		if (p->isAttack && !clients[c_id]._skill_list.count(1)) {
 			clients[c_id].isAttack = p->isAttack;
 			clients[c_id]._sl.lock();
 			clients[c_id]._skill_list.insert(1);
 			clients[c_id]._sl.unlock();
-			add_timer(c_id, std::chrono::system_clock::now() + 700ms, EV_SKILL_DELAY);
+			add_timer(c_id, std::chrono::system_clock::now() + 600ms, EV_SKILL_DELAY);
 			clients[c_id].send_move_packet(c_id);
+		}
+		else {
 			clients[c_id].isAttack = false;
 		}
 
@@ -602,6 +604,7 @@ void process_packet(int c_id, char* packet)
 				if (is_pc(pl))
 					clients[pl].send_remove_player_packet(c_id);
 			}
+
 		break;
 	}
 	case CS_MONSTER_ATTACKED: {
@@ -741,6 +744,13 @@ void process_packet(int c_id, char* packet)
 		clients[c_id]._view_list.clear();
 		clients[c_id]._vl.unlock();
 		// TODO 스테이지별 위치 조정 추가
+		switch (p->stage) {
+		case 1:
+			clients[c_id].x = 48.f;
+			clients[c_id].z = 48.f;
+			clients[c_id].send_move_packet(c_id);
+			break;
+		}
 		break;
 	}
 	case CS_MONSTER_AI: {
@@ -1092,7 +1102,7 @@ void add_monster()
 			if (i < 4) {
 				clients[MAX_USER + i]._hp = 100;
 				clients[MAX_USER + i].x = 78.f;
-				clients[MAX_USER + i].y = -0.5f;
+				clients[MAX_USER + i].y = -1.4f;
 				clients[MAX_USER + i].z = 39.f + i;
 				clients[MAX_USER + i].my_max_x = 90.f;
 				clients[MAX_USER + i].my_max_z = 65.f;
@@ -1102,7 +1112,7 @@ void add_monster()
 			else if (i >= 4 && i < 8) {
 				clients[MAX_USER + i]._hp = 100;
 				clients[MAX_USER + i].x = 18.f + i;
-				clients[MAX_USER + i].y = -0.5f;
+				clients[MAX_USER + i].y = -1.5f;
 				clients[MAX_USER + i].z = 56.f;
 				clients[MAX_USER + i].my_max_x = 40.f;
 				clients[MAX_USER + i].my_max_z = 67.f;
@@ -1112,7 +1122,7 @@ void add_monster()
 			else if (i >= 8 && i < 12) {
 				clients[MAX_USER + i]._hp = 100;
 				clients[MAX_USER + i].x = 24.f + i;
-				clients[MAX_USER + i].y = -0.5f;
+				clients[MAX_USER + i].y = -1.5f;
 				clients[MAX_USER + i].z = 93.f;
 				clients[MAX_USER + i].my_max_x = 40.f;
 				clients[MAX_USER + i].my_max_z = 102.f;
@@ -1390,8 +1400,7 @@ void do_random_move(int c_id)
 		else if (0 == near_list.count(pl)) {
 			clients[pl].send_remove_player_packet(c_id);
 		}
-	if (c_id == 500)
-		cout << "monster pos(random move): " << clients[c_id].x << ", " << clients[c_id].y << ", " << clients[c_id].z << endl;
+	//cout << "monster pos(random move): " << clients[c_id].x << ", " << clients[c_id].y << ", " << clients[c_id].z << endl;
 }
 
 void do_player_attack(int n_id, int c_id)

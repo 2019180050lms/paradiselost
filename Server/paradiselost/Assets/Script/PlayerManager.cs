@@ -377,10 +377,10 @@ public class PlayerManager
 
                 if (packet.wDown)
                 {
-                    //Debug.Log("다른 player wDown ");
+                    Debug.Log("다른 player wDown ");
                     //Debug.Log(player.currentTime);
                     //player.StopCoroutine("timer");
-                    if (player.hasWeapons[1] && !player.anim.GetCurrentAnimatorStateInfo(0).IsName("Run_Aim"))
+                    if (player.hasWeapons[1])
                     {
                         player.StartCoroutine("Shot");
                         player.anim.SetTrigger("doAim");
@@ -503,7 +503,7 @@ public class PlayerManager
                         player.StartCoroutine("Swing");
                     }
                 }
-                //player.transform.LookAt(player.transform.position + player.moveVec2);
+                player.transform.LookAt(player.transform.position + player.moveVec2);
             }
         }
         else
@@ -813,6 +813,7 @@ public class PlayerManager
 
             Player player = go.AddComponent<Player>();
             player.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
+            player.posVec = new Vector3(packet.posX, packet.posY, packet.posZ);
 
             player.PlayerId = packet.playerId;
 
