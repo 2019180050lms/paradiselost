@@ -547,7 +547,7 @@ void process_packet(int c_id, char* packet)
 		}
 		clients[c_id].isJump = p->isJump;
 
-		if (p->isAttack && !clients[c_id]._skill_list.count(1)) {
+		if (p->isAttack && !clients[c_id]._skill_list.count(1) && clients[c_id]._stage != 2) {
 			clients[c_id].isAttack = p->isAttack;
 			clients[c_id]._sl.lock();
 			clients[c_id]._skill_list.insert(1);
@@ -748,6 +748,11 @@ void process_packet(int c_id, char* packet)
 		case 1:
 			clients[c_id].x = 48.f;
 			clients[c_id].z = 48.f;
+			clients[c_id].send_move_packet(c_id);
+			break;
+		case 2:
+			clients[c_id].x = 34.f;
+			clients[c_id].z = 10.f;
 			clients[c_id].send_move_packet(c_id);
 			break;
 		}

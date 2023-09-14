@@ -6,7 +6,7 @@ using UnityEngine.AI;
 
 public class Enemy_ml : MonoBehaviour
 {
-    float speed = 1.5f;
+    float speed = 5.0f;
     public int enemyId;
     public int enemyType;
     public int maxHealth;
@@ -102,11 +102,11 @@ public class Enemy_ml : MonoBehaviour
     {
         Vector3 velo = Vector3.zero;
         //transform.position = Vector3.Lerp(transform.position, pos, 0.001f);
-        //transform.position = Vector3.SmoothDamp(transform.position, posVec, ref velo, 0.1f);
+        transform.position = Vector3.SmoothDamp(transform.position, posVec, ref velo, 0.1f);
 
-        //transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(rotVec), Time.deltaTime * 2f);
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(rotVec), Time.deltaTime * 2f);
 
-        MoveControl(posVec);
+        //MoveControl(posVec);
 
         //m_MoveControl();
 
