@@ -10,6 +10,7 @@
 #include <concurrent_priority_queue.h>
 #include <chrono>
 #include <fstream>
+#include <tuple>
 #include "protocol.h"
 
 #include "include/lua.hpp"
@@ -50,6 +51,31 @@ public:
 	}
 };
 
+// ASTAR
+class ASNode {
+public:
+	ASNode* conn;
+	int row, col;
+	int g, h, f;
+	char nodeName;
+	char value;
+
+public:
+	ASNode(int _x, int _y, char _v, int _i)
+	{
+		row = _x;
+		col = _y;
+		value = _v;
+		nodeName = _i;
+		g = 0;
+		h = 0;
+		f = 0;
+	}
+};
+
+ASNode* GetChildNodes(int childIndRow, int childIndCol, ASNode* parentNode, std::list<ASNode*>& openList, std::list<ASNode*>& closeList, int n_id);
+ASNode* CreateNodeByIndex(int rowIndex, int colIndex, ASNode* parentNode, int n_id);
+
 enum S_STATE { ST_FREE, ST_ALLOC, ST_INGAME, ST_ML_AGENT };
 
 class SESSION {
@@ -65,6 +91,10 @@ public:
 	int _dir;
 	int _stage;					// 포탈 이동
 	short _quest_stage;				// 몇 번째 퀘스트 인지
+	std::list<ASNode*> openList;	// astar 사용
+	std::list<ASNode*> closeList;	// astar 사용
+	char astar_map[W_HEIGHT][W_WIDTH];	// astar 사용
+	//array<array<char, W_HEIGHT>, W_WIDTH> astar_map;
 	SOCKET _socket;
 	int head_item, weapon_item, leg_item;
 	int exp, level;
@@ -163,7 +193,8 @@ public:
 	}
 	void send_attacked_monster(int c_id);
 	void send_boss_attack(int c_id);
-	void send_stage_clear(int stage, int item) {
+	void send_stage_clear(int stage, int item) 
+	{
 		SC_STAGE_CLEAR_PACKET p;
 		p.size = sizeof(p);
 		p.type = SC_STAGE_CLEAR;
@@ -172,6 +203,8 @@ public:
 		do_send(&p);
 		cout << _id << ": " << stage << " stage clear!" << endl;
 	}
+	void run_astar(int n_id, int c_id);
+	void send_astar_move(int n_id);
 };
 
 array<SESSION, MAX_USER + MAX_NPC> clients;
@@ -194,6 +227,232 @@ struct EVENT {
 	}
 
 };
+
+//ASTAR
+static char uniqueName = 'a';
+
+std::tuple<int, int> GetGoalIndex(int n_id)
+{
+
+	int maxMapSizeRow = sizeof(clients[n_id].astar_map) / sizeof(clients[n_id].astar_map[0]);
+	int maxMapSizeCol = sizeof(clients[n_id].astar_map[0]);
+	for (int i = 0; i < maxMapSizeRow; ++i) {
+		for (int j = 0; j < maxMapSizeCol; ++j) {
+			if (clients[n_id].astar_map[i][j] == 'G') {
+				return std::make_tuple(i, j);
+			}
+		}
+	}
+}
+
+void DebugPrintList(std::list<ASNode*>& nodelist, std::string name)
+{
+	std::cout << name.c_str() << ":" << std::endl;
+	//cout << "list length:" << nodelist.size() << endl;
+	for (auto& ele : nodelist)
+	{
+		std::cout << "(" << ele->row << "," << ele->col << ")";
+	}
+	std::cout << std::endl;
+}
+
+void DebugPrintElement(ASNode* curNode, ASNode* parent)
+{
+	std::cout << "set parent:" << "(" << (curNode)->row << "," << (curNode)->col << ")->(" << (parent)->row << "," << (parent)->col << ")" << std::endl;
+}
+
+void FindPath(std::list<ASNode*>& openList, std::list<ASNode*>& closeList, int n_id)
+{//DebugPrintList(openList, "Open");
+	//DebugPrintList(closeList, "Close");
+	int maxMapSizeRow = sizeof(clients[n_id].astar_map) / sizeof(clients[n_id].astar_map[0]);
+	int maxMapSizeCol = sizeof(clients[n_id].astar_map[0]);
+	//int maxMapSizeRow = W_HEIGHT;
+	//int maxMapSizeCol = W_WIDTH;
+	//cout << "maxMapSizeRow:" << maxMapSizeRow << ", maxMapSizeCol:" << maxMapSizeCol <<endl;
+	if (openList.size() == 0)
+	{
+		//end of finding.  no route to goal
+		std::cout << "no path exists." << std::endl;
+		return;
+	}
+	ASNode* openNode = nullptr;
+	int smallest_f = 10000;
+	for (auto& op : openList)
+	{
+		if (op->f < smallest_f)
+		{
+			smallest_f = op->f;
+			openNode = op;
+		}
+	}
+	if (openNode != nullptr)
+	{
+		if (openNode->nodeName == 'G') //arrive at Goal
+		{
+			std::cout << "< Optimal Path (row, column)>" << std::endl;
+			while (openNode != nullptr)
+			{
+				std::cout << "(" << openNode->row << "," << openNode->col << ")";
+				int rowind = openNode->row;
+				int colind = openNode->col;
+				//clients[n_id].astar_map[rowind][colind] = '*';
+				openNode = openNode->conn;
+				if (openNode != nullptr)
+					std::cout << "<==";
+			}
+			std::cout << std::endl;
+			for (int i = 0; i < 500; ++i) {
+				for (int j = 0; j < 500; ++j) {
+					if (clients[n_id].astar_map[i][j] == 'S' || clients[n_id].astar_map[i][j] == 'G') {
+						clients[n_id].astar_map[i][j] = '0';
+					}
+				}
+			}
+			//ShowMap();
+		}
+		else
+		{
+			//Get children nodes from the current node
+			//check 4-way, up,down,left,right
+			int rowInd = openNode->row;
+			int colInd = openNode->col;
+			//check up
+			ASNode* childNode;
+			if (openNode->row - 1 >= 0)
+			{
+				int childIndRow = openNode->row - 1;
+				int childIndCol = openNode->col;
+				childNode = GetChildNodes(childIndRow, childIndCol, openNode, openList, closeList, n_id);
+			}
+			if (openNode->row + 1 < maxMapSizeRow)
+			{
+				int childIndRow = openNode->row + 1;
+				int childIndCol = openNode->col;
+				childNode = GetChildNodes(childIndRow, childIndCol, openNode, openList, closeList, n_id);
+			}
+			if (openNode->col + 1 < maxMapSizeCol)
+			{
+				int childIndRow = openNode->row;
+				int childIndCol = openNode->col + 1;
+				childNode = GetChildNodes(childIndRow, childIndCol, openNode, openList, closeList, n_id);
+			}
+			if (openNode->col - 1 >= 0)
+			{
+				int childIndRow = openNode->row;
+				int childIndCol = openNode->col - 1;
+				childNode = GetChildNodes(childIndRow, childIndCol, openNode, openList, closeList, n_id);
+			}
+			//cout << "[Remove from openlist] (" << rowInd << "," << colInd << ")" << endl;
+			openList.remove_if([&](ASNode* node)
+				{
+					if (node->row == rowInd && node->col == colInd)
+					{
+						return true;
+					}
+					else
+					{
+						return false;
+					}
+				});
+			//cout << "[push] to closeList:" << rowInd << "," << openNode->col << endl;
+			closeList.push_back(openNode);
+			FindPath(openList, closeList, n_id);
+		}
+	}
+}
+
+ASNode* GetChildNodes(int childIndRow, int childIndCol, ASNode* parentNode, std::list<ASNode*>& openList, std::list<ASNode*>& closeList, int n_id)
+{
+	auto it_open = find_if(openList.begin(), openList.end(), [&](ASNode* node)
+		{
+			if (node->row == childIndRow && node->col == childIndCol)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		});
+	auto it_close = find_if(closeList.begin(), closeList.end(), [&](ASNode* node)
+		{
+			if (node->row == childIndRow && node->col == childIndCol)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		});
+	if (it_open != openList.end())
+	{
+		//exist
+		if ((*it_open)->g < parentNode->g + 1)
+		{
+			(*it_open)->g = parentNode->g + 1;
+			parentNode->conn = (*it_open);
+			(*it_open)->f = (*it_open)->g + (*it_open)->h;
+			//cout << "[parenting openlist]";
+			//DebugPrintElement(*it_open, parentNode);
+		}
+		return *it_open;
+	}
+	else if (it_close != closeList.end())
+	{
+		//exist
+		if ((*it_close)->g < parentNode->g + 1)
+		{
+			(*it_close)->g = parentNode->g + 1;
+			parentNode->conn = (*it_close);
+			(*it_close)->f = (*it_close)->g + (*it_close)->h;
+			/*	cout << "[parenting closelist]";
+						DebugPrintElement(*it_close, parentNode);*/
+		}
+		return *it_close;
+	}
+	else
+	{
+		ASNode* newNode = CreateNodeByIndex(childIndRow, childIndCol, parentNode, n_id);
+		if (newNode != nullptr)
+		{
+			//cout << "[push] to openlist:" << newNode->row << "," << newNode->col << endl;
+			openList.push_back(newNode);
+		}
+		return newNode;
+	}
+	return nullptr;
+}
+
+ASNode* CreateNodeByIndex(int rowIndex, int colIndex, ASNode* parentNode, int n_id)
+{
+	char val = clients[n_id].astar_map[rowIndex][colIndex];
+	if (val == '1')
+		return nullptr;
+	ASNode* node = nullptr;
+	if (val == 'G')
+	{
+		node = new ASNode(rowIndex, colIndex, 'G', 'G');
+		node->g = parentNode->g + 1;
+		node->h = 0;
+		node->f = node->g;
+		node->conn = parentNode;
+	}
+	else
+	{
+		node = new ASNode(rowIndex, colIndex, val, uniqueName++);
+		node->g = parentNode->g + 1;
+		auto inds = GetGoalIndex(n_id);
+		int goalRowInd = std::get<0>(inds);
+		int goalColInd = std::get<1>(inds);
+		int h = abs(goalRowInd - rowIndex) + abs(goalColInd - colIndex);
+		node->h = h;
+		node->f = node->g + h;
+		node->conn = parentNode;
+	}
+	return node;
+}
+//
 
 concurrency::concurrent_priority_queue <EVENT> g_timer_queue;
 mutex g_tl;
@@ -223,6 +482,48 @@ bool wakeup_npc(int oid)
 {
 	add_timer(oid, chrono::system_clock::now() + 1s, EV_RANDOM_MOVE);
 	return true;
+}
+
+void SetAStarMap(int _stage, int n_id)
+{
+	switch (_stage) {
+	case 1: {
+		for (int i = 0; i < 500; ++i) {
+			for (int j = 0; j < 500; ++j) {
+				clients[n_id].astar_map[i][j] = stage1[i][j];
+			}
+		}
+		break;
+	}
+	case 2: {
+		for (int i = 0; i < 500; ++i) {
+			for (int j = 0; j < 500; ++j) {
+				clients[n_id].astar_map[i][j] = stage1[i][j];
+			}
+		}
+		break;
+	}
+	case 3: {
+		for (int i = 0; i < 500; ++i) {
+			for (int j = 0; j < 500; ++j) {
+				clients[n_id].astar_map[i][j] = stage1[i][j];
+			}
+		}
+		break;
+	}
+	default:
+		break;
+	}
+}
+
+void SetAStarStart(int _x, int _z, int n_id)
+{
+	clients[n_id].astar_map[_z][_x] = 'S';
+}
+
+void SetAStarGoal(int _x, int _z, int n_id)
+{
+	clients[n_id].astar_map[_z][_x] = 'G';
 }
 
 void SESSION::send_move_packet(int c_id)
@@ -315,6 +616,46 @@ void SESSION::send_boss_attack(int c_id)
 	p.playerid = clients[c_id].targetId;
 	p.bossAttack = clients[c_id].bossAttack;
 	do_send(&p);
+}
+
+void SESSION::run_astar(int n_id, int c_id)
+{
+	if (clients[n_id].openList.size() == 0) {
+		SetAStarMap(clients[n_id]._stage, n_id);
+		SetAStarStart((int)clients[n_id].x, (int)clients[n_id].z, n_id);
+		SetAStarGoal((int)clients[c_id].x, (int)clients[c_id].z, n_id);
+		int startRowInd = (int)clients[n_id].z;
+		int startColInd = (int)clients[n_id].x;
+		ASNode* startNode = new ASNode(startRowInd, startColInd, 'S', 'S');
+		clients[n_id].openList.push_back(startNode);
+		FindPath(clients[n_id].openList, clients[n_id].closeList, n_id);
+	}
+	else {
+		cout << "openList full: " << clients[n_id].openList.size() << endl;
+	}
+}
+
+void SESSION::send_astar_move(int n_id)
+{
+	if (clients[n_id].openList.size() > 0) {
+		auto anode = clients[n_id].openList.front();
+		SC_MOVE_PLAYER_PACKET p;
+		p.id = n_id;
+		p.size = sizeof(SC_MOVE_PLAYER_PACKET);
+		p.dir = clients[n_id]._dir;
+		p.type = SC_MOVE_PLAYER;
+		p.hp = clients[n_id]._hp;
+		p.x = anode->col;
+		p.y = clients[n_id].y;
+		p.z = anode->row;
+		p.isAttack = clients[n_id].isAttack;
+		p.isJump = clients[n_id].isJump;
+		do_send(&p);
+		clients[n_id].x = anode->col;
+		clients[n_id].z = anode->row;
+		clients[n_id].openList.pop_front();
+		cout << n_id << " astar move pos: " << p.x << ", " << p.y << endl;
+	}
 }
 
 int get_new_client_id()
@@ -1005,7 +1346,7 @@ void worker_thread(HANDLE h_iocp)
 				}
 				else if (!clients[key].isAttack && clients[key].targetId >= 0 && clients[key].bossAttack < 0) {
 					do_player_attack(static_cast<int>(key), clients[key].targetId);
-					add_timer(key, chrono::system_clock::now() + 1s, EV_RANDOM_MOVE);
+					add_timer(key, chrono::system_clock::now() + 300ms, EV_RANDOM_MOVE);
 				}
 				else if (clients[key].isAttack && clients[key].bossAttack < 0) {
 					do_delay_disable(static_cast<int>(key), clients[key].targetId);
@@ -1013,7 +1354,7 @@ void worker_thread(HANDLE h_iocp)
 				}
 				else if (clients[key].bossAttack >= 0) {
 					do_player_attack(static_cast<int>(key), clients[key].targetId);
-					add_timer(key, chrono::system_clock::now() + 2s, EV_RANDOM_MOVE);
+					add_timer(key, chrono::system_clock::now() + 300ms, EV_RANDOM_MOVE);
 				}
 			}
 			else
@@ -1410,8 +1751,9 @@ void do_random_move(int c_id)
 
 void do_player_attack(int n_id, int c_id)
 {
-	if (c_id < 0 || n_id < 0)
+	if (c_id < 0 || n_id < 0 || clients[n_id]._state == ST_FREE)
 		return;
+
 	unordered_set<int> view_list;
 	for (auto& cl : clients) {
 		if (cl._stage != clients[n_id]._stage) continue;
@@ -1421,7 +1763,7 @@ void do_player_attack(int n_id, int c_id)
 		if (can_see(n_id, cl._id))
 			view_list.insert(cl._id);
 	}
-
+	/* 수정중
 	switch (clients[n_id]._type)
 	{
 	case MONSTER::GUN_ROBOT:
@@ -1568,7 +1910,6 @@ void do_player_attack(int n_id, int c_id)
 				clients[n_id].z -= 1.5f;
 				clients[n_id]._dir = 4;
 			}
-			*/
 		}
 		break;
 	}
@@ -1673,8 +2014,10 @@ void do_player_attack(int n_id, int c_id)
 	default:
 		break;
 	}
-
+	*/
 	unordered_set<int> near_list;
+
+	clients[n_id].run_astar(n_id, c_id);
 
 	for (auto& cl : clients) {
 		if (cl._stage != clients[n_id]._stage) continue;
@@ -1692,14 +2035,14 @@ void do_player_attack(int n_id, int c_id)
 		if (clients[pl]._view_list.count(n_id) && clients[pl]._state == ST_INGAME) {
 			cpl._vl.unlock();
 			if (clients[n_id]._type != 7 && clients[n_id]._type != 4)
-				clients[pl].send_move_packet(n_id);
+				clients[pl].send_astar_move(n_id);
 			else {
 				if (clients[n_id].isAttack) {
 					clients[n_id].targetId = c_id;
 					clients[pl].send_boss_attack(n_id);
 				}
 				else {
-					clients[pl].send_move_packet(n_id);
+					clients[pl].send_astar_move(n_id);
 				}
 			}
 		}
