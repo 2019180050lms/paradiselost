@@ -16,7 +16,6 @@ public class Enemy : MonoBehaviour
     public bool isAttack;
     public bool hitEnemy = false;
     public int stage;
-    public GameObject _gameObject;
 
     public Vector3 prevVec;
     public Vector3 moveVec2;

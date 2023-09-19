@@ -969,7 +969,7 @@ public class PlayerManager
             enemy.maxHealth = packet.hp;
             enemy.curHealth = packet.hp;
             enemy.ps = go.GetComponentInChildren<ParticleSystem>();
-            
+
             //enemy.posVec = new Vector3(packet.posX, packet.posY, packet.posZ);
             enemy.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
             _boss1 = enemy;
@@ -979,39 +979,19 @@ public class PlayerManager
         {
             Object obj = Resources.Load("Monster/Robot2");
             GameObject go = Object.Instantiate(obj) as GameObject;
-            if (packet.playerId == 512 || packet.playerId == 513 || packet.playerId == 514)
-            {
-                Enemy_ml enemy = go.AddComponent<Enemy_ml>();
-                enemy.transform.Find("Robot2").gameObject.SetActive(false);
-                enemy.transform.Find("HPBarPos").gameObject.SetActive(false);
-                enemy.enabled = true;
-                enemy.enemyId = packet.playerId;
-                enemy.enemyType = packet.type;
-                enemy.maxHealth = packet.hp;
-                enemy.curHealth = packet.hp;
-                enemy.ps = go.GetComponentInChildren<ParticleSystem>();
-                enemy.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
-                enemy.posVec = new Vector3(packet.posX, packet.posY, packet.posZ);
-                enemy.stage = packet.stage;
-                _ml_enemys.Add(packet.playerId, enemy);
-            }
-            else
-            {
-                Enemy enemy = go.AddComponent<Enemy>();
-                enemy.enabled = true;
-                enemy.transform.Find("Robot2").gameObject.SetActive(false);
-                enemy.transform.Find("HPBarPos").gameObject.SetActive(false);
-                enemy.enemyId = packet.playerId;
-                enemy.enemyType = packet.type;
-                enemy.maxHealth = packet.hp;
-                enemy.curHealth = packet.hp;
-                enemy.ps = go.GetComponentInChildren<ParticleSystem>();
-                enemy.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
-                enemy.posVec = new Vector3(packet.posX, packet.posY, packet.posZ);
-                enemy.stage = packet.stage;
-                _enemys.Add(packet.playerId, enemy);
-            }
-            
+            Enemy enemy = go.AddComponent<Enemy>();
+            enemy.enabled = true;
+            enemy.transform.Find("Robot2").gameObject.SetActive(false);
+            enemy.transform.Find("HPBarPos").gameObject.SetActive(false);
+            enemy.enemyId = packet.playerId;
+            enemy.enemyType = packet.type;
+            enemy.maxHealth = packet.hp;
+            enemy.curHealth = packet.hp;
+            enemy.ps = go.GetComponentInChildren<ParticleSystem>();
+            enemy.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
+            enemy.posVec = new Vector3(packet.posX, packet.posY, packet.posZ);
+            enemy.stage = packet.stage;
+            _enemys.Add(packet.playerId, enemy);
         }
         else if (packet.type == 6)
         {
@@ -1471,12 +1451,10 @@ public class PlayerManager
             {
                 if(enemy.stage == packet.stage)
                 {
-                    if (packet.stage == 1)
+                    if (enemy.enemyType == 6)
                         enemy.transform.Find("Robot1").gameObject.SetActive(true);
-                    else if (packet.stage == 2)
+                    else if (enemy.enemyType == 5)
                         enemy.transform.Find("Robot2").gameObject.SetActive(true);
-                    else if (packet.stage == 1)
-                        enemy.transform.Find("Robot3").gameObject.SetActive(true);
 
                     enemy.transform.Find("HPBarPos").gameObject.SetActive(true);
                 }
