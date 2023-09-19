@@ -279,7 +279,7 @@ void FindPath(std::list<ASNode*>& openList, std::list<ASNode*>& closeList, int n
 	//int maxMapSizeRow = W_HEIGHT;
 	//int maxMapSizeCol = W_WIDTH;
 	//cout << "maxMapSizeRow:" << maxMapSizeRow << ", maxMapSizeCol:" << maxMapSizeCol <<endl;
-	if (openList.size() == 0)
+	if (openList.size() == 0 || openList.size() > 100)
 	{
 		//end of finding.  no route to goal
 		std::cout << "no path exists." << std::endl;
@@ -475,6 +475,7 @@ void do_random_move(int o_id);
 
 bool can_see(int from, int to)
 {
+	if (clients[from]._stage != clients[to]._stage) return false;
 	if (abs(clients[from].x - clients[to].x) > VIEW_RANGE) return false;
 	return abs(clients[from].z - clients[to].z) <= VIEW_RANGE;
 }
@@ -668,8 +669,9 @@ void SESSION::send_astar_move(int n_id)
 		clients[n_id].x = anode->col;
 		clients[n_id].z = anode->row;
 		clients[n_id]._a_lock.lock();
-		if (clients[n_id].openList.empty() == false)
+		if (clients[n_id].openList.empty() == false) {
 			clients[n_id].openList.pop_front();
+		}
 		if (clients[n_id].closeList.empty() == false)
 			clients[n_id].closeList.pop_front();
 		clients[n_id]._a_lock.unlock();
@@ -777,7 +779,7 @@ void process_packet(int c_id, char* packet)
 		{
 			lock_guard<mutex> ll{ clients[c_id]._s_lock };
 			clients[c_id].x = 30.f;
-			clients[c_id].y = 5.f;
+			clients[c_id].y = 3.f;
 			clients[c_id].z = 40.f;
 			clients[c_id]._state = ST_INGAME;
 			clients[c_id]._stage = 0;
@@ -1108,6 +1110,14 @@ void process_packet(int c_id, char* packet)
 			clients[c_id].z = 48.f;
 			clients[c_id].send_move_packet(c_id);
 			clients[c_id]._s_lock.unlock();
+			/*
+			for (int i = MAX_USER; i < MAX_USER + MAX_NPC; ++i) {
+				if (clients[i]._stage == 1) {
+					clients[i]._s_lock.lock();
+					clients[i].y = -1.4f;
+					clients[i]._s_lock.unlock();
+				}
+			}*/
 			break;
 		}
 		case 2: {
@@ -1116,6 +1126,32 @@ void process_packet(int c_id, char* packet)
 			clients[c_id].z = 10.f;
 			clients[c_id].send_move_packet(c_id);
 			clients[c_id]._s_lock.unlock();
+			/*
+			for (int i = MAX_USER; i < MAX_USER + MAX_NPC; ++i) {
+				if (clients[i]._stage == 2) {
+					clients[i]._s_lock.lock();
+					clients[i].y = 0.2f;
+					clients[i]._s_lock.unlock();
+				}
+			}*/
+			break;
+		}
+		case 3: {
+			/*
+			for (int i = MAX_USER; i < MAX_USER + MAX_NPC; ++i) {
+				if (clients[i]._stage == 3) {
+					if (i >= MAX_USER + 30 && i <= MAX_USER + 36) {
+						clients[i]._s_lock.lock();
+						clients[i].y = -8.9f;
+						clients[i]._s_lock.unlock();
+					}
+					else {
+						clients[i]._s_lock.lock();
+						clients[i].y = 0.4f;
+						clients[i]._s_lock.unlock();
+					}
+				}
+			}*/
 			break;
 		}
 		default:
@@ -1483,7 +1519,7 @@ void add_monster()
 			else if (i >= 4 && i < 8) {
 				clients[MAX_USER + i]._hp = 100;
 				clients[MAX_USER + i].x = 18.f + i;
-				clients[MAX_USER + i].y = -1.5f;
+				clients[MAX_USER + i].y = -1.4f;
 				clients[MAX_USER + i].z = 56.f;
 				clients[MAX_USER + i].my_max_x = 40.f;
 				clients[MAX_USER + i].my_max_z = 67.f;
@@ -1493,7 +1529,7 @@ void add_monster()
 			else if (i >= 8 && i < 12) {
 				clients[MAX_USER + i]._hp = 100;
 				clients[MAX_USER + i].x = 24.f + i;
-				clients[MAX_USER + i].y = -1.5f;
+				clients[MAX_USER + i].y = -1.4f;
 				clients[MAX_USER + i].z = 93.f;
 				clients[MAX_USER + i].my_max_x = 40.f;
 				clients[MAX_USER + i].my_max_z = 102.f;
@@ -1510,9 +1546,9 @@ void add_monster()
 		else if (i >= 12 && i < 15) {
 			if (i < 15) {
 				clients[MAX_USER + i]._hp = 100;
-				clients[MAX_USER + i].x = 34.f + i - 9;
+				clients[MAX_USER + i].x = 35.f + i - 9;
 				//clients[MAX_USER + i].y = 0.f;
-				clients[MAX_USER + i].y = 0.f;
+				clients[MAX_USER + i].y = 0.2f;
 				clients[MAX_USER + i].z = 39.f;
 				clients[MAX_USER + i].my_max_x = 50.f;
 				clients[MAX_USER + i].my_max_z = 51.f;
@@ -1522,7 +1558,7 @@ void add_monster()
 			else if (i >= 16 && i < 20) {
 				clients[MAX_USER + i]._hp = 100;
 				clients[MAX_USER + i].x = 56.f;
-				clients[MAX_USER + i].y = 0.f;
+				clients[MAX_USER + i].y = 100.f;
 				clients[MAX_USER + i].z = 78.f;
 				clients[MAX_USER + i].my_max_x = 63.f;
 				clients[MAX_USER + i].my_max_z = 87.f;
@@ -1532,7 +1568,7 @@ void add_monster()
 			else if (i >= 20 && i < 24) {
 				clients[MAX_USER + i]._hp = 100;
 				clients[MAX_USER + i].x = 43.f;
-				clients[MAX_USER + i].y = 19.03f;
+				clients[MAX_USER + i].y = 100.f; //19.03f;
 				clients[MAX_USER + i].z = 73.f;
 				clients[MAX_USER + i].my_max_x = 60.f;
 				clients[MAX_USER + i].my_max_z = 90.f;
@@ -1550,7 +1586,7 @@ void add_monster()
 			if (i < 30) {
 				clients[MAX_USER + i]._hp = 100;
 				clients[MAX_USER + i].x = 74.f;
-				clients[MAX_USER + i].y = 0.f;
+				clients[MAX_USER + i].y = 0.4f;
 				clients[MAX_USER + i].z = 100.f;
 				clients[MAX_USER + i].my_max_x = 89.f;
 				clients[MAX_USER + i].my_max_z = 115.f;
@@ -1560,7 +1596,7 @@ void add_monster()
 			else if (i >= 30 && i < 36) {
 				clients[MAX_USER + i]._hp = 100;
 				clients[MAX_USER + i].x = 128.f;
-				clients[MAX_USER + i].y = -8.f;
+				clients[MAX_USER + i].y = -8.9f; //-8.f;
 				clients[MAX_USER + i].z = 20.f;
 				clients[MAX_USER + i].my_max_x = 165.f;
 				clients[MAX_USER + i].my_max_z = 30.f;
@@ -1649,10 +1685,6 @@ void do_random_move(int c_id)
 		return;
 	unordered_set<int> view_list;
 	for (auto& cl : clients) {
-		{
-			lock_guard<mutex> ll(clients[c_id]._stage_lock);
-			if (cl._stage != clients[c_id]._stage) continue;
-		}
 		if (cl._id >= MAX_USER) break;
 		if (cl._state != ST_INGAME) continue;
 		if (cl._id == c_id) continue;
@@ -1660,7 +1692,7 @@ void do_random_move(int c_id)
 			view_list.insert(cl._id);
 	}
 
-	if (clients[c_id]._type != 7 && clients[c_id]._stage != 2) {
+	if (clients[c_id]._type != 7) {
 		float x = clients[c_id].x;
 		float y = clients[c_id].y;
 		float z = clients[c_id].z;
@@ -1738,7 +1770,6 @@ void do_random_move(int c_id)
 	unordered_set<int> near_list;
 
 	for (auto& cl : clients) {
-		if (cl._stage != clients[c_id]._stage) continue;
 		if (cl._id >= MAX_USER) break;
 		if (cl._state != ST_INGAME) continue;
 		if (cl._id == c_id) continue;
@@ -1748,8 +1779,6 @@ void do_random_move(int c_id)
 
 	for (auto& pl : near_list) {
 		auto& cpl = clients[pl];
-		if (clients[pl]._stage != clients[c_id]._stage)
-			continue;
 		cpl._vl.lock();
 		if (clients[pl]._view_list.count(c_id) && clients[pl]._state == ST_INGAME) {
 			cpl._vl.unlock();
@@ -1770,8 +1799,7 @@ void do_random_move(int c_id)
 	}
 
 	for (auto& pl : view_list)
-		if (clients[pl]._stage != clients[c_id]._stage) continue;
-		else if (0 == near_list.count(pl)) {
+		if (0 == near_list.count(pl)) {
 			clients[pl].send_remove_player_packet(c_id);
 		}
 	//cout << "monster pos(random move): " << clients[c_id].x << ", " << clients[c_id].y << ", " << clients[c_id].z << endl;
@@ -1784,14 +1812,12 @@ void do_player_attack(int n_id, int c_id)
 
 	unordered_set<int> view_list;
 	for (auto& cl : clients) {
-		if (cl._stage != clients[n_id]._stage) continue;
 		if (cl._id >= MAX_USER) break;
 		if (cl._state != ST_INGAME) continue;
 		if (cl._id == n_id) continue;
 		if (can_see(n_id, cl._id))
 			view_list.insert(cl._id);
 	}
-	/* ¼öÁ¤Áß
 	switch (clients[n_id]._type)
 	{
 	case MONSTER::GUN_ROBOT:
@@ -1875,8 +1901,8 @@ void do_player_attack(int n_id, int c_id)
 	}
 	case MONSTER::HUMAN_ROBOT:
 	{
-		if (clients[n_id].x + 5.f >= clients[c_id].x && clients[n_id].x - 5.f <= clients[c_id].x) {
-			if (clients[n_id].z + 5.f >= clients[c_id].z && clients[n_id].z - 5.f <= clients[c_id].z) {
+		if (clients[n_id].x + 1.5f >= clients[c_id].x && clients[n_id].x - 1.5f <= clients[c_id].x) {
+			if (clients[n_id].z + 1.5f >= clients[c_id].z && clients[n_id].z - 1.5f <= clients[c_id].z) {
 				clients[n_id].isAttack = true;
 				//cout << "n_id: " << n_id << ", " << clients[n_id].isAttack << endl;
 			}
@@ -1929,7 +1955,6 @@ void do_player_attack(int n_id, int c_id)
 				}
 			}
 			cout << "monster dir: " << clients[n_id]._dir << endl;
-			/*
 			if (clients[n_id].z < clients[c_id].z) {
 				clients[n_id].z += 1.5f;
 				clients[n_id]._dir = 3;
@@ -2042,10 +2067,10 @@ void do_player_attack(int n_id, int c_id)
 	default:
 		break;
 	}
-	*/
-	unordered_set<int> near_list;
 
-	switch (clients[n_id]._type) 
+
+	/*
+	switch (clients[n_id]._type)
 	{
 	case HUMAN_ROBOT: {
 		if (clients[n_id].x + 1.f >= clients[c_id].x && clients[n_id].x - 1.f <= clients[c_id].x) {
@@ -2072,9 +2097,11 @@ void do_player_attack(int n_id, int c_id)
 	default:
 		break;
 	}
+	*/
+
+	unordered_set<int> near_list;
 
 	for (auto& cl : clients) {
-		if (cl._stage != clients[n_id]._stage) continue;
 		if (cl._id >= MAX_USER) break;
 		if (cl._state != ST_INGAME) continue;
 		if (cl._id == n_id) continue;
@@ -2084,7 +2111,6 @@ void do_player_attack(int n_id, int c_id)
 
 	for (auto& pl : near_list) {
 		auto& cpl = clients[pl];
-		if (cpl._stage != clients[n_id]._stage) continue;
 		cpl._vl.lock();
 		if (clients[pl]._view_list.count(n_id) && clients[pl]._state == ST_INGAME) {
 			cpl._vl.unlock();
@@ -2104,8 +2130,7 @@ void do_player_attack(int n_id, int c_id)
 			cpl._vl.unlock();
 	}
 	for (auto& pl : view_list)
-		if (clients[pl]._stage != clients[n_id]._stage) continue;
-		else if (0 == near_list.count(pl)) {
+		if (0 == near_list.count(pl)) {
 			clients[pl].send_remove_player_packet(n_id);
 		}
 }
@@ -2116,7 +2141,6 @@ void do_delay_disable(int n_id, int c_id)
 		return;
 	unordered_set<int> view_list;
 	for (auto& cl : clients) {
-		if (cl._stage <= 0) continue;
 		if (cl._id >= MAX_USER) break;
 		if (cl._state != ST_INGAME) continue;
 		if (cl._id == n_id) continue;
@@ -2148,7 +2172,6 @@ void do_delay_disable(int n_id, int c_id)
 	//cout << "monster id: " << n_id << ", pos(" << clients[n_id].x << ", " << clients[n_id].y << ", " << clients[n_id].z << endl;
 
 	for (auto& cl : clients) {
-		if (cl._stage <= 0) continue;
 		if (cl._id >= MAX_USER) break;
 		if (cl._state != ST_INGAME) continue;
 		if (cl._id == n_id) continue;
@@ -2158,7 +2181,6 @@ void do_delay_disable(int n_id, int c_id)
 
 	for (auto& pl : near_list) {
 		auto& cpl = clients[pl];
-		if (cpl._stage != clients[n_id]._stage) continue;
 		cpl._vl.lock();
 		if (clients[pl]._view_list.count(n_id) && clients[pl]._state == ST_INGAME) {
 			cpl._vl.unlock();
@@ -2175,8 +2197,7 @@ void do_delay_disable(int n_id, int c_id)
 	}
 
 	for (auto& pl : view_list)
-		if (clients[pl]._stage != clients[n_id]._stage) continue;
-		else if (0 == near_list.count(pl)) {
+		if (0 == near_list.count(pl)) {
 			clients[pl].send_remove_player_packet(n_id);
 		}
 }

@@ -108,7 +108,22 @@ public class Enemy : MonoBehaviour
 
         MoveControls(posVec);
 
-        
+        if (transform.tag == "EnemyTurret" && isAttack && count == 0)
+        {
+            Debug.Log("몬스터 총");
+            StartCoroutine("Shoot");
+            count++;
+        }
+        if (transform.tag == "Enemy" && isAttack && count == 0)
+        {
+            StartCoroutine("Attack");
+            count++;
+        }
+
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("doAttack"))
+            hitEnemy = true;
+        else if (!anim.GetCurrentAnimatorStateInfo(0).IsName("doAttack"))
+            hitEnemy = false;
 
         //moveVec2 = Vector3.zero;
     }
@@ -230,21 +245,6 @@ public class Enemy : MonoBehaviour
         float distance = Vector3.Distance(transform.position, target);
         if(distance <= 0.01f)
         {
-            if (transform.tag == "EnemyTurret" && isAttack && count == 0)
-            {
-                Debug.Log("몬스터 총");
-                StartCoroutine("Shoot");
-                count++;
-            }
-            if (transform.tag == "Enemy" && isAttack && count == 0)
-            {
-                StartCoroutine("Attack");
-                count++;
-            }
-            if (anim.GetCurrentAnimatorStateInfo(0).IsName("doAttack"))
-                hitEnemy = true;
-            else if (!anim.GetCurrentAnimatorStateInfo(0).IsName("doAttack"))
-                hitEnemy = false;
             return;
         }
         else
@@ -253,6 +253,8 @@ public class Enemy : MonoBehaviour
             if (!isAttack)
                 transform.LookAt(target);
         }
+        if (enemyId == 512)
+            Debug.Log(enemyId + " dir: " + dir);
     }
 
     IEnumerator OnDamage(Vector3 reactVec)

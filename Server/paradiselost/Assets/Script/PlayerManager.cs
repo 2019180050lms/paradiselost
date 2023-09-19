@@ -981,15 +981,15 @@ public class PlayerManager
             GameObject go = Object.Instantiate(obj) as GameObject;
             Enemy enemy = go.AddComponent<Enemy>();
             enemy.enabled = true;
-            enemy.transform.Find("Robot2").gameObject.SetActive(false);
-            enemy.transform.Find("HPBarPos").gameObject.SetActive(false);
+            //enemy.transform.Find("Robot2").gameObject.SetActive(false);
+            //enemy.transform.Find("HPBarPos").gameObject.SetActive(false);
             enemy.enemyId = packet.playerId;
             enemy.enemyType = packet.type;
             enemy.maxHealth = packet.hp;
             enemy.curHealth = packet.hp;
             enemy.ps = go.GetComponentInChildren<ParticleSystem>();
-            enemy.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
             enemy.posVec = new Vector3(packet.posX, packet.posY, packet.posZ);
+            enemy.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
             enemy.stage = packet.stage;
             _enemys.Add(packet.playerId, enemy);
         }
@@ -999,8 +999,8 @@ public class PlayerManager
             GameObject go = Object.Instantiate(obj) as GameObject;
             Enemy enemy = go.AddComponent<Enemy>();
             enemy.enabled = true;
-            enemy.transform.Find("Robot1").gameObject.SetActive(false);
-            enemy.transform.Find("HPBarPos").gameObject.SetActive(false);
+            //enemy.transform.Find("Robot1").gameObject.SetActive(false);
+            //enemy.transform.Find("HPBarPos").gameObject.SetActive(false);
             enemy.enemyId = packet.playerId;
             enemy.enemyType = packet.type;
             enemy.maxHealth = packet.hp;
@@ -1444,7 +1444,7 @@ public class PlayerManager
 
     public void SetActiveObjectManager(S_SETACTIVE_OBJECT packet)
     {
-        
+        /*
         for(int i=500; i<535; i++)
         {
             if(_enemys.TryGetValue(i, out enemy))
@@ -1455,10 +1455,22 @@ public class PlayerManager
                         enemy.transform.Find("Robot1").gameObject.SetActive(true);
                     else if (enemy.enemyType == 5)
                         enemy.transform.Find("Robot2").gameObject.SetActive(true);
-
+                    
+                    if (enemy.stage == 1)
+                        enemy.transform.position = new Vector3(enemy.transform.position.x, -1.4f, enemy.transform.position.z);
+                    if (enemy.stage == 2)
+                        enemy.transform.position = new Vector3(enemy.transform.position.x, 0.2f, enemy.transform.position.z);
+                    if (enemy.stage == 3)
+                    {
+                        if (enemy.enemyId >= 530 && enemy.enemyId <= 536)
+                            enemy.transform.position = new Vector3(enemy.transform.position.x, -8.0f, enemy.transform.position.z);
+                        else
+                            enemy.transform.position = new Vector3(enemy.transform.position.x, 0.4f, enemy.transform.position.z);
+                    }
                     enemy.transform.Find("HPBarPos").gameObject.SetActive(true);
                 }
             }
         }
+        */
     }
 }
