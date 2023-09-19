@@ -335,10 +335,11 @@ public class MyPlayer : Player
         Vector3 reverseDistance = new Vector3(0.0f, 0.0f, distance); // 이동량에 따른 Z 축방향의 벡터를 구합니다.
         
         ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0.5f));
-
+        int mask = 1 << 7;
+        mask = ~mask;
         
         Vector3 velo = Vector3.zero;
-        if (Physics.Raycast(ray, out rayHit, 10f))
+        if (Physics.Raycast(ray, out rayHit, 10f, mask))
         {
             float rayDistance = Vector3.Distance(ray.origin, rayHit.transform.position);
             Vector3 dest = ray.GetPoint(rayDistance + 2f);

@@ -236,7 +236,14 @@ public class GameUIManager : MonoBehaviour
         else if (inventory.ItemList[index].tag == "Potion")
         {
             C_Send_Item(2, (ushort)inventory.ItemList[index].value);
-            myPlayer.hp += 10;
+            if(myPlayer.hp <= 90)
+            {
+                myPlayer.hp += 10;
+            }
+            else if(myPlayer.hp > 90 && myPlayer.hp <= 100)
+            {
+                myPlayer.hp = 100;
+            }
             
             ItemImg[index].color = new Color(1, 1, 1, 0);
             inventory.ItemList[index] = null;
