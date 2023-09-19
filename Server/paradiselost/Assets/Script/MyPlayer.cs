@@ -456,7 +456,7 @@ public class MyPlayer : Player
         if (other.tag == "Weapon")
             nearObject = other.gameObject;
         // Debug.Log(nearObject.name);
-        else if (other.tag == "EnemyMelee" || other.tag == "EnemyBullet" || other.tag == "BossMelee")
+        else if (other.tag == "EnemyMelee" || other.tag == "EnemyBullet" || other.tag == "BossMelee" || other.tag =="Boss1Melee")
         {
             isDamaging = true;
         }
@@ -539,6 +539,7 @@ public class MyPlayer : Player
             //Debug.Log(monsterInfo.enemyId);  // 공격한 몬스터 객체의 ID 출력
             //Debug.Log(hp);
             Debug.Log("원거리공격맞음");
+            StartShake();
             cs_send_playerdamage(monsterInfo.enemyId);
             Destroy(other.gameObject);
         }
