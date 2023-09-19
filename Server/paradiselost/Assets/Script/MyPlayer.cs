@@ -473,11 +473,11 @@ public class MyPlayer : Player
         else if (other.tag == "Portal2")
         {
             C_Portal packet = new C_Portal();
-            packet.stage = 2;
+            packet.stage = 3;
             _network.Send(packet.Write());
-            SceneManager.LoadScene("Stage2");
-            transform.position = new Vector3(34, 1f, 10f);
-            _stage = 2;
+            SceneManager.LoadScene("Stage3");
+            transform.position = new Vector3(53f, 1f, 24f);
+            _stage = 3;
             inven.Invoke("FindInven", 1f);
         }
         else if (other.tag == "Portal3")

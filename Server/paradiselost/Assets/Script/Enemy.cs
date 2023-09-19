@@ -38,6 +38,7 @@ public class Enemy : MonoBehaviour
     public Transform bulletPos2;
     public GameObject bullet;
     public GameObject hitEffect;
+    public int targetId;
     public int dir;
     
 
@@ -193,6 +194,7 @@ public class Enemy : MonoBehaviour
                 attackedPacket.hp = (short)curHealth;
                 attackedPacket.playerId = weapon.ParentId;
                 attackedPacket.hitEnemy = hitEnemy;
+                targetId = weapon.ParentId;
                 _network.Send(attackedPacket.Write());
             }
             else if (other.tag == "Bullet")
@@ -210,6 +212,7 @@ public class Enemy : MonoBehaviour
                 attackedPacket.hp = (short)curHealth;
                 attackedPacket.playerId = bullet.ParentID;
                 attackedPacket.hitEnemy = hitEnemy;
+                targetId = bullet.ParentID;
                 _network.Send(attackedPacket.Write());
                 StartCoroutine(OnDamage(reactVec));
             }
@@ -250,8 +253,8 @@ public class Enemy : MonoBehaviour
         else
         {
             transform.position += dir * speed * Time.deltaTime;
-            if (!isAttack)
-                transform.LookAt(target);
+            //if (!isAttack)
+                //transform.LookAt(target);
         }
         if (enemyId == 512)
             Debug.Log(enemyId + " dir: " + dir);

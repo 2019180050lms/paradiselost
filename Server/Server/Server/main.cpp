@@ -924,7 +924,6 @@ void process_packet(int c_id, char* packet)
 		for (auto& cl : clients) {
 			if (cl._state != ST_INGAME && cl._state != ST_ML_AGENT) continue;
 			if (cl._id == c_id) continue;
-			if (cl._stage != clients[c_id]._stage) continue;
 			if (can_see(c_id, cl._id))
 				near_list.insert(cl._id);
 		}
@@ -932,8 +931,6 @@ void process_packet(int c_id, char* packet)
 
 		for (auto& pl : near_list) {
 			auto& cpl = clients[pl];
-			if (clients[pl]._stage != clients[c_id]._stage)
-				continue;
 			if (is_pc(pl)) {
 				cpl._vl.lock();
 				if (clients[pl]._view_list.count(c_id)) {
@@ -955,9 +952,7 @@ void process_packet(int c_id, char* packet)
 		}
 
 		for (auto& pl : old_vlist) {
-			if (clients[pl]._stage != clients[c_id]._stage)
-				continue;
-			else if (0 == near_list.count(pl)) {
+			if (0 == near_list.count(pl)) {
 				clients[c_id].send_remove_player_packet(pl);
 				if (is_pc(pl))
 					clients[pl].send_remove_player_packet(c_id);
@@ -982,7 +977,6 @@ void process_packet(int c_id, char* packet)
 			unordered_set<int> old_vlist = clients[c_id]._view_list;
 			clients[c_id]._vl.unlock();
 			for (auto& cl : clients) {
-				if (cl._stage != clients[c_id]._stage) continue;
 				if (cl._state != ST_INGAME) continue;
 				if (cl._id == c_id) continue;
 				if (can_see(c_id, cl._id))
@@ -993,7 +987,7 @@ void process_packet(int c_id, char* packet)
 				auto& cpl = clients[pl];
 				if (is_pc(pl)) {
 					cpl._vl.lock();
-					if (clients[pl]._view_list.count(c_id) && (cpl._stage == clients[c_id]._stage)) {
+					if (clients[pl]._view_list.count(c_id)) {
 						cpl._vl.unlock();
 						clients[pl].send_attacked_monster(p->id);
 					}
@@ -1015,7 +1009,6 @@ void process_packet(int c_id, char* packet)
 		unordered_set<int> old_vlist = clients[c_id]._view_list;
 		clients[c_id]._vl.unlock();
 		for (auto& cl : clients) {
-			if (cl._stage != clients[c_id]._stage) continue;
 			if (cl._state != ST_INGAME) continue;
 			if (cl._id == c_id) continue;
 			if (can_see(c_id, cl._id))
@@ -1122,10 +1115,12 @@ void process_packet(int c_id, char* packet)
 		}
 		case 2: {
 			clients[c_id]._s_lock.lock();
-			clients[c_id].x = 34.f;
-			clients[c_id].z = 10.f;
-			clients[c_id].send_move_packet(c_id);
+			//clients[c_id].x = 34.f;
+			//clients[c_id].z = 10.f;
+			clients[c_id].x = 53.f;
+			clients[c_id].z = 24.f;
 			clients[c_id]._s_lock.unlock();
+			clients[c_id].send_move_packet(c_id);
 			/*
 			for (int i = MAX_USER; i < MAX_USER + MAX_NPC; ++i) {
 				if (clients[i]._stage == 2) {
@@ -1165,7 +1160,6 @@ void process_packet(int c_id, char* packet)
 		
 		unordered_set<int> view_list;
 		for (auto& cl : clients) {
-			if (cl._stage != clients[p->id]._stage) continue;
 			if (cl._id >= MAX_USER) break;
 			if (cl._state != ST_INGAME) continue;
 			if (cl._id == p->id) continue;
@@ -1180,7 +1174,6 @@ void process_packet(int c_id, char* packet)
 		unordered_set<int> near_list;
 
 		for (auto& cl : clients) {
-			if (cl._stage != clients[p->id]._stage) continue;
 			if (cl._id >= MAX_USER) break;
 			if (cl._state != ST_INGAME) continue;
 			if (can_see(p->id, cl._id))
@@ -1189,8 +1182,6 @@ void process_packet(int c_id, char* packet)
 
 		for (auto& pl : near_list) {
 			auto& cpl = clients[pl];
-			if (clients[pl]._stage != clients[p->id]._stage)
-				continue;
 			cpl._vl.lock();
 			if (clients[pl]._view_list.count(p->id) && clients[pl]._state == ST_INGAME) {
 				cpl._vl.unlock();
@@ -1211,8 +1202,7 @@ void process_packet(int c_id, char* packet)
 		}
 
 		for (auto& pl : view_list)
-			if (clients[pl]._stage != clients[p->id]._stage) continue;
-			else if (0 == near_list.count(pl)) {
+			if (0 == near_list.count(pl)) {
 				clients[pl].send_remove_player_packet(p->id);
 			}
 
@@ -1236,8 +1226,14 @@ void process_packet(int c_id, char* packet)
 				}
 			}
 			break;
-		case 1:
+		case 1: {
+			for (int i = MAX_USER; i < MAX_USER + MAX_NPC; ++i) {
+				if (clients[i]._stage == 2) {
+					disconnect(i);
+				}
+			}
 			add_timer(c_id, chrono::system_clock::now() + 10s, EV_STAGE_CLEAR);
+		}
 			break;
 		default:
 			break;
@@ -1405,7 +1401,7 @@ void worker_thread(HANDLE h_iocp)
 					do_random_move(static_cast<int>(key));
 					add_timer(key, chrono::system_clock::now() + 1s, EV_RANDOM_MOVE);
 				}
-				else if (!clients[key].isAttack && clients[key].targetId >= 0 && clients[key].bossAttack < 0) {
+				else if (clients[key]._stage == 2 || (!clients[key].isAttack && clients[key].targetId >= 0 && clients[key].bossAttack < 0)) {
 					do_player_attack(static_cast<int>(key), clients[key].targetId);
 					add_timer(key, chrono::system_clock::now() + 1s, EV_RANDOM_MOVE);
 				}
@@ -1509,7 +1505,7 @@ void add_monster()
 			if (i < 4) {
 				clients[MAX_USER + i]._hp = 100;
 				clients[MAX_USER + i].x = 78.f;
-				clients[MAX_USER + i].y = -1.4f;
+				clients[MAX_USER + i].y = -1.2f;
 				clients[MAX_USER + i].z = 39.f + i;
 				clients[MAX_USER + i].my_max_x = 90.f;
 				clients[MAX_USER + i].my_max_z = 65.f;
@@ -1519,7 +1515,7 @@ void add_monster()
 			else if (i >= 4 && i < 8) {
 				clients[MAX_USER + i]._hp = 100;
 				clients[MAX_USER + i].x = 18.f + i;
-				clients[MAX_USER + i].y = -1.4f;
+				clients[MAX_USER + i].y = -1.2f;
 				clients[MAX_USER + i].z = 56.f;
 				clients[MAX_USER + i].my_max_x = 40.f;
 				clients[MAX_USER + i].my_max_z = 67.f;
@@ -1529,7 +1525,7 @@ void add_monster()
 			else if (i >= 8 && i < 12) {
 				clients[MAX_USER + i]._hp = 100;
 				clients[MAX_USER + i].x = 24.f + i;
-				clients[MAX_USER + i].y = -1.4f;
+				clients[MAX_USER + i].y = -1.2f;
 				clients[MAX_USER + i].z = 93.f;
 				clients[MAX_USER + i].my_max_x = 40.f;
 				clients[MAX_USER + i].my_max_z = 102.f;
@@ -1643,7 +1639,7 @@ void add_boss(short stage)
 		clients[MAX_USER + MAX_NPC - 1]._type = STAGE1_BOSS;
 		clients[MAX_USER + MAX_NPC - 1]._hp = 1000;
 		clients[MAX_USER + MAX_NPC - 1].x = 169.f;
-		clients[MAX_USER + MAX_NPC - 1].y = -1.4f;
+		clients[MAX_USER + MAX_NPC - 1].y = -1.f;
 		clients[MAX_USER + MAX_NPC - 1].z = 98.f;
 		clients[MAX_USER + MAX_NPC - 1].my_max_x = 181.f;
 		clients[MAX_USER + MAX_NPC - 1].my_max_z = 115.f;
@@ -1683,6 +1679,22 @@ void do_random_move(int c_id)
 {
 	if (c_id < 0)
 		return;
+	/*
+	if (clients[c_id]._stage == 2) {
+		for (auto& client : clients) {
+			if (client._state != ST_INGAME) continue;
+			if(can_see(client._id, c_id)) continue;
+			if (client._id > MAX_USER) break;
+			if (clients[c_id].x + 40.f < client.x && client.x - 40.f > client.x) {
+				if (clients[c_id].z + 40.f < clients[c_id].z && client.z - 40.f > client.z) {
+					do_player_attack(c_id, client._id);
+					break;
+				}
+			}
+		}
+		return;
+	}
+	*/
 	unordered_set<int> view_list;
 	for (auto& cl : clients) {
 		if (cl._id >= MAX_USER) break;
@@ -1822,30 +1834,30 @@ void do_player_attack(int n_id, int c_id)
 	{
 	case MONSTER::GUN_ROBOT:
 	{
-		if (clients[n_id].x + 15.f >= clients[c_id].x && clients[n_id].x - 15.f <= clients[c_id].x) {
-			if (clients[n_id].z + 15.f >= clients[c_id].z && clients[n_id].z - 15.f <= clients[c_id].z) {
+		if (clients[n_id].x + 10.f >= clients[c_id].x && clients[n_id].x - 10.f <= clients[c_id].x) {
+			if (clients[n_id].z + 10.f >= clients[c_id].z && clients[n_id].z - 10.f <= clients[c_id].z) {
 				clients[n_id].isAttack = true;
 				if (clients[c_id].x > clients[n_id].x) {
-					clients[n_id].x += 1.f;
+					clients[n_id].x += 1.5f;
 					clients[n_id]._dir = 1;
 				}
 				else if (clients[c_id].z > clients[n_id].z) {
-					clients[n_id].z += 1.f;
+					clients[n_id].z += 1.5f;
 					clients[n_id]._dir = 3;
 				}
 				else if (clients[c_id].x < clients[n_id].x) {
-					clients[n_id].x -= 1.f;
+					clients[n_id].x -= 1.5f;
 					clients[n_id]._dir = 2;
 				}
 				else if (clients[c_id].z < clients[n_id].z) {
-					clients[n_id].z -= 1.f;
+					clients[n_id].z -= 1.5f;
 					clients[n_id]._dir = 4;
 				}
 				//cout << "n_id: " << n_id << ", " << clients[n_id].isAttack << endl;
 			}
 		}
-		else if (clients[n_id].x + 30.f < clients[c_id].x && clients[n_id].x - 30.f > clients[c_id].x) {
-			if (clients[n_id].z + 30.f < clients[c_id].z && clients[n_id].z - 30.f > clients[c_id].z) {
+		else if (clients[n_id].x + 40.f < clients[c_id].x && clients[n_id].x - 40.f > clients[c_id].x) {
+			if (clients[n_id].z + 40.f < clients[c_id].z && clients[n_id].z - 40.f > clients[c_id].z) {
 				clients[n_id].isAttack = false;
 				clients[n_id].targetId = -1;
 			}
@@ -1874,26 +1886,26 @@ void do_player_attack(int n_id, int c_id)
 			}
 			if (clients[n_id].x < clients[c_id].x 
 				&& clients[n_id].z < clients[c_id].z) {
-				clients[n_id].x += 1.f;
-				clients[n_id].z += 1.f;
+				clients[n_id].x += 1.5f;
+				clients[n_id].z += 1.5f;
 				clients[n_id]._dir = 5;
 			}
 			else if (clients[n_id].x < clients[c_id].x
 				&& clients[n_id].z > clients[c_id].z) {
-				clients[n_id].x += 1.f;
-				clients[n_id].z -= 1.f;
+				clients[n_id].x += 1.5f;
+				clients[n_id].z -= 1.5f;
 				clients[n_id]._dir = 6;
 			}
 			else if (clients[n_id].x > clients[c_id].x
 				&& clients[n_id].z < clients[c_id].z) {
-				clients[n_id].x -= 1.f;
-				clients[n_id].z += 1.f;
+				clients[n_id].x -= 1.5f;
+				clients[n_id].z += 1.5f;
 				clients[n_id]._dir = 7;
 			}
 			else if (clients[n_id].x > clients[c_id].x
 				&& clients[n_id].z > clients[c_id].z) {
-				clients[n_id].x -= 1.f;
-				clients[n_id].z -= 1.f;
+				clients[n_id].x -= 1.5f;
+				clients[n_id].z -= 1.5f;
 				clients[n_id]._dir = 8;
 			}
 		}
@@ -1906,9 +1918,12 @@ void do_player_attack(int n_id, int c_id)
 				clients[n_id].isAttack = true;
 				//cout << "n_id: " << n_id << ", " << clients[n_id].isAttack << endl;
 			}
+			else {
+				clients[n_id].isAttack = false;
+			}
 		}
-		else if (clients[n_id].x + 30.f < clients[c_id].x && clients[n_id].x - 30.f > clients[c_id].x) {
-			if (clients[n_id].z + 30.f < clients[c_id].z && clients[n_id].z - 30.f > clients[c_id].z) {
+		else if (clients[n_id].x + 40.f < clients[c_id].x && clients[n_id].x - 40.f > clients[c_id].x) {
+			if (clients[n_id].z + 40.f < clients[c_id].z && clients[n_id].z - 40.f > clients[c_id].z) {
 				clients[n_id].isAttack = false;
 				clients[n_id].targetId = -1;
 			}
@@ -1919,14 +1934,12 @@ void do_player_attack(int n_id, int c_id)
 
 		if (!clients[n_id].isAttack) {
 			if (clients[n_id].x < clients[c_id].x) {
-				if (clients[n_id].x < clients[c_id].x
-					&& clients[n_id].z > clients[c_id].z) {
+				if (clients[n_id].z > clients[c_id].z) {
 					clients[n_id].x += 1.5f;
 					clients[n_id].z -= 1.5f;
 					clients[n_id]._dir = 6;
 				}
-				else if (clients[n_id].x < clients[c_id].x
-					&& clients[n_id].z < clients[c_id].z) {
+				else if (clients[n_id].z < clients[c_id].z) {
 					clients[n_id].x += 1.5f;
 					clients[n_id].z += 1.5f;
 					clients[n_id]._dir = 5;
@@ -1937,14 +1950,12 @@ void do_player_attack(int n_id, int c_id)
 				}
 			}
 			else if (clients[n_id].x > clients[c_id].x) {
-				if (clients[n_id].x > clients[c_id].x
-					&& clients[n_id].z < clients[c_id].z) {
+				if (clients[n_id].z < clients[c_id].z) {
 					clients[n_id].x -= 1.5f;
 					clients[n_id].z += 1.5f;
 					clients[n_id]._dir = 7;
 				}
-				else if (clients[n_id].x > clients[c_id].x
-					&& clients[n_id].z > clients[c_id].z) {
+				else if (clients[n_id].z > clients[c_id].z) {
 					clients[n_id].x -= 1.5f;
 					clients[n_id].z -= 1.5f;
 					clients[n_id]._dir = 8;
@@ -1953,15 +1964,6 @@ void do_player_attack(int n_id, int c_id)
 					clients[n_id].x -= 1.5f;
 					clients[n_id]._dir = 2;
 				}
-			}
-			cout << "monster dir: " << clients[n_id]._dir << endl;
-			if (clients[n_id].z < clients[c_id].z) {
-				clients[n_id].z += 1.5f;
-				clients[n_id]._dir = 3;
-			}
-			else if (clients[n_id].z > clients[c_id].z) {
-				clients[n_id].z -= 1.5f;
-				clients[n_id]._dir = 4;
 			}
 		}
 		break;
@@ -1975,8 +1977,8 @@ void do_player_attack(int n_id, int c_id)
 				//cout << "n_id: " << n_id << ", " << clients[n_id].isAttack << endl;
 			}
 		}
-		else if (clients[n_id].x + 15.f >= clients[c_id].x && clients[n_id].x - 15.f <= clients[c_id].x) {
-			if (clients[n_id].z + 15.f >= clients[c_id].z && clients[n_id].z - 15.f <= clients[c_id].z) {
+		else if (clients[n_id].x + 25.f >= clients[c_id].x && clients[n_id].x - 25.f <= clients[c_id].x) {
+			if (clients[n_id].z + 25.f >= clients[c_id].z && clients[n_id].z - 25.f <= clients[c_id].z) {
 				clients[n_id].isAttack = true;
 				clients[n_id].bossAttack = 2;
 				//cout << "n_id: " << n_id << ", " << clients[n_id].isAttack << endl;
@@ -1995,22 +1997,22 @@ void do_player_attack(int n_id, int c_id)
 	}
 	case MONSTER::STAGE1_BOSS:
 	{
-		if (clients[n_id].x + 5.f >= clients[c_id].x && clients[n_id].x - 5.f <= clients[c_id].x) {
-			if (clients[n_id].z + 5.f >= clients[c_id].z && clients[n_id].z - 5.f <= clients[c_id].z) {
+		if (clients[n_id].x + 3.f >= clients[c_id].x && clients[n_id].x - 3.f <= clients[c_id].x) {
+			if (clients[n_id].z + 3.f >= clients[c_id].z && clients[n_id].z - 3.f <= clients[c_id].z) {
 				clients[n_id].isAttack = true;
 				clients[n_id].bossAttack = 1;
 				//cout << "n_id: " << n_id << ", " << clients[n_id].isAttack << endl;
 			}
 		}
-		else if (clients[n_id].x + 15.f >= clients[c_id].x && clients[n_id].x - 15.f <= clients[c_id].x) {
-			if (clients[n_id].z + 15.f >= clients[c_id].z && clients[n_id].z - 15.f <= clients[c_id].z) {
+		else if (clients[n_id].x + 10.f >= clients[c_id].x && clients[n_id].x - 10.f <= clients[c_id].x) {
+			if (clients[n_id].z + 10.f >= clients[c_id].z && clients[n_id].z - 10.f <= clients[c_id].z) {
 				clients[n_id].isAttack = true;
 				clients[n_id].bossAttack = 2;
 				//cout << "n_id: " << n_id << ", " << clients[n_id].isAttack << endl;
 			}
 		}
-		else if (clients[n_id].x + 30.f < clients[c_id].x && clients[n_id].x - 30.f > clients[c_id].x) {
-			if (clients[n_id].z + 30.f < clients[c_id].z && clients[n_id].z - 30.f > clients[c_id].z) {
+		else if (clients[n_id].x + 20.f < clients[c_id].x && clients[n_id].x - 20.f > clients[c_id].x) {
+			if (clients[n_id].z + 20.f < clients[c_id].z && clients[n_id].z - 20.f > clients[c_id].z) {
 				clients[n_id].isAttack = false;
 				clients[n_id].targetId = -1;
 			}
@@ -2115,14 +2117,14 @@ void do_player_attack(int n_id, int c_id)
 		if (clients[pl]._view_list.count(n_id) && clients[pl]._state == ST_INGAME) {
 			cpl._vl.unlock();
 			if (clients[n_id]._type != 7 && clients[n_id]._type != 4)
-				clients[pl].send_astar_move(n_id);
+				clients[pl].send_move_packet(n_id);
 			else {
 				if (clients[n_id].isAttack) {
 					clients[n_id].targetId = c_id;
 					clients[pl].send_boss_attack(n_id);
 				}
 				else {
-					clients[pl].send_astar_move(n_id);
+					clients[pl].send_move_packet(n_id);
 				}
 			}
 		}
@@ -2148,14 +2150,17 @@ void do_delay_disable(int n_id, int c_id)
 			view_list.insert(cl._id);
 	}
 	if (clients[n_id]._type != 7) {
-		if (clients[n_id].x + 5.f >= clients[c_id].x && clients[n_id].x - 5.f <= clients[c_id].x) {
-			if (clients[n_id].z + 5.f >= clients[c_id].z && clients[n_id].z - 5.f <= clients[c_id].z) {
+		if (clients[n_id].x + 1.5f >= clients[c_id].x && clients[n_id].x - 1.5f <= clients[c_id].x) {
+			if (clients[n_id].z + 1.5f >= clients[c_id].z && clients[n_id].z - 1.5f <= clients[c_id].z) {
 				clients[n_id].isAttack = true;
 				//cout << "n_id: " << n_id << ", " << clients[n_id].isAttack << endl;
 			}
+			else {
+				clients[n_id].isAttack = false;
+			}
 		}
-		else if (clients[n_id].x + 30.f < clients[c_id].x && clients[n_id].x - 30.f > clients[c_id].x) {
-			if (clients[n_id].z + 30.f < clients[c_id].z && clients[n_id].z - 30.f > clients[c_id].z) {
+		else if (clients[n_id].x + 15.f < clients[c_id].x || clients[n_id].x - 15.f > clients[c_id].x) {
+			if (clients[n_id].z + 15.f < clients[c_id].z || clients[n_id].z - 15.f > clients[c_id].z) {
 				clients[n_id].isAttack = false;
 				clients[n_id].targetId = -1;
 			}

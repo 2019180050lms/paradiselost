@@ -605,8 +605,9 @@ public class PlayerManager
                 //enemy.transform.LookAt(enemy.transform.position + enemy.moveVec2);
                 
                 enemy.rotVec = enemy.posVec - enemy.transform.position;
-                
-                //enemy.transform.LookAt(enemy.posVec);
+
+                if (enemy.isAttack == false)
+                    enemy.transform.LookAt(enemy.posVec);
 
                 if (enemy.tag == "EnemyTurret")
                 {
