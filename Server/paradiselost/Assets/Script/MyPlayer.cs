@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -19,6 +20,7 @@ public class MyPlayer : Player
     public bool testJump;
     public bool A_dontMove = false;
     public bool donShoot = false;
+    public int _stage;
 
     bool frontDown;
     bool leftDown;
@@ -434,6 +436,7 @@ public class MyPlayer : Player
             packet.stage = 1;
             _network.Send(packet.Write());
             SceneManager.LoadScene("Stage1");
+            _stage = 1;
             inven.Invoke("FindInven", 1f);
         }
         else if (other.tag == "Portal2")
@@ -442,6 +445,7 @@ public class MyPlayer : Player
             packet.stage = 2;
             _network.Send(packet.Write());
             SceneManager.LoadScene("Stage2");
+            _stage = 2;
             inven.Invoke("FindInven", 1f);
         }
         else if (other.tag == "Portal3")
@@ -450,6 +454,7 @@ public class MyPlayer : Player
             packet.stage = 3;
             _network.Send(packet.Write());
             SceneManager.LoadScene("Stage3");
+            _stage = 3;
             inven.Invoke("FindInven", 1f);
         }
     }

@@ -33,7 +33,8 @@ public enum PacketID
 	C_PORTAL = 23,
 	S_STAGE_CLEAR = 22,
 	C_MONSTER_AI = 25,
-    C_CLEAR_AND_FAIL = 26
+    C_CLEAR_AND_FAIL = 26,
+	S_SETACTIVE_OBJECT = 27
 }
 
 public interface IPacket
@@ -184,6 +185,38 @@ public class S_ENTER_GAME : IPacket
 
 		return SendBufferHelper.Close(count);
 	}
+}
+
+public class S_SETACTIVE_OBJECT : IPacket
+{
+    public int stage;
+
+    public ushort Protocol { get { return (ushort)PacketID.S_SETACTIVE_OBJECT; } }
+
+    public void Read(ArraySegment<byte> segment)
+    {
+        ushort count = 0;
+        count += sizeof(ushort);
+        count += sizeof(ushort);
+        this.stage = BitConverter.ToInt32(segment.Array, segment.Offset + count);
+        count += sizeof(int);
+    }
+
+    public ArraySegment<byte> Write()
+    {
+        ArraySegment<byte> segment = SendBufferHelper.Open(4096);
+        ushort count = 0;
+
+        count += sizeof(ushort);
+        Array.Copy(BitConverter.GetBytes((ushort)PacketID.S_Chat), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+        count += sizeof(ushort);
+        Array.Copy(BitConverter.GetBytes(this.stage), 0, segment.Array, segment.Offset + count, sizeof(int));
+        count += sizeof(int);
+
+        Array.Copy(BitConverter.GetBytes(count), 0, segment.Array, segment.Offset, sizeof(ushort));
+
+        return SendBufferHelper.Close(count);
+    }
 }
 
 public class C_Clear_Fail : IPacket
@@ -573,6 +606,7 @@ public class S_BroadcastEnterGame : IPacket
 	public short head_item;
 	public short weapon_item;
 	public short leg_item;
+	public int stage;
 	public string name;
 
 	public ushort Protocol { get { return (ushort)PacketID.S_BROADCASTENTER_GAME; } }
@@ -600,7 +634,9 @@ public class S_BroadcastEnterGame : IPacket
 		count += sizeof(short);
 		this.leg_item = BitConverter.ToInt16(segment.Array, segment.Offset + count);
 		count += sizeof(short);
-		this.name = Encoding.Unicode.GetString(segment.Array, segment.Offset + count, 10);
+        this.stage = BitConverter.ToInt32(segment.Array, segment.Offset + count);
+        count += sizeof(int);
+        this.name = Encoding.Unicode.GetString(segment.Array, segment.Offset + count, 10);
 		count += 10;
 	}
 

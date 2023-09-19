@@ -57,7 +57,10 @@ class PacketManager
 
 		_makeFunc.Add((ushort)PacketID.S_STAGE_CLEAR, MakePacket<S_StageClear>);
 		_handler.Add((ushort)PacketID.S_STAGE_CLEAR, PacketHandler.S_StageClearHandler);
-	}
+
+        _makeFunc.Add((ushort)PacketID.S_SETACTIVE_OBJECT, MakePacket<S_SETACTIVE_OBJECT>);
+        _handler.Add((ushort)PacketID.S_SETACTIVE_OBJECT, PacketHandler.S_SetActiveObjectHandler);
+    }
 
 	public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer, Action<PacketSession, IPacket> onRecvCallback = null)
 	{

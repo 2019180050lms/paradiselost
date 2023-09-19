@@ -179,4 +179,14 @@ class PacketHandler
 
 		PlayerManager.Instance.StageClearManager(pkt);
 	}
+
+    public static void S_SetActiveObjectHandler(PacketSession session, IPacket packet)
+    {
+        S_SETACTIVE_OBJECT pkt = packet as S_SETACTIVE_OBJECT;
+        ServerSession serverSession = session as ServerSession;
+
+        //Debug.Log("");
+
+        PlayerManager.Instance.SetActiveObjectManager(pkt);
+    }
 }

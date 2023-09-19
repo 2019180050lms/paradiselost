@@ -84,6 +84,7 @@ class SESSION {
 public:
 	mutex _s_lock;
 	S_STATE _state;
+	mutex _stage_lock;
 	bool	_is_active;				// NPC만 유효
 	bool _delay_attack;				// NPC만 유효
 	int _id;
@@ -91,6 +92,7 @@ public:
 	int _dir;
 	int _stage;					// 포탈 이동
 	short _quest_stage;				// 몇 번째 퀘스트 인지
+	mutex _a_lock;
 	std::list<ASNode*> openList;	// astar 사용
 	std::list<ASNode*> closeList;	// astar 사용
 	char astar_map[W_HEIGHT][W_WIDTH];	// astar 사용
@@ -205,6 +207,14 @@ public:
 	}
 	void run_astar(int n_id, int c_id);
 	void send_astar_move(int n_id);
+	void send_setactive_object() 
+	{
+		SC_SETACTIVE_OBJECT_PACKET p;
+		p.size = sizeof(p);
+		p.type = SC_SETACTIVE_OBJECT;
+		p._stage = _stage;
+		do_send(&p);
+	}
 };
 
 array<SESSION, MAX_USER + MAX_NPC> clients;
@@ -355,7 +365,9 @@ void FindPath(std::list<ASNode*>& openList, std::list<ASNode*>& closeList, int n
 					}
 				});
 			//cout << "[push] to closeList:" << rowInd << "," << openNode->col << endl;
+			clients[n_id]._a_lock.lock();
 			closeList.push_back(openNode);
+			clients[n_id]._a_lock.unlock();
 			FindPath(openList, closeList, n_id);
 		}
 	}
@@ -417,7 +429,9 @@ ASNode* GetChildNodes(int childIndRow, int childIndCol, ASNode* parentNode, std:
 		if (newNode != nullptr)
 		{
 			//cout << "[push] to openlist:" << newNode->row << "," << newNode->col << endl;
+			clients[n_id]._a_lock.lock();
 			openList.push_back(newNode);
+			clients[n_id]._a_lock.unlock();
 		}
 		return newNode;
 	}
@@ -589,13 +603,11 @@ void SESSION::send_add_player_packet(int c_id)
 	add_packet.head_item = clients[c_id].head_item;
 	add_packet.weapon_item = clients[c_id].weapon_item;
 	add_packet.leg_item = clients[c_id].leg_item;
+	add_packet.stage = clients[c_id]._stage;
 	_vl.lock();
 	_view_list.insert(c_id);
 	_vl.unlock();
 	do_send(&add_packet);
-	//cout << "add player send: " << add_packet.id << ", " << add_packet.c_type << ", " << add_packet.weapon_item << endl;
-
-	//cout << "send enter game: " << add_packet.name << endl;
 }
 
 void SESSION::send_attacked_monster(int c_id)
@@ -627,7 +639,9 @@ void SESSION::run_astar(int n_id, int c_id)
 		int startRowInd = (int)clients[n_id].z;
 		int startColInd = (int)clients[n_id].x;
 		ASNode* startNode = new ASNode(startRowInd, startColInd, 'S', 'S');
+		clients[n_id]._a_lock.lock();
 		clients[n_id].openList.push_back(startNode);
+		clients[n_id]._a_lock.unlock();
 		FindPath(clients[n_id].openList, clients[n_id].closeList, n_id);
 	}
 	else {
@@ -637,7 +651,7 @@ void SESSION::run_astar(int n_id, int c_id)
 
 void SESSION::send_astar_move(int n_id)
 {
-	if (clients[n_id].openList.size() > 0) {
+	if (clients[n_id].openList.size() > 0 && clients[n_id].openList.empty() == false) {
 		auto anode = clients[n_id].openList.front();
 		SC_MOVE_PLAYER_PACKET p;
 		p.id = n_id;
@@ -653,8 +667,10 @@ void SESSION::send_astar_move(int n_id)
 		do_send(&p);
 		clients[n_id].x = anode->col;
 		clients[n_id].z = anode->row;
+		clients[n_id]._a_lock.lock();
 		clients[n_id].openList.pop_front();
-		cout << n_id << " astar move pos: " << p.x << ", " << p.y << endl;
+		clients[n_id]._a_lock.unlock();
+		cout << n_id << " astar move pos: " << p.x << ", " << p.z << endl;
 	}
 }
 
@@ -736,14 +752,13 @@ void process_packet(int c_id, char* packet)
 					if (pl._id == c_id) continue;
 					if (false == can_see(c_id, pl._id))
 						continue;
-					if (is_pc(pl._id) && clients[c_id]._stage == pl._stage) pl.send_add_player_packet(c_id);
-					else if (pl._stage == clients[c_id]._stage) {
+					if (is_pc(pl._id)) pl.send_add_player_packet(c_id);
+					else {
 						wakeup_npc(pl._id);
 					}
 					if (pl._stage == clients[c_id]._stage) {
 						clients[c_id].send_add_player_packet(pl._id);
 						cout << pl._id << " add player" << endl;
-
 					}
 				}
 			}
@@ -788,22 +803,19 @@ void process_packet(int c_id, char* packet)
 		for (auto& pl : clients) {
 			{
 				lock_guard<mutex> ll(pl._s_lock);
-				if (ST_INGAME != pl._state && ST_ML_AGENT != pl._state) continue;
+				if (ST_INGAME != pl._state) continue;
 			}
 			if (pl._id == c_id) continue;
 			if (false == can_see(c_id, pl._id))
 				continue;
-			if (is_pc(pl._id) && clients[c_id]._stage == pl._stage && pl._state != ST_ML_AGENT) {
+			if (is_pc(pl._id)) {
 				pl.send_add_player_packet(c_id);
-				cout << "first: " << pl._id << ": add " << c_id << endl;
 			}
-			else if (pl._stage == clients[c_id]._stage) {
+			else {
 				wakeup_npc(pl._id);
 			}
-			if (pl._stage == clients[c_id]._stage) {
-				clients[c_id].send_add_player_packet(pl._id);
-				cout << "first: " << pl._id << ": add " << c_id << endl;
-			}
+			clients[c_id].send_add_player_packet(pl._id);
+			cout << "first: " << pl._id << ": add " << c_id << endl;
 		}
 		break;
 	}
@@ -937,7 +949,7 @@ void process_packet(int c_id, char* packet)
 			}
 		}
 
-		for (auto& pl : old_vlist)
+		for (auto& pl : old_vlist) {
 			if (clients[pl]._stage != clients[c_id]._stage)
 				continue;
 			else if (0 == near_list.count(pl)) {
@@ -945,7 +957,7 @@ void process_packet(int c_id, char* packet)
 				if (is_pc(pl))
 					clients[pl].send_remove_player_packet(c_id);
 			}
-
+		}
 		break;
 	}
 	case CS_MONSTER_ATTACKED: {
@@ -1077,26 +1089,35 @@ void process_packet(int c_id, char* packet)
 	}
 	case CS_PORTAL: {
 		CS_PORTAL_PACKET* p = reinterpret_cast<CS_PORTAL_PACKET*>(packet);
-		clients[c_id]._s_lock.lock();
+		clients[c_id]._stage_lock.lock();
 		clients[c_id]._stage = p->stage;
-		clients[c_id]._s_lock.unlock();
+		clients[c_id]._stage_lock.unlock();
 		//
 		clients[c_id]._vl.lock();
 		clients[c_id]._view_list.clear();
 		clients[c_id]._vl.unlock();
 		// TODO 스테이지별 위치 조정 추가
 		switch (p->stage) {
-		case 1:
+		case 1: {
+			clients[c_id]._s_lock.lock();
 			clients[c_id].x = 48.f;
 			clients[c_id].z = 48.f;
 			clients[c_id].send_move_packet(c_id);
+			clients[c_id]._s_lock.unlock();
 			break;
-		case 2:
+		}
+		case 2: {
+			clients[c_id]._s_lock.lock();
 			clients[c_id].x = 34.f;
 			clients[c_id].z = 10.f;
 			clients[c_id].send_move_packet(c_id);
+			clients[c_id]._s_lock.unlock();
 			break;
 		}
+		default:
+			break;
+		}
+		clients[c_id].send_setactive_object();
 		break;
 	}
 	case CS_MONSTER_AI: {
@@ -1346,7 +1367,7 @@ void worker_thread(HANDLE h_iocp)
 				}
 				else if (!clients[key].isAttack && clients[key].targetId >= 0 && clients[key].bossAttack < 0) {
 					do_player_attack(static_cast<int>(key), clients[key].targetId);
-					add_timer(key, chrono::system_clock::now() + 300ms, EV_RANDOM_MOVE);
+					add_timer(key, chrono::system_clock::now() + 1s, EV_RANDOM_MOVE);
 				}
 				else if (clients[key].isAttack && clients[key].bossAttack < 0) {
 					do_delay_disable(static_cast<int>(key), clients[key].targetId);
@@ -1354,7 +1375,7 @@ void worker_thread(HANDLE h_iocp)
 				}
 				else if (clients[key].bossAttack >= 0) {
 					do_player_attack(static_cast<int>(key), clients[key].targetId);
-					add_timer(key, chrono::system_clock::now() + 300ms, EV_RANDOM_MOVE);
+					add_timer(key, chrono::system_clock::now() + 1s, EV_RANDOM_MOVE);
 				}
 			}
 			else
@@ -1624,7 +1645,10 @@ void do_random_move(int c_id)
 		return;
 	unordered_set<int> view_list;
 	for (auto& cl : clients) {
-		if (cl._stage != clients[c_id]._stage) continue;
+		{
+			lock_guard<mutex> ll(clients[c_id]._stage_lock);
+			if (cl._stage != clients[c_id]._stage) continue;
+		}
 		if (cl._id >= MAX_USER) break;
 		if (cl._state != ST_INGAME) continue;
 		if (cl._id == c_id) continue;

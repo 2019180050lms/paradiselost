@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static UnityEngine.UI.Image;
@@ -15,8 +16,8 @@ public class PlayerManager
     public Enemy1StageBoss _boss1 = null;
     Dictionary<int, Player> _players = new Dictionary<int, Player>();
     public Dictionary<int, Joint_Robot> _playerParts = new Dictionary<int, Joint_Robot>();
-    Dictionary<int, Enemy> _enemys = new Dictionary<int, Enemy>();
-    Dictionary<int, Enemy_ml> _ml_enemys = new Dictionary<int, Enemy_ml>();
+    public Dictionary<int, Enemy> _enemys = new Dictionary<int, Enemy>();
+    public Dictionary<int, Enemy_ml> _ml_enemys = new Dictionary<int, Enemy_ml>();
     Joint_Robot c_p_parts = null;
     public GameObject item;
     public GameObject stageClearLogo;
@@ -24,7 +25,7 @@ public class PlayerManager
     public static PlayerManager Instance { get; } = new PlayerManager();
 
 
-    void SetCharacter(int playerId, short hp, int playerType, Vector3 pos)
+    void SetCharacter(int playerId, short hp, int playerType, Vector3 pos, int _stage)
     {
         switch (playerType)
         {
@@ -90,6 +91,7 @@ public class PlayerManager
                     //Debug.Log(p.hp);
                     myPlayer.intantBullet = Resources.Load("Bullet");
                     myPlayer.transform.position = new Vector3(pos.x, pos.y, pos.z);
+                    myPlayer._stage = _stage;
                     Debug.Log("pos in: " + pos.x + " " + pos.y + " " + pos.z);
                     _myplayer = myPlayer;
                     Debug.Log("test p_id: " + _myplayer.PlayerId);
@@ -110,6 +112,7 @@ public class PlayerManager
                     //Debug.Log(p.hp);
                     myPlayer.intantBullet = Resources.Load("Bullet");
                     myPlayer.transform.position = new Vector3(pos.x, pos.y, pos.z);
+                    myPlayer._stage = _stage;
                     Debug.Log("pos in: " + pos.x + " " + pos.y + " " + pos.z);
                     _myplayer = myPlayer;
                     Debug.Log("test p_id: " + _myplayer.PlayerId);
@@ -127,7 +130,7 @@ public class PlayerManager
         if (packet.type <= 3)
         {
             Vector3 playerPos = new Vector3(packet.x, packet.y, packet.z);
-            SetCharacter(packet.id, packet.hp, packet.type, playerPos);
+            SetCharacter(packet.id, packet.hp, packet.type, playerPos, packet.stage);
             Debug.Log("test pos: " + packet.x + packet.y + packet.z);
             Debug.Log("test name: " + packet.name);
             //GameObject.Find("Game Manager").GetComponent<GameUIManager>().FindPlayerUI();
@@ -514,7 +517,6 @@ public class PlayerManager
                 //moveVec = new Vector3(packet.posX, packet.posY, packet.posZ).normalized;
                 //enemy.transform.position += moveVec * 1f * 0.3f * Time.deltaTime;
                 //moveVec = enemy.transform.position;
-
                 enemy.isAttack = packet.wDown;
                 enemy.dir = packet.playerDir;
                 /*
@@ -967,7 +969,7 @@ public class PlayerManager
             enemy.maxHealth = packet.hp;
             enemy.curHealth = packet.hp;
             enemy.ps = go.GetComponentInChildren<ParticleSystem>();
-
+            
             //enemy.posVec = new Vector3(packet.posX, packet.posY, packet.posZ);
             enemy.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
             _boss1 = enemy;
@@ -980,6 +982,8 @@ public class PlayerManager
             if (packet.playerId == 512 || packet.playerId == 513 || packet.playerId == 514)
             {
                 Enemy_ml enemy = go.AddComponent<Enemy_ml>();
+                enemy.transform.Find("Robot2").gameObject.SetActive(false);
+                enemy.transform.Find("HPBarPos").gameObject.SetActive(false);
                 enemy.enabled = true;
                 enemy.enemyId = packet.playerId;
                 enemy.enemyType = packet.type;
@@ -988,12 +992,15 @@ public class PlayerManager
                 enemy.ps = go.GetComponentInChildren<ParticleSystem>();
                 enemy.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
                 enemy.posVec = new Vector3(packet.posX, packet.posY, packet.posZ);
+                enemy.stage = packet.stage;
                 _ml_enemys.Add(packet.playerId, enemy);
             }
             else
             {
                 Enemy enemy = go.AddComponent<Enemy>();
                 enemy.enabled = true;
+                enemy.transform.Find("Robot2").gameObject.SetActive(false);
+                enemy.transform.Find("HPBarPos").gameObject.SetActive(false);
                 enemy.enemyId = packet.playerId;
                 enemy.enemyType = packet.type;
                 enemy.maxHealth = packet.hp;
@@ -1001,6 +1008,7 @@ public class PlayerManager
                 enemy.ps = go.GetComponentInChildren<ParticleSystem>();
                 enemy.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
                 enemy.posVec = new Vector3(packet.posX, packet.posY, packet.posZ);
+                enemy.stage = packet.stage;
                 _enemys.Add(packet.playerId, enemy);
             }
             
@@ -1011,6 +1019,8 @@ public class PlayerManager
             GameObject go = Object.Instantiate(obj) as GameObject;
             Enemy enemy = go.AddComponent<Enemy>();
             enemy.enabled = true;
+            enemy.transform.Find("Robot1").gameObject.SetActive(false);
+            enemy.transform.Find("HPBarPos").gameObject.SetActive(false);
             enemy.enemyId = packet.playerId;
             enemy.enemyType = packet.type;
             enemy.maxHealth = packet.hp;
@@ -1018,6 +1028,7 @@ public class PlayerManager
             enemy.ps = go.GetComponentInChildren<ParticleSystem>();
             enemy.posVec = new Vector3(packet.posX, packet.posY, packet.posZ);
             enemy.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
+            enemy.stage = packet.stage;
             _enemys.Add(packet.playerId, enemy);
 
         }
@@ -1449,5 +1460,21 @@ public class PlayerManager
         // 아이템
         _myplayer.questInt++;
         Debug.Log("스테이지 클리어 보상 아이템: " + packet.item);
+    }
+
+    public void SetActiveObjectManager(S_SETACTIVE_OBJECT packet)
+    {
+        
+        for(int i=500; i<535; i++)
+        {
+            if(_enemys.TryGetValue(i, out enemy))
+            {
+                if(enemy.stage == packet.stage)
+                {
+                    enemy.transform.Find("Robot1").gameObject.SetActive(true);
+                    enemy.transform.Find("HPBarPos").gameObject.SetActive(true);
+                }
+            }
+        }
     }
 }

@@ -36,6 +36,7 @@ constexpr char SC_BOSS_ATTACK = 20;
 constexpr char SC_NPC = 21;
 constexpr char SC_STAGE_CLEAR = 22;
 constexpr char SC_PLAYER_ATTACKED = 18;
+constexpr char SC_SETACTIVE_OBJECT = 27;
 //constexpr char SC_ITEM_INFO = 
 
 enum MONSTER { STAGE1_BOSS = 4, GUN_ROBOT = 5, HUMAN_ROBOT = 6, BOSS_TEST = 7 };
@@ -151,6 +152,7 @@ struct SC_ADD_PLAYER_PACKET {
 	short hp;
 	float x, y, z;
 	short head_item, weapon_item, leg_item;
+	int stage;
 	WCHAR	name[NAME_SIZE + 2];
 };
 
@@ -215,6 +217,12 @@ struct SC_PLAYER_ATTACKED_PACKET {
 	unsigned short type;
 	int playerid;
 	short hp;
+};
+
+struct SC_SETACTIVE_OBJECT_PACKET {
+	unsigned short size;
+	unsigned short type;
+	int _stage;
 };
 
 #pragma pack (pop)

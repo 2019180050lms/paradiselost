@@ -15,6 +15,7 @@ public class Enemy_ml : MonoBehaviour
     public bool isChase;
     public bool isAttack;
     public bool hitEnemy = false;
+    public int stage;
 
     public Vector3 prevVec;
     public Vector3 moveVec2;
