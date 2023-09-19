@@ -109,23 +109,9 @@ public class Enemy : MonoBehaviour
 
         MoveControls(posVec);
 
-        if (transform.tag == "EnemyTurret" && isAttack && count == 0)
-        {
-            Debug.Log("몬스터 총");
-            StartCoroutine("Shoot");
-            count++;
-        }
-        if (transform.tag == "Enemy" && isAttack && count == 0)
-        {
-            StartCoroutine("Attack");
-            count++;
-        }
-        if (anim.GetCurrentAnimatorStateInfo(0).IsName("doAttack"))
-            hitEnemy = true;
-        else if (!anim.GetCurrentAnimatorStateInfo(0).IsName("doAttack"))
-            hitEnemy = false;
+        
 
-        moveVec2 = Vector3.zero;
+        //moveVec2 = Vector3.zero;
     }
 
     void m_MoveControl()
@@ -238,10 +224,28 @@ public class Enemy : MonoBehaviour
 
     void MoveControls(Vector3 target)
     {
+        if (target == Vector3.zero)
+            return;
+
         var dir = (target - transform.position).normalized;
         float distance = Vector3.Distance(transform.position, target);
         if(distance <= 0.01f)
         {
+            if (transform.tag == "EnemyTurret" && isAttack && count == 0)
+            {
+                Debug.Log("몬스터 총");
+                StartCoroutine("Shoot");
+                count++;
+            }
+            if (transform.tag == "Enemy" && isAttack && count == 0)
+            {
+                StartCoroutine("Attack");
+                count++;
+            }
+            if (anim.GetCurrentAnimatorStateInfo(0).IsName("doAttack"))
+                hitEnemy = true;
+            else if (!anim.GetCurrentAnimatorStateInfo(0).IsName("doAttack"))
+                hitEnemy = false;
             return;
         }
         else

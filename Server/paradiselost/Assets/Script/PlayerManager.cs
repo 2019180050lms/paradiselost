@@ -1471,7 +1471,13 @@ public class PlayerManager
             {
                 if(enemy.stage == packet.stage)
                 {
-                    enemy.transform.Find("Robot1").gameObject.SetActive(true);
+                    if (packet.stage == 1)
+                        enemy.transform.Find("Robot1").gameObject.SetActive(true);
+                    else if (packet.stage == 2)
+                        enemy.transform.Find("Robot2").gameObject.SetActive(true);
+                    else if (packet.stage == 1)
+                        enemy.transform.Find("Robot3").gameObject.SetActive(true);
+
                     enemy.transform.Find("HPBarPos").gameObject.SetActive(true);
                 }
             }

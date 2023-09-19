@@ -353,6 +353,7 @@ void FindPath(std::list<ASNode*>& openList, std::list<ASNode*>& closeList, int n
 				childNode = GetChildNodes(childIndRow, childIndCol, openNode, openList, closeList, n_id);
 			}
 			//cout << "[Remove from openlist] (" << rowInd << "," << colInd << ")" << endl;
+			clients[n_id]._a_lock.lock();
 			openList.remove_if([&](ASNode* node)
 				{
 					if (node->row == rowInd && node->col == colInd)
@@ -365,7 +366,6 @@ void FindPath(std::list<ASNode*>& openList, std::list<ASNode*>& closeList, int n
 					}
 				});
 			//cout << "[push] to closeList:" << rowInd << "," << openNode->col << endl;
-			clients[n_id]._a_lock.lock();
 			closeList.push_back(openNode);
 			clients[n_id]._a_lock.unlock();
 			FindPath(openList, closeList, n_id);
@@ -668,7 +668,10 @@ void SESSION::send_astar_move(int n_id)
 		clients[n_id].x = anode->col;
 		clients[n_id].z = anode->row;
 		clients[n_id]._a_lock.lock();
-		clients[n_id].openList.pop_front();
+		if (clients[n_id].openList.empty() == false)
+			clients[n_id].openList.pop_front();
+		if (clients[n_id].closeList.empty() == false)
+			clients[n_id].closeList.pop_front();
 		clients[n_id]._a_lock.unlock();
 		cout << n_id << " astar move pos: " << p.x << ", " << p.z << endl;
 	}
@@ -1092,10 +1095,11 @@ void process_packet(int c_id, char* packet)
 		clients[c_id]._stage_lock.lock();
 		clients[c_id]._stage = p->stage;
 		clients[c_id]._stage_lock.unlock();
-		//
+		/*
 		clients[c_id]._vl.lock();
 		clients[c_id]._view_list.clear();
 		clients[c_id]._vl.unlock();
+		*/
 		// TODO 스테이지별 위치 조정 추가
 		switch (p->stage) {
 		case 1: {
@@ -1603,7 +1607,7 @@ void add_boss(short stage)
 		clients[MAX_USER + MAX_NPC - 1]._type = STAGE1_BOSS;
 		clients[MAX_USER + MAX_NPC - 1]._hp = 1000;
 		clients[MAX_USER + MAX_NPC - 1].x = 169.f;
-		clients[MAX_USER + MAX_NPC - 1].y = 0.f;
+		clients[MAX_USER + MAX_NPC - 1].y = -1.4f;
 		clients[MAX_USER + MAX_NPC - 1].z = 98.f;
 		clients[MAX_USER + MAX_NPC - 1].my_max_x = 181.f;
 		clients[MAX_USER + MAX_NPC - 1].my_max_z = 115.f;
@@ -2041,7 +2045,33 @@ void do_player_attack(int n_id, int c_id)
 	*/
 	unordered_set<int> near_list;
 
-	clients[n_id].run_astar(n_id, c_id);
+	switch (clients[n_id]._type) 
+	{
+	case HUMAN_ROBOT: {
+		if (clients[n_id].x + 1.f >= clients[c_id].x && clients[n_id].x - 1.f <= clients[c_id].x) {
+			if (clients[n_id].z + 1.f >= clients[c_id].z && clients[n_id].z - 1.f <= clients[c_id].z) {
+				clients[n_id].isAttack = true;
+			}
+		}
+		else {
+			clients[n_id].run_astar(n_id, c_id);
+		}
+		break;
+	}
+	case GUN_ROBOT: {
+		if (clients[n_id].x + 15.f >= clients[c_id].x && clients[n_id].x - 15.f <= clients[c_id].x) {
+			if (clients[n_id].z + 15.f >= clients[c_id].z && clients[n_id].z - 15.f <= clients[c_id].z) {
+				clients[n_id].isAttack = true;
+			}
+		}
+		else {
+			clients[n_id].run_astar(n_id, c_id);
+		}
+		break;
+	}
+	default:
+		break;
+	}
 
 	for (auto& cl : clients) {
 		if (cl._stage != clients[n_id]._stage) continue;

@@ -9892,7 +9892,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1926546719644946443}
   m_Layer: 0
-  m_Name: Base_mesh_fbx
+  m_Name: Robot2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
