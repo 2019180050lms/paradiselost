@@ -103,14 +103,16 @@ public class Inventory : MonoBehaviour
                         else if (obj.value == 2)
                         {
                             ItemList[i] = Resources.Load<ItemParts>("Items/Weapon 2H Sword Item");
-                            gameUIManager.ItemTxt[i].text = "2H Sword";
+                            //gameUIManager.ItemTxt[i].text = "2H Sword";
+                            gameUIManager.ItemImg[i].sprite = Resources.Load<Sprite>("Items/2HSword");
                             Destroy(other.gameObject);
                             break;
                         }
                         else if (obj.value == 3)
                         {
                             ItemList[i] = Resources.Load<ItemParts>("Items/Weapon ShotGun Item ");
-                            gameUIManager.ItemTxt[i].text = "Shot Gun";
+                            gameUIManager.ItemImg[i].sprite = Resources.Load<Sprite>("Items/shotgun");
+                            //gameUIManager.ItemTxt[i].text = "Shot Gun";
                             Destroy(other.gameObject);
                             break;
                         }
@@ -128,7 +130,8 @@ public class Inventory : MonoBehaviour
                         if (obj.value == 10)
                         {
                             ItemList[i] = Resources.Load<ItemParts>("Items/HP Potion");
-                            gameUIManager.ItemTxt[i].text = "HP Potion";
+                            //gameUIManager.ItemTxt[i].text = "HP Potion";
+                            gameUIManager.ItemImg[i].sprite = Resources.Load<Sprite>("Items/potion");
                             Destroy(other.gameObject);
                             break;
                         }

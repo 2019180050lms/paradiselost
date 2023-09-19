@@ -34,7 +34,7 @@ public class MyPlayer : Player
 
     
     // 카메라
-    [SerializeField] [Range(0.01f, 0.1f)] float shakeRange = 0.05f;
+    [SerializeField] [Range(0.01f, 0.1f)] float shakeRange = 0.1f;
     [SerializeField] [Range(0.1f, 1f)] float duration = 0.5f;
     Vector3 cameraPos;
     bool isDamaging;
@@ -73,7 +73,7 @@ public class MyPlayer : Player
         weapons[3].SetActive(false);
         equipWeaponIndex = 4;
 
-        //trailEffect = GameObject.Find("trailEffect").GetComponent<TrailRenderer>();
+        Invoke("FindTrail", 1f);
         //twoHandTrailEffect = GameObject.Find("twoHandTrailEffect").GetComponent<TrailRenderer>();
 
         DontDestroyOnLoad(this);
@@ -81,6 +81,10 @@ public class MyPlayer : Player
         
     }
 
+    void FindTrail()
+    {
+        trailEffect = GameObject.Find("trailEffect").GetComponent<TrailRenderer>();
+    }
 
     // Update is called once per frame
     void Update()
@@ -322,20 +326,42 @@ public class MyPlayer : Player
             cs_move_packet();
         }
     }
+    private RaycastHit rayHit;
+    private Ray ray;
 
     void LateUpdate()
     {
         Camera.main.transform.rotation = Quaternion.Euler(ymove, xmove, 0); // 이동량에 따라 카메라의 바라보는 방향을 조정합니다.
         Vector3 reverseDistance = new Vector3(0.0f, 0.0f, distance); // 이동량에 따른 Z 축방향의 벡터를 구합니다.
+        
+        ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0.5f));
 
-        if (camera1)
-            Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y + 5, transform.position.z) - Camera.main.transform.rotation * reverseDistance; // 플레이어의 위치에서 카메라가 바라보는 방향에 벡터값을 적용한 상대 좌표를 차감합니다.
-        else if (camera2)
+        
+        Vector3 velo = Vector3.zero;
+        if (Physics.Raycast(ray, out rayHit, 10f))
         {
-            Player[] playerOb = GameObject.FindGameObjectWithTag("Player").GetComponents<Player>();
-            Debug.Log(playerOb);
-            Camera.main.transform.position = new Vector3(playerOb[0].transform.position.x, playerOb[0].transform.position.y + 5, playerOb[0].transform.position.z) - Camera.main.transform.rotation * reverseDistance;
+            float rayDistance = Vector3.Distance(ray.origin, rayHit.transform.position);
+            Vector3 dest = ray.GetPoint(rayDistance + 2f);
+            Debug.DrawLine(ray.origin, rayHit.point, Color.green);
+            Debug.Log("카메라 ray" + rayHit.transform.name);
+            //Camera.main.transform.position = rayHit.transform.position + new Vector3(1f, 4f, 1f);
+            //Vector3 dest = rayHit.transform.position + new Vector3(0f, 5f, 0f);
+            Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, dest, 0.5f);
         }
+        else
+        {
+            Debug.DrawLine(ray.origin, rayHit.point, Color.red);
+            if (camera1)
+                Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y + 5, transform.position.z) - Camera.main.transform.rotation * reverseDistance; // 플레이어의 위치에서 카메라가 바라보는 방향에 벡터값을 적용한 상대 좌표를 차감합니다.
+            else if (camera2)
+            {
+                Player[] playerOb = GameObject.FindGameObjectWithTag("Player").GetComponents<Player>();
+                Debug.Log(playerOb);
+                Camera.main.transform.position = new Vector3(playerOb[0].transform.position.x, playerOb[0].transform.position.y + 5, playerOb[0].transform.position.z) - Camera.main.transform.rotation * reverseDistance;
+            }
+        }
+        
+        
         if (isDamaging)
             StartShake();
         //Debug.Log(isDamaging);
@@ -354,6 +380,9 @@ public class MyPlayer : Player
         
 
     }
+
+
+
 
     void StartShake()
     {
