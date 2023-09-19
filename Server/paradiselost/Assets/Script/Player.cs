@@ -291,6 +291,9 @@ public class Player : MonoBehaviour
 
     void MoveControl(Vector3 target)
     {
+        if (target == Vector3.zero)
+            return;
+
         var dir = (target - transform.position).normalized;
         float distance = Vector3.Distance(transform.position, target);
         if(distance <= 0.01f)
