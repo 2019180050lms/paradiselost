@@ -15,8 +15,9 @@ public class EnemyBullet : MonoBehaviour
     {
         if (collision.gameObject.tag == "Floor")
         {
-            Destroy(gameObject, 3);
+            
             explosionEffect.Emit(100);
+            Destroy(gameObject, 1f);
         }
         else if (collision.gameObject.tag == "Wall")
         {
@@ -31,7 +32,7 @@ public class EnemyBullet : MonoBehaviour
             explosionEffect.Play();
             explosionEffect.Emit(100);
             Debug.Log("fore");
-            Destroy(gameObject, 0.5f);
+            Destroy(gameObject, 0.2f);
         }
     }
 

@@ -481,6 +481,25 @@ public class Player : MonoBehaviour
         if (other.tag == "Weapon")
             nearObject = other.gameObject;
         // Debug.Log(nearObject.name);
+        //else if (other.tag == "Portal1")
+        //{
+        //    C_Portal packet = new C_Portal();
+        //    packet.stage = 1;
+        //    transform.position = new Vector3(48, 1f, 48f);
+        //}
+        //else if (other.tag == "Portal2")
+        //{
+        //    C_Portal packet = new C_Portal();
+        //    packet.stage = 2;
+        //    transform.position = new Vector3(34, 1f, 10f);
+        //}
+        //else if (other.tag == "Portal3")
+        //{
+        //    C_Portal packet = new C_Portal();
+        //    packet.stage = 3;
+        //    //transform.position = new Vector3(34, 1f, 10f);
+        //}
+
     }
 
     private void OnTriggerExit(Collider other)

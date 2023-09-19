@@ -466,6 +466,7 @@ public class MyPlayer : Player
             packet.stage = 1;
             _network.Send(packet.Write());
             SceneManager.LoadScene("Stage1");
+            transform.position = new Vector3(48, 1f, 48f);
             _stage = 1;
             inven.Invoke("FindInven", 1f);
         }
@@ -475,6 +476,7 @@ public class MyPlayer : Player
             packet.stage = 2;
             _network.Send(packet.Write());
             SceneManager.LoadScene("Stage2");
+            transform.position = new Vector3(34, 1f, 10f);
             _stage = 2;
             inven.Invoke("FindInven", 1f);
         }
@@ -484,6 +486,7 @@ public class MyPlayer : Player
             packet.stage = 3;
             _network.Send(packet.Write());
             SceneManager.LoadScene("Stage3");
+            //transform.position = new Vector3(34, 1f, 10f);
             _stage = 3;
             inven.Invoke("FindInven", 1f);
         }

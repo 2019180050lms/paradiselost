@@ -1090,6 +1090,7 @@ public class PlayerManager
                     _boss1.anim.SetTrigger("doDie");
                     stageClearLogo = Object.Instantiate(stageClear) as GameObject;
                     stageClearLogo.transform.position = new Vector3(_boss1.transform.position.x, _boss1.transform.position.y, _boss1.transform.position.z);
+                    
                     GameObject.Destroy(_boss.gameObject, 2);
                     
                     Debug.Log("dead boss monster test");
@@ -1101,13 +1102,13 @@ public class PlayerManager
                     stageClearLogo = Object.Instantiate(stageClear) as GameObject;
                     stageClearLogo.transform.position = new Vector3(_boss1.transform.position.x, _boss1.transform.position.y, _boss1.transform.position.z);
                     GameObject.Destroy(_boss.gameObject, 2);
-
                     Debug.Log("dead boss monster test");
                     _boss = null;
                 }
             }
         }
     }
+
 
     public void ItemManager(S_Broadcast_Item packet)
     {
