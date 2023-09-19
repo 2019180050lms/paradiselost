@@ -288,7 +288,7 @@ public class Enemy : MonoBehaviour
         isAttack = true;
         anim.SetTrigger("doAttack");
 
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.6f);
         hitBox.meleeArea.enabled = true;
 
         yield return new WaitForSeconds(0.5f);
