@@ -339,7 +339,7 @@ public class MyPlayer : Player
         mask = ~mask;
         
         Vector3 velo = Vector3.zero;
-        if (Physics.Raycast(ray, out rayHit, 10f, mask))
+        if (Physics.Raycast(ray, out rayHit, 7f, mask))
         {
             float rayDistance = Vector3.Distance(ray.origin, rayHit.transform.position);
             Vector3 dest = ray.GetPoint(rayDistance + 2f);
