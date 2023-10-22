@@ -8,15 +8,43 @@ TagManager:
   - Item
   - Weapon
   - Melee
+  - Joint
+  - Body_Item
+  - Head_Item
+  - Leg_Item
+  - MyPlayer
+  - InventoryUI
+  - Enemy
+  - EnemyBullet
+  - Inven1
+  - Inven2
+  - Inven3
+  - Inven4
+  - Inven5
+  - Inven6
+  - Inven7
+  - Inven8
+  - Inven9
+  - EnemyMelee
+  - EnemyTurret
+  - BossMelee
+  - StageBoss
+  - Bullet
+  - Potion
+  - Portal1
+  - Portal2
+  - Portal3
+  - boss
+  - Boss1Melee
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Wall
   - Water
   - UI
-  - 
-  - 
+  - postprocessing
+  - noRay
   - 
   - 
   - 

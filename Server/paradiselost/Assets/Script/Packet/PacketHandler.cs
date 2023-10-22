@@ -15,19 +15,12 @@ class PacketHandler
 
 		if (s_enterPacket.success == true)
 		{
-			if (s_enterPacket.type == 0)
-            {
-				SceneManager.LoadScene("CharacterSelect");
-			}
-            else
-            {
-				SceneManager.LoadScene("Lobby");
-				C_ENTER_GAME c_enterPacket = new C_ENTER_GAME();
-				c_enterPacket.playerIndex = 0;
-				ArraySegment<byte> segment = c_enterPacket.Write();
-				serverSession.Send(segment);
-			}
+			//SceneManager.LoadScene("InGame");
 		}
+		else
+		{
+			SceneManager.LoadScene("CharacterSelect");
+		}			
 	}
 
 	public static void S_BroadcastEnterGameHandler(PacketSession session, IPacket packet)
@@ -52,27 +45,64 @@ class PacketHandler
 		S_Move movePacket = packet as S_Move;
 		ServerSession serverSession = session as ServerSession;
 
-		Debug.Log(movePacket.playerIndex);
-		Debug.Log(movePacket.posX);
-		Debug.Log(movePacket.posY);
-		Debug.Log(movePacket.posZ);
+		PlayerManager.Instance.CollisionMove(movePacket);
+
+		Debug.Log("col");
 	}
 
 	public static void S_PlayerListHandler(PacketSession session, IPacket packet)
 	{
-		S_PlayerList pkt = packet as S_PlayerList;
+		S_ENTER_PLAYER pkt = packet as S_ENTER_PLAYER;
 		ServerSession serverSession = session as ServerSession;
 
-		//Debug.Log("");
+		Debug.Log("들어옴");
+		switch(pkt.stage)
+        {
+			case 0:
+				{
+					SceneManager.LoadScene("InGame");
+					break;
+                }
+			case 1:
+				{
+					SceneManager.LoadScene("Stage1");
+					break;
+                }
+			case 2:
+				{
+					SceneManager.LoadScene("Stage2");
+					break;
+                }
+			case 3:
+				{
+					SceneManager.LoadScene("Stage3");
+					break;
+                }
+            default:
+                {
+					Debug.Log("오류");
+					break;
+                }
+        }
 
 		PlayerManager.Instance.Add(pkt);
 	}
 
-	public static void S_BroadcastMoveHandler(PacketSession session, IPacket packet)
+    public static void S_EnemyListHandler(PacketSession session, IPacket packet)
+    {
+        S_EnemyList pkt = packet as S_EnemyList;
+        ServerSession serverSession = session as ServerSession;
+
+        //Debug.Log("");
+
+        PlayerManager.Instance.EnemyAdd(pkt);
+    }
+
+    public static void S_BroadcastMoveHandler(PacketSession session, IPacket packet)
 	{
 		S_BroadcastMove pkt = packet as S_BroadcastMove;
 		ServerSession serverSession = session as ServerSession;
-
+		//Debug.Log("monsterId: " + pkt.playerDir + "pos: " + pkt.posX + " " + pkt.posZ);
 		PlayerManager.Instance.Move(pkt);
 	}
 
@@ -84,7 +114,33 @@ class PacketHandler
         PlayerManager.Instance.AttackedMonster(pkt);
     }
 
-    public static void S_ChatHandler(PacketSession session, IPacket packet)
+    public static void S_BossAttackedHandler(PacketSession session, IPacket packet)
+    {
+        S_BOSS_Attack pkt = packet as S_BOSS_Attack;
+        ServerSession serverSession = session as ServerSession;
+
+        PlayerManager.Instance.BossAttack(pkt);
+    }
+
+    public static void S_AttackedPlayerHandler(PacketSession session, IPacket packet)
+	{
+		S_AttackedPlayer pkt = packet as S_AttackedPlayer;
+		ServerSession serverSession = session as ServerSession;
+
+		PlayerManager.Instance.AttackedPlayer(pkt);
+	}
+
+	public static void S_NpcHandler(PacketSession session, IPacket packet)
+	{
+		S_Npc pkt = packet as S_Npc;
+		ServerSession serverSession = session as ServerSession;
+
+		//Debug.Log("");
+
+		PlayerManager.Instance.NPCManager(pkt);
+	}
+
+	public static void S_ChatHandler(PacketSession session, IPacket packet)
 	{
 		S_Chat chatPacket = packet as S_Chat;
 		ServerSession serverSession = session as ServerSession;
@@ -103,4 +159,34 @@ class PacketHandler
 		//if (chatPacket.playerId == 1)
 			//Console.WriteLine(chatPacket.chat);
 	}
+
+	public static void S_BroadCastItem(PacketSession session, IPacket packet)
+	{
+		S_Broadcast_Item pkt = packet as S_Broadcast_Item;
+		ServerSession serverSession = session as ServerSession;
+
+		PlayerManager.Instance.ItemManager(pkt);
+
+		Debug.Log("아이템 먹은 플레이어 " + pkt.playerId + " 아이템 타입: " + pkt.charactorType + " 아이템 값: " + pkt.itemType);
+	}
+
+	public static void S_StageClearHandler(PacketSession session, IPacket packet)
+	{
+		S_StageClear pkt = packet as S_StageClear;
+		ServerSession serverSession = session as ServerSession;
+
+		//Debug.Log("");
+
+		PlayerManager.Instance.StageClearManager(pkt);
+	}
+
+    public static void S_SetActiveObjectHandler(PacketSession session, IPacket packet)
+    {
+        S_SETACTIVE_OBJECT pkt = packet as S_SETACTIVE_OBJECT;
+        ServerSession serverSession = session as ServerSession;
+
+        //Debug.Log("");
+
+        PlayerManager.Instance.SetActiveObjectManager(pkt);
+    }
 }

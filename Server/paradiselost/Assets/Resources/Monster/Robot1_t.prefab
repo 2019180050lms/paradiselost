@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6016120353177884855
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7764992607481634543}
+  - component: {fileID: -5772784959660425856}
+  m_Layer: 0
+  m_Name: Robot1_t
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7764992607481634543
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6016120353177884855}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 128, y: -8, z: 20}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-5772784959660425856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6016120353177884855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9755fbddc35ca484c80b774a51d02c3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyId: 534
+  enemyType: 6
+  maxHealth: 100
+  curHealth: 100
+  target: {fileID: 0}
+  isChase: 0
+  isAttack: 0
+  hitEnemy: 0
+  stage: 3
+  _gameObject: {fileID: 6684991289945519868, guid: 623672b1c18e6dd4aa549b6ccd23f303, type: 3}
+  prevVec: {x: 0, y: 0, z: 0}
+  moveVec2: {x: 0, y: 0, z: 0}
+  posVec: {x: 128, y: -8, z: 20}
+  rotVec: {x: 0, y: 0, z: 0}
+  meleeArea: {fileID: 0}
+  hitBox: {fileID: 0}
+  anim: {fileID: 0}
+  bulletPos: {fileID: 0}
+  bulletPos2: {fileID: 0}
+  bullet: {fileID: 0}
+  hitEffect: {fileID: 0}
+  dir: 0
+  gunParticleObj: {fileID: 0}
+  gunParticle: {fileID: 0}
+  ps: {fileID: 0}
+  walking: 0
+  soundManager: {fileID: 0}
+  audioSource: {fileID: 0}

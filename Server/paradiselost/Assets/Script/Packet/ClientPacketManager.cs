@@ -25,10 +25,13 @@ class PacketManager
 		_makeFunc.Add((ushort)PacketID.S_ENTER_GAME, MakePacket<S_ENTER_GAME>);
 		_handler.Add((ushort)PacketID.S_ENTER_GAME, PacketHandler.S_EnterGame);
 
-		_makeFunc.Add((ushort)PacketID.S_PLAYERLIST, MakePacket<S_PlayerList>);
+		_makeFunc.Add((ushort)PacketID.S_PLAYERLIST, MakePacket<S_ENTER_PLAYER>);
 		_handler.Add((ushort)PacketID.S_PLAYERLIST, PacketHandler.S_PlayerListHandler);
 
-		_makeFunc.Add((ushort)PacketID.S_Chat, MakePacket<S_Chat>);
+        _makeFunc.Add((ushort)PacketID.S_ENEMYLIST, MakePacket<S_EnemyList>);
+        _handler.Add((ushort)PacketID.S_ENEMYLIST, PacketHandler.S_EnemyListHandler);
+
+        _makeFunc.Add((ushort)PacketID.S_Chat, MakePacket<S_Chat>);
 		_handler.Add((ushort)PacketID.S_Chat, PacketHandler.S_ChatHandler);
 
 		_makeFunc.Add((ushort)PacketID.S_BROADCASTENTER_GAME, MakePacket<S_BroadcastEnterGame>);
@@ -42,6 +45,21 @@ class PacketManager
 
         _makeFunc.Add((ushort)PacketID.S_ATTACKEDMONSTER, MakePacket<S_AttackedMonster>);
         _handler.Add((ushort)PacketID.S_ATTACKEDMONSTER, PacketHandler.S_AttackedMonsterHandler);
+
+        _makeFunc.Add((ushort)PacketID.S_BOSSATTACK, MakePacket<S_BOSS_Attack>);
+        _handler.Add((ushort)PacketID.S_BOSSATTACK, PacketHandler.S_BossAttackedHandler);
+
+        _makeFunc.Add((ushort)PacketID.S_PLAYERATTACK, MakePacket<S_AttackedPlayer>);
+		_handler.Add((ushort)PacketID.S_PLAYERATTACK, PacketHandler.S_AttackedPlayerHandler);
+
+		_makeFunc.Add((ushort)PacketID.S_BROADCAST_ITEM, MakePacket<S_Broadcast_Item>);
+		_handler.Add((ushort)PacketID.S_BROADCAST_ITEM, PacketHandler.S_BroadCastItem);
+
+		_makeFunc.Add((ushort)PacketID.S_STAGE_CLEAR, MakePacket<S_StageClear>);
+		_handler.Add((ushort)PacketID.S_STAGE_CLEAR, PacketHandler.S_StageClearHandler);
+
+        _makeFunc.Add((ushort)PacketID.S_SETACTIVE_OBJECT, MakePacket<S_SETACTIVE_OBJECT>);
+        _handler.Add((ushort)PacketID.S_SETACTIVE_OBJECT, PacketHandler.S_SetActiveObjectHandler);
     }
 
 	public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer, Action<PacketSession, IPacket> onRecvCallback = null)

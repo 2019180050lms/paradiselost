@@ -10,8 +10,19 @@ public class Weapon : MonoBehaviour
     public float rate;
     public BoxCollider meleeArea;
     public TrailRenderer trailEffect;
-      
 
+    public Transform bulletPos;
+    public GameObject bullet;
+
+    public int maxAmmo;
+    public int curAmmo;
+    public int ParentId;
+
+    void Start()
+    {
+        Player ParentPlayer = GetComponentInParent<Player>();
+        ParentId = ParentPlayer.PlayerId;
+    }
     public void Use()
     {
         if(type == Type.Melee)
@@ -27,10 +38,10 @@ public class Weapon : MonoBehaviour
         meleeArea.enabled = true;
         trailEffect.enabled = true;
 
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.2f);
         meleeArea.enabled = false;
 
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.2f);
         trailEffect.enabled = false;
 
     }

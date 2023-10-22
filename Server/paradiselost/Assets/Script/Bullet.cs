@@ -5,7 +5,10 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public int damage;
-
+    public int ParentID;
+    private void Start()
+    {
+    }
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Floor")
@@ -17,5 +20,6 @@ public class Bullet : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
 
 }

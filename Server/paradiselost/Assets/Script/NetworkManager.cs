@@ -8,6 +8,8 @@ using UnityEngine;
 
 public class NetworkManager : MonoBehaviour
 {
+	public string id;
+	public static NetworkManager Instance { get; } = new NetworkManager();
 	ServerSession _session = new ServerSession();
 	public void Send(ArraySegment<byte> sendBuff)
     {
@@ -19,7 +21,11 @@ public class NetworkManager : MonoBehaviour
 		// DNS (Domain Name System)
 		string host = Dns.GetHostName();
 		IPHostEntry ipHost = Dns.GetHostEntry(host);
-		IPAddress ipAddr = IPAddress.Parse("27.119.175.22");
+		//IPAddress ipAddr = IPAddress.Parse("192.168.219.100");
+
+		IPAddress ipAddr = IPAddress.Parse("27.119.175.26");
+		//IPAddress ipAddr = IPAddress.Parse("192.168.0.46");
+
 		IPEndPoint endPoint = new IPEndPoint(ipAddr, 7777);
 
 		Connector connector = new Connector();

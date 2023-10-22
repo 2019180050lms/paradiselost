@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using UnityEngine.UI;
 using System;
 
 public class MainMenu : MonoBehaviour
@@ -11,10 +12,20 @@ public class MainMenu : MonoBehaviour
     NetworkManager _network;
 
     public int charType = 0;
-    // Start is called before the first frame update
+
+    public InputField playerIDInput;
+    private string playerID = NetworkManager.Instance.id;
+
+    
+
+     void Awake()
+    {
+        //playerID = playerIDInput.GetComponent<InputField>().text;
+    }
     void Start()
     {
         _network = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
+        playerID = playerIDInput.GetComponent<InputField>().text;
     }
 
     // Update is called once per frame
@@ -23,12 +34,12 @@ public class MainMenu : MonoBehaviour
         
     }
 
-    public void OnClickNewGame()
+    public void OnClickNewGame()  // 로그인 버튼
     {
-
-        //Debug.Log("새 게임");
-        //SceneManager.LoadScene("Lobby");
-        C_Login loginPacket = new C_Login();
+        playerID = playerIDInput.text + '\0';
+        C_Chat loginPacket = new C_Chat();
+        loginPacket.chat = playerID;
+        loginPacket.ml_client = false;
         ArraySegment<byte> segment = loginPacket.Write();
         _network.Send(segment);
     }
@@ -63,9 +74,9 @@ public class MainMenu : MonoBehaviour
         Debug.Log("파워");
         Debug.Log(charType);
         SceneManager.LoadScene("InGame");
-        C_ENTER_GAME c_enterPacket = new C_ENTER_GAME();
-        c_enterPacket.playerIndex = 0;
+        C_CREATE_PLAYER c_enterPacket = new C_CREATE_PLAYER();
         c_enterPacket.type = charType;
+        c_enterPacket.nickname = playerID;
         ArraySegment<byte> segment = c_enterPacket.Write();
         _network.Send(segment);
     }
@@ -76,9 +87,9 @@ public class MainMenu : MonoBehaviour
         //Debug.Log("스피드");
         //Debug.Log(charType);
         SceneManager.LoadScene("InGame");
-        C_ENTER_GAME c_enterPacket = new C_ENTER_GAME();
-        c_enterPacket.playerIndex = 0;
+        C_CREATE_PLAYER c_enterPacket = new C_CREATE_PLAYER();
         c_enterPacket.type = charType;
+        c_enterPacket.nickname = playerID;
         ArraySegment<byte> segment = c_enterPacket.Write();
         _network.Send(segment);
     }
@@ -89,9 +100,9 @@ public class MainMenu : MonoBehaviour
         Debug.Log("쉴드");
         Debug.Log(charType);
         SceneManager.LoadScene("InGame");
-        C_ENTER_GAME c_enterPacket = new C_ENTER_GAME();
-        c_enterPacket.playerIndex = 0;
+        C_CREATE_PLAYER c_enterPacket = new C_CREATE_PLAYER();
         c_enterPacket.type = charType;
+        c_enterPacket.nickname = playerID;
         ArraySegment<byte> segment = c_enterPacket.Write();
         _network.Send(segment);
     }

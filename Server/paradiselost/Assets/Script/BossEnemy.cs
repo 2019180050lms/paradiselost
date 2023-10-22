@@ -1,0 +1,237 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.AI;
+
+public class BossEnemy : MonoBehaviour
+{
+    public enum Type {  A, D};
+    public Type enemyType;
+    public int enemyId;
+    public int maxHealth;
+    public int curHealth;
+    //public Transform target;
+    public BoxCollider meleeArea;
+    public HitBox hitBox;
+    public GameObject bullet;
+    public bool isChase;
+    public bool isAttack;
+    public int bossAttack;
+    public bool isDead;
+    //test
+    public Vector3 moveVec2;
+    public Vector3 posVec;
+
+    public Rigidbody rigid;
+    public BoxCollider boxCollider;
+    public MeshRenderer[] meshs;
+
+    public NavMeshAgent nav;
+
+    public Animator anim;
+
+    NetworkManager _network;
+
+    public GameObject missile;
+    public Transform missilePortA;
+    public Transform missilePortB;
+    public Transform target2;
+
+    public Player target;
+    public Vector3 targetPos;
+
+    public ParticleSystem ShootEffect;
+
+    int count = 0;
+    void Start()
+    {
+        _network = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
+        hitBox = GetComponent<HitBox>();
+        ShootEffect = GetComponentInChildren<ParticleSystem>();
+    }
+
+    void Awake()
+    {
+        rigid = GetComponent<Rigidbody>();
+        boxCollider = GetComponent<BoxCollider>();
+        meshs = GetComponentsInChildren<MeshRenderer>();  // Material�� MesgRenderer�� ���� ������
+        anim = GetComponent<Animator>();
+
+        missilePortA = transform.GetChild(2);
+        missilePortB = transform.GetChild(3);
+
+        //target2 = GameObject.Find("Player_t1(Clone)").GetComponent<Transform>();
+
+        target = GameObject.Find("Player_t1(Clone)").GetComponent<Player>();
+        if(target.PlayerId == 1)
+        {
+            Debug.Log("find PlayerID  1");
+            targetPos = target.transform.position;
+        }
+    }
+
+    void ChaseStart()
+    {
+    }
+     void Update()
+    {
+        //transform.position = Vector3.Lerp(transform.position, posVec, 0.005f);
+
+        if (isAttack && bossAttack == 1 && count == 0)
+        {
+            StartCoroutine("Attack");
+            count++;
+        }
+
+        if (isAttack && bossAttack == 2 && count == 0)
+        {
+            StartCoroutine("MissileShot");
+            count++;
+        }
+        if (curHealth < 1)
+        {
+            anim.SetTrigger("doDie");
+            Destroy(gameObject, 1f);
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "Melee")
+        {
+            //Debug.Log(" �浹 " );
+            Weapon weapon = other.GetComponent<Weapon>();
+            //curHealth -= weapon.damage;
+            Vector3 reactVec = transform.position - other.transform.position;
+            //Debug.Log("Melee : " + curHealth);
+            StartCoroutine(OnDamage(reactVec));
+            anim.SetTrigger("doDamaged");
+            C_AttackedMonster attackedPacket = new C_AttackedMonster();
+            attackedPacket.id = enemyId;
+            attackedPacket.hp = (short)curHealth;
+            attackedPacket.playerId = weapon.ParentId;
+            _network.Send(attackedPacket.Write());
+        }
+        else if (other.tag == "Bullet")
+        {
+            Bullet bullet = other.GetComponent<Bullet>();
+            //curHealth -= bullet.damage;
+            Vector3 reactVec = transform.position - other.transform.position;
+            Destroy(other.gameObject);
+            anim.SetTrigger("doDamaged");
+            Debug.Log("Bullet : " + curHealth);
+            StartCoroutine(OnDamage(reactVec));
+
+            C_AttackedMonster attackedPacket = new C_AttackedMonster();
+            attackedPacket.id = enemyId;
+            attackedPacket.hp = (short)curHealth;
+            attackedPacket.playerId = bullet.ParentID;
+            _network.Send(attackedPacket.Write());
+        }
+    }
+    
+
+    IEnumerator OnDamage(Vector3 reactVec)
+    {
+        foreach (MeshRenderer mesh in meshs)
+            mesh.material.color = Color.red;
+        yield return new WaitForSeconds(0.1f);
+
+        if (curHealth > 0)
+        {
+            foreach (MeshRenderer mesh in meshs)
+                mesh.material.color = Color.white;
+        }
+        else
+        {
+            foreach (MeshRenderer mesh in meshs)
+                mesh.material.color = Color.gray;
+            gameObject.layer = 7;
+            isDead = true;
+            isChase = false;
+            //nav.enabled = false;  // ��� ��� �����ϱ� ���� ��Ȱ��ȭ
+            //anim.SetTrigger("doDie");
+
+            // ����� �˹�
+            reactVec = reactVec.normalized;
+            reactVec += Vector3.up;
+            rigid.AddForce(reactVec * 5, ForceMode.Impulse);
+
+            //if(enemyType != Type.D)
+                //Destroy(gameObject, 2);
+
+        }
+    }
+
+    void FreezVelocity() // ȸ�� ���� �ذ�
+    {
+        if (isChase)
+        {
+            rigid.velocity = Vector3.zero;
+            rigid.angularVelocity = Vector3.zero;
+        }
+    }
+
+    void Targeting()
+    {
+        if(!isDead && enemyType != Type.D)
+        {
+            float targetRadius = 1.5f;
+            float targetRange = 3f;
+
+            RaycastHit[] rayHits =
+                Physics.SphereCastAll(transform.position, targetRadius, transform.forward, targetRange, LayerMask.GetMask("Player"));
+            if (rayHits.Length > 0 && !isAttack)
+            {
+                StartCoroutine(Attack());
+            }
+        }
+        
+    }
+
+    IEnumerator Attack()
+    {
+        isChase = false;
+        isAttack = true;
+        //anim.SetBool("isAttack", true);
+        //anim.SetTrigger("doAttack");
+        Debug.Log("Attack 코루틴");
+        yield return new WaitForSeconds(0.2f);
+        hitBox.meleeArea.enabled = true;
+
+        yield return new WaitForSeconds(0.7f);
+        hitBox.meleeArea.enabled = false;
+
+        //yield return new WaitForSeconds(1f);
+
+        isChase = true;
+        isAttack = false;
+        count--;
+        //anim.SetBool("isAttack", false);
+
+    }
+
+    IEnumerator Shot()
+    {
+        //anim.SetTrigger("doShot");
+        isAttack = true;
+        //ShootEffect.Play();
+        yield return new WaitForSeconds(0.5f);
+        ShootEffect.Emit(100);
+        
+        yield return new WaitForSeconds(1f);
+
+        isAttack = false;
+
+        count--;
+
+
+    }
+
+    void FixedUpdate()
+    {
+        Targeting();
+        FreezVelocity();
+    }
+
+}
