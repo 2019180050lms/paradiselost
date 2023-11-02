@@ -1,17 +1,4 @@
 constexpr int PORT_NUM = 7777;
-constexpr int BUF_SIZE = 8192;
-constexpr int NAME_SIZE = 20;
-
-constexpr int MAX_USER = 500;
-constexpr int MAX_NPC = 37;
-
-constexpr int W_WIDTH = 500;
-constexpr int W_HEIGHT = 500;
-
-constexpr int TEXT_WIDTH = 200;
-constexpr int TEXT_HEIGHT = 200;
-
-constexpr char WALL = '1';
 
 // Packet ID
 constexpr char CS_LOGIN = 0;
@@ -48,7 +35,7 @@ struct CS_LOGIN_PACKET {
 	//char	name[NAME_SIZE];
 	//std::wstring name;
 	bool ml_client;
-	WCHAR name[NAME_SIZE] = { NULL };
+	WCHAR name[NAME_SIZE];
 };
 
 struct SC_CHAR_SELECT_PACKET {
@@ -62,7 +49,7 @@ struct CS_CREATE_PLAYER_PACKET {
 	unsigned short size;
 	unsigned short type;
 	int c_type;
-	WCHAR name[NAME_SIZE] = { NULL };
+	WCHAR name[NAME_SIZE];
 };
 
 struct CS_MOVE_PACKET {
@@ -172,7 +159,7 @@ struct SC_MOVE_PLAYER_PACKET {
 	float	x, y, z;
 	bool isAttack, isJump;
 	short bossAttack;
-	//unsigned int move_time;
+	unsigned int move_time;
 };
 
 struct SC_ATTACKED_MONSTER_PACKET {
