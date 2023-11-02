@@ -13,19 +13,43 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Network">
+      <UniqueIdentifier>{a0b90bc3-2fc1-43ad-bce6-4414cb6da94e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Session">
+      <UniqueIdentifier>{7d8e8568-668c-4b68-8733-3b5aa95128d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DB">
+      <UniqueIdentifier>{ea5aac8b-ecb3-440b-a55b-f5eb811e6a08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Map">
+      <UniqueIdentifier>{635c1c3c-27f4-4826-992d-0285cf58c6bc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Network.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Session.cpp">
+      <Filter>Session</Filter>
+    </ClCompile>
+    <ClCompile Include="AStar.cpp">
+      <Filter>Session</Filter>
+    </ClCompile>
     <ClCompile Include="DB.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>DB</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Network</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="protocol.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="include\lauxlib.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -38,11 +62,26 @@
     <ClInclude Include="include\lualib.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="DB.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="Network.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Session.h">
+      <Filter>Session</Filter>
     </ClInclude>
     <ClInclude Include="AStar.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>Session</Filter>
+    </ClInclude>
+    <ClInclude Include="DB.h">
+      <Filter>DB</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol.h">
+      <Filter>Network</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

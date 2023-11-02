@@ -1,10 +1,8 @@
 #pragma once
 #include <windows.h>
-#include <iostream>
-#include <format>
-#include <string>
-
 #include <sqlext.h>
+#include <mutex>
+using namespace std;
 
 #define NAME_LEN 20
 
@@ -30,3 +28,5 @@ public:
 	void update_user_data(wchar_t* id, wchar_t* name, float* x, float* y, float* z, int* exp, int* level, int* weapon, int* stage);
 };
 
+extern DB db;
+extern mutex _db_l;

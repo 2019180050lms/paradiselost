@@ -1,8 +1,13 @@
 #define _CRT_SECURE_NO_WARNINGS
-
 #include "DB.h"
 #include <string.h>
+#include <iostream>
+#include <format>
+#include <string>
+using namespace std;
 
+DB db;
+mutex _db_l;
 
 void DB::show_error(SQLHANDLE hHandle, SQLSMALLINT hType, RETCODE RetCode)
 {
